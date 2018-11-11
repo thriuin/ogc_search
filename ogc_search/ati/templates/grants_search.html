@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load search_extras %}
+{% load ati_extras %}
+
+{% block canada_ca_search %}{% endblock canada_ca_search %}
+{% block language_switch_url %}/ati?lang={{ LANGUAGE_CODE | SwapLangCode }}{% endblock language_switch_url %}
+
+{% block custom_page_javascript %}
+<script>
+function select_facet(the_month, accumulator) {
+    old_facet_arr = String(document.getElementById(accumulator).value).split(',');
+
+    new_facet_arr = [];
+    found_it = false;
+    old_facet_arr.forEach(function(item){
+      if (item != the_month) {
+        new_facet_arr.push(item)
+      } else {
+        found_it = true;
+      }
+    });
+    if (!found_it) {
+        new_facet_arr.push(the_month);
+    }
+    new_facets = new_facet_arr.toString();
+    if (new_facets.charAt(0) == ',') {
+        new_facets = new_facets.substring(1);
+    }
+    document.getElementById(accumulator).value = new_facets;
+    $('#page').value = '1';
+    $('#search_form').submit();
+    // window.location.assign('{% facet_url 'org' k %}')" value="{{ k }}"> {{ k }}
+}
+function gotoPage(page_no) {
+    $('#page').val(page_no);
+    $('#search_form').submit();
+}
+function submitForm() {
+    $('#page').val('1');
+    $('#search_form').submit();
+}
+function submitFormOnEnter(e) {
+    if(e.which == 10 || e.which == 13) {
+        submitForm();
+    }
+}
+function showMore() {
+    $('#org-list').find('li:hidden').css( "display", "" );
+    $('#morethanless').css( "display", "none" );
+    $('#lessthanmore').css( "display", "" );
+}
+function showLess() {
+    var lis = $('#org-list').find('li')
+    var i;
+    for(i = 0; i < lis.length; i++) {
+       if (i > 10) {
+          lis[i].style["display"] = "none";
+       }
+    }
+    $('#morethanless').css( "display", "" );
+    $('#lessthanmore').css( "display", "none" );
+}
+
+
+</script>
+{% endblock custom_page_javascript %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans 'Completed Access to Information Requests' %}</h1>
+{% endblock %}
+<section>
+    <p class="gc-byline">{% if request.user.is_authenticated %}
+        Logged in as {{ request.user.username }}
+        {% endif %}
+    </p>
+    <div class="row">
+        <div class="col-md-12">{% block search-alert %}
+            <section class="alert alert-info">
+                <h5>{% trans 'Transitional Period' %}</h5>
+                <p class="small">{% blocktrans %}Departments are moving their web content to
+                    <a href="http://www.canada.ca">Canada.ca</a>. As a part of that
+                    process, proactive disclosure reports will become available through
+                    the <a href="http://open.canada.ca">Open Government portal</a>.
+                    During this transition, if a proactive disclosure report from a
+                    specific department is not yet available on the Open Government
+                    portal please refer to <a
+                            href="http://www.tbs-sct.gc.ca/hgw-cgf/finances/rgs-erdg/pd-dp/index-eng.asp">
+                        Proactive disclosure by department or agency</a> where a copy can be found.
+                    For any questions on this issue, please contact us at
+                    <a href="mailto:open-ouvert@tbs-sct.gc.ca">open-ouvert@tbs-sct.gc.ca</a></p>{% endblocktrans %}
+            </section>
+            <section>
+                <details>
+                    <summary>{% trans 'About this information' %}</summary>
+                    <p>{% block search-blurb %}
+                        {% blocktrans %}Search the summaries of completed Access to Information (ATI) requests to find information
+                        about ATI requests previously made to the Government of Canada. If you find a summary of interest,
+                        you can request a copy of the records at no cost. For additional information, please see the
+                        “<a href="/en/content/about-access-information-requests">About Access to Information Requests</a>”
+                        webpage.{% endblocktrans %}{% endblock %}</p>
+
+                    <p>{% blocktrans %}Download datasets of the <a
+                            href="http://data.gc.ca/data/en/dataset/0797e893-751e-4695-8229-a5066e4fe43c"> summaries of
+                        completed access to information requests</a>.{% endblocktrans %}</p>
+
+                    <p>{% blocktrans %}If you don’t find what you are looking for you can request additional government records under an
+                        institution’s control by contacting the institution’s <a
+                                href="http://www.tbs-sct.gc.ca/atip-aiprp/apps/coords/index-eng.ASP"> Access to Information
+                            and Privacy Coordinator</a>.{% endblocktrans %}</p>
+
+                    <p><strong>{% blocktrans %}Enter keywords (e.g. institution, topic, field of interest, etc.)</strong><br/>
+                        *All information provided will incorporate the necessary exemptions and exclusions as per the <em>Access
+                            to Information Act</em> and the <em>Privacy Act</em>.{% endblocktrans %}</p>
+                </details>
+            </section>
+            <p class="well well-sm">
+                <span class="glyphicon glyphicon-download-alt"></span>
+                <a href="/data/en/dataset/0797e893-751e-4695-8229-a5066e4fe43c">{% trans 'Download datasets of the summaries of completed access to information requests' %}</a>.
+            </p>
+            {% endblock %}
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            {% block main-content-sidebar %}
+            <aside>
+                <div>
+                    <details class="panel" {% if organizations_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Organization' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                            {% if LANGUAGE_CODE == 'fr' %}
+
+                            {% for k, v in organization_facets_fr.items %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}"
+                                {% if forloop.counter > 10 %} style="display: none;"{% endif %}>
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick="select_facet('{{ k }}', 'ati-search-org')" value="{{ k }}">
+                                       {{ k }} ({{ v }})</label></div>
+                            </li>
+
+                            {% endfor %}
+                            {% else %}
+                            {% for k, v in organization_facets.items %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}"
+                                {% if forloop.counter > 10 %} style="display: none;"{% endif %}>
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick="select_facet('{{ k }}', 'ati-search-org')" value="{{ k }}">
+                                       {{ k }} ({{ v }})</label></div>
+                            </li>
+
+                            {% endfor %}
+                            <li id="morethanless" class="list-group-item"><a onclick="showMore()" href="#">{% trans 'Show more' %}</a></li>
+                            <li id="lessthanmore" class="list-group-item"><a onclick="showLess()" href="#">{% trans 'Show less' %}</a></li>
+                            {% endif %}
+                        </ul>
+                    </details>
+                </div>
+                <div>
+                    <details class="panel" {% if years_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Year' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                            {% for k, v in year_facets.items %}
+                            <li class="list-group-item{% if k in years_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in years_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'ati-search-year')"
+                                                                                     value="{{ k }}"> {{ k }}
+                                        ({{ v }})</label></div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                </div>
+                <div>
+                    <details class="panel" {% if months_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Month' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in month_facets.items %}
+                            <li class="list-group-item{% if k in months_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="month{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'ati-search-month')"
+                                    {% if k in months_selected_list %} checked{% endif %}>{{ k | ToMonth }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                    </details>
+                </div>
+            </aside>
+            {% endblock %}
+        </div>
+        <div class="col-md-8">
+            {% block main-content-content %}
+            <section>
+
+                <form action="{% url 'AtiQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
+
+
+                    <div class="input-group">
+                        <label for="ati-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                        <input type="text" name="search_text" class="form-control" id="ati-search-input"
+                               value="{{ search_text }}" placeholder="{% trans 'Search' %}"
+                               onkeypress="submitFormOnEnter(event)" />
+
+                        <span class="input-group-btn">
+                             <label for="ati-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                            <button type="button" class="btn btn-primary btn-small form-submit" id="ati-search-button"
+                                    onclick="submitForm()">
+                                <span class="glyphicon glyphicon-search mrgn-rght-sm"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <div>
+                        <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found
+                    {{result_num}} record{{result_s}}{% endblocktrans %}</p>
+                    </div>
+                    <div class="input-group hidden">
+                        <div class="col-md-1">
+                            <input type="text" name="search_month" class="form-control" id="ati-search-month"
+                                   value="{{months_selected}}">
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" name="search_year" class="form-control" id="ati-search-year"
+                                   value="{{years_selected}}">
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" name="search_org" class="form-control" id="ati-search-org"
+                                   value="{{organizations_selected}}">
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" name="page" class="form-control" id="page"
+                                   value="{{currentpage}}">
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" name="orgs_expanded" class="form-control" id="orgs-expanded"
+                                   value="{{orgs_expanded}}">
+                        </div>
+                        <div class="col-md-1">
+                            <input type="text" name="lang" class="form-control" id="lang"
+                                   value="{{LANGUAGE_CODE}}">
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section>
+            {% for ati in results.docs %}
+            <div class="panel panel-default mrg-tp-sm">
+                 <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{% trans 'Request' %} {{ati.request_number_s}}</h4>
+                            <p>{% if LANGUAGE_CODE == 'en' %}{{ ati.summary_txt_en | safe }}
+                                {% else %}{{ ati.summary_txt_fr | safe}}{% endif %}</p>
+                            <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
+                                {{ ati.owner_org_title_en_s | safe }}{% else %}{{ ati.owner_org_title_fr_s | safe }}{% endif %}</p>
+
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <p><span class="h3 mrgn-tp-0">{{ ati.search_pages | safe }}</span> <small>{% trans 'pages' %}</small></p>
+                            <p>{% if LANGUAGE_CODE == 'en' %}{{ ati.search_month_en | safe }}{% else %}{{ ati.search_month_fr | safe }}{% endif %} {{ ati.search_year | safe }}</p>
+                            <p>{% if LANGUAGE_CODE == 'en' %}{{ ati.search_disposition_en | safe }}{% else %}{{ ati.search_disposition_fr | safe }}{% endif %}</p>
+                        </div>
+                     </div>
+
+                </div>
+            </div>
+            {% endfor %}
+                </section>
+            {% block main-content-pagination %}
+            <section>
+                <ul class="pagination">
+                    {% for pg in pagination %}
+                        {% if pg == 1 %}
+                            {% if currentpage == 1 %}
+                            <li class="previous disabled"><a href="#" rel="prev">{% trans 'Previous' %}</a></li>
+                            {% else %}
+                            <li class="previous"><a href="#" onclick="gotoPage('{{ previous_page }}')">
+                            {% trans 'Previous' %} <span class="wb-inv">Go to page {{ previous_page }}</span></a></li>
+                            {% endif %}
+                            <li{% if currentpage == 1 %} class="active" {% endif %}><a href="#" onclick="gotoPage('1')">
+                                1<span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                            {% elif pg == last_page %}
+                            <li{% if currentpage == last_page %} class="active" {% endif %}><a
+                                    href="#" onclick="gotoPage('{{ last_page }}')">{{ pg }}
+                                <span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                            {% if currentpage == last_page %}
+                            <li class="next disabled"><a href="#" rel="next">{% trans 'Next' %}</a></li>
+                            {% else %}
+                            <li class="next"><a href="#" onclick="gotoPage('{{ next_page }}')">
+                                {% trans 'Next' %} <span
+                                        class="wb-inv">Go to page {{ next_page }}</span></a></li>
+                            {% endif %}
+                        {% elif pg == 0 %}
+                        <li><a href="#" onclick="">...<span class="wb-inv"></span></a></li>
+                        {% else %}
+                        <li {% if currentpage == pg %}class="active" {% endif %}>
+                            <a href="#" onclick="gotoPage('{{ pg }}')">
+                                {{ pg }} <span
+                                        class="wb-inv">Go to page {{pg}}</span></a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endblock %}
+        {% endblock %}
+        </div>
+    </div>
+
+</section>
+{% endblock %}
