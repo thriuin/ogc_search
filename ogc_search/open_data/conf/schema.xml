@@ -601,6 +601,7 @@
     <field name="keywords_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="subject_en_s" type="string" indexed="true" stored="true"/>
     <field name="subject_fr_s" type="string" indexed="true" stored="true"/>
+    <field name="resource_format_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="resource_type_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="resource_type_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="update_cycle_en_s" type="string" indexed="true" stored="true"/>
