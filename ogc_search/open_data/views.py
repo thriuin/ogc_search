@@ -11,15 +11,15 @@ import pysolr
 def _query_solr(q, startrow='0', pagesize='10', facets={}):
     solr = pysolr.Solr('http://127.0.0.1:8983/solr/ckan_portal')
     solr_facets = []
-    solr_facet_fields = ['{!ex=tag_catalog_type}catalog_type',
-                         '{!ex=tag_extras_collection}extras_collection',
-                         '{!ex=tag_extras_jurisdiction}extras_jurisdiction',
-                         '{!ex=tag_extras_org_title_at_publication}extras_org_title_at_publication',
-                         '{!ex=tag_extras_keywords}extras_keywords',
-                         '{!ex=tag_extras_subject}extras_subject',
-                         '{!ex=tag_res_format}res_format',
-                         '{!ex=tag_res_type}res_type',
-                         '{!ex=tag_extras_frequency}extras_frequency']
+    solr_facet_fields = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
+                         '{!ex=tag_collection_type_en_s}collection_type_en_s',
+                         '{!ex=tag_jurisdiction_en_s}jurisdiction_en_s',
+                         '{!ex=tag_owner_org_title_en_s}owner_org_title_en_s',
+                         '{!ex=tag_keywords_en_s}keywords_en_s',
+                         '{!ex=tag_subject_en_s}subject_en_s',
+                         '{!ex=tag_resource_format_s}resource_format_s',
+                         '{!ex=tag_resource_type_en_s}resource_type_en_s',
+                         '{!ex=tag_update_cycle_en_s}update_cycle_en_s']
     for facet in facets.keys():
         if facets[facet] != '':
             facet_terms = facets[facet].split(',')
@@ -34,7 +34,7 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}):
         'facet.field': solr_facet_fields,
         'fq': solr_facets,
         'hl': 'on',
-        'hl.fl': ['extras_notes_translated', 'extras_title_translated', 'extras_subject'],
+        'hl.fl': ['description_txt_en', 'title_en_s', 'owner_org_title_en_s'],
         'hl.simple.pre': '<mark class=highlight>',
         'hl.simple.post': '</mark>',
         'hl.method': 'unified',
@@ -52,7 +52,7 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}):
 
 
 def _query_solr_row(id_number):
-    solr = pysolr.Solr('http://127.0.0.1:8983/solr/ckan_portal')
+    solr = pysolr.Solr('http://127.0.0.1:8983/solr/ckan_od_search')
     q = 'id:{}'.format(id_number)
     return solr.search(q)
 
@@ -192,25 +192,25 @@ class ODSearchView(View):
         search_results = _query_solr(query_terms, startrow=str(start_row), pagesize='10', facets=facets_dict)
 
         context['portal_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['catalog_type'])
+            search_results.facets['facet_fields']['portal_type_en_s'])
         context['collection_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['extras_collection'])
+            search_results.facets['facet_fields']['collection_type_en_s'])
         context['jurisdiction_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['extras_jurisdiction'])
+            search_results.facets['facet_fields']['jurisdiction_en_s'])
         context['org_facets_en'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['extras_org_title_at_publication'])
+            search_results.facets['facet_fields']['owner_org_title_en_s'])
         context['org_facets_fr'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['extras_org_title_at_publication'])
+            search_results.facets['facet_fields']['owner_org_title_en_s'])
         context['keyword_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['extras_keywords'])
+            search_results.facets['facet_fields']['keywords_en_s'])
         context['subject_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['extras_subject'])
+            search_results.facets['facet_fields']['subject_en_s'])
         context['format_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['res_format'])
+            search_results.facets['facet_fields']['resource_format_s'])
         context['type_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['res_type'])
+            search_results.facets['facet_fields']['resource_type_en_s'])
         context['frequency_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['extras_frequency'])
+            search_results.facets['facet_fields']['update_cycle_en_s'])
 
         i = 0
         #for hl in search_results.highlighting:years_selected

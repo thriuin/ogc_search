@@ -111,5 +111,5 @@ ocsenv/
 themes-dist-GCWeb/
 wet/
 /ogc_search/ogc_search/settings.py
-/ogc_search/sample_1.jl
+/ogc_search/sample_*.jl
 /ogc_search/sample_1_fmt.jl
