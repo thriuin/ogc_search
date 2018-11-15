@@ -98,7 +98,7 @@ function showLess() {
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-org')" value="{{ k }}">
+                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}">
                                        {{ k }} ({{ v }})</label></div>
                             </li>
 
@@ -110,7 +110,7 @@ function showLess() {
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-org')" value="{{ k }}">
+                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}">
                                        {{ k }} ({{ v }})</label></div>
                             </li>
 
@@ -194,7 +194,7 @@ function showLess() {
                         <div class="col-md-1">
                             <input type="text" name="search_portal" class="form-control" id="od-search-portal"
                                    value="{{portal_selected}}">
-                            <input type="text" name="search_col" class="form-control" id="od-search-col"
+                            <input type="text" name="search_collection" class="form-control" id="od-search-col"
                                    value="{{col_selected}}">
                             <input type="text" name="search_jur" class="form-control" id="od-search-jur"
                                    value="{{jur_selected}}">
@@ -232,23 +232,24 @@ function showLess() {
             {% for doc in results.docs %}
             <div class="panel panel-default mrg-tp-sm">
                  <div class="panel-body">
-                     {#
+
                     <div class="row">
-                        <div class="col-sm-8">
-                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{% trans 'Request' %} {{doc.extras_title_translated}}</h4>
-                            <p>{% if LANGUAGE_CODE == 'en' %}{{ ati.summary_txt_en | safe }}
-                                {% else %}{{ doc.extras_notes_translated | safe}}{% endif %}</p>
+                        <div class="col-sm-10">
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{doc.title_en_s}}</h4>
+                        </div>
+                        <div class="col-sm-2 text-right">
+                            <span class="label label-default" style="border-color: #f00; background: #fff">{{ doc.jurisdiction_en_s }}</span>
+                        </div>
+                        <div class="col-sm-12">
+                            <p>{% if LANGUAGE_CODE == 'en' %}{{ doc.description_txt_en | safe }}
+                                {% else %}{{ doc.description_txt_fr | safe}}{% endif %}</p>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
-                                {{ ati.owner_org_title_en_s | safe }}{% else %}{{ ati.owner_org_title_fr_s | safe }}{% endif %}</p>
+                                {{ doc.owner_org_title_en_s | safe }}{% else %}{{ adoc.owner_org_title_fr_s | safe }}{% endif %}</p>
 
                         </div>
-                        <div class="col-sm-4 text-right">
-                            <p><span class="h3 mrgn-tp-0">{{ ati.search_pages | safe }}</span> <small>{% trans 'pages' %}</small></p>
-                            <p>{% if LANGUAGE_CODE == 'en' %}{{ ati.search_month_en | safe }}{% else %}{{ ati.search_month_fr | safe }}{% endif %} {{ ati.search_year | safe }}</p>
-                            <p>{% if LANGUAGE_CODE == 'en' %}{{ ati.search_disposition_en | safe }}{% else %}{{ ati.search_disposition_fr | safe }}{% endif %}</p>
-                        </div>
+
                      </div>
-                    #}
+
                 </div>
             </div>
             {% endfor %}

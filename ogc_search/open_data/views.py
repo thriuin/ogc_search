@@ -8,18 +8,29 @@ from operator import itemgetter
 import os
 import pysolr
 
-def _query_solr(q, startrow='0', pagesize='10', facets={}):
-    solr = pysolr.Solr('http://127.0.0.1:8983/solr/ckan_portal')
+def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en'):
+    solr = pysolr.Solr('http://127.0.0.1:8983/solr/core_od_search')
     solr_facets = []
-    solr_facet_fields = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
-                         '{!ex=tag_collection_type_en_s}collection_type_en_s',
-                         '{!ex=tag_jurisdiction_en_s}jurisdiction_en_s',
-                         '{!ex=tag_owner_org_title_en_s}owner_org_title_en_s',
-                         '{!ex=tag_keywords_en_s}keywords_en_s',
-                         '{!ex=tag_subject_en_s}subject_en_s',
-                         '{!ex=tag_resource_format_s}resource_format_s',
-                         '{!ex=tag_resource_type_en_s}resource_type_en_s',
-                         '{!ex=tag_update_cycle_en_s}update_cycle_en_s']
+    if language == 'fr':
+        solr_facet_fields = ['{!ex=tag_portal_type_fr_s}portal_type_fr_s',
+                             '{!ex=tag_collection_type_fr_s}collection_type_fr_s',
+                             '{!ex=tag_jurisdiction_fr_s}jurisdiction_fr_s',
+                             '{!ex=tag_owner_org_title_fr_s}owner_org_title_fr_s',
+                             '{!ex=tag_keywords_fr_s}keywords_fr_s',
+                             '{!ex=tag_subject_fr_s}subject_fr_s',
+                             '{!ex=tag_resource_format_s}resource_format_s',
+                             '{!ex=tag_resource_type_fr_s}resource_type_fr_s',
+                             '{!ex=tag_update_cycle_fr_s}update_cycle_fr_s']
+    else:
+        solr_facet_fields = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
+                             '{!ex=tag_collection_type_en_s}collection_type_en_s',
+                             '{!ex=tag_jurisdiction_en_s}jurisdiction_en_s',
+                             '{!ex=tag_owner_org_title_en_s}owner_org_title_en_s',
+                             '{!ex=tag_keywords_en_s}keywords_en_s',
+                             '{!ex=tag_subject_en_s}subject_en_s',
+                             '{!ex=tag_resource_format_s}resource_format_s',
+                             '{!ex=tag_resource_type_en_s}resource_type_en_s',
+                             '{!ex=tag_update_cycle_en_s}update_cycle_en_s']
     for facet in facets.keys():
         if facets[facet] != '':
             facet_terms = facets[facet].split(',')
@@ -34,11 +45,15 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}):
         'facet.field': solr_facet_fields,
         'fq': solr_facets,
         'hl': 'on',
-        'hl.fl': ['description_txt_en', 'title_en_s', 'owner_org_title_en_s'],
         'hl.simple.pre': '<mark class=highlight>',
         'hl.simple.post': '</mark>',
         'hl.method': 'unified',
     }
+    if language == 'fr':
+        extras['hl.fl'] = ['description_txt_fr', 'title_fr_s', 'owner_org_title_fr_s']
+    else:
+        extras['hl.fl'] = ['description_txt_en', 'title_en_s', 'owner_org_title_en_s']
+
     sr = solr.search(q, **extras)
     # If there are highlighted results, substitute the highlighted field in the doc results
 
@@ -121,7 +136,7 @@ class ODSearchView(View):
         solr_search_portal = request.GET.get('search_portal', '')
         solr_search_col = request.GET.get('search_collection', '')
         solr_search_jur = request.GET.get('search_jurisdiction', '')
-        solr_search_orgs = request.GET.get('search_org', '')
+        solr_search_orgs = request.GET.get('search_orgs', '')
         solr_search_keyw = request.GET.get('search_keyword', '')
         solr_search_subj = request.GET.get('search_subject', '')
         solr_search_fmts = request.GET.get('search_format', '')
@@ -167,50 +182,73 @@ class ODSearchView(View):
         # Search Solr and return results and facets
 
         if request.LANGUAGE_CODE == 'fr':
-            facets_dict = dict(portal_selected=context['portal_selected'],
-                               col_selected=context['col_selected'],
-                               jur_selected=context['jur_selected'],
-                               organizations_selected=context['organizations_selected'],
-                               keyw_selected=context['keyw_selected'],
-                               subject_selected=context['subject_selected'],
-                               format_selected=context['format_selected'],
-                               rsct_selected=context['rsct_selected'],
-                               update_selected=context['update_selected'])
-            query_terms = ('text:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
+            facets_dict = dict(portal_type_fr_s=context['portal_selected'],
+                               collection_type_fr_s=context['col_selected'],
+                               jurisdiction_fr_s=context['jur_selected'],
+                               owner_org_title_fr_s=context['organizations_selected'],
+                               keywords_fr_s=context['keyw_selected'],
+                               subject_fr_s=context['subject_selected'],
+                               resource_format_s=context['format_selected'],
+                               resource_type_fr_s=context['rsct_selected'],
+                               update_cycle_fr_s=context['update_selected'])
+            query_terms = ('_text_fr_:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
         else:
-            facets_dict = dict(portal_selected=context['portal_selected'],
-                               col_selected=context['col_selected'],
-                               jur_selected=context['jur_selected'],
-                               organizations_selected=context['organizations_selected'],
-                               keyw_selected=context['keyw_selected'],
-                               subject_selected=context['subject_selected'],
-                               format_selected=context['format_selected'],
-                               rsct_selected=context['rsct_selected'],
-                               update_selected=context['update_selected'])
-            query_terms = ('text:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
+            facets_dict = dict(portal_type_en_s=context['portal_selected'],
+                               collection_type_en_s=context['col_selected'],
+                               jurisdiction_en_s=context['jur_selected'],
+                               owner_org_title_en_s=context['organizations_selected'],
+                               keywords_en_s=context['keyw_selected'],
+                               subject_en_s=context['subject_selected'],
+                               resource_format_s=context['format_selected'],
+                               resource_type_en_s=context['rsct_selected'],
+                               update_cycle_en_s=context['update_selected'])
+            query_terms = ('_text_en_:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
 
-        search_results = _query_solr(query_terms, startrow=str(start_row), pagesize='10', facets=facets_dict)
+        search_results = _query_solr(query_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
+                                     language='en')
 
-        context['portal_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['portal_type_en_s'])
-        context['collection_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['collection_type_en_s'])
-        context['jurisdiction_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['jurisdiction_en_s'])
-        context['org_facets_en'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['owner_org_title_en_s'])
-        context['org_facets_fr'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['owner_org_title_en_s'])
-        context['keyword_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['keywords_en_s'])
-        context['subject_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['subject_en_s'])
-        context['format_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['resource_format_s'])
-        context['type_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['resource_type_en_s'])
-        context['frequency_facets'] = _convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['update_cycle_en_s'])
+        if request.LANGUAGE_CODE == 'fr':
+            context['portal_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['portal_type_fr_s'])
+            context['collection_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['collection_type_fr_s'])
+            context['jurisdiction_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['jurisdiction_fr_s'])
+            context['org_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_fr_s'])
+            context['org_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_fr_s'])
+            context['keyword_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['keywords_fr_s'])
+            context['subject_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['subject_fr_s'])
+            context['format_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_format_s'])
+            context['type_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_type_fr_s'])
+            context['frequency_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['update_cycle_fr_s'])
+        else:
+            context['portal_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['portal_type_en_s'])
+            context['collection_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['collection_type_en_s'])
+            context['jurisdiction_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['jurisdiction_en_s'])
+            context['org_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_en_s'])
+            context['org_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_en_s'])
+            context['keyword_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['keywords_en_s'])
+            context['subject_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['subject_en_s'])
+            context['format_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_format_s'])
+            context['type_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_type_en_s'])
+            context['frequency_facets'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['update_cycle_en_s'])
 
         i = 0
         #for hl in search_results.highlighting:years_selected
