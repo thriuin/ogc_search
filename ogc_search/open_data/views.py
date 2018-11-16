@@ -135,7 +135,7 @@ class ODSearchView(View):
         solr_search_terms = "+".join(search_terms)
         solr_search_portal = request.GET.get('search_portal', '')
         solr_search_col = request.GET.get('search_collection', '')
-        solr_search_jur = request.GET.get('search_jurisdiction', '')
+        solr_search_jur = request.GET.get('search_jur', '')
         solr_search_orgs = request.GET.get('search_orgs', '')
         solr_search_keyw = request.GET.get('search_keyword', '')
         solr_search_subj = request.GET.get('search_subject', '')

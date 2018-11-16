@@ -181,6 +181,27 @@ function showLess() {
 
                     </details>
                 </div>
+                <div>
+                    <details class="panel" {% if keyw_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Key Words' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in keyword_facets.items %}
+                            <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="keyw{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-keywords')"
+                                    {% if k in keyw_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                    </details>
+                </div>
             </aside>
             {% endblock %}
         </div>
