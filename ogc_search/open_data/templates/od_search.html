@@ -31,7 +31,6 @@ function select_facet(selected_item, accumulator) {
     document.getElementById(accumulator).value = new_facets;
     $('#page').value = '1';
     $('#search_form').submit();
-    {# window.location.assign('{% facet_url 'org' k %}')" value="{{ k }}"> {{ k }} #}
 }
 function gotoPage(page_no) {
     $('#page').val(page_no);
@@ -154,6 +153,27 @@ function showLess() {
                                     <label><input type="checkbox" value="{{ k }}" id="month{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-col')"
                                     {% if k in col_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                    </details>
+                </div>
+                <div>
+                    <details class="panel" {% if jur_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Jurisdiction' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in jurisdiction_facets.items %}
+                            <li class="list-group-item{% if k in jur_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="jur{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-jur')"
+                                    {% if k in jur_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
                                 </div>
                             </li>
                             {% endfor %}
