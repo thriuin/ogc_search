@@ -50,9 +50,9 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en'):
         'hl.method': 'unified',
     }
     if language == 'fr':
-        extras['hl.fl'] = ['description_txt_fr', 'title_fr_s', 'owner_org_title_fr_s']
+        extras['hl.fl'] = ['description_txt_fr', 'title_fr_s', 'owner_org_title_fr_s', 'keywords_fr_s']
     else:
-        extras['hl.fl'] = ['description_txt_en', 'title_en_s', 'owner_org_title_en_s']
+        extras['hl.fl'] = ['description_txt_en', 'title_en_s', 'owner_org_title_en_s', 'keywords_en_s']
 
     sr = solr.search(q, **extras)
     # If there are highlighted results, substitute the highlighted field in the doc results
@@ -137,10 +137,10 @@ class ODSearchView(View):
         solr_search_col = request.GET.get('search_collection', '')
         solr_search_jur = request.GET.get('search_jur', '')
         solr_search_orgs = request.GET.get('search_orgs', '')
-        solr_search_keyw = request.GET.get('search_keyword', '')
+        solr_search_keyw = request.GET.get('search_keywords', '')
         solr_search_subj = request.GET.get('search_subject', '')
         solr_search_fmts = request.GET.get('search_format', '')
-        solr_search_rsct = request.GET.get('search_resource', '')
+        solr_search_rsct = request.GET.get('search_rsct', '')
         solr_search_updc = request.GET.get('search_update', '')
         # Only en and fr are accepted - anything results in en
         requested_lang = request.GET.get('lang', 'en')

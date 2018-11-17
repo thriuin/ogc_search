@@ -82,6 +82,7 @@ function showLess() {
         <div class="col-md-4">
             {% block main-content-sidebar %}
             <aside>
+                {# Organizations Facet #}
                 <div>
                     <details class="panel" {% if organizations_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
@@ -120,6 +121,7 @@ function showLess() {
                         </ul>
                     </details>
                 </div>
+                {# Portal - Schema Type Facet #}
                 <div>
                     <details class="panel" {% if portal_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
@@ -139,6 +141,7 @@ function showLess() {
                         </ul>
                     </details>
                 </div>
+                {# Collection Type Facet #}
                 <div>
                     <details class="panel" {% if col_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
@@ -157,9 +160,9 @@ function showLess() {
                             </li>
                             {% endfor %}
                         </ul>
-
                     </details>
                 </div>
+                {# Jurisdiction Facet #}
                 <div>
                     <details class="panel" {% if jur_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
@@ -178,9 +181,9 @@ function showLess() {
                             </li>
                             {% endfor %}
                         </ul>
-
                     </details>
                 </div>
+                {# Keywords Facet #}
                 <div>
                     <details class="panel" {% if keyw_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
@@ -199,7 +202,90 @@ function showLess() {
                             </li>
                             {% endfor %}
                         </ul>
+                    </details>
+                </div>
+                {# Subjects Facet #}
+                <div>
+                    <details class="panel" {% if subject_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Subjects' %}</h5>
+                        </summary>
 
+                        <ul class="list-group">
+                            {% for k, v in subject_facets.items %}
+                            <li class="list-group-item{% if k in subject_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="subject{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-subjects')"
+                                    {% if k in subject_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                </div>
+                {# Formats Facet #}
+                <div>
+                    <details class="panel" {% if format_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Formats' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in format_facets.items %}
+                            <li class="list-group-item{% if k in format_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="format{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-format')"
+                                    {% if k in format_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                </div>
+                {# Resource Type Facet #}
+                <div>
+                    <details class="panel" {% if rsct_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Resource Types' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in type_facets.items %}
+                            <li class="list-group-item{% if k in rsct_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="rsct{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-rsct')"
+                                    {% if k in rsct_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                </div>
+                {# Update Frequency Facet #}
+                <div>
+                    <details class="panel" {% if update_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Update Frequency' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in frequency_facets.items %}
+                            <li class="list-group-item{% if k in update_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="freq{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-update')"
+                                    {% if k in update_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </details>
                 </div>
             </aside>
@@ -243,7 +329,7 @@ function showLess() {
                                    value="{{organizations_selected}}">
                             <input type="text" name="search_keywords" class="form-control" id="od-search-keywords"
                                    value="{{keyw_selected}}">
-                            <input type="text" name="search_subject" class="form-control" id="od-search-subject"
+                            <input type="text" name="search_subject" class="form-control" id="od-search-subjects"
                                    value="{{subject_selected}}">
                             <input type="text" name="search_format" class="form-control" id="od-search-format"
                                    value="{{format_selected}}">
@@ -286,9 +372,14 @@ function showLess() {
                                 {% else %}{{ doc.description_txt_fr | safe}}{% endif %}</p>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
                                 {{ doc.owner_org_title_en_s | safe }}{% else %}{{ adoc.owner_org_title_fr_s | safe }}{% endif %}</p>
-
+                            <p><strong>{% trans 'Resource Formats' %}: </strong>
+                                {% for f in doc.resource_format_s %}{{f}} {% endfor %}
+                            </p>
+                            <p><strong>{% trans 'Key Words' %}: </strong>
+                                {% if LANGUAGE_CODE == 'fr' %}{% for y in doc.keywords_fr_s %}{{y}}, {% endfor %}
+                                {% else %}{% for y in doc.keywords_en_s %}{{y}}, {% endfor %}{% endif %}
+                            </p>
                         </div>
-
                      </div>
 
                 </div>
