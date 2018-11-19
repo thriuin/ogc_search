@@ -573,6 +573,12 @@
     <copyField source="update_cycle_fr_s" dest="_text_fr_"/>
     <copyField source="description_txt_en" dest="_text_en_"/>
     <copyField source="description_txt_fr" dest="_text_fr_"/>
+    <copyField source="owner_org_title_en_s" dest="owner_org_title_txt_en"/>
+    <copyField source="title_en_s" dest="title_txt_en"/>
+    <copyField source="keywords_en_s" dest="keywords_txt_en"/>
+    <copyField source="owner_org_title_fr_s" dest="owner_org_title_txt_fr"/>
+    <copyField source="title_fr_s" dest="title_txt_fr"/>
+    <copyField source="keywords_fr_s" dest="keywords_txt_fr"/>
 
     <!-- non-language fields - must appear in eng and fra search field-->
     <copyField source="id_name_s" dest="_text_fr_"/>
@@ -585,6 +591,14 @@
     <copyField source="title_en_s" dest="_text_en_"/>
     <copyField source="resource_title_fr_s" dest="_text_fr_"/>
     <copyField source="resource_title_en_s" dest="_text_en_"/>
+
+    <!-- Added for Highlighting -->
+    <field name="owner_org_title_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="title_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="keywords_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <field name="owner_org_title_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="title_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="keywords_txt_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Added for Open Data Search -->
 

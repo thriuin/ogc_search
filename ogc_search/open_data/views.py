@@ -3,12 +3,15 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.utils import translation
 from django.views.generic import View
+import logging
 from math import floor, ceil
 from operator import itemgetter
 import os
 import pysolr
 
-def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en'):
+logger = logging.getLogger(__name__)
+
+def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search_text=''):
     solr = pysolr.Solr('http://127.0.0.1:8983/solr/core_od_search')
     solr_facets = []
     if language == 'fr':
@@ -45,16 +48,19 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en'):
         'facet.field': solr_facet_fields,
         'fq': solr_facets,
         'hl': 'on',
-        'hl.simple.pre': '<mark class=highlight>',
+        'hl.simple.pre': '<mark class="highlight">',
         'hl.simple.post': '</mark>',
         'hl.method': 'unified',
     }
     if language == 'fr':
-        extras['hl.fl'] = ['description_txt_fr', 'title_fr_s', 'owner_org_title_fr_s', 'keywords_fr_s']
+        extras['hl.fl'] = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr']
     else:
-        extras['hl.fl'] = ['description_txt_en', 'title_en_s', 'owner_org_title_en_s', 'keywords_en_s']
+        extras['hl.fl'] = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en']
+    extras['hl.preserveMulti'] = 'true'
 
     sr = solr.search(q, **extras)
+    print('Solr Query: Terms {0}, Extras {1}'.format(q, extras))
+
     # If there are highlighted results, substitute the highlighted field in the doc results
 
     for doc in sr.docs:
@@ -62,7 +68,19 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en'):
             hl_entry = sr.highlighting[doc['id']]
             for hl_fld_id in hl_entry:
                 if hl_fld_id in doc and len(hl_entry[hl_fld_id]) > 0:
-                    doc[hl_fld_id] = hl_entry[hl_fld_id][0]
+                    if type(doc[hl_fld_id]) is list:
+                        # Multi-valued Solr field
+                        for y in hl_entry[hl_fld_id]:
+                            w = y[24:]
+                            z = w[:-7]
+                            x = 0
+                            for zz in doc[hl_fld_id]:
+                                if zz == z:
+                                    doc[hl_fld_id][x] = y
+                                x += 1
+                    else:
+                        # Straight forward string replacement
+                        doc[hl_fld_id] = hl_entry[hl_fld_id][0]
     return sr
 
 
@@ -205,7 +223,7 @@ class ODSearchView(View):
             query_terms = ('_text_en_:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
 
         search_results = _query_solr(query_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
-                                     language='en')
+                                     language='en', search_text=search_text)
 
         if request.LANGUAGE_CODE == 'fr':
             context['portal_facets'] = _convert_facet_list_to_dict(

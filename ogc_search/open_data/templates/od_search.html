@@ -362,7 +362,8 @@ function showLess() {
 
                     <div class="row">
                         <div class="col-sm-10">
-                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{doc.title_en_s}}</h4>
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{% if LANGUAGE_CODE == 'en' %}
+                                {{ doc.title_txt_en | safe }}{% else %}{{ doc.title_txt_fr | safe }}{% endif %}</h4>
                         </div>
                         <div class="col-sm-2 text-right">
                             <span class="label label-default" style="border-color: #f00; background: #fff">{{ doc.jurisdiction_en_s }}</span>
@@ -371,13 +372,13 @@ function showLess() {
                             <p>{% if LANGUAGE_CODE == 'en' %}{{ doc.description_txt_en | safe }}
                                 {% else %}{{ doc.description_txt_fr | safe}}{% endif %}</p>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
-                                {{ doc.owner_org_title_en_s | safe }}{% else %}{{ adoc.owner_org_title_fr_s | safe }}{% endif %}</p>
+                                {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ adoc.owner_org_title_txt_fr | safe }}{% endif %}</p>
                             <p><strong>{% trans 'Resource Formats' %}: </strong>
                                 {% for f in doc.resource_format_s %}{{f}} {% endfor %}
                             </p>
                             <p><strong>{% trans 'Key Words' %}: </strong>
-                                {% if LANGUAGE_CODE == 'fr' %}{% for y in doc.keywords_fr_s %}{{y}}, {% endfor %}
-                                {% else %}{% for y in doc.keywords_en_s %}{{y}}, {% endfor %}{% endif %}
+                                {% if LANGUAGE_CODE == 'fr' %}{% for y in doc.keywords_txt_fr %}{{y | safe}}  {% endfor %}
+                                {% else %}{% for y in doc.keywords_txt_en %}{{y | safe}} {% endfor %}{% endif %}
                             </p>
                         </div>
                      </div>
