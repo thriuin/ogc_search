@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-06 11:55-0500\n"
+"POT-Creation-Date: 2018-11-21 16:01-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,1236 +17,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ocsenv/lib/python3.6/site-packages/django/contrib/messages/apps.py:7
-msgid "Messages"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/contrib/sitemaps/apps.py:7
-msgid "Site Maps"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/contrib/staticfiles/apps.py:9
-msgid "Static Files"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/contrib/syndication/apps.py:7
-#, fuzzy
-#| msgid "Organization"
-msgid "Syndication"
-msgstr "Organisation"
-
-#: ocsenv/lib/python3.6/site-packages/django/core/paginator.py:42
-msgid "That page number is not an integer"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/paginator.py:44
-msgid "That page number is less than 1"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/paginator.py:49
-msgid "That page contains no results"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:31
-msgid "Enter a valid value."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:102
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:657
-msgid "Enter a valid URL."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:154
-msgid "Enter a valid integer."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:165
-msgid "Enter a valid email address."
-msgstr ""
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:239
-msgid ""
-"Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:246
-msgid ""
-"Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:255
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:275
-msgid "Enter a valid IPv4 address."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:260
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:276
-msgid "Enter a valid IPv6 address."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:270
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:274
-msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:304
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:310
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:341
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:350
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:360
-#, python-format
-msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:375
-#, python-format
-msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:394
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:289
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:324
-msgid "Enter a number."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:396
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:401
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:406
-#, python-format
-msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:468
-#, python-format
-msgid ""
-"File extension '%(extension)s' is not allowed. Allowed extensions are: "
-"'%(allowed_extensions)s'."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/core/validators.py:520
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/base.py:1111
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:752
-msgid "and"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/base.py:1113
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:105
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:106
-msgid "This field cannot be null."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:107
-msgid "This field cannot be blank."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:108
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
-#. Eg: "Title must be unique for pub_date year"
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:112
-#, python-format
-msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:129
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:898
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1766
-msgid "Integer"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:902
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1764
-#, python-format
-msgid "'%(value)s' value must be an integer."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:977
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1833
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:989
-#, python-format
-msgid "'%(value)s' value must be either True or False."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:990
-#, python-format
-msgid "'%(value)s' value must be either True, False, or None."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:992
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1034
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1098
-msgid "Comma-separated integers"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1147
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1149
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1292
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1152
-msgid "Date (without time)"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1290
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
-"uuuuuu]][TZ] format."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1294
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1298
-msgid "Date (with time)"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1446
-#, python-format
-msgid "'%(value)s' value must be a decimal number."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1448
-msgid "Decimal number"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1587
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in [DD] [HH:[MM:]]ss[."
-"uuuuuu] format."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1590
-#, fuzzy
-#| msgid "Organization"
-msgid "Duration"
-msgstr "Organisation"
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1640
-msgid "Email address"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1663
-msgid "File path"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1729
-#, python-format
-msgid "'%(value)s' value must be a float."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1731
-msgid "Floating point number"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1849
-msgid "IPv4 address"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1880
-msgid "IP address"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1960
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1961
-#, python-format
-msgid "'%(value)s' value must be either None, True or False."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1963
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:1998
-msgid "Positive integer"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2011
-msgid "Positive small integer"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2025
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2057
-msgid "Small integer"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2064
-msgid "Text"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2092
-#, python-format
-msgid ""
-"'%(value)s' value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2094
-#, python-format
-msgid ""
-"'%(value)s' value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2097
-msgid "Time"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2223
-msgid "URL"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2245
-msgid "Raw binary data"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/__init__.py:2295
-#, python-format
-msgid "'%(value)s' is not a valid UUID."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/files.py:221
-msgid "File"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/files.py:360
-msgid "Image"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/related.py:778
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r does not exist."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/related.py:780
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/related.py:1001
-msgid "One-to-one relationship"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/related.py:1051
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/related.py:1052
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/db/models/fields/related.py:1094
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: ocsenv/lib/python3.6/site-packages/django/forms/boundfield.py:146
-msgid ":?.!"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:52
-msgid "This field is required."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:244
-msgid "Enter a whole number."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:395
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:1126
-msgid "Enter a valid date."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:419
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:1127
-msgid "Enter a valid time."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:441
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:470
-msgid "Enter a valid duration."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:471
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:531
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:532
-msgid "No file was submitted."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:533
-msgid "The submitted file is empty."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:535
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:538
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:599
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:761
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:851
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:1272
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:852
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:967
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:1271
-msgid "Enter a list of values."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:968
-msgid "Enter a complete value."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/fields.py:1185
-msgid "Enter a valid UUID."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: ocsenv/lib/python3.6/site-packages/django/forms/forms.py:86
-msgid ":"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/forms.py:212
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/formsets.py:91
-msgid "ManagementForm data is missing or has been tampered with"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/formsets.py:338
-#, python-format
-msgid "Please submit %d or fewer forms."
-msgid_plural "Please submit %d or fewer forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/formsets.py:345
-#, python-format
-msgid "Please submit %d or more forms."
-msgid_plural "Please submit %d or more forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/formsets.py:371
-#: ocsenv/lib/python3.6/site-packages/django/forms/formsets.py:373
-msgid "Order"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/formsets.py:375
-msgid "Delete"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:747
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:751
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:757
-#, python-format
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:766
-msgid "Please correct the duplicate values below."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:1093
-msgid "The inline value did not match the parent instance."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:1160
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/models.py:1274
-#, python-format
-msgid "\"%(pk)s\" is not a valid value."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/utils.py:162
-#, python-format
-msgid ""
-"%(datetime)s couldn't be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/widgets.py:383
-msgid "Clear"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/widgets.py:384
-msgid "Currently"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/widgets.py:385
-msgid "Change"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/widgets.py:699
-msgid "Unknown"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/widgets.py:700
-msgid "Yes"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/forms/widgets.py:701
-msgid "No"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:788
-msgid "yes,no,maybe"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:817
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:834
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:836
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:838
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:840
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:842
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/template/defaultfilters.py:844
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dateformat.py:62
-msgid "p.m."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dateformat.py:63
-msgid "a.m."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dateformat.py:68
-msgid "PM"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dateformat.py:69
-msgid "AM"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dateformat.py:150
-msgid "midnight"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dateformat.py:152
-msgid "noon"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Monday"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Tuesday"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Wednesday"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Thursday"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:6
-msgid "Friday"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:7
-msgid "Saturday"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:7
-msgid "Sunday"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:10
-#, fuzzy
-#| msgid "Month"
-msgid "Mon"
-msgstr "Mois"
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Tue"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Wed"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Thu"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:10
-msgid "Fri"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:11
-msgid "Sat"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:11
-msgid "Sun"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "January"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "February"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:14
-#, fuzzy
-#| msgid "Search"
-msgid "March"
-msgstr "Recherche"
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "April"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "May"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:14
-msgid "June"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "July"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "August"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "September"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "October"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:15
-msgid "November"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:16
-msgid "December"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "jan"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "feb"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:19
-#, fuzzy
-#| msgid "Summary"
-msgid "mar"
-msgstr "Résumé"
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "apr"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:19
-#, fuzzy
-#| msgid "Summary"
-msgid "may"
-msgstr "Résumé"
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:19
-msgid "jun"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "jul"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "aug"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "sep"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "oct"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "nov"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:20
-msgid "dec"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:23
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:24
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:25
-#, fuzzy
-#| msgid "Search"
-msgctxt "abbrev. month"
-msgid "March"
-msgstr "Recherche"
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:26
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:27
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:28
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:29
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:30
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:31
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:32
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:33
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:34
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:37
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:38
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:39
-#, fuzzy
-#| msgid "Search"
-msgctxt "alt. month"
-msgid "March"
-msgstr "Recherche"
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:40
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:41
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:42
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:43
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:44
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:45
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:46
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:47
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/dates.py:48
-msgctxt "alt. month"
-msgid "December"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/ipv6.py:8
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/text.py:70
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s..."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/text.py:237
-msgid "or"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: ocsenv/lib/python3.6/site-packages/django/utils/text.py:256
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:83
-msgid ", "
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:9
-#, python-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:10
-#, fuzzy, python-format
-#| msgid "Month"
-msgid "%d month"
-msgid_plural "%d months"
-msgstr[0] "Mois"
-msgstr[1] "Mois"
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:11
-#, python-format
-msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:12
-#, python-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:13
-#, python-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:14
-#, python-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ocsenv/lib/python3.6/site-packages/django/utils/timesince.py:72
-msgid "0 minutes"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:110
-msgid "Forbidden"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:111
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:115
-msgid ""
-"You are seeing this message because this HTTPS site requires a 'Referer "
-"header' to be sent by your Web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:120
-msgid ""
-"If you have configured your browser to disable 'Referer' headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for 'same-"
-"origin' requests."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:124
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the 'Referrer-Policy: no-referrer' header, please remove them. The "
-"CSRF protection requires the 'Referer' header to do strict referer checking. "
-"If you're concerned about privacy, use alternatives like <a rel=\"noreferrer"
-"\" ...> for links to third-party sites."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:132
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:137
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for 'same-origin' requests."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/csrf.py:142
-msgid "More information is available with DEBUG=True."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:41
-msgid "No year specified"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:61
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:111
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:208
-msgid "Date out of range"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:90
-msgid "No month specified"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:142
-msgid "No day specified"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:188
-msgid "No week specified"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:338
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:367
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:585
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because %(class_name)s."
-"allow_future is False."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/dates.py:619
-#, python-format
-msgid "Invalid date string '%(datestr)s' given format '%(format)s'"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/detail.py:54
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/list.py:67
-msgid "Page is not 'last', nor can it be converted to an int."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/list.py:72
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/generic/list.py:154
-#, python-format
-msgid "Empty list and '%(class_name)s.allow_empty' is False."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/static.py:40
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/static.py:42
-#, python-format
-msgid "\"%(path)s\" does not exist"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/static.py:80
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:6
-msgid "Django: the Web framework for perfectionists with deadlines."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:345
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:367
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:368
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
-"\">DEBUG=True</a> is in your settings file and you have not configured any "
-"URLs."
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:383
-msgid "Django Documentation"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:384
-msgid "Topics, references, &amp; how-to's"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:395
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:396
-msgid "Get started with Django"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:407
-msgid "Django Community"
-msgstr ""
-
-#: ocsenv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:408
-msgid "Connect, get help, or contribute"
-msgstr ""
-
-#: ogc_search/ati/templates/ati_detail.html:12
-#, fuzzy
-#| msgid "Completed Access to Information Requests"
+#: ogc_search/ati/templates/ati_detail.html:13
 msgid "Access to Information Request"
 msgstr "Demandes d’accès à l’information complétées"
 
-#: ogc_search/ati/templates/ati_detail.html:15
+#: ogc_search/ati/templates/ati_detail.html:16
 msgid "Request Number"
 msgstr ""
 
-#: ogc_search/ati/templates/ati_detail.html:17
+#: ogc_search/ati/templates/ati_detail.html:18
 msgid "Date"
 msgstr "Date"
 
-#: ogc_search/ati/templates/ati_detail.html:20
+#: ogc_search/ati/templates/ati_detail.html:21
 msgid "Summary"
 msgstr "Résumé"
 
-#: ogc_search/ati/templates/ati_detail.html:23
-#: ogc_search/ati/templates/ati_search.html:134
-#: ogc_search/ati/templates/ati_search.html:274
-#: ogc_search/ati/templates/grants_search.html:134
-#: ogc_search/ati/templates/grants_search.html:274
+#: ogc_search/ati/templates/ati_detail.html:24
+#: ogc_search/ati/templates/ati_search.html:135
+#: ogc_search/ati/templates/ati_search.html:275
+#: ogc_search/ati/templates/grants_search.html:135
+#: ogc_search/ati/templates/grants_search.html:275
+#: ogc_search/open_data/templates/od_search.html:88
+#: ogc_search/open_data/templates/od_search.html:378
 msgid "Organization"
 msgstr "Organisation"
 
-#: ogc_search/ati/templates/ati_detail.html:26
+#: ogc_search/ati/templates/ati_detail.html:27
 msgid "Disposition"
 msgstr ""
 
-#: ogc_search/ati/templates/ati_search.html:72
-#: ogc_search/ati/templates/grants_search.html:72
+#: ogc_search/ati/templates/ati_search.html:73
+#: ogc_search/ati/templates/grants_search.html:73
 msgid "Completed Access to Information Requests"
 msgstr "Demandes d’accès à l’information complétées"
 
-#: ogc_search/ati/templates/ati_search.html:82
-#: ogc_search/ati/templates/grants_search.html:82
+#: ogc_search/ati/templates/ati_search.html:83
+#: ogc_search/ati/templates/grants_search.html:83
 msgid "Transitional Period"
 msgstr "Période de transition"
 
-#: ogc_search/ati/templates/ati_search.html:83
-#: ogc_search/ati/templates/grants_search.html:83
+#: ogc_search/ati/templates/ati_search.html:84
+#: ogc_search/ati/templates/grants_search.html:84
 msgid ""
 "Departments are moving their web content to\n"
 "                    <a href=\"http://www.canada.ca\">Canada.ca</a>. As a "
@@ -1282,13 +93,13 @@ msgstr ""
 "joindre à l’adresse suivante :<a href=\"mailto:open-ouvert@tbs-sct.gc.ca"
 "\">open-ouvert@tbs-sct.gc.ca</a>."
 
-#: ogc_search/ati/templates/ati_search.html:97
-#: ogc_search/ati/templates/grants_search.html:97
+#: ogc_search/ati/templates/ati_search.html:98
+#: ogc_search/ati/templates/grants_search.html:98
 msgid "About this information"
 msgstr ""
 
-#: ogc_search/ati/templates/ati_search.html:99
-#: ogc_search/ati/templates/grants_search.html:99
+#: ogc_search/ati/templates/ati_search.html:100
+#: ogc_search/ati/templates/grants_search.html:100
 #, fuzzy
 #| msgid ""
 #| "Search the summaries of completed Access to Information (ATI) requests to "
@@ -1319,8 +130,8 @@ msgstr ""
 "<a href=\"https://ouvert.canada.ca/fr/au-sujet-demandes-dacces-a-linformation"
 "\"> Au sujet des demandesd’accès à l’information</a>&nbsp;»."
 
-#: ogc_search/ati/templates/ati_search.html:105
-#: ogc_search/ati/templates/grants_search.html:105
+#: ogc_search/ati/templates/ati_search.html:106
+#: ogc_search/ati/templates/grants_search.html:106
 #, fuzzy
 #| msgid ""
 #| "Download datasets of the <a\n"
@@ -1337,8 +148,8 @@ msgstr ""
 "dataset/0797e893-751e-4695-8229-a5066e4fe43c\"> sommaires des demandes "
 "d’accès à l’information complétées</a>."
 
-#: ogc_search/ati/templates/ati_search.html:109
-#: ogc_search/ati/templates/grants_search.html:109
+#: ogc_search/ati/templates/ati_search.html:110
+#: ogc_search/ati/templates/grants_search.html:110
 #, fuzzy
 #| msgid ""
 #| "If you don’t find what you are looking for you can request additional "
@@ -1363,8 +174,8 @@ msgstr ""
 "coordonnateurde l’accès à l’information et de la protection des "
 "renseignements personnels</a> de l’institution concernée."
 
-#: ogc_search/ati/templates/ati_search.html:114
-#: ogc_search/ati/templates/grants_search.html:114
+#: ogc_search/ati/templates/ati_search.html:115
+#: ogc_search/ati/templates/grants_search.html:115
 #, fuzzy
 #| msgid ""
 #| "Enter keywords (e.g. institution, topic, field of interest, etc.)</"
@@ -1387,8 +198,8 @@ msgstr ""
 "l’information</em> et de la <em>Loi sur la protection des renseignements "
 "personnels</em>."
 
-#: ogc_search/ati/templates/ati_search.html:121
-#: ogc_search/ati/templates/grants_search.html:121
+#: ogc_search/ati/templates/ati_search.html:122
+#: ogc_search/ati/templates/grants_search.html:122
 #, fuzzy
 #| msgid "Completed Access to Information Requests"
 msgid ""
@@ -1396,39 +207,47 @@ msgid ""
 "requests"
 msgstr "Demandes d’accès à l’information complétées"
 
-#: ogc_search/ati/templates/ati_search.html:163
-#: ogc_search/ati/templates/grants_search.html:163
+#: ogc_search/ati/templates/ati_search.html:164
+#: ogc_search/ati/templates/grants_search.html:164
+#: ogc_search/open_data/templates/od_search.html:117
+#: ogc_search/open_data/templates/od_search.html:204
 msgid "Show more"
 msgstr ""
 
-#: ogc_search/ati/templates/ati_search.html:164
-#: ogc_search/ati/templates/grants_search.html:164
+#: ogc_search/ati/templates/ati_search.html:165
+#: ogc_search/ati/templates/grants_search.html:165
+#: ogc_search/open_data/templates/od_search.html:118
+#: ogc_search/open_data/templates/od_search.html:205
 msgid "Show less"
 msgstr ""
 
-#: ogc_search/ati/templates/ati_search.html:172
-#: ogc_search/ati/templates/grants_search.html:172
+#: ogc_search/ati/templates/ati_search.html:173
+#: ogc_search/ati/templates/grants_search.html:173
 msgid "Year"
 msgstr "Année"
 
-#: ogc_search/ati/templates/ati_search.html:191
-#: ogc_search/ati/templates/grants_search.html:191
+#: ogc_search/ati/templates/ati_search.html:192
+#: ogc_search/ati/templates/grants_search.html:192
 msgid "Month"
 msgstr "Mois"
 
-#: ogc_search/ati/templates/ati_search.html:220
-#: ogc_search/ati/templates/ati_search.html:222
-#: ogc_search/ati/templates/ati_search.html:226
-#: ogc_search/ati/templates/grants_search.html:220
-#: ogc_search/ati/templates/grants_search.html:222
-#: ogc_search/ati/templates/grants_search.html:226
+#: ogc_search/ati/templates/ati_search.html:221
+#: ogc_search/ati/templates/ati_search.html:223
+#: ogc_search/ati/templates/ati_search.html:227
+#: ogc_search/ati/templates/grants_search.html:221
+#: ogc_search/ati/templates/grants_search.html:223
+#: ogc_search/ati/templates/grants_search.html:227
+#: ogc_search/open_data/templates/od_search.html:305
+#: ogc_search/open_data/templates/od_search.html:307
+#: ogc_search/open_data/templates/od_search.html:311
 #: ogc_search/wet/templates/base.html:103
 #: ogc_search/wet/templates/base.html:112
 msgid "Search"
 msgstr "Recherche"
 
-#: ogc_search/ati/templates/ati_search.html:234
-#: ogc_search/ati/templates/grants_search.html:234
+#: ogc_search/ati/templates/ati_search.html:235
+#: ogc_search/ati/templates/grants_search.html:235
+#: ogc_search/open_data/templates/od_search.html:319
 #, fuzzy, python-format
 #| msgid "Found %(result_num)s record%(result_s)s"
 msgid ""
@@ -1436,36 +255,80 @@ msgid ""
 "                    %(result_num)s record%(result_s)s"
 msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
 
-#: ogc_search/ati/templates/ati_search.html:271
-#: ogc_search/ati/templates/grants_search.html:271
+#: ogc_search/ati/templates/ati_search.html:272
+#: ogc_search/ati/templates/grants_search.html:272
 msgid "Request"
 msgstr ""
 
-#: ogc_search/ati/templates/ati_search.html:279
-#: ogc_search/ati/templates/grants_search.html:279
+#: ogc_search/ati/templates/ati_search.html:280
+#: ogc_search/ati/templates/grants_search.html:280
 msgid "pages"
 msgstr ""
 
-#: ogc_search/ati/templates/ati_search.html:295
-#: ogc_search/ati/templates/ati_search.html:298
-#: ogc_search/ati/templates/grants_search.html:295
-#: ogc_search/ati/templates/grants_search.html:298
+#: ogc_search/ati/templates/ati_search.html:296
+#: ogc_search/ati/templates/ati_search.html:299
+#: ogc_search/ati/templates/grants_search.html:296
+#: ogc_search/ati/templates/grants_search.html:299
+#: ogc_search/open_data/templates/od_search.html:400
+#: ogc_search/open_data/templates/od_search.html:403
 msgid "Previous"
 msgstr "Précédent"
 
-#: ogc_search/ati/templates/ati_search.html:301
-#: ogc_search/ati/templates/ati_search.html:305
-#: ogc_search/ati/templates/grants_search.html:301
-#: ogc_search/ati/templates/grants_search.html:305
+#: ogc_search/ati/templates/ati_search.html:302
+#: ogc_search/ati/templates/ati_search.html:306
+#: ogc_search/ati/templates/grants_search.html:302
+#: ogc_search/ati/templates/grants_search.html:306
+#: ogc_search/open_data/templates/od_search.html:406
+#: ogc_search/open_data/templates/od_search.html:410
 msgid "Go to"
 msgstr "Aller à la page"
 
-#: ogc_search/ati/templates/ati_search.html:307
-#: ogc_search/ati/templates/ati_search.html:310
-#: ogc_search/ati/templates/grants_search.html:307
-#: ogc_search/ati/templates/grants_search.html:310
+#: ogc_search/ati/templates/ati_search.html:308
+#: ogc_search/ati/templates/ati_search.html:311
+#: ogc_search/ati/templates/grants_search.html:308
+#: ogc_search/ati/templates/grants_search.html:311
+#: ogc_search/open_data/templates/od_search.html:412
+#: ogc_search/open_data/templates/od_search.html:415
 msgid "Next"
 msgstr "Suivant"
+
+#: ogc_search/open_data/templates/od_search.html:70
+msgid "Open Government Portal"
+msgstr "Portail du gouvernement ouvert"
+
+#: ogc_search/open_data/templates/od_search.html:127
+msgid "Portal Type"
+msgstr "Type de portail"
+
+#: ogc_search/open_data/templates/od_search.html:147
+msgid "Collection Type"
+msgstr "Type de collection"
+
+#: ogc_search/open_data/templates/od_search.html:168
+msgid "Jurisdiction"
+msgstr "Juridiction"
+
+#: ogc_search/open_data/templates/od_search.html:189
+#: ogc_search/open_data/templates/od_search.html:383
+msgid "Key Words"
+msgstr "Mots clés"
+
+#: ogc_search/open_data/templates/od_search.html:214
+msgid "Subjects"
+msgstr "Sujets"
+
+#: ogc_search/open_data/templates/od_search.html:235
+#: ogc_search/open_data/templates/od_search.html:380
+msgid "Formats"
+msgstr "Formats"
+
+#: ogc_search/open_data/templates/od_search.html:256
+msgid "Resource Types"
+msgstr "Type de ressource"
+
+#: ogc_search/open_data/templates/od_search.html:277
+msgid "Update Frequency"
+msgstr "Fréquence de mise à jour"
 
 #: ogc_search/wet/templates/base.html:13
 msgid "Open Government"
@@ -1485,7 +348,6 @@ msgstr "Sélection de la langue"
 
 #: ogc_search/wet/templates/base.html:84 ogc_search/wet/templates/base.html:86
 #: ogc_search/wet/templates/base.html:89
-#, fuzzy
 #| msgid "Search Canada"
 msgid "Search and menus"
 msgstr "Rechercher dans Canada"

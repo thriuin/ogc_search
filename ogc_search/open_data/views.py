@@ -54,8 +54,12 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search
     }
     if language == 'fr':
         extras['hl.fl'] = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr']
+        extras['f.keywords_fr_s.facet.limit'] = 250
+        extras['f.keywords_fr_s.facet.sort'] = 'count'
     else:
         extras['hl.fl'] = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en']
+        extras['f.keywords_en_s.facet.limit'] = 250
+        extras['f.keywords_en_s.facet.sort'] = 'count'
     extras['hl.preserveMulti'] = 'true'
 
     sr = solr.search(q, **extras)
@@ -146,7 +150,7 @@ def od_search(request):
 
 class ODSearchView(View):
 
-    def get(self, request, lang=''):
+    def get(self, request):
 
         search_text = str(request.GET.get('search_text', ''))
         search_terms = search_text.split()
@@ -161,9 +165,10 @@ class ODSearchView(View):
         solr_search_rsct = request.GET.get('search_rsct', '')
         solr_search_updc = request.GET.get('search_update', '')
         # Only en and fr are accepted - anything results in en
-        requested_lang = request.GET.get('lang', 'en')
-        page_lang = requested_lang if requested_lang in ['en', 'fr'] else 'en'
-        translation.activate(page_lang)
+        #requested_lang = translation.get_language()
+        #page_lang = requested_lang if requested_lang in ['en', 'fr'] else 'en'
+
+        #translation.activate(page_lang)
         context = dict(search_text=search_text,
                        portal_selected_list=str(solr_search_portal).split(','),
                        portal_selected=solr_search_portal,
@@ -223,7 +228,7 @@ class ODSearchView(View):
             query_terms = ('_text_en_:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
 
         search_results = _query_solr(query_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
-                                     language='en', search_text=search_text)
+                                     language=request.LANGUAGE_CODE , search_text=search_text)
 
         if request.LANGUAGE_CODE == 'fr':
             context['portal_facets'] = _convert_facet_list_to_dict(
@@ -287,5 +292,8 @@ class ODSearchView(View):
         next_page = (last_page if next_page > last_page else next_page)
         context['next_page'] = next_page
         context['currentpage'] = page
+
+        context["od_en_url"] = settings.OPEN_DATA_EN_URL_BASE
+        context["od_fr_url"] = settings.OPEN_DATA_FR_URL_BASE
 
         return render(request, "od_search.html", context)

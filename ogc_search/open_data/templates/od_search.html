@@ -45,30 +45,29 @@ function submitFormOnEnter(e) {
         submitForm();
     }
 }
-function showMore() {
-    $('#org-list').find('li:hidden').css( "display", "" );
-    $('#morethanless').css( "display", "none" );
-    $('#lessthanmore').css( "display", "" );
+function showMore(flist) {
+    $('#' + flist).find('li:hidden').css( "display", "" );
+    $('#' + flist + '-morethanless').css( "display", "none" );
+    $('#' + flist + '-lessthanmore').css( "display", "" );
 }
-function showLess() {
-    var lis = $('#org-list').find('li')
+function showLess(flist) {
+    var lis = $('#' + flist).find('li')
     var i;
-    for(i = 0; i < lis.length; i++) {
-       if (i > 10) {
-          lis[i].style["display"] = "none";
-       }
+    if (lis.length > 10) {
+        for(i = 10; i < lis.length; i++) {
+            lis[i].style["display"] = "none";
+        }
     }
-    $('#morethanless').css( "display", "" );
-    $('#lessthanmore').css( "display", "none" );
+    $('#' + flist + '-morethanless').css( "display", "" );
+    $('#' + flist + '-lessthanmore').css( "display", "none" );
 }
-
 
 </script>
 {% endblock custom_page_javascript %}
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans 'Open Government Portal' %}</h1>
+<h1 property="name" id="wb-cont">{% blocktrans %}Open Government Portal{% endblocktrans %}</h1>
 {% endblock %}
 <section>
     <p class="gc-byline">{% if request.user.is_authenticated %}
@@ -115,8 +114,8 @@ function showLess() {
                             </li>
 
                             {% endfor %}
-                            <li id="morethanless" class="list-group-item"><a onclick="showMore()" href="#">{% trans 'Show more' %}</a></li>
-                            <li id="lessthanmore" class="list-group-item"><a onclick="showLess()" href="#">{% trans 'Show less' %}</a></li>
+                            <li id="org-list-morethanless" class="list-group-item"><a onclick="showMore('org-list')" href="#">{% trans 'Show more' %}</a></li>
+                            <li id="org-list-lessthanmore" class="list-group-item"><a onclick="showLess('org-list')" href="#">{% trans 'Show less' %}</a></li>
                             {% endif %}
                         </ul>
                     </details>
@@ -190,9 +189,10 @@ function showLess() {
                             <h5 class="panel-title">{% trans 'Key Words' %}</h5>
                         </summary>
 
-                        <ul class="list-group">
+                        <ul class="list-group" id="key-list">
                             {% for k, v in keyword_facets.items %}
-                            <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}">
+                            <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}"
+                                {% if forloop.counter > 10 %} style="display: none;"{% endif %}>
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="keyw{{ k }}"
@@ -201,6 +201,9 @@ function showLess() {
                                 </div>
                             </li>
                             {% endfor %}
+                            <li id="key-list-morethanless" class="list-group-item"><a onclick="showMore('key-list')" href="#">{% trans 'Show more' %}</a></li>
+                            <li id="key-list-lessthanmore" class="list-group-item"><a onclick="showLess('key-list')" href="#">{% trans 'Show less' %}</a></li>
+
                         </ul>
                     </details>
                 </div>
@@ -363,7 +366,8 @@ function showLess() {
                     <div class="row">
                         <div class="col-sm-10">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">{% if LANGUAGE_CODE == 'en' %}
-                                {{ doc.title_txt_en | safe }}{% else %}{{ doc.title_txt_fr | safe }}{% endif %}</h4>
+                                <a href="{{od_en_url}}{{doc.id_name_s}}">{{ doc.title_txt_en | safe }}{% else %}
+                                <a href="{{od_fr_url}}{{doc.id_name_s}}">{{ doc.title_txt_fr | safe }}{% endif %}</a></h4>
                         </div>
                         <div class="col-sm-2 text-right">
                             <span class="label label-default" style="border-color: #f00; background: #fff">{{ doc.jurisdiction_en_s }}</span>
@@ -373,12 +377,15 @@ function showLess() {
                                 {% else %}{{ doc.description_txt_fr | safe}}{% endif %}</p>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
                                 {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ adoc.owner_org_title_txt_fr | safe }}{% endif %}</p>
-                            <p><strong>{% trans 'Resource Formats' %}: </strong>
-                                {% for f in doc.resource_format_s %}{{f}} {% endfor %}
+                            <p><strong>{% trans 'Formats' %}: </strong>
+                                {% for f in doc.resource_format_s %}<span class="badge">{{f}}</span> {% endfor %}
                             </p>
-                            <p><strong>{% trans 'Key Words' %}: </strong>
-                                {% if LANGUAGE_CODE == 'fr' %}{% for y in doc.keywords_txt_fr %}{{y | safe}}  {% endfor %}
-                                {% else %}{% for y in doc.keywords_txt_en %}{{y | safe}} {% endfor %}{% endif %}
+                            <p><span class="wb-inv">{% trans 'Key Words' %}: </span>
+                                {% if LANGUAGE_CODE == 'fr' %}
+                                    {% for y in doc.keywords_txt_fr %}<span class="label label-default">{{y | safe}}</span> {% endfor %}
+                                {% else %}
+                                    {% for y in doc.keywords_txt_en %}<span class="label label-default">{{y | safe}}</span> {% endfor %}
+                                {% endif %}
                             </p>
                         </div>
                      </div>
@@ -428,4 +435,26 @@ function showLess() {
     </div>
 
 </section>
+{% endblock %}
+
+{% block custom-jquery %}
+<script type="text/javascript">
+
+{% if organizations_selected_list|length > 0 %}
+
+showMore('org-list')
+$( document ).ready(function() {
+  $('#org-list-morethanless').css( "display", "none" );
+});
+
+{% endif %}
+{% if keyw_selected_list|length > 0 %}
+
+showMore('key-list')
+$( document ).ready(function() {
+  $('#key-list-morethanless').css( "display", "none" );
+});
+
+{% endif %}
+</script>
 {% endblock %}
