@@ -67,7 +67,7 @@ function showLess(flist) {
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% blocktrans %}Open Government Portal{% endblocktrans %}</h1>
+<h1 property="name" id="wb-cont">{% trans "Open Government Portal" %}</h1>
 {% endblock %}
 <section>
     <p class="gc-byline">{% if request.user.is_authenticated %}
@@ -370,15 +370,16 @@ function showLess(flist) {
                                 <a href="{{od_fr_url}}{{doc.id_name_s}}">{{ doc.title_txt_fr | safe }}{% endif %}</a></h4>
                         </div>
                         <div class="col-sm-2 text-right">
-                            <span class="label label-default" style="border-color: #f00; background: #fff">{{ doc.jurisdiction_en_s }}</span>
+                            <span class="label label-default" style="border-color: #f00; background: #fff">{% if LANGUAGE_CODE == 'fr' %}
+                                {{ doc.jurisdiction_fr_s }}{% else %}{{doc.jurisdiction_en_s}}{% endif %}</span>
                         </div>
                         <div class="col-sm-12">
                             <p>{% if LANGUAGE_CODE == 'en' %}{{ doc.description_txt_en | safe }}
                                 {% else %}{{ doc.description_txt_fr | safe}}{% endif %}</p>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
-                                {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ adoc.owner_org_title_txt_fr | safe }}{% endif %}</p>
+                                {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ doc.owner_org_title_txt_fr | safe }}{% endif %}</p>
                             <p><strong>{% trans 'Formats' %}: </strong>
-                                {% for f in doc.resource_format_s %}<span class="badge">{{f}}</span> {% endfor %}
+                                {% for f in doc.resource_format_s %}<span class="badge">{% trans f %}</span> {% endfor %}
                             </p>
                             <p><span class="wb-inv">{% trans 'Key Words' %}: </span>
                                 {% if LANGUAGE_CODE == 'fr' %}

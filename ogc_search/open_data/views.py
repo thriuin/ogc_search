@@ -169,6 +169,7 @@ class ODSearchView(View):
         #page_lang = requested_lang if requested_lang in ['en', 'fr'] else 'en'
 
         #translation.activate(page_lang)
+
         context = dict(search_text=search_text,
                        portal_selected_list=str(solr_search_portal).split(','),
                        portal_selected=solr_search_portal,

@@ -1,13 +1,13 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Open Government Portal Custom Solr Search Front End
+# Copyright (C) 2018
+# This file is distributed under the same license as the https://github.com/thriuin/ogc_search package.
+# Ross Thompson ross.thompson@tbs-sct.gc.ca, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-21 16:01-0500\n"
+"POT-Creation-Date: 2018-11-23 16:42-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: ogc_search/ati/templates/ati_detail.html:13
 msgid "Access to Information Request"
-msgstr "Demandes d’accès à l’information complétées"
+msgstr ""
 
 #: ogc_search/ati/templates/ati_detail.html:16
 msgid "Request Number"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: ogc_search/ati/templates/ati_detail.html:18
 msgid "Date"
-msgstr "Date"
+msgstr ""
 
 #: ogc_search/ati/templates/ati_detail.html:21
 msgid "Summary"
-msgstr "Résumé"
+msgstr ""
 
 #: ogc_search/ati/templates/ati_detail.html:24
 #: ogc_search/ati/templates/ati_search.html:135
@@ -39,13 +39,13 @@ msgstr "Résumé"
 #: ogc_search/ati/templates/grants_search.html:135
 #: ogc_search/ati/templates/grants_search.html:275
 #: ogc_search/open_data/templates/od_search.html:88
-#: ogc_search/open_data/templates/od_search.html:378
+#: ogc_search/open_data/templates/od_search.html:379
 msgid "Organization"
 msgstr "Organisation"
 
 #: ogc_search/ati/templates/ati_detail.html:27
 msgid "Disposition"
-msgstr ""
+msgstr "Période de transition"
 
 #: ogc_search/ati/templates/ati_search.html:73
 #: ogc_search/ati/templates/grants_search.html:73
@@ -80,18 +80,6 @@ msgid ""
 "                    <a href=\"mailto:open-ouvert@tbs-sct.gc.ca\">open-"
 "ouvert@tbs-sct.gc.ca</a></p>"
 msgstr ""
-"Les ministères fédéraux déplacent leur contenu Web versle site <a href="
-"\"http://www.canada.ca\">canada.ca</a>. Dans le cadre dece processus, des "
-"rapports sur la divulgation proactive serontaccessibles par l’entremise du "
-"<a href=\"http://ouvert.canada.ca\">Portail du gouvernement ouvert</a>. Dans "
-"le cadre de cette transition,advenant qu’un rapport sur la divulgation "
-"proactive d’un ministère enparticulier ne soit pas encore accessible par "
-"l’entremise du Portail dugouvernement ouvert, veuillez consulter la<a href="
-"\"http://www.tbs-sct.gc.ca/hgw-cgf/finances/rgs-erdg/pd-dp/index-fra.asp"
-"\">Divulgation proactive par ordre de ministères ou d’organismes</a>,où vous "
-"pourrez en trouver copie. Pour toute question à ce sujet,veuillez nous "
-"joindre à l’adresse suivante :<a href=\"mailto:open-ouvert@tbs-sct.gc.ca"
-"\">open-ouvert@tbs-sct.gc.ca</a>."
 
 #: ogc_search/ati/templates/ati_search.html:98
 #: ogc_search/ati/templates/grants_search.html:98
@@ -100,17 +88,6 @@ msgstr ""
 
 #: ogc_search/ati/templates/ati_search.html:100
 #: ogc_search/ati/templates/grants_search.html:100
-#, fuzzy
-#| msgid ""
-#| "Search the summaries of completed Access to Information (ATI) requests to "
-#| "find information\n"
-#| "                    about ATI requests previously made to the Government "
-#| "of Canada. If you find a summary of interest,\n"
-#| "                    you can request a copy of the records at no cost. For "
-#| "additional information, please see the\n"
-#| "                    “<a href=\"/en/content/about-access-information-"
-#| "requests\">About Access to Information Requests</a>”\n"
-#| "                    webpage."
 msgid ""
 "Search the summaries of completed Access to Information (ATI) requests to "
 "find information\n"
@@ -122,43 +99,18 @@ msgid ""
 "requests\">About Access to Information Requests</a>”\n"
 "                        webpage."
 msgstr ""
-"Effectuez des recherches dans les sommaires des demandes d’accès à "
-"l’information (AI) complétées pour obtenir de l’information au sujet des "
-"demandes d’AI soumises au gouvernement du Canada. Si un sommaire vous "
-"intéresse, vous pouvez demander sans frais une copie des documents. Pour "
-"obtenir de plus amples renseignements, veuillez consulter la page Web «&nbsp;"
-"<a href=\"https://ouvert.canada.ca/fr/au-sujet-demandes-dacces-a-linformation"
-"\"> Au sujet des demandesd’accès à l’information</a>&nbsp;»."
 
 #: ogc_search/ati/templates/ati_search.html:106
 #: ogc_search/ati/templates/grants_search.html:106
-#, fuzzy
-#| msgid ""
-#| "Download datasets of the <a\n"
-#| "                        href=\"http://data.gc.ca/data/en/"
-#| "dataset/0797e893-751e-4695-8229-a5066e4fe43c\"> summaries of\n"
-#| "                    completed access to information requests</a>."
 msgid ""
 "Download datasets of the <a\n"
 "                            href=\"http://data.gc.ca/data/en/"
 "dataset/0797e893-751e-4695-8229-a5066e4fe43c\"> summaries of\n"
 "                        completed access to information requests</a>."
 msgstr ""
-"Téléchargez les jeux de données des <a href=\"/data/fr/"
-"dataset/0797e893-751e-4695-8229-a5066e4fe43c\"> sommaires des demandes "
-"d’accès à l’information complétées</a>."
 
 #: ogc_search/ati/templates/ati_search.html:110
 #: ogc_search/ati/templates/grants_search.html:110
-#, fuzzy
-#| msgid ""
-#| "If you don’t find what you are looking for you can request additional "
-#| "government records under an\n"
-#| "                    institution’s control by contacting the institution’s "
-#| "<a\n"
-#| "                            href=\"http://www.tbs-sct.gc.ca/atip-aiprp/"
-#| "apps/coords/index-eng.ASP\"> Access to Information\n"
-#| "                        and Privacy Coordinator</a>."
 msgid ""
 "If you don’t find what you are looking for you can request additional "
 "government records under an\n"
@@ -168,22 +120,9 @@ msgid ""
 "apps/coords/index-eng.ASP\"> Access to Information\n"
 "                            and Privacy Coordinator</a>."
 msgstr ""
-"Si vous n’arrivez pas à obtenir l’information souhaitée, vous pouvez "
-"demander de consulter d’autres documents du gouvernement en contactant le <a "
-"href=\"http://www.tbs-sct.gc.ca/atip-aiprp/apps/coords/index-fra.asp\"> "
-"coordonnateurde l’accès à l’information et de la protection des "
-"renseignements personnels</a> de l’institution concernée."
 
 #: ogc_search/ati/templates/ati_search.html:115
 #: ogc_search/ati/templates/grants_search.html:115
-#, fuzzy
-#| msgid ""
-#| "Enter keywords (e.g. institution, topic, field of interest, etc.)</"
-#| "strong><br/>\n"
-#| "                    *All information provided will incorporate the "
-#| "necessary exemptions and exclusions as per the <em>Access\n"
-#| "                        to Information Act</em> and the <em>Privacy Act</"
-#| "em>."
 msgid ""
 "Enter keywords (e.g. institution, topic, field of interest, etc.)</"
 "strong><br/>\n"
@@ -192,44 +131,37 @@ msgid ""
 "                            to Information Act</em> and the <em>Privacy Act</"
 "em>."
 msgstr ""
-"Entrez des mots-clés (p. ex. institution, sujet, champ d’intérêt, "
-"etc.)&nbsp;:</strong><br>L’informationfournie comportera les exemptions et "
-"les exclusions obligatoires en vertu de la <em>Loi sur l’accès à "
-"l’information</em> et de la <em>Loi sur la protection des renseignements "
-"personnels</em>."
 
 #: ogc_search/ati/templates/ati_search.html:122
 #: ogc_search/ati/templates/grants_search.html:122
-#, fuzzy
-#| msgid "Completed Access to Information Requests"
 msgid ""
 "Download datasets of the summaries of completed access to information "
 "requests"
-msgstr "Demandes d’accès à l’information complétées"
+msgstr ""
 
 #: ogc_search/ati/templates/ati_search.html:164
 #: ogc_search/ati/templates/grants_search.html:164
 #: ogc_search/open_data/templates/od_search.html:117
 #: ogc_search/open_data/templates/od_search.html:204
 msgid "Show more"
-msgstr ""
+msgstr "Afficher plus"
 
 #: ogc_search/ati/templates/ati_search.html:165
 #: ogc_search/ati/templates/grants_search.html:165
 #: ogc_search/open_data/templates/od_search.html:118
 #: ogc_search/open_data/templates/od_search.html:205
 msgid "Show less"
-msgstr ""
+msgstr "Afficher moins"
 
 #: ogc_search/ati/templates/ati_search.html:173
 #: ogc_search/ati/templates/grants_search.html:173
 msgid "Year"
-msgstr "Année"
+msgstr ""
 
 #: ogc_search/ati/templates/ati_search.html:192
 #: ogc_search/ati/templates/grants_search.html:192
 msgid "Month"
-msgstr "Mois"
+msgstr ""
 
 #: ogc_search/ati/templates/ati_search.html:221
 #: ogc_search/ati/templates/ati_search.html:223
@@ -248,12 +180,11 @@ msgstr "Recherche"
 #: ogc_search/ati/templates/ati_search.html:235
 #: ogc_search/ati/templates/grants_search.html:235
 #: ogc_search/open_data/templates/od_search.html:319
-#, fuzzy, python-format
-#| msgid "Found %(result_num)s record%(result_s)s"
+#, python-format
 msgid ""
 "Found\n"
 "                    %(result_num)s record%(result_s)s"
-msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
+msgstr ""
 
 #: ogc_search/ati/templates/ati_search.html:272
 #: ogc_search/ati/templates/grants_search.html:272
@@ -269,8 +200,8 @@ msgstr ""
 #: ogc_search/ati/templates/ati_search.html:299
 #: ogc_search/ati/templates/grants_search.html:296
 #: ogc_search/ati/templates/grants_search.html:299
-#: ogc_search/open_data/templates/od_search.html:400
-#: ogc_search/open_data/templates/od_search.html:403
+#: ogc_search/open_data/templates/od_search.html:404
+#: ogc_search/open_data/templates/od_search.html:407
 msgid "Previous"
 msgstr "Précédent"
 
@@ -278,8 +209,8 @@ msgstr "Précédent"
 #: ogc_search/ati/templates/ati_search.html:306
 #: ogc_search/ati/templates/grants_search.html:302
 #: ogc_search/ati/templates/grants_search.html:306
-#: ogc_search/open_data/templates/od_search.html:406
 #: ogc_search/open_data/templates/od_search.html:410
+#: ogc_search/open_data/templates/od_search.html:414
 msgid "Go to"
 msgstr "Aller à la page"
 
@@ -287,8 +218,8 @@ msgstr "Aller à la page"
 #: ogc_search/ati/templates/ati_search.html:311
 #: ogc_search/ati/templates/grants_search.html:308
 #: ogc_search/ati/templates/grants_search.html:311
-#: ogc_search/open_data/templates/od_search.html:412
-#: ogc_search/open_data/templates/od_search.html:415
+#: ogc_search/open_data/templates/od_search.html:416
+#: ogc_search/open_data/templates/od_search.html:419
 msgid "Next"
 msgstr "Suivant"
 
@@ -309,7 +240,7 @@ msgid "Jurisdiction"
 msgstr "Juridiction"
 
 #: ogc_search/open_data/templates/od_search.html:189
-#: ogc_search/open_data/templates/od_search.html:383
+#: ogc_search/open_data/templates/od_search.html:384
 msgid "Key Words"
 msgstr "Mots clés"
 
@@ -318,7 +249,7 @@ msgid "Subjects"
 msgstr "Sujets"
 
 #: ogc_search/open_data/templates/od_search.html:235
-#: ogc_search/open_data/templates/od_search.html:380
+#: ogc_search/open_data/templates/od_search.html:381
 msgid "Formats"
 msgstr "Formats"
 
@@ -348,7 +279,6 @@ msgstr "Sélection de la langue"
 
 #: ogc_search/wet/templates/base.html:84 ogc_search/wet/templates/base.html:86
 #: ogc_search/wet/templates/base.html:89
-#| msgid "Search Canada"
 msgid "Search and menus"
 msgstr "Rechercher dans Canada"
 
@@ -411,40 +341,6 @@ msgid ""
 "        </div>\n"
 "    </div>\n"
 msgstr ""
-"\n"
-"<nav role=\"navigation\" class=\"container wb-navcurr\"><h2 class=\"wb-inv"
-"\">Au sujet du gouvernement</h2><ul class=\"list-unstyled colcount-sm-2 "
-"colcount-md-3\"><li><a href=\"https://www.canada.ca/fr/contact.html"
-"\">Contactez-nous</a></li><li><a href=\"https://www.canada.ca/fr/"
-"gouvernement/min.html\">Ministères et organismes</a></li><li><a href="
-"\"https://www.canada.ca/fr/gouvernement/fonctionpublique.html\">Fonction "
-"publique et force militaire</a></li><li><a href=\"https://www.canada.ca/fr/"
-"nouvelles.html\">Nouvelles</a></li><li><a href=\"https://www.canada.ca/fr/"
-"gouvernement/systeme/lois.html\">Traités, lois et règlements</a></li><li><a "
-"href=\"https://www.canada.ca/fr/transparence/rapports.html\">Rapports à "
-"l'échelle du gouvernement</a></li><li><a href=\"http://pm.gc.ca/fra"
-"\">Premier ministre</a></li><li><a href=\"https://www.canada.ca/fr/"
-"gouvernement/systeme.html\">Comment le gouvernement fonctionne</a></"
-"li><li><a href=\"http://ouvert.canada.ca/\">Gouvernement ouvert</a></li></"
-"ul> </nav><div class=\"brand\"><div class=\"container\"><div class=\"row"
-"\"><nav class=\"col-md-9 col-lg-10 ftr-urlt-lnk\"><h2 class=\"wb-inv\">À "
-"propos du site</h2><ul><li><a href=\"https://www.canada.ca/fr/sociaux.html"
-"\">Médias sociaux</a></li><li><a href=\"https://www.canada.ca/fr/mobile.html"
-"\">Applications mobiles</a></li><li><a href=\"https://www1.canada.ca/fr/"
-"nouveausite.html\">À propos de Canada.ca</a></li><li><a href=\"https://www."
-"canada.ca/fr/transparence/avis.html\">Avis</a></li><li><a href=\"https://www."
-"canada.ca/fr/transparence/confidentialite.html\">Confidentialité</a></li></"
-"ul></nav><div class=\"col-xs-6 visible-sm visible-xs tofpg\"><a href=\"#wb-"
-"cont\">Haut de la page <span class=\"glyphicon glyphicon-chevron-up\"></"
-"span></a></div><div class=\"col-xs-6 col-md-3 col-lg-2 text-right\"><img src="
-"\"/static/GCWeb/assets/wmms-blk.svg\" alt=\"Symbole du gouvernement du Canada"
-"\"></div></div></div></div>\n"
 
-#~ msgid "Search Results"
-#~ msgstr "Résultats de la recherche"
-
-#~ msgid "Number of Pages"
-#~ msgstr "Nombre de pages"
-
-#~ msgid "ati/"
-#~ msgstr "ai/"
+msgid "other"
+msgstr "autre"
