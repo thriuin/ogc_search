@@ -299,8 +299,9 @@ function showLess(flist) {
             <section>
 
                 <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
-
-
+                    <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found
+                                {{result_num}} record{{result_s}}{% endblocktrans %}
+                    </p>
                     <div class="input-group">
                         <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
                         <input type="text" name="search_text" class="form-control" id="od-search-input"
@@ -309,16 +310,19 @@ function showLess(flist) {
 
                         <span class="input-group-btn">
                              <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                            <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
-                                    onclick="submitForm()">
-                                <span class="glyphicon glyphicon-search mrgn-rght-sm"></span>
+                             <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                    onclick="submitForm()">{% trans 'Search' %}
                             </button>
                         </span>
+                    </div><div class="input-group">
+                        <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
+                        <select class="form-control" id="sort-by">
+                            <option value="score asc" >{% trans 'Best match' %}</option>
+                            <option value="last_modified_tdt desc" >{% trans 'Newest' %}</option>
+                            <option value="title_en_s asc" >{% trans 'Title' %}</option>
+                        </select>
                     </div>
-                    <div>
-                        <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found
-                    {{result_num}} record{{result_s}}{% endblocktrans %}</p>
-                    </div>
+
                     <div class="input-group hidden">
                         {# Facet fields -- start #}
                         <div class="col-md-1">

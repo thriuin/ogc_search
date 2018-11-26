@@ -624,17 +624,19 @@
 
     <field name="id_name_s" type="text_ws" indexed="true" stored="true"/>
     <field name="owner_org_s" type="text_ws" indexed="true" stored="false"/>
-    <field name="author_s" type="string" indexed="true" stored="false"/>
+    <field name="author_s" type="string" indexed="true" stored="false" sortMissingLast="true" sortMissingFirst="false"/>
     <field name="description_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="description_xlt_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="description_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="description_xlt_txt_fr" type="text_fr" indexed="true" stored="true"/>
 
-    <field name="title_en_s" type="string" indexed="true" stored="true"/>
+    <field name="title_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"/>
     <field name="title_xlt_en_s" type="string" indexed="true" stored="true"/>
-    <field name="title_fr_s" type="string" indexed="true" stored="true"/>
+    <field name="title_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"/>
     <field name="title_xlt_fr_s" type="string" indexed="true" stored="true"/>
     <field name="resource_title_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="resource_title_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="last_modified_tdt" type="tdate" indexed="true" stored="true" multiValued="false"
+           sortMissingLast="true" sortMissingFirst="false"/>
 
 </schema>

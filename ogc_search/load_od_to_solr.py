@@ -1,3 +1,4 @@
+
 from django.conf import settings
 import os
 import pysolr
@@ -64,6 +65,7 @@ with open(sys.argv[1], 'r') as j:
         resource_fmt = []
         resource_title_en = []
         resource_title_fr = []
+
         for r in o['resources']:
             resource_type_en.append(
                 controlled_lists['resource_type']['en'][r['resource_type']]
@@ -110,7 +112,8 @@ with open(sys.argv[1], 'r') as j:
             'title_xlt_fr_s': o['title_translated']['en-t-fr'] if 'en-t-fr' in o['title_translated'] else '',
             'resource_format_s': list(set(resource_fmt)),
             'resource_title_en_s': resource_title_en,
-            'resource_title_fr_s': resource_title_fr
+            'resource_title_fr_s': resource_title_fr,
+            'last_modified_tdt': o['metadata_modified'] + 'Z'
         }
         if 'en' in o['keywords']:
             od_obj['keywords_en_s'] = o['keywords']['en']
