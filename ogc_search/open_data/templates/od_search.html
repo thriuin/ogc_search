@@ -32,6 +32,17 @@ function select_facet(selected_item, accumulator) {
     $('#page').value = '1';
     $('#search_form').submit();
 }
+function clear_facets() {
+ cbs = $( "input:checked" );
+ cbs.each(function(i) {
+    this['checked'] = false;
+    });
+ tbs = $( "input:text" );
+ tbs.each(function(i) {
+    this['value'] = '';
+    });
+ submitForm();
+}
 function gotoPage(page_no) {
     $('#page').val(page_no);
     $('#search_form').submit();
@@ -81,6 +92,7 @@ function showLess(flist) {
         <div class="col-md-4">
             {% block main-content-sidebar %}
             <aside>
+                <a onclick="clear_facets();" href="#">Clear all choices</a>
                 {# Organizations Facet #}
                 <div>
                     <details class="panel" {% if organizations_selected|length > 0 %}open{% endif %}>
@@ -297,67 +309,70 @@ function showLess(flist) {
         <div class="col-md-8">
             {% block main-content-content %}
             <section>
-
                 <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
-                    <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found
-                                {{result_num}} record{{result_s}}{% endblocktrans %}
-                    </p>
-                    <div class="input-group">
-                        <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
-                        <input type="text" name="search_text" class="form-control" id="od-search-input"
-                               value="{{ search_text }}" placeholder="{% trans 'Search' %}"
-                               onkeypress="submitFormOnEnter(event)" />
+                    <div class="row">
+                        <div class="col-md-9">
+                        <div class="input-group">
+                            <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                            <input type="text" name="search_text" class="form-control" id="od-search-input"
+                                   value="{{ search_text }}" placeholder="{% trans 'Search' %}"
+                                   onkeypress="submitFormOnEnter(event)" />
 
-                        <span class="input-group-btn">
-                             <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                             <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
-                                    onclick="submitForm()">{% trans 'Search' %}
-                            </button>
-                        </span>
-                    </div><div class="input-group">
-                        <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
-                        <select class="form-control" id="sort-by">
-                            <option value="score asc" >{% trans 'Best match' %}</option>
-                            <option value="last_modified_tdt desc" >{% trans 'Newest' %}</option>
-                            <option value="title_en_s asc" >{% trans 'Title' %}</option>
-                        </select>
-                    </div>
+                            <span class="input-group-btn">
+                                 <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                                 <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                        onclick="submitForm()">{% trans 'Search' %}
+                                </button>
+                            </span>
+                        </div>
 
-                    <div class="input-group hidden">
-                        {# Facet fields -- start #}
-                        <div class="col-md-1">
-                            <input type="text" name="search_portal" class="form-control" id="od-search-portal"
-                                   value="{{portal_selected}}">
-                            <input type="text" name="search_collection" class="form-control" id="od-search-col"
-                                   value="{{col_selected}}">
-                            <input type="text" name="search_jur" class="form-control" id="od-search-jur"
-                                   value="{{jur_selected}}">
-                            <input type="text" name="search_orgs" class="form-control" id="od-search-orgs"
-                                   value="{{organizations_selected}}">
-                            <input type="text" name="search_keywords" class="form-control" id="od-search-keywords"
-                                   value="{{keyw_selected}}">
-                            <input type="text" name="search_subject" class="form-control" id="od-search-subjects"
-                                   value="{{subject_selected}}">
-                            <input type="text" name="search_format" class="form-control" id="od-search-format"
-                                   value="{{format_selected}}">
-                            <input type="text" name="search_rsct" class="form-control" id="od-search-rsct"
-                                   value="{{rsct_selected}}">
-                            <input type="text" name="search_update" class="form-control" id="od-search-update"
-                                   value="{{update_selected}}">
                         </div>
-                        {# Facet fields -- end #}
+                        <div class="input-group col-md-3">
+                            <select class="form-control" name="sort" id="sort-by" value="{{sortby}}" onchange="submitForm();">
+                                <option value="score asc" {% if sortby == "score asc" %}selected="selected"{% endif %}
+                                    >{% trans 'Best match' %}</option>
+                                <option value="last_modified_tdt desc" {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
+                                    >{% trans 'Newest' %}</option>
+                                <option value="title_en_s asc" {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
+                                    >{% trans 'Title' %}</option>
+                            </select>
+                        </div>
 
-                        <div class="col-md-1">
-                            <input type="text" name="page" class="form-control" id="page"
-                                   value="{{currentpage}}">
+                        <div class="input-group hidden">
+                            {# Facet fields -- start #}
+                            <div class="col-md-1">
+                                <input type="text" name="search_portal" class="form-control" id="od-search-portal"
+                                       value="{{portal_selected}}">
+                                <input type="text" name="search_collection" class="form-control" id="od-search-col"
+                                       value="{{col_selected}}">
+                                <input type="text" name="search_jur" class="form-control" id="od-search-jur"
+                                       value="{{jur_selected}}">
+                                <input type="text" name="search_orgs" class="form-control" id="od-search-orgs"
+                                       value="{{organizations_selected}}">
+                                <input type="text" name="search_keywords" class="form-control" id="od-search-keywords"
+                                       value="{{keyw_selected}}">
+                                <input type="text" name="search_subject" class="form-control" id="od-search-subjects"
+                                       value="{{subject_selected}}">
+                                <input type="text" name="search_format" class="form-control" id="od-search-format"
+                                       value="{{format_selected}}">
+                                <input type="text" name="search_rsct" class="form-control" id="od-search-rsct"
+                                       value="{{rsct_selected}}">
+                                <input type="text" name="search_update" class="form-control" id="od-search-update"
+                                       value="{{update_selected}}">
+                                {# Facet fields -- end #}
+                                <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
+                                <input type="text" name="orgs_expanded" class="form-control" id="orgs-expanded"
+                                       value="{{orgs_expanded}}">
+                                <input type="text" name="lang" class="form-control" id="lang"
+                                       value="{{LANGUAGE_CODE}}">
+                            </div>
                         </div>
-                        <div class="col-md-1">
-                            <input type="text" name="orgs_expanded" class="form-control" id="orgs-expanded"
-                                   value="{{orgs_expanded}}">
+                        <div class="col-md-9">
+                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found
+                                {{result_num}} record{{result_s}}{% endblocktrans %}</p>
                         </div>
-                        <div class="col-md-1">
-                            <input type="text" name="lang" class="form-control" id="lang"
-                                   value="{{LANGUAGE_CODE}}">
+                        <div class="col-md-3">
+                            <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
                         </div>
                     </div>
                 </form>

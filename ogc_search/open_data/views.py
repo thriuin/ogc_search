@@ -11,7 +11,7 @@ import pysolr
 
 logger = logging.getLogger(__name__)
 
-def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search_text=''):
+def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search_text='', sort_order='score asc'):
     solr = pysolr.Solr('http://127.0.0.1:8983/solr/core_od_search')
     solr_facets = []
     if language == 'fr':
@@ -51,6 +51,7 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search
         'hl.simple.pre': '<mark class="highlight">',
         'hl.simple.post': '</mark>',
         'hl.method': 'unified',
+        'sort': sort_order
     }
     if language == 'fr':
         extras['hl.fl'] = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr']
@@ -203,6 +204,12 @@ class ODSearchView(View):
             page = 10000
         start_row = 10 * (page - 1)
 
+        # Set Sort order
+        solr_search_sort = request.GET.get('sort', 'score')
+        if not solr_search_sort in ['score asc', 'last_modified_tdt desc', 'title_en_s asc']:
+            solr_search_sort = 'score asc'
+        context['sortby'] = solr_search_sort
+
         # Search Solr and return results and facets
 
         if request.LANGUAGE_CODE == 'fr':
@@ -229,7 +236,8 @@ class ODSearchView(View):
             query_terms = ('_text_en_:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
 
         search_results = _query_solr(query_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
-                                     language=request.LANGUAGE_CODE , search_text=search_text)
+                                     language=request.LANGUAGE_CODE , search_text=search_text,
+                                     sort_order=solr_search_sort)
 
         if request.LANGUAGE_CODE == 'fr':
             context['portal_facets'] = _convert_facet_list_to_dict(
