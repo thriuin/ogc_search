@@ -92,7 +92,13 @@ function showLess(flist) {
         <div class="col-md-4">
             {% block main-content-sidebar %}
             <aside>
-                <a onclick="clear_facets();" href="#">Clear all choices</a>
+                <div>
+                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}" class="btn btn-info mrgn-bttm-md">
+                            {% trans 'Suggest a Dataset'%}</a>
+                </div>
+                <div>
+                    <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md">{% trans 'Clear all choices' %}</a>
+                </div>
                 {# Organizations Facet #}
                 <div>
                     <details class="panel" {% if organizations_selected|length > 0 %}open{% endif %}>
@@ -329,7 +335,7 @@ function showLess(flist) {
                         </div>
                         <div class="input-group col-md-3">
                             <select class="form-control" name="sort" id="sort-by" value="{{sortby}}" onchange="submitForm();">
-                                <option value="score asc" {% if sortby == "score asc" %}selected="selected"{% endif %}
+                                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
                                 <option value="last_modified_tdt desc" {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
                                     >{% trans 'Newest' %}</option>

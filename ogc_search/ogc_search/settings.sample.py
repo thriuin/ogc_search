@@ -137,3 +137,8 @@ STATICFILES_DIRS = [
 
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
 
+OPEN_DATA_EN_URL_BASE = "https://open.canada.ca/data/en/dataset/"
+
+OPEN_DATA_FR_URL_BASE = "https://ouvert.canada.ca/data/fr/dataset/"
+
+SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'

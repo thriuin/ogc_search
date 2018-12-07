@@ -80,9 +80,9 @@ with open(sys.argv[1], 'r') as j:
             elif 'fr-t-en'in r['name_translated']:
                 resource_title_en.append(r['name_translated']['fr-t-en'])
             if 'fr' in r['name_translated']:
-                resource_title_fr.append(r['name_translated']['fr'])
+                resource_title_fr.append(r['name_translated']['fr'].strip())
             elif 'en-t-fr' in r['name_translated']:
-                resource_title_fr.append(r['name_translated']['en-t-fr'])
+                resource_title_fr.append(r['name_translated']['en-t-fr'].strip())
 
         od_obj = {
             'portal_type_en_s': controlled_lists['type']['en'][o['type']],
@@ -101,13 +101,13 @@ with open(sys.argv[1], 'r') as j:
             'update_cycle_fr_s': controlled_lists['frequency']['fr'][o['frequency']],
             'id_name_s': o['name'],
             'owner_org_s': o['organization']['name'],
-            'author_s': '' if o['author'] is None else o['author'],
+            'author_txt': '' if o['author'] is None else o['author'],
             'description_txt_en': o['notes_translated']['en'] if 'en' in o['notes_translated'] else '',
             'description_txt_fr': o['notes_translated']['fr'] if 'fr' in o['notes_translated'] else '',
             'description_xlt_txt_en': o['notes_translated']['fr-t-en'] if 'fr-t-en' in o['notes_translated'] else '',
             'description_xlt_txt_fr': o['notes_translated']['en-t-fr'] if 'en-t-f-r' in o['notes_translated'] else '',
-            'title_en_s': o['title_translated']['en'] if 'en' in o['title_translated'] else '',
-            'title_fr_s': o['title_translated']['fr'] if 'fr' in o['title_translated'] else '',
+            'title_en_s': str(o['title_translated']['en']).strip() if 'en' in o['title_translated'] else '',
+            'title_fr_s': str(o['title_translated']['fr']).strip() if 'fr' in o['title_translated'] else '',
             'title_xlt_en_s': o['title_translated']['fr-t-en'] if 'fr-t-en' in o['title_translated'] else '',
             'title_xlt_fr_s': o['title_translated']['en-t-fr'] if 'en-t-fr' in o['title_translated'] else '',
             'resource_format_s': list(set(resource_fmt)),

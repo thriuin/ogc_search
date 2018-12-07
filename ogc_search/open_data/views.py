@@ -1,20 +1,27 @@
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
-from django.utils import translation
 from django.views.generic import View
 import logging
 from math import floor, ceil
 from operator import itemgetter
 import os
 import pysolr
+import re
+import shlex
 
 logger = logging.getLogger(__name__)
 
+
 def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search_text='', sort_order='score asc'):
-    solr = pysolr.Solr('http://127.0.0.1:8983/solr/core_od_search')
+    solr = pysolr.Solr(settings.SOLR_URL)
     solr_facets = []
+
     if language == 'fr':
+        solr_fields = ("portal_type_fr_s,collection_type_fr_s,jurisdiction_fr_s,owner_org_title_fr_s,"
+                       "owner_org_title_txt_fr,subject_fr_s,resource_type_fr_s,update_cycle_fr_s,"
+                       "description_txt_fr,title_fr_s,title_txt_fr,resource_title_fr_s,resource_title_txt_fr,"
+                       "keywords_fr_s,keywords_txt_fr,id,_version_,last_modified_tdt,resource_format_s,id_name_s")
         solr_facet_fields = ['{!ex=tag_portal_type_fr_s}portal_type_fr_s',
                              '{!ex=tag_collection_type_fr_s}collection_type_fr_s',
                              '{!ex=tag_jurisdiction_fr_s}jurisdiction_fr_s',
@@ -24,7 +31,17 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search
                              '{!ex=tag_resource_format_s}resource_format_s',
                              '{!ex=tag_resource_type_fr_s}resource_type_fr_s',
                              '{!ex=tag_update_cycle_fr_s}update_cycle_fr_s']
+        solr_facet_limits = {'f.keywords_fr_s.facet.limit': 250,
+                             'f.keywords_fr_s.facet.sort': 'count'}
+        solr_hl_fields = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr']
+        solr_query_fields = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4', 'title_txt_fr^5',
+                             'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5']
+        solr_phrase_fields = ['description_txt_fr~3^10', 'title_txt_fr~3^10']
     else:
+        solr_fields = ("portal_type_en_s,collection_type_en_s,jurisdiction_en_s,owner_org_title_en_s,"
+                       "owner_org_title_txt_en,subject_en_s,resource_type_en_s,update_cycle_en_s,description_txt_en,"
+                       "title_en_s,title_txt_en,resource_title_en_s,resource_title_txt_en,keywords_en_s,"
+                       "keywords_txt_en,id,_version_,last_modified_tdt,resource_format_s,id_name_s")
         solr_facet_fields = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
                              '{!ex=tag_collection_type_en_s}collection_type_en_s',
                              '{!ex=tag_jurisdiction_en_s}jurisdiction_en_s',
@@ -34,6 +51,12 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search
                              '{!ex=tag_resource_format_s}resource_format_s',
                              '{!ex=tag_resource_type_en_s}resource_type_en_s',
                              '{!ex=tag_update_cycle_en_s}update_cycle_en_s']
+        solr_facet_limits = {'f.keywords_en_s.facet.limit': 250,
+                             'f.keywords_en_s.facet.sort': 'count'}
+        solr_hl_fields = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en']
+        solr_query_fields = ['owner_org_title_txt_en^2', 'description_txt_en^3', 'keywords_txt_en^4', 'title_txt_en^5',
+                             'author_txt^2', 'resource_title_txt_en^3', '_text_en_^0.5']
+        solr_phrase_fields = ['description_txt_en~3^10', 'title_txt_en~3^10']
     for facet in facets.keys():
         if facets[facet] != '':
             facet_terms = facets[facet].split(',')
@@ -47,21 +70,23 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search
         'facet.sort': 'index',
         'facet.field': solr_facet_fields,
         'fq': solr_facets,
-        'hl': 'on',
-        'hl.simple.pre': '<mark class="highlight">',
-        'hl.simple.post': '</mark>',
-        'hl.method': 'unified',
-        'sort': sort_order
+        'fl': solr_fields,
+        'defType': 'edismax',
+        'qf': solr_query_fields,
     }
-    if language == 'fr':
-        extras['hl.fl'] = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr']
-        extras['f.keywords_fr_s.facet.limit'] = 250
-        extras['f.keywords_fr_s.facet.sort'] = 'count'
-    else:
-        extras['hl.fl'] = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en']
-        extras['f.keywords_en_s.facet.limit'] = 250
-        extras['f.keywords_en_s.facet.sort'] = 'count'
-    extras['hl.preserveMulti'] = 'true'
+    extras.update(solr_facet_limits)
+    if q != '*':
+        extras.update({
+            'hl': 'on',
+            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.post': '</mark>',
+            'hl.method': 'unified',
+            'hl.snippets': 10,
+            'hl.fl': solr_hl_fields,
+            'sort': sort_order,
+            'hl.preserveMulti': 'true',
+            'pf': solr_phrase_fields
+        })
 
     sr = solr.search(q, **extras)
     print('Solr Query: Terms {0}, Extras {1}'.format(q, extras))
@@ -74,17 +99,16 @@ def _query_solr(q, startrow='0', pagesize='10', facets={}, language='en', search
             for hl_fld_id in hl_entry:
                 if hl_fld_id in doc and len(hl_entry[hl_fld_id]) > 0:
                     if type(doc[hl_fld_id]) is list:
-                        # Multi-valued Solr field
+                        # Scan Multi-valued Solr fields for matching highlight fields
                         for y in hl_entry[hl_fld_id]:
-                            w = y[24:]
-                            z = w[:-7]
+                            y_filtered = re.sub('</mark>', '', re.sub(r'<mark class="highlight">', "", y))
                             x = 0
-                            for zz in doc[hl_fld_id]:
-                                if zz == z:
+                            for hl_fld_txt in doc[hl_fld_id]:
+                                if hl_fld_txt == y_filtered:
                                     doc[hl_fld_id][x] = y
                                 x += 1
                     else:
-                        # Straight forward string replacement
+                        # Straight-forward field replacement with highlighted text
                         doc[hl_fld_id] = hl_entry[hl_fld_id][0]
     return sr
 
@@ -154,8 +178,14 @@ class ODSearchView(View):
     def get(self, request):
 
         search_text = str(request.GET.get('search_text', ''))
-        search_terms = search_text.split()
-        solr_search_terms = "+".join(search_terms)
+        # Respect quoted strings
+        search_terms = shlex.split(search_text)
+        if len(search_terms) == 0:
+            solr_search_terms = "*"
+        elif len(search_terms) == 1:
+            solr_search_terms = '"{0}"'.format(search_terms)
+        else:
+            solr_search_terms = ' '.join(search_terms)
         solr_search_portal = request.GET.get('search_portal', '')
         solr_search_col = request.GET.get('search_collection', '')
         solr_search_jur = request.GET.get('search_jur', '')
@@ -165,11 +195,6 @@ class ODSearchView(View):
         solr_search_fmts = request.GET.get('search_format', '')
         solr_search_rsct = request.GET.get('search_rsct', '')
         solr_search_updc = request.GET.get('search_update', '')
-        # Only en and fr are accepted - anything results in en
-        #requested_lang = translation.get_language()
-        #page_lang = requested_lang if requested_lang in ['en', 'fr'] else 'en'
-
-        #translation.activate(page_lang)
 
         context = dict(search_text=search_text,
                        portal_selected_list=str(solr_search_portal).split(','),
@@ -206,8 +231,8 @@ class ODSearchView(View):
 
         # Set Sort order
         solr_search_sort = request.GET.get('sort', 'score')
-        if not solr_search_sort in ['score asc', 'last_modified_tdt desc', 'title_en_s asc']:
-            solr_search_sort = 'score asc'
+        if not solr_search_sort in ['score desc', 'last_modified_tdt desc', 'title_en_s asc']:
+            solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 
         # Search Solr and return results and facets
@@ -222,7 +247,7 @@ class ODSearchView(View):
                                resource_format_s=context['format_selected'],
                                resource_type_fr_s=context['rsct_selected'],
                                update_cycle_fr_s=context['update_selected'])
-            query_terms = ('_text_fr_:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
+            query_terms = ('_text_fr_:{}'.format(solr_search_terms) if solr_search_terms != '*' else '*')
         else:
             facets_dict = dict(portal_type_en_s=context['portal_selected'],
                                collection_type_en_s=context['col_selected'],
@@ -233,9 +258,9 @@ class ODSearchView(View):
                                resource_format_s=context['format_selected'],
                                resource_type_en_s=context['rsct_selected'],
                                update_cycle_en_s=context['update_selected'])
-            query_terms = ('_text_en_:{}'.format(solr_search_terms) if solr_search_terms != '' else '*')
+            #query_terms = ('_text_en_:{}'.format(solr_search_terms) if solr_search_terms != '*' else '*')
 
-        search_results = _query_solr(query_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
+        search_results = _query_solr(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
                                      language=request.LANGUAGE_CODE , search_text=search_text,
                                      sort_order=solr_search_sort)
 
