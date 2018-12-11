@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base-cdts.html" %}
 {% load i18n %}
 {% load static %}
 {% load humanize %}
@@ -56,22 +56,6 @@ function submitFormOnEnter(e) {
         submitForm();
     }
 }
-function showMore(flist) {
-    $('#' + flist).find('li:hidden').css( "display", "" );
-    $('#' + flist + '-morethanless').css( "display", "none" );
-    $('#' + flist + '-lessthanmore').css( "display", "" );
-}
-function showLess(flist) {
-    var lis = $('#' + flist).find('li')
-    var i;
-    if (lis.length > 10) {
-        for(i = 10; i < lis.length; i++) {
-            lis[i].style["display"] = "none";
-        }
-    }
-    $('#' + flist + '-morethanless').css( "display", "" );
-    $('#' + flist + '-lessthanmore').css( "display", "none" );
-}
 
 </script>
 {% endblock custom_page_javascript %}
@@ -107,37 +91,32 @@ function showLess(flist) {
                         </summary>
                         <ul class="list-group" id="org-list">
 
-                            {% if LANGUAGE_CODE == 'fr' %}
+                        {% if LANGUAGE_CODE == 'fr' %}
 
                             {% for k, v in org_facets_fr.items %}
                             {% if v > 0 %}
-                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}"
-                                {% if forloop.counter > 10 %} style="display: none;"{% endif %}>
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}>
-                                       {{ k }} ({{ v }})</label></div>
+                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
                             </li>
                             {% endif %}
-
                             {% endfor %}
-                            {% else %}
+                        {% else %}
                             {% for k, v in org_facets_en.items %}
                             {% if v > 0 %}
-                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}"
-                                {% if forloop.counter > 10 %} style="display: none;"{% endif %}>
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}">
-                                       {{ k }} ({{ v }})</label></div>
+                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
                             </li>
                             {% endif %}
                             {% endfor %}
-                            <li id="org-list-morethanless" class="list-group-item"><a onclick="showMore('org-list')" href="#">{% trans 'Show more' %}</a></li>
-                            <li id="org-list-lessthanmore" class="list-group-item"><a onclick="showLess('org-list')" href="#">{% trans 'Show less' %}</a></li>
-                            {% endif %}
+                        {% endif %}
                         </ul>
                     </details>
                 </div>
@@ -149,14 +128,16 @@ function showLess(flist) {
                         </summary>
                         <ul class="list-group">
                             {% for k, v in portal_facets.items %}
+                            {% if v > 0 %}
                             <li class="list-group-item{% if k in portal_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                              {% if k in portal_selected_list %} checked="checked"{% endif %}
                                              onclick="select_facet('{{ k }}', 'od-search-portal')"
-                                                                                     value="{{ k }}"> {{ k }}
-                                        ({{ v }})</label></div>
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
                             </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </details>
@@ -170,14 +151,17 @@ function showLess(flist) {
 
                         <ul class="list-group">
                             {% for k, v in collection_facets.items %}
+                            {% if v > 0 %}
                             <li class="list-group-item{% if k in col_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="month{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-col')"
-                                    {% if k in col_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                    {% if k in col_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
                                 </div>
                             </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </details>
@@ -191,14 +175,17 @@ function showLess(flist) {
 
                         <ul class="list-group">
                             {% for k, v in jurisdiction_facets.items %}
+                            {% if v > 0 %}
                             <li class="list-group-item{% if k in jur_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="jur{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-jur')"
-                                    {% if k in jur_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                    {% if k in jur_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
                                 </div>
                             </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </details>
@@ -212,19 +199,18 @@ function showLess(flist) {
 
                         <ul class="list-group" id="key-list">
                             {% for k, v in keyword_facets.items %}
-                            <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}"
-                                {% if forloop.counter > 10 %} style="display: none;"{% endif %}>
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="keyw{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-keywords')"
-                                    {% if k in keyw_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                    {% if k in keyw_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
                                 </div>
                             </li>
+                            {% endif %}
                             {% endfor %}
-                            <li id="key-list-morethanless" class="list-group-item"><a onclick="showMore('key-list')" href="#">{% trans 'Show more' %}</a></li>
-                            <li id="key-list-lessthanmore" class="list-group-item"><a onclick="showLess('key-list')" href="#">{% trans 'Show less' %}</a></li>
-
                         </ul>
                     </details>
                 </div>
@@ -237,14 +223,17 @@ function showLess(flist) {
 
                         <ul class="list-group">
                             {% for k, v in subject_facets.items %}
+                            {% if v > 0 %}
                             <li class="list-group-item{% if k in subject_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="subject{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-subjects')"
-                                    {% if k in subject_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                    {% if k in subject_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
                                 </div>
                             </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </details>
@@ -258,14 +247,17 @@ function showLess(flist) {
 
                         <ul class="list-group">
                             {% for k, v in format_facets.items %}
+                            {% if v > 0 %}
                             <li class="list-group-item{% if k in format_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="format{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-format')"
-                                    {% if k in format_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                    {% if k in format_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
                                 </div>
                             </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </details>
@@ -279,14 +271,17 @@ function showLess(flist) {
 
                         <ul class="list-group">
                             {% for k, v in type_facets.items %}
+                            {% if v > 0 %}
                             <li class="list-group-item{% if k in rsct_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="rsct{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-rsct')"
-                                    {% if k in rsct_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                    {% if k in rsct_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
                                 </div>
                             </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </details>
@@ -300,14 +295,17 @@ function showLess(flist) {
 
                         <ul class="list-group">
                             {% for k, v in frequency_facets.items %}
+                            {% if v > 0 %}
                             <li class="list-group-item{% if k in update_selected_list %} active{% endif %}">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="freq{{ k }}"
                                     onclick="select_facet('{{ k }}', 'od-search-update')"
-                                    {% if k in update_selected_list %} checked{% endif %}>{{ k }} ({{ v}})</label>
+                                    {% if k in update_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
                                 </div>
                             </li>
+                            {% endif %}
                             {% endfor %}
                         </ul>
                     </details>
@@ -465,21 +463,5 @@ function showLess(flist) {
 {% block custom-jquery %}
 <script type="text/javascript">
 
-{% if organizations_selected_list|length > 0 %}
-
-showMore('org-list')
-$( document ).ready(function() {
-  $('#org-list-morethanless').css( "display", "none" );
-});
-
-{% endif %}
-{% if keyw_selected_list|length > 0 %}
-
-showMore('key-list')
-$( document ).ready(function() {
-  $('#key-list-morethanless').css( "display", "none" );
-});
-
-{% endif %}
 </script>
 {% endblock %}

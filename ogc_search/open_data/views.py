@@ -140,7 +140,7 @@ class ODSearchView(View):
             'ps': 10,
             'mm': '3<70%',
             'bq': 'last_modified_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
-            #'pf2': self.solr_bigram_fields_en,
+            'pf2': self.solr_bigram_fields_en,
             'pf3': self.solr_bigram_fields_en
         }
         self.phrase_xtras_fr = {
@@ -152,11 +152,12 @@ class ODSearchView(View):
             'hl.fl': self.solr_hl_fields_fr,
             'hl.preserveMulti': 'true',
             'pf': self.solr_phrase_fields_fr,
-            'ps': 8,
-            'mm': '2<50%',
+            'ps': 10,
+            'mm': '3<70%',
             'bq': 'last_modified_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
             'pf2': self.solr_bigram_fields_fr,
         }
+
 
     def _query_solr(self, q, startrow='0', pagesize='10', facets={}, language='en', search_text='', sort_order='score asc'):
         solr = pysolr.Solr(settings.SOLR_URL)
