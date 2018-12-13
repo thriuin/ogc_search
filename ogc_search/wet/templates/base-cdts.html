@@ -13,67 +13,66 @@
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <!-- Meta data -->
     <meta name="description"
-          content="Web Experience Toolkit (WET) includes reusable components for building and maintaining innovative Web sites that are accessible, usable, and interoperable. These reusable components are open source software and free for use by departments and external Web communities">
-		<!-- Meta data-->
-		<!-- Load closure template scripts -->
+          content="">
+        <!-- Meta data-->
+        <!-- Load closure template scripts -->
 
-		<script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/compiled/soyutils.js"></script>
-		<script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/compiled/wet-en.js"></script>
+        <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/compiled/soyutils.js"></script>
+        <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/compiled/wet-en.js"></script>
 
-		<noscript>
-			<!-- Write closure fall-back static file -->
-			<!-- /ROOT/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/static/refTop.html -->
-					<!--[if gte IE 9 | !IE ]><!-->
-		<link href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/assets/favicon.ico" rel="icon" type="image/x-icon">
-		<link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/css/theme.min.css">
-		<link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/cdtsfixes.css">
-		<!-- Are you using the application templates? If so add the following CSS file -->
-		<!-- <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/cdtsapps.css">-->
-		<!--<![endif]-->
-		<!--[if lt IE 9]>
-		<link href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/assets/favicon.ico" rel="shortcut icon" />
-		<link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/css/ie8-theme.min.css" />
-		<![endif]-->
-		<!--[if lte IE 9]><![endif]-->
-		<link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/css/noscript.min.css" />
-		<link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/cdtsnoscript.css" />
-		</noscript>
-		<!-- Write closure template -->
-		<script>
-			document.write(wet.builder.refTop({
-
-			}));
-		</script>
+        <noscript>
+            <!-- Write closure fall-back static file -->
+            <!-- {% static 'refTop.html' %}-->
+                    <!--[if gte IE 9 | !IE ]><!-->
+        <link href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/assets/favicon.ico" rel="icon" type="image/x-icon">
+        <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/css/theme.min.css">
+        <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/cdtsfixes.css">
+        <!-- Are you using the application templates? If so add the following CSS file -->
+        <!-- <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/cdtsapps.css">-->
+        <!--<![endif]-->
+        <!--[if lt IE 9]>
+        <link href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/assets/favicon.ico" rel="shortcut icon" />
+        <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/css/ie8-theme.min.css" />
+        <![endif]-->
+        <!--[if lte IE 9]><![endif]-->
+        <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/css/noscript.min.css" />
+        <link rel="stylesheet" href="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/cdtsnoscript.css" />
+        </noscript>
+        <!-- Write closure template -->
+        <script>
+            document.write(wet.builder.refTop({
+            }));
+        </script>
         {% block custom_page_javascript %}{% endblock custom_page_javascript %}
         <style>
             mark.highlight {background-color: yellow;font-weight: bold;}
         </style>
 </head>
 <body class="home" vocab="http://schema.org/" typeof="WebPage">
-		<div id="def-top">
-			<!-- Write closure fall-back static file -->
-			<!-- /ROOT/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/static/top-en.html -->
-            <ul id="wb-tphp">
-			<li class="wb-slc"><a class="wb-sl" href="#wb-cont">Skip to main content</a></li>
-			<li class="wb-slc visible-sm visible-md visible-lg"><a class="wb-sl" href="#wb-info">Skip to "About this site"</a></li>
-		</ul>
-<header role="banner">
-            <section id="wb-lng" class="visible-md visible-lg text-right">
-            <h2 class="wb-inv">{% trans 'Language selection' %}</h2>
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="list-inline margin-bottom-none">
-                        <li><a lang="fr" href="{% block language_switch_url %}/{{ LANGUAGE_CODE }}{% endblock language_switch_url %}">{{ LANGUAGE_CODE | SwapLangName }}</a></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
- 			<div id="wb-bnr" class="container">
+    <div id="def-top">
+		<!-- Write closure fall-back static file -->
+		<!-- {% static 'top-en.html' %} -->
+        <ul id="wb-tphp">
+            <li class="wb-slc"><a class="wb-sl" href="#wb-cont">Skip to main content</a></li>
+            <li class="wb-slc visible-sm visible-md visible-lg"><a class="wb-sl" href="#wb-info">Skip to "About this site"</a></li>
+        </ul>
+		<header role="banner">
+			<section id="wb-lng" class="visible-md visible-lg text-right">
+				<h2 class="wb-inv">{% trans 'Language selection' %}</h2>
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="list-inline margin-bottom-none">
+							<li><a lang="{{ LANGUAGE_CODE | SwapLangCode }}" href="{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}{% endblock language_switch_url %}">{{ LANGUAGE_CODE | SwapLangName }}</a></li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<div id="wb-bnr" class="container">
 				<div class="row">
 					<div class="brand col-xs-8 col-sm-9 col-md-6">
 						<a href="https://www.canada.ca/en.html"><img src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/assets/sig-blk-en.svg" alt="" /><span class="wb-inv"> Government of Canada / <span lang="fr">Gouvernement du Canada</span></span></a>
 					</div>
-                    {% block canada_ca_search %}
+
 					<section class="wb-mb-links col-xs-4 col-sm-3 visible-sm visible-xs" id="wb-glb-mn">
 						<h2>Search and menus</h2>
 						<ul class="list-inline text-right chvrn">
@@ -104,7 +103,6 @@
 							</div>
 						</form>
 					</section>
-                    {% endblock canada_ca_search %}
 				</div>
 			</div>
 			<nav role="navigation" id="wb-sm" class="wb-menu visible-md visible-lg" typeof="SiteNavigationElement">
@@ -124,80 +122,102 @@
 					</div>
 				</div>
 			</nav>
-</header>
-		</div>
-		<!-- Write closure template -->
-		<script>
-			var defTop = document.getElementById("def-top");
-			defTop.outerHTML = wet.builder.top({
-
-				"lngLinks": [{
-					"lang": "fr",
-					"href": "content-fr.shtml",
-					"text": "Français"
-				}]
-			});
-		</script>
+		</header>
+        </div>
+        <!-- Write closure template -->
+        <script>
+            var defTop = document.getElementById("def-top");
+            defTop.outerHTML = wet.builder.top({
+            {% block top-settings %}
+            {% endblock %}
+            });
+        </script>
 <main role="main" property="mainContentOfPage" class="container">
     {% block main-content %}{% endblock %}
+    {% block pre-footer %}
+    <div id="def-preFooter">
+        <!-- Write closure fall-back static file -->
+        <!-- /ROOT/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/static/preFooter-en.html -->
+        <div class="pagedetails">
+        <dl id="wb-dtmd">
+            <dt>Date modified:&#32;</dt>
+            <dd><time property="dateModified">2017-08-24</time></dd>
+        </dl>
+        <div class="row">
+            <div class="col-sm-6 col-md-5 col-lg-4">
+                <a href="https://www.canada.ca/en/report-problem.html" class="btn btn-default btn-block">Report a problem on this page</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Write closure template -->
+    <script>
+        var defPreFooter = document.getElementById("def-preFooter");
+        defPreFooter.outerHTML = wet.builder.preFooter({
+        {% block pre-footer-settings %}
+        {% endblock %}
+        });
+	</script>
+    {% endblock %}
 </main>
 
+{% block footer %}
+<div id="def-footer">
+    <!-- Write closure fall-back static file -->
+    <!-- {% static 'footer-en.html' %} -->
+    <footer role="contentinfo" id="wb-info">
+    <nav role="navigation" class="container wb-navcurr">
+        <h2 class="wb-inv">About government</h2>
+        <ul class="list-unstyled colcount-sm-2 colcount-md-3">
+            <li><a href="https://www.canada.ca/en/contact.html">Contact us</a></li>
+            <li><a href="https://www.canada.ca/en/government/dept.html">Departments and agencies</a></li>
+            <li><a href="https://www.canada.ca/en/government/publicservice.html">Public service and military</a></li>
+            <li><a href="https://www.canada.ca/en/news.html">News</a></li>
+            <li><a href="https://www.canada.ca/en/government/system/laws.html">Treaties, laws and regulations</a></li>
+            <li><a href="https://www.canada.ca/en/transparency/reporting.html">Government-wide reporting</a></li>
+            <li><a href="http://pm.gc.ca/eng">Prime Minister</a></li>
+            <li><a href="https://www.canada.ca/en/government/system.html">How government works</a></li>
+            <li><a href="http://open.canada.ca/en/">Open government</a></li>
+        </ul>
+    </nav>
+    <div class="brand">
+        <div class="container">
+            <div class="row">
+                <nav class="col-md-10 ftr-urlt-lnk">
+                    <h2 class="wb-inv">About this site</h2>
+                    <ul>
+                        <li><a href="https://www.canada.ca/en/social.html">Social media</a></li>
+                        <li><a href="https://www.canada.ca/en/mobile.html">Mobile applications</a></li>
+                        <li><a href="https://www1.canada.ca/en/newsite.html">About Canada.ca</a></li>
+                        <li><a href="https://www.canada.ca/en/transparency/terms.html">Terms and conditions</a></li>
+                        <li><a href="https://www.canada.ca/en/transparency/privacy.html">Privacy</a></li>
+                    </ul>
+                </nav>
+                <div class="col-xs-6 visible-sm visible-xs tofpg">
+                    <a href="#wb-cont">Top of Page <span class="glyphicon glyphicon-chevron-up"></span></a>
+                </div>
+                <div class="col-xs-6 col-md-2 text-right">
+                    <img src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/assets/wmms-blk.svg" alt="Symbol of the Government of Canada" />
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<!-- Write closure template -->
+<script>
+    var defFooter = document.getElementById("def-footer");
+    defFooter.outerHTML = wet.builder.footer({
+    {% block footer-settings %}{% endblock %}
+    });
+</script>
+<!-- Write closure template -->
+<script>
+    document.write(wet.builder.refFooter({
 
-		<div id="def-footer">
-			<!-- Write closure fall-back static file -->
-			<!-- /ROOT/etc/designs/canada/cdts/gcweb/v4_0_28/cdts/static/footer-en.html -->
-            <footer role="contentinfo" id="wb-info">
-			<nav role="navigation" class="container wb-navcurr">
-				<h2 class="wb-inv">About government</h2>
-				<ul class="list-unstyled colcount-sm-2 colcount-md-3">
-					<li><a href="https://www.canada.ca/en/contact.html">Contact us</a></li>
-					<li><a href="https://www.canada.ca/en/government/dept.html">Departments and agencies</a></li>
-					<li><a href="https://www.canada.ca/en/government/publicservice.html">Public service and military</a></li>
-					<li><a href="https://www.canada.ca/en/news.html">News</a></li>
-					<li><a href="https://www.canada.ca/en/government/system/laws.html">Treaties, laws and regulations</a></li>
-					<li><a href="https://www.canada.ca/en/transparency/reporting.html">Government-wide reporting</a></li>
-					<li><a href="http://pm.gc.ca/eng">Prime Minister</a></li>
-					<li><a href="https://www.canada.ca/en/government/system.html">How government works</a></li>
-					<li><a href="http://open.canada.ca/en/">Open government</a></li>
-				</ul>
-			</nav>
-			<div class="brand">
-				<div class="container">
-					<div class="row">
-						<nav class="col-md-10 ftr-urlt-lnk">
-							<h2 class="wb-inv">About this site</h2>
-							<ul>
-								<li><a href="https://www.canada.ca/en/social.html">Social media</a></li>
-								<li><a href="https://www.canada.ca/en/mobile.html">Mobile applications</a></li>
-								<li><a href="https://www1.canada.ca/en/newsite.html">About Canada.ca</a></li>
-								<li><a href="https://www.canada.ca/en/transparency/terms.html">Terms and conditions</a></li>
-								<li><a href="https://www.canada.ca/en/transparency/privacy.html">Privacy</a></li>
-							</ul>
-						</nav>
-						<div class="col-xs-6 visible-sm visible-xs tofpg">
-							<a href="#wb-cont">Top of Page <span class="glyphicon glyphicon-chevron-up"></span></a>
-						</div>
-						<div class="col-xs-6 col-md-2 text-right">
-							<img src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/v4_0_28/assets/wmms-blk.svg" alt="Symbol of the Government of Canada" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-		</div>
-		<!-- Write closure template -->
-		<script>
-			var defFooter = document.getElementById("def-footer");
-			defFooter.outerHTML = wet.builder.footer({
-
-			});
-		</script>
-		<!-- Write closure template -->
-		<script>
-			document.write(wet.builder.refFooter({
-
-			}));
-		</script>
+    }));
+</script>
+{% endblock %}
 {% block custom-jquery %}{% endblock %}
 </body>
 </html>

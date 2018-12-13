@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block main-content %}
+<div class="row mrgn-tp-lg">
+<div class="col-md-12">
+<h1><span class="glyphicon glyphicon-warning-sign mrgn-rght-md"></span>Unexpected Error</h1>
+<p> {{ message }}</p>
+<ul>
+<li>Return to the <a href="/">home page</a></li>
+</ul>
+</div>
+</div>
+{% endblock %}

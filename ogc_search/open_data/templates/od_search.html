@@ -4,8 +4,8 @@
 {% load humanize %}
 {% load search_extras %}
 
-{% block canada_ca_search %}{% endblock canada_ca_search %}
-{% block language_switch_url %}/od?lang={{ LANGUAGE_CODE | SwapLangCode }}{% endblock language_switch_url %}
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/od{% endblock language_switch_url %}
 
 {% block custom_page_javascript %}
 <script>
@@ -59,6 +59,19 @@ function submitFormOnEnter(e) {
 
 </script>
 {% endblock custom_page_javascript %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/od",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    }],
+{% endblock %}
 
 {% block main-content %}
 {% block main-content-title %}
@@ -458,6 +471,16 @@ function submitFormOnEnter(e) {
     </div>
 
 </section>
+{% endblock %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}
+
+{% block footer-settings %}
+    "contactLink": "{% trans 'https://open.canada.ca/en/forms/contact-us' %}"
 {% endblock %}
 
 {% block custom-jquery %}

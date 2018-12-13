@@ -108,8 +108,9 @@ venv.bak/
 # Specific to this project
 .idea/
 ocsenv/
-themes-dist-GCWeb/
-wet/
+themes-dist-GC/
+cdts/
+
 /ogc_search/ogc_search/settings.py
 /ogc_search/sample_*.jl
 /ogc_search/sample_1_fmt.jl
