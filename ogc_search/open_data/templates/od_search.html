@@ -479,7 +479,34 @@ function submitFormOnEnter(e) {
     showShare: false
 {% endblock %}
 
-{% block footer-settings %}{% endblock %}
+{% block footer-settings %}
+"footerSections": [{
+    "href": "/en/forms/contact-us",
+    "text": "Open Government Contact"
+},{
+    "href": "https://www.canada.ca/en/government/dept.html",
+    "text": "Departments and agencies"
+},{
+    "href": "https://www.canada.ca/en/government/publicservice.html",
+    "text": "Public service and military"
+},{
+    "href": "http://news.gc.ca/",
+    "text": "News"
+},{
+    "href": "https://www.canada.ca/en/government/system/laws.html",
+    "text": "Treaties, laws and regulations"
+},{
+    "href": "https://www.canada.ca/en/transparency/reporting.html",
+    "text": "Government-wide reporting"
+},{
+    "href": "/en/user",
+    "text": "Open Government Log In"
+},{
+    "href": "https://www.canada.ca/en/government/system.html",
+    "text": "How government works"
+}],
+"showFeatures": false
+{% endblock %}
 
 {% block custom-jquery %}
 <script type="text/javascript">
