@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from django import template
 #from django.conf.urls.i18n import i18n_patterns
 from django.urls import reverse
@@ -5,6 +7,7 @@ from django.utils.translation import gettext
 
 
 register = template.Library()
+
 
 @register.filter('SwapLangCode', autoescape=True)
 def other_lang_code(value):
@@ -15,6 +18,7 @@ def other_lang_code(value):
     else:
         return ''
 
+
 @register.filter('SwapLangName', autoescape=True)
 def other_lang(value):
     if str(value) == 'en':
@@ -23,6 +27,7 @@ def other_lang(value):
         return 'English'
     else:
         return ''
+
 
 @register.filter('ToMonth', autoescape=True)
 def to_month(value):

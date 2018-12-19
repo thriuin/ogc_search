@@ -10,10 +10,10 @@
 {% block custom_page_javascript %}
 <script>
 function select_facet(selected_item, accumulator) {
-    old_facet_arr = String(document.getElementById(accumulator).value).split(',');
+    var old_facet_arr = String(document.getElementById(accumulator).value).split(',');
 
-    new_facet_arr = [];
-    found_it = false;
+    var new_facet_arr = [];
+    var found_it = false;
     old_facet_arr.forEach(function(item){
       if (item != selected_item) {
         new_facet_arr.push(item)
@@ -24,7 +24,7 @@ function select_facet(selected_item, accumulator) {
     if (!found_it) {
         new_facet_arr.push(selected_item);
     }
-    new_facets = new_facet_arr.toString();
+    var new_facets = new_facet_arr.toString();
     if (new_facets.charAt(0) == ',') {
         new_facets = new_facets.substring(1);
     }
@@ -33,11 +33,11 @@ function select_facet(selected_item, accumulator) {
     $('#search_form').submit();
 }
 function clear_facets() {
- cbs = $( "input:checked" );
+ var cbs = $( "input:checked" );
  cbs.each(function(i) {
     this['checked'] = false;
     });
- tbs = $( "input:text" );
+ var tbs = $( "input:text" );
  tbs.each(function(i) {
     this['value'] = '';
     });

@@ -110,6 +110,8 @@ venv.bak/
 ocsenv/
 themes-dist-GC/
 cdts/
+ati/
+bin/
 
 /ogc_search/ogc_search/settings.py
 /ogc_search/sample_*.jl

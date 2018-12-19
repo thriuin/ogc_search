@@ -16,6 +16,7 @@ ckan_schema_presets = {}
 with open(settings.CKAN_YAML_FILE, encoding='utf-8-sig') as ckan_schema_file:
     ckan_schema_presets = load(ckan_schema_file, Loader=Loader)
 
+
 def get_cs_choices(field_name, lang = 'en'):
     choices_en = {}
     choices_fr = {}
@@ -31,15 +32,13 @@ def get_cs_choices(field_name, lang = 'en'):
 
     return {'en': choices_en, 'fr': choices_fr}
 
-controlled_lists = {}
 
-controlled_lists['subject'] = get_cs_choices('canada_subject')
-controlled_lists['type'] = get_cs_choices('canada_resource_related_type')
-controlled_lists['collection'] = get_cs_choices('canada_collection')
-controlled_lists['jurisdiction'] = get_cs_choices('canada_jurisdiction')
-controlled_lists['subject'] = get_cs_choices('canada_subject')
-controlled_lists['resource_type'] = get_cs_choices('canada_resource_type')
-controlled_lists['frequency'] = get_cs_choices('canada_frequency')
+controlled_lists = {'subject': get_cs_choices('canada_subject'),
+                    'type': get_cs_choices('canada_resource_related_type'),
+                    'collection': get_cs_choices('canada_collection'),
+                    'jurisdiction': get_cs_choices('canada_jurisdiction'),
+                    'resource_type': get_cs_choices('canada_resource_type'),
+                    'frequency': get_cs_choices('canada_frequency')}
 
 solr = pysolr.Solr('http://127.0.0.1:8983/solr/core_od_search')
 solr.delete(q='*:*')
@@ -53,10 +52,10 @@ with open(sys.argv[1], 'r') as j:
     for jl in j:
         o = json.loads(jl)
         owner_org_titles = str(o['organization']['title']).split('|')
-        owner_org_title_en = owner_org_titles[0]
+        owner_org_title_en: str = owner_org_titles[0]
         owner_org_title_fr: str = owner_org_titles[1]
         subjects_en = []
-        subjects_fr =[]
+        subjects_fr = []
         for s in o['subject']:
             subjects_en.append(controlled_lists['subject']['en'][s])
             subjects_fr.append(controlled_lists['subject']['fr'][s])
