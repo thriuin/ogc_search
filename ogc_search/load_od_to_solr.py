@@ -17,7 +17,7 @@ with open(settings.CKAN_YAML_FILE, mode='r', encoding='utf8', errors="ignore") a
     ckan_schema_presets = load(ckan_schema_file, Loader=Loader)
 
 
-def get_cs_choices(field_name, lang='en'):
+def get_cs_choices(field_name, lang = 'en'):
     choices_en = {}
     choices_fr = {}
 
@@ -33,15 +33,12 @@ def get_cs_choices(field_name, lang='en'):
     return {'en': choices_en, 'fr': choices_fr}
 
 
-controlled_lists = {}
-
-controlled_lists['subject'] = get_cs_choices('canada_subject')
-controlled_lists['type'] = get_cs_choices('canada_resource_related_type')
-controlled_lists['collection'] = get_cs_choices('canada_collection')
-controlled_lists['jurisdiction'] = get_cs_choices('canada_jurisdiction')
-controlled_lists['subject'] = get_cs_choices('canada_subject')
-controlled_lists['resource_type'] = get_cs_choices('canada_resource_type')
-controlled_lists['frequency'] = get_cs_choices('canada_frequency')
+controlled_lists = {'subject': get_cs_choices('canada_subject'),
+                    'type': get_cs_choices('canada_resource_related_type'),
+                    'collection': get_cs_choices('canada_collection'),
+                    'jurisdiction': get_cs_choices('canada_jurisdiction'),
+                    'resource_type': get_cs_choices('canada_resource_type'),
+                    'frequency': get_cs_choices('canada_frequency')}
 
 solr = pysolr.Solr(settings.SOLR_URL)
 solr.delete(q='*:*')

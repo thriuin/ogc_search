@@ -10,10 +10,10 @@
 {% block custom_page_javascript %}
 <script>
 function select_facet(selected_item, accumulator) {
-    old_facet_arr = String(document.getElementById(accumulator).value).split(',');
+    var old_facet_arr = String(document.getElementById(accumulator).value).split(',');
 
-    new_facet_arr = [];
-    found_it = false;
+    var new_facet_arr = [];
+    var found_it = false;
     old_facet_arr.forEach(function(item){
       if (item != selected_item) {
         new_facet_arr.push(item)
@@ -24,7 +24,7 @@ function select_facet(selected_item, accumulator) {
     if (!found_it) {
         new_facet_arr.push(selected_item);
     }
-    new_facets = new_facet_arr.toString();
+    var new_facets = new_facet_arr.toString();
     if (new_facets.charAt(0) == ',') {
         new_facets = new_facets.substring(1);
     }
@@ -33,11 +33,11 @@ function select_facet(selected_item, accumulator) {
     $('#search_form').submit();
 }
 function clear_facets() {
- cbs = $( "input:checked" );
+ var cbs = $( "input:checked" );
  cbs.each(function(i) {
     this['checked'] = false;
     });
- tbs = $( "input:text" );
+ var tbs = $( "input:text" );
  tbs.each(function(i) {
     this['value'] = '';
     });
@@ -479,7 +479,34 @@ function submitFormOnEnter(e) {
     showShare: false
 {% endblock %}
 
-{% block footer-settings %}{% endblock %}
+{% block footer-settings %}
+"footerSections": [{
+    "href": "/en/forms/contact-us",
+    "text": "Open Government Contact"
+},{
+    "href": "https://www.canada.ca/en/government/dept.html",
+    "text": "Departments and agencies"
+},{
+    "href": "https://www.canada.ca/en/government/publicservice.html",
+    "text": "Public service and military"
+},{
+    "href": "http://news.gc.ca/",
+    "text": "News"
+},{
+    "href": "https://www.canada.ca/en/government/system/laws.html",
+    "text": "Treaties, laws and regulations"
+},{
+    "href": "https://www.canada.ca/en/transparency/reporting.html",
+    "text": "Government-wide reporting"
+},{
+    "href": "/en/user",
+    "text": "Open Government Log In"
+},{
+    "href": "https://www.canada.ca/en/government/system.html",
+    "text": "How government works"
+}],
+"showFeatures": false
+{% endblock %}
 
 {% block custom-jquery %}
 <script type="text/javascript">
