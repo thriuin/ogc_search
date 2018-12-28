@@ -104,14 +104,14 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 'author_txt': '' if o['author'] is None else o['author'],
                 'description_txt_en': o['notes_translated']['en'] if 'en' in o['notes_translated'] else '',
                 'description_txt_fr': o['notes_translated']['fr'] if 'fr' in o['notes_translated'] else '',
-                'description_xlt_txt_en': o['notes_translated']['fr-t-en'] if 'fr-t-en' in o[
+                'description_xlt_txt_fr': o['notes_translated']['fr-t-en'] if 'fr-t-en' in o[
                     'notes_translated'] else '',
-                'description_xlt_txt_fr': o['notes_translated']['en-t-fr'] if 'en-t-f-r' in o[
+                'description_xlt_txt_en': o['notes_translated']['en-t-fr'] if 'en-t-f-r' in o[
                     'notes_translated'] else '',
                 'title_en_s': str(o['title_translated']['en']).strip() if 'en' in o['title_translated'] else '',
                 'title_fr_s': str(o['title_translated']['fr']).strip() if 'fr' in o['title_translated'] else '',
-                'title_xlt_en_s': o['title_translated']['fr-t-en'] if 'fr-t-en' in o['title_translated'] else '',
-                'title_xlt_fr_s': o['title_translated']['en-t-fr'] if 'en-t-fr' in o['title_translated'] else '',
+                'title_xlt_fr_s': o['title_translated']['fr-t-en'] if 'fr-t-en' in o['title_translated'] else '',
+                'title_xlt_en_s': o['title_translated']['en-t-fr'] if 'en-t-fr' in o['title_translated'] else '',
                 'resource_format_s': list(set(resource_fmt)),
                 'resource_title_en_s': resource_title_en,
                 'resource_title_fr_s': resource_title_fr,

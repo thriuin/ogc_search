@@ -400,17 +400,37 @@ function submitFormOnEnter(e) {
 
                     <div class="row">
                         <div class="col-sm-10">
-                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{% if LANGUAGE_CODE == 'en' %}
-                                <a href="{{od_en_url}}{{doc.id_name_s}}">{{ doc.title_txt_en | safe }}{% else %}
-                                <a href="{{od_fr_url}}{{doc.id_name_s}}">{{ doc.title_txt_fr | safe }}{% endif %}</a></h4>
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                <a href="{{od_en_url}}{{doc.id_name_s}}">
+                                    {% if "title_en_s" in doc %}{{ doc.title_en_s | safe }}{% elif 'title_xlt_en_s' in doc %}{{ doc.title_xlt_en_s | safe }}{% endif %}
+                                {% else %}
+                                <a href="{{od_fr_url}}{{doc.id_name_s}}">
+                                    {% if "title_fr_s" in doc %}
+                                        {{ doc.title_fr_s | safe }}
+                                    {% elif 'title_xlt_fr_s' in doc %}
+                                        {{ doc.title_xlt_fr_s | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
+                                                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                    {% endif %}
+                                {% endif %}
+                                </a></h4>
                         </div>
                         <div class="col-sm-2 text-right">
-                            <span class="label label-default" style="border-color: #f00; background: #fff">{% if LANGUAGE_CODE == 'fr' %}
+                            <span class="{% if doc.jurisdiction_en_s == 'Provincial' or doc.jurisdiction_fr_s == 'Provinciale' %}label label-success{% else %}label label-primary{% endif %}">{% if LANGUAGE_CODE == 'fr' %}
                                 {{ doc.jurisdiction_fr_s }}{% else %}{{doc.jurisdiction_en_s}}{% endif %}</span>
                         </div>
                         <div class="col-sm-12">
-                            <p>{% if LANGUAGE_CODE == 'en' %}{{ doc.description_txt_en | safe }}
-                                {% else %}{{ doc.description_txt_fr | safe}}{% endif %}</p>
+                            <p>{% if LANGUAGE_CODE == 'en' %}
+                                    {% if 'description_txt_en' in doc %}{{ doc.description_txt_en | safe }}
+                                    {% elif 'description_xlt_txt_en' in doc %}{{ doc.description_xlt_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
+                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                    {% endif %}
+                                {% else %}
+                                    {% if 'description_txt_fr' in doc %}{{ doc.description_txt_fr | safe }}
+                                    {% elif 'description_xlt_txt_fr' in doc %}{{ doc.description_xlt_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
+                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                    {% endif %}
+                                {% endif %}</p>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
                                 {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ doc.owner_org_title_txt_fr | safe }}{% endif %}</p>
                             <p><strong>{% trans 'Formats' %}: </strong>

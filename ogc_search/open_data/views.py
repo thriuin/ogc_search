@@ -79,7 +79,8 @@ class ODSearchView(View):
         # French search fields
         self.solr_fields_fr = ("portal_type_fr_s,collection_type_fr_s,jurisdiction_fr_s,owner_org_title_fr_s,"
                                "owner_org_title_txt_fr,subject_fr_s,resource_type_fr_s,update_cycle_fr_s,"
-                               "description_txt_fr,title_fr_s,title_txt_fr,resource_title_fr_s,resource_title_txt_fr,"
+                               "description_txt_fr,description_xlt_txt_fr,title_fr_s,title_txt_fr,title_xlt_fr_s,"
+                               "resource_title_fr_s,resource_title_txt_fr,"
                                "keywords_fr_s,keywords_txt_fr,id,_version_,last_modified_tdt,resource_format_s,"
                                "id_name_s")
 
@@ -105,7 +106,8 @@ class ODSearchView(View):
         # English search fields
         self.solr_fields_en = ("portal_type_en_s,collection_type_en_s,jurisdiction_en_s,owner_org_title_en_s,"
                                "owner_org_title_txt_en,subject_en_s,resource_type_en_s,update_cycle_en_s,"
-                               "description_txt_en,title_en_s,title_txt_en,resource_title_en_s,resource_title_txt_en,"
+                               "description_txt_en,description_xlt_txt_fr,title_en_s,title_txt_en,title_xlt_en_s,"
+                               "resource_title_en_s,resource_title_txt_en,"
                                "keywords_en_s,keywords_txt_en,id,_version_,last_modified_tdt,"
                                "resource_format_s,id_name_s")
         self.solr_facet_fields_en = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
@@ -229,6 +231,8 @@ class ODSearchView(View):
 
     def get(self, request):
 
+        # Handle search text
+
         search_text = str(request.GET.get('search_text', ''))
         # Respect quoted strings
         search_terms = shlex.split(search_text)
@@ -238,6 +242,9 @@ class ODSearchView(View):
             solr_search_terms = '"{0}"'.format(search_terms)
         else:
             solr_search_terms = ' '.join(search_terms)
+
+        # Retrieve any search facets and add to context
+
         solr_search_portal = request.GET.get('portl', '')
         solr_search_col    = request.GET.get('coltn', '')
         solr_search_jur    = request.GET.get('jurdt', '')
@@ -282,6 +289,7 @@ class ODSearchView(View):
         start_row = 10 * (page - 1)
 
         # Set Sort order
+
         solr_search_sort = request.GET.get('sort', 'score')
         if not solr_search_sort in ['score desc', 'last_modified_tdt desc', 'title_en_s asc']:
             solr_search_sort = 'score desc'
@@ -309,6 +317,8 @@ class ODSearchView(View):
                                resource_format_s=context['format_selected'],
                                resource_type_en_s=context['rsct_selected'],
                                update_cycle_en_s=context['update_selected'])
+
+        # Retrieve search results and transform facets results to python dict
 
         search_results = self._query_solr(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
                                      language=request.LANGUAGE_CODE , search_text=search_text,
@@ -371,6 +381,8 @@ class ODSearchView(View):
         next_page = (last_page if next_page > last_page else next_page)
         context['next_page'] = next_page
         context['currentpage'] = page
+
+        # Base url to link back to Open Data for ht efull record
 
         context["od_en_url"] = settings.OPEN_DATA_EN_URL_BASE
         context["od_fr_url"] = settings.OPEN_DATA_FR_URL_BASE
