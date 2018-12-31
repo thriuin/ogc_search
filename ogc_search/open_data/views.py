@@ -245,15 +245,15 @@ class ODSearchView(View):
 
         # Retrieve any search facets and add to context
 
-        solr_search_portal = request.GET.get('portl', '')
-        solr_search_col    = request.GET.get('coltn', '')
-        solr_search_jur    = request.GET.get('jurdt', '')
-        solr_search_orgs   = request.GET.get('orgzn', '')
-        solr_search_keyw   = request.GET.get('keywd', '')
-        solr_search_subj   = request.GET.get('subjt', '')
-        solr_search_fmts   = request.GET.get('formt', '')
-        solr_search_rsct   = request.GET.get('rsctp', '')
-        solr_search_updc   = request.GET.get('upddt', '')
+        solr_search_portal = request.GET.get('od-search-portal', '')
+        solr_search_col    = request.GET.get('od-search-col', '')
+        solr_search_jur    = request.GET.get('od-search-jur', '')
+        solr_search_orgs   = request.GET.get('od-search-orgs', '')
+        solr_search_keyw   = request.GET.get('od-search-keywords', '')
+        solr_search_subj   = request.GET.get('od-search-subjects', '')
+        solr_search_fmts   = request.GET.get('od-search-format', '')
+        solr_search_rsct   = request.GET.get('od-search-rsct', '')
+        solr_search_updc   = request.GET.get('od-search-update', '')
 
         context = dict(search_text=search_text,
                        portal_selected_list=str(solr_search_portal).split(','),
@@ -290,7 +290,7 @@ class ODSearchView(View):
 
         # Set Sort order
 
-        solr_search_sort = request.GET.get('sort', 'score')
+        solr_search_sort = request.GET.get('sort', 'score desc')
         if not solr_search_sort in ['score desc', 'last_modified_tdt desc', 'title_en_s asc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort

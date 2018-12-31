@@ -9,9 +9,21 @@
 
 {% block custom_page_javascript %}
 <script>
-function select_facet(selected_item, accumulator) {
-    var old_facet_arr = String(document.getElementById(accumulator).value).split(',');
+{% comment %}
 
+@todo Started move to sessionStorage - need to modify submitForm() to use sessionStorage values in the submission.
+The jquery address plugin may be helpful here
+
+{% endcomment %}
+var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-search-jur', 'od-search-keywords',
+                    'od-search-subjects', 'od-search-format', 'od-search-rsct', 'od-search-update'];
+
+function select_facet(selected_item, accumulator) {
+    var old_facet_arr = [];
+    if (sessionStorage.getItem(accumulator)) {
+        old_facet_str = sessionStorage.getItem(accumulator);
+        old_facet_arr = String(old_facet_str).split(',');
+    }
     var new_facet_arr = [];
     var found_it = false;
     old_facet_arr.forEach(function(item){
@@ -28,31 +40,52 @@ function select_facet(selected_item, accumulator) {
     if (new_facets.charAt(0) == ',') {
         new_facets = new_facets.substring(1);
     }
-    document.getElementById(accumulator).value = new_facets;
+    sessionStorage.setItem(accumulator, new_facets);
     $('#page').value = '1';
-    $('#search_form').submit();
+    submitForm();
 }
+
 function clear_facets() {
- var cbs = $( "input:checked" );
- cbs.each(function(i) {
-    this['checked'] = false;
+    var cbs = $( "input:checked" );
+    cbs.each(function(i) {
+        this['checked'] = false;
     });
- var tbs = $( "input:text" );
- tbs.each(function(i) {
-    this['value'] = '';
+    var tbs = $( "input:text" );
+    tbs.each(function(i) {
+        this['value'] = '';
     });
- submitForm();
+    for (let i=0; i<accumulators.length; i++) {
+        sessionStorage.removeItem(accumulators[i]);
+    }
+    submitForm();
 }
+
 function gotoPage(page_no) {
     $('#page').val(page_no);
-    $('#search_form').submit();
+    submitForm();
 }
+
 function submitForm() {
-    $('#page').val('1');
-    $('#search_form').submit();
+
+    var sort_opt = $('#sort-by').val();
+    var page_no = $('#page').val();
+    var search_text = $('#od-search-input').val();
+    var search_terms = `sort=${sort_opt}&page=${page_no}`;
+    if (typeof search_text !== 'undefined') {
+        search_terms = `${search_terms}&search_text=${search_text}`;
+    }
+    for (let i=0; i<accumulators.length; i++) {
+        if (sessionStorage.getItem(accumulators[i])) {
+            facet_str = sessionStorage.getItem(accumulators[i]);
+            search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
+        }
+    };
+    window.location.search = search_terms;
 }
+
 function submitFormOnEnter(e) {
     if(e.which == 10 || e.which == 13) {
+        $('#page').val('1');
         submitForm();
     }
 }
@@ -334,7 +367,7 @@ function submitFormOnEnter(e) {
                         <div class="col-md-9">
                         <div class="input-group">
                             <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
-                            <input type="text" name="search_text" class="form-control" id="od-search-input"
+                            <input type="text" name="od-search-input" class="form-control" id="od-search-input"
                                    value="{{ search_text }}" placeholder="{% trans 'Search' %}"
                                    onkeypress="submitFormOnEnter(event)" />
 
@@ -348,7 +381,7 @@ function submitFormOnEnter(e) {
 
                         </div>
                         <div class="input-group col-md-3">
-                            <select class="form-control" name="sort" id="sort-by" value="{{sortby}}" onchange="submitForm();">
+                            <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
                                 <option value="last_modified_tdt desc" {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
@@ -361,25 +394,6 @@ function submitFormOnEnter(e) {
                         <div class="input-group hidden">
                             {# Facet fields -- start #}
                             <div class="col-md-1">
-                                <input type="text" name="portl" class="form-control" id="od-search-portal"
-                                       value="{{portal_selected}}">
-                                <input type="text" name="coltn" class="form-control" id="od-search-col"
-                                       value="{{col_selected}}">
-                                <input type="text" name="jurdt" class="form-control" id="od-search-jur"
-                                       value="{{jur_selected}}">
-                                <input type="text" name="orgzn" class="form-control" id="od-search-orgs"
-                                       value="{{organizations_selected}}">
-                                <input type="text" name="keywd" class="form-control" id="od-search-keywords"
-                                       value="{{keyw_selected}}">
-                                <input type="text" name="subjt" class="form-control" id="od-search-subjects"
-                                       value="{{subject_selected}}">
-                                <input type="text" name="formt" class="form-control" id="od-search-format"
-                                       value="{{format_selected}}">
-                                <input type="text" name="rsctp" class="form-control" id="od-search-rsct"
-                                       value="{{rsct_selected}}">
-                                <input type="text" name="upddt" class="form-control" id="od-search-update"
-                                       value="{{update_selected}}">
-                                {# Facet fields -- end #}
                                 <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
                             </div>
                         </div>

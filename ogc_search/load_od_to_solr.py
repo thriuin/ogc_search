@@ -53,7 +53,7 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
         try:
             o = json.loads(jl)
             owner_org_titles = str(o['organization']['title']).split('|')
-            owner_org_title_en = owner_org_titles[0]
+            owner_org_title_en: str = owner_org_titles[0].strip()
             owner_org_title_fr: str = owner_org_titles[1]
             subjects_en = []
             subjects_fr = []
