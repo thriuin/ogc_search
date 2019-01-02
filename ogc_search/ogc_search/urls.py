@@ -18,13 +18,11 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path
 from open_data import views
-from ati.views import AtiSearchView
 from open_data.views import ODSearchView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.od_search),
-    path('ati/', AtiSearchView.as_view(), name='AtiQuery'),
     ]
 urlpatterns += i18n_patterns (
     path('od/', ODSearchView.as_view(), name='ODQuery'),

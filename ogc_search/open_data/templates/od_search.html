@@ -9,12 +9,7 @@
 
 {% block custom_page_javascript %}
 <script>
-{% comment %}
 
-@todo Started move to sessionStorage - need to modify submitForm() to use sessionStorage values in the submission.
-The jquery address plugin may be helpful here
-
-{% endcomment %}
 var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-search-jur', 'od-search-keywords',
                     'od-search-subjects', 'od-search-format', 'od-search-rsct', 'od-search-update'];
 
@@ -26,13 +21,14 @@ function select_facet(selected_item, accumulator) {
     }
     var new_facet_arr = [];
     var found_it = false;
-    old_facet_arr.forEach(function(item){
-      if (item != selected_item) {
-        new_facet_arr.push(item)
-      } else {
-        found_it = true;
-      }
-    });
+    for (i=0; i<old_facet_arr.length; i++) {
+        var item = old_facet_arr[i];
+        if (item != encodeURIComponent(selected_item)) {
+            new_facet_arr.push(item);
+        } else {
+            found_it = true;
+        }
+    };
     if (!found_it) {
         new_facet_arr.push(selected_item);
     }
@@ -54,9 +50,7 @@ function clear_facets() {
     tbs.each(function(i) {
         this['value'] = '';
     });
-    for (let i=0; i<accumulators.length; i++) {
-        sessionStorage.removeItem(accumulators[i]);
-    }
+    sessionStorage.clear();
     submitForm();
 }
 
@@ -405,6 +399,10 @@ function submitFormOnEnter(e) {
                             <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12" id="search_terms">
+                        </div>
+                    </div>
                 </form>
             </section>
             <section>
@@ -541,9 +539,27 @@ function submitFormOnEnter(e) {
 }],
 "showFeatures": false
 {% endblock %}
-
 {% block custom-jquery %}
 <script type="text/javascript">
 
+$(function(){
+// reset seessionStorage based on the URL
+    sessionStorage.clear();
+    var facets = [];
+    if (window.location.search.length > 1) {
+        facets = window.location.search.substring(1).split('&');
+        for (let i=0; i<facets.length; i++) {
+            pair = facets[i].split('=');
+            sessionStorage.setItem(pair[0], pair[1]);
+            //alert(pair[0].substring(0,3));
+            if (pair[0].substring(0,3) == 'od-') {
+                var display_terms = decodeURIComponent(pair[1]).split(',');
+                for(let j=0; j<display_terms.length; j++) {
+                    $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
+                }
+            }
+        }
+    }
+});
 </script>
 {% endblock %}
