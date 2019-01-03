@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'open_data',
-    'ati',
     'wet'
 ]
 
@@ -80,6 +79,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ogc_search.wsgi.application'
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 
 # Database
