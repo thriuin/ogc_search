@@ -319,7 +319,7 @@
     </fieldType>
 
     <!-- A text field with defaults appropriate for English: it tokenizes with StandardTokenizer,
-         removes English stop words (lang/stopwords_en.txt), down cases, protects words from protwords.txt, and
+         removes English stop words (lang/profanities_en.txt), down cases, protects words from protwords.txt, and
          finally applies Porter's stemming.  The query time analyzer also applies synonyms from synonyms.txt. -->
     <dynamicField name="*_txt_en" type="text_en"  indexed="true"  stored="true"/>
     <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
@@ -334,6 +334,10 @@
         <filter class="solr.StopFilterFactory"
                 ignoreCase="true"
                 words="lang/stopwords_en.txt"
+            />
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/profanities_en.txt"
             />
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.EnglishPossessiveFilterFactory"/>
@@ -350,6 +354,10 @@
                 ignoreCase="true"
                 words="lang/stopwords_en.txt"
         />
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/profanities_en.txt"
+            />
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.EnglishPossessiveFilterFactory"/>
         <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
@@ -395,6 +403,10 @@
                 ignoreCase="true"
                 words="lang/stopwords_en.txt"
         />
+        <filter class="solr.StopFilterFactory"
+                ignoreCase="true"
+                words="lang/profanities_en.txt"
+            />
         <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
@@ -410,6 +422,7 @@
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/profanities_en.txt"/>
         <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
@@ -423,6 +436,7 @@
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/profanities_en.txt"/>
         <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
@@ -701,6 +715,7 @@
         <filter class="solr.ElisionFilterFactory" ignoreCase="true" articles="lang/contractions_fr.txt"/>
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_fr.txt" format="snowball" />
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/profanities_fr.txt" format="snowball" />
         <filter class="solr.FrenchLightStemFilterFactory"/>
         <!-- less aggressive: <filter class="solr.FrenchMinimalStemFilterFactory"/> -->
         <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="French"/> -->
