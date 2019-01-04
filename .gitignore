@@ -115,5 +115,5 @@ bin/
 /ogc_search/themes-dist-GCWeb
 
 /ogc_search/settings.py
-/ogc_search/sample_*.jl
-/ogc_search/sample_1_fmt.jl
+/ogc_search/*.jl
+*.zip

@@ -58,8 +58,8 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
             subjects_en = []
             subjects_fr = []
             for s in o['subject']:
-                subjects_en.append(controlled_lists['subject']['en'][s])
-                subjects_fr.append(controlled_lists['subject']['fr'][s])
+                subjects_en.append(controlled_lists['subject']['en'][s].replace(",", ""))
+                subjects_fr.append(controlled_lists['subject']['fr'][s].replace(",", ""))
             resource_type_en = []
             resource_type_fr = []
             resource_fmt = []

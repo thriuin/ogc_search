@@ -392,8 +392,7 @@ function submitFormOnEnter(e) {
                             </div>
                         </div>
                         <div class="col-md-9">
-                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found
-                                {{result_num}} record{{result_s}}{% endblocktrans %}</p>
+                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
                         </div>
                         <div class="col-md-3">
                             <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
@@ -513,29 +512,29 @@ function submitFormOnEnter(e) {
 
 {% block footer-settings %}
 "footerSections": [{
-    "href": "/en/forms/contact-us",
-    "text": "Open Government Contact"
+    "href": "{% trans '/en/forms/contact-us' %}",
+    "text": "{% trans 'Open Government Contact' %}"
 },{
-    "href": "https://www.canada.ca/en/government/dept.html",
-    "text": "Departments and agencies"
+    "href": "{% trans 'https://www.canada.ca/en/government/dept.html' %}",
+    "text": "{% trans 'Departments and agencies' %}"
 },{
-    "href": "https://www.canada.ca/en/government/publicservice.html",
-    "text": "Public service and military"
+    "href": "{% trans 'https://www.canada.ca/en/government/publicservice.html' %}",
+    "text": "{% trans 'Public service and military' %}"
 },{
-    "href": "http://news.gc.ca/",
-    "text": "News"
+    "href": "{% trans 'http://news.gc.ca/' %}",
+    "text": "{% trans 'News' %}"
 },{
-    "href": "https://www.canada.ca/en/government/system/laws.html",
-    "text": "Treaties, laws and regulations"
+    "href": "{% trans 'https://www.canada.ca/en/government/system/laws.html' %}",
+    "text": "{% trans 'Treaties, laws and regulations' %}"
 },{
-    "href": "https://www.canada.ca/en/transparency/reporting.html",
-    "text": "Government-wide reporting"
+    "href": "{% trans 'https://www.canada.ca/en/transparency/reporting.html' %}",
+    "text": "{% trans 'Government-wide reporting' %}"
 },{
-    "href": "/en/user",
-    "text": "Open Government Log In"
+    "href": "{% trans '/en/user' %}",
+    "text": "{% trans 'Open Government Log In' %}"
 },{
-    "href": "https://www.canada.ca/en/government/system.html",
-    "text": "How government works"
+    "href": "{% trans 'https://www.canada.ca/en/government/system.html' %}",
+    "text": "{% trans 'How government works' %}"
 }],
 "showFeatures": false
 {% endblock %}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-11 19:47+0000\n"
+"POT-Creation-Date: 2019-01-04 10:31-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ati/templates/ati_detail.html:13
+#: .\ati\templates\ati_detail.html:13
 msgid "Access to Information Request"
 msgstr ""
 
-#: ati/templates/ati_detail.html:16
+#: .\ati\templates\ati_detail.html:16
 msgid "Request Number"
 msgstr ""
 
-#: ati/templates/ati_detail.html:18
+#: .\ati\templates\ati_detail.html:18
 msgid "Date"
 msgstr ""
 
-#: ati/templates/ati_detail.html:21
+#: .\ati\templates\ati_detail.html:21
 msgid "Summary"
 msgstr ""
 
-#: ati/templates/ati_detail.html:24 ati/templates/ati_search.html:135
-#: ati/templates/ati_search.html:275 ati/templates/grants_search.html:135
-#: ati/templates/grants_search.html:275 open_data/templates/od_search.html:90
-#: open_data/templates/od_search.html:401
+#: .\ati\templates\ati_detail.html:24 .\ati\templates\ati_search.html:135
+#: .\ati\templates\ati_search.html:275 .\ati\templates\grants_search.html:135
+#: .\ati\templates\grants_search.html:275
+#: .\open_data\templates\od_search.html:130
+#: .\open_data\templates\od_search.html:446
 msgid "Organization"
 msgstr "Organisation"
 
-#: ati/templates/ati_detail.html:27
+#: .\ati\templates\ati_detail.html:27
 msgid "Disposition"
 msgstr "Période de transition"
 
-#: ati/templates/ati_search.html:73 ati/templates/grants_search.html:73
+#: .\ati\templates\ati_search.html:73 .\ati\templates\grants_search.html:73
 msgid "Completed Access to Information Requests"
 msgstr "Demandes d’accès à l’information complétées"
 
-#: ati/templates/ati_search.html:83 ati/templates/grants_search.html:83
+#: .\ati\templates\ati_search.html:83 .\ati\templates\grants_search.html:83
 msgid "Transitional Period"
 msgstr "Période de transition"
 
-#: ati/templates/ati_search.html:84 ati/templates/grants_search.html:84
+#: .\ati\templates\ati_search.html:84 .\ati\templates\grants_search.html:84
 msgid ""
 "Departments are moving their web content to\n"
 "                    <a href=\"http://www.canada.ca\">Canada.ca</a>. As a "
@@ -75,11 +76,11 @@ msgid ""
 "ouvert@tbs-sct.gc.ca</a></p>"
 msgstr ""
 
-#: ati/templates/ati_search.html:98 ati/templates/grants_search.html:98
+#: .\ati\templates\ati_search.html:98 .\ati\templates\grants_search.html:98
 msgid "About this information"
 msgstr ""
 
-#: ati/templates/ati_search.html:100 ati/templates/grants_search.html:100
+#: .\ati\templates\ati_search.html:100 .\ati\templates\grants_search.html:100
 msgid ""
 "Search the summaries of completed Access to Information (ATI) requests to "
 "find information\n"
@@ -92,7 +93,7 @@ msgid ""
 "                        webpage."
 msgstr ""
 
-#: ati/templates/ati_search.html:106 ati/templates/grants_search.html:106
+#: .\ati\templates\ati_search.html:106 .\ati\templates\grants_search.html:106
 msgid ""
 "Download datasets of the <a\n"
 "                            href=\"http://data.gc.ca/data/en/"
@@ -100,7 +101,7 @@ msgid ""
 "                        completed access to information requests</a>."
 msgstr ""
 
-#: ati/templates/ati_search.html:110 ati/templates/grants_search.html:110
+#: .\ati\templates\ati_search.html:110 .\ati\templates\grants_search.html:110
 msgid ""
 "If you don’t find what you are looking for you can request additional "
 "government records under an\n"
@@ -111,7 +112,7 @@ msgid ""
 "                            and Privacy Coordinator</a>."
 msgstr ""
 
-#: ati/templates/ati_search.html:115 ati/templates/grants_search.html:115
+#: .\ati\templates\ati_search.html:115 .\ati\templates\grants_search.html:115
 msgid ""
 "Enter keywords (e.g. institution, topic, field of interest, etc.)</"
 "strong><br/>\n"
@@ -121,174 +122,311 @@ msgid ""
 "em>."
 msgstr ""
 
-#: ati/templates/ati_search.html:122 ati/templates/grants_search.html:122
+#: .\ati\templates\ati_search.html:122 .\ati\templates\grants_search.html:122
 msgid ""
 "Download datasets of the summaries of completed access to information "
 "requests"
 msgstr ""
 
-#: ati/templates/ati_search.html:164 ati/templates/grants_search.html:164
+#: .\ati\templates\ati_search.html:164 .\ati\templates\grants_search.html:164
 msgid "Show more"
 msgstr "Afficher plus"
 
-#: ati/templates/ati_search.html:165 ati/templates/grants_search.html:165
+#: .\ati\templates\ati_search.html:165 .\ati\templates\grants_search.html:165
 msgid "Show less"
 msgstr "Afficher moins"
 
-#: ati/templates/ati_search.html:173 ati/templates/grants_search.html:173
+#: .\ati\templates\ati_search.html:173 .\ati\templates\grants_search.html:173
 msgid "Year"
 msgstr ""
 
-#: ati/templates/ati_search.html:192 ati/templates/grants_search.html:192
+#: .\ati\templates\ati_search.html:192 .\ati\templates\grants_search.html:192
 msgid "Month"
 msgstr ""
 
-#: ati/templates/ati_search.html:221 ati/templates/ati_search.html:223
-#: ati/templates/ati_search.html:227 ati/templates/grants_search.html:221
-#: ati/templates/grants_search.html:223 ati/templates/grants_search.html:227
-#: open_data/templates/od_search.html:323
-#: open_data/templates/od_search.html:325
-#: open_data/templates/od_search.html:329
-#: open_data/templates/od_search.html:331 wet/templates/base.html:103
-#: wet/templates/base.html:112
+#: .\ati\templates\ati_search.html:221 .\ati\templates\ati_search.html:223
+#: .\ati\templates\ati_search.html:227 .\ati\templates\grants_search.html:221
+#: .\ati\templates\grants_search.html:223
+#: .\ati\templates\grants_search.html:227
+#: .\open_data\templates\od_search.html:363
+#: .\open_data\templates\od_search.html:365
+#: .\open_data\templates\od_search.html:369
+#: .\open_data\templates\od_search.html:371 .\wet\templates\base.html:103
+#: .\wet\templates\base.html:112
 msgid "Search"
 msgstr "Recherche"
 
-#: ati/templates/ati_search.html:235 ati/templates/grants_search.html:235
+#: .\ati\templates\ati_search.html:235 .\ati\templates\grants_search.html:235
 #, python-format
 msgid ""
-"Found\n"
-"                    %(result_num)s record%(result_s)s"
-msgstr ""
+"Found %(result_num)s record%(result_s)s"
+msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
 
-#: ati/templates/ati_search.html:272 ati/templates/grants_search.html:272
+#: .\ati\templates\ati_search.html:272 .\ati\templates\grants_search.html:272
 msgid "Request"
 msgstr ""
 
-#: ati/templates/ati_search.html:280 ati/templates/grants_search.html:280
+#: .\ati\templates\ati_search.html:280 .\ati\templates\grants_search.html:280
 msgid "pages"
 msgstr ""
 
-#: ati/templates/ati_search.html:296 ati/templates/ati_search.html:299
-#: ati/templates/grants_search.html:296 ati/templates/grants_search.html:299
-#: open_data/templates/od_search.html:426
-#: open_data/templates/od_search.html:429
+#: .\ati\templates\ati_search.html:296 .\ati\templates\ati_search.html:299
+#: .\ati\templates\grants_search.html:296
+#: .\ati\templates\grants_search.html:299
+#: .\open_data\templates\od_search.html:471
+#: .\open_data\templates\od_search.html:474
 msgid "Previous"
 msgstr "Précédent"
 
-#: ati/templates/ati_search.html:302 ati/templates/ati_search.html:306
-#: ati/templates/grants_search.html:302 ati/templates/grants_search.html:306
-#: open_data/templates/od_search.html:432
-#: open_data/templates/od_search.html:436
+#: .\ati\templates\ati_search.html:302 .\ati\templates\ati_search.html:306
+#: .\ati\templates\grants_search.html:302
+#: .\ati\templates\grants_search.html:306
+#: .\open_data\templates\od_search.html:477
+#: .\open_data\templates\od_search.html:481
 msgid "Go to"
 msgstr "Aller à la page"
 
-#: ati/templates/ati_search.html:308 ati/templates/ati_search.html:311
-#: ati/templates/grants_search.html:308 ati/templates/grants_search.html:311
-#: open_data/templates/od_search.html:438
-#: open_data/templates/od_search.html:441
+#: .\ati\templates\ati_search.html:308 .\ati\templates\ati_search.html:311
+#: .\ati\templates\grants_search.html:308
+#: .\ati\templates\grants_search.html:311
+#: .\open_data\templates\od_search.html:483
+#: .\open_data\templates\od_search.html:486
 msgid "Next"
 msgstr "Suivant"
 
-#: open_data/templates/od_search.html:65
+#: .\open_data\templates\od_search.html:98
+msgid "Home"
+msgstr ""
+
+#: .\open_data\templates\od_search.html:105
 msgid "Open Government Portal"
 msgstr "Portail du gouvernement ouvert"
 
-#: open_data/templates/od_search.html:80
+#: .\open_data\templates\od_search.html:120
 msgid "https://open.canada.ca/en/suggested-datasets"
 msgstr ""
 
-#: open_data/templates/od_search.html:81
+#: .\open_data\templates\od_search.html:121
 msgid "Suggest a Dataset"
 msgstr "Proposez un jeu de données"
 
-#: open_data/templates/od_search.html:84
+#: .\open_data\templates\od_search.html:124
 msgid "Clear all choices"
 msgstr "Effacer tout"
 
-#: open_data/templates/od_search.html:127
+#: .\open_data\templates\od_search.html:167
 msgid "Portal Type"
 msgstr "Type de portail"
 
-#: open_data/templates/od_search.html:149
+#: .\open_data\templates\od_search.html:189
 msgid "Collection Type"
 msgstr "Type de collection"
 
-#: open_data/templates/od_search.html:173
+#: .\open_data\templates\od_search.html:213
 msgid "Jurisdiction"
 msgstr "Juridiction"
 
-#: open_data/templates/od_search.html:197
-#: open_data/templates/od_search.html:406
+#: .\open_data\templates\od_search.html:237
+#: .\open_data\templates\od_search.html:451
 msgid "Key Words"
 msgstr "Mots clés"
 
-#: open_data/templates/od_search.html:221
+#: .\open_data\templates\od_search.html:261
 msgid "Subjects"
 msgstr "Sujets"
 
-#: open_data/templates/od_search.html:245
-#: open_data/templates/od_search.html:403
+#: .\open_data\templates\od_search.html:285
+#: .\open_data\templates\od_search.html:448
 msgid "Formats"
 msgstr "Formats"
 
-#: open_data/templates/od_search.html:269
+#: .\open_data\templates\od_search.html:309
 msgid "Resource Types"
 msgstr "Type de ressource"
 
-#: open_data/templates/od_search.html:293
+#: .\open_data\templates\od_search.html:333
 msgid "Update Frequency"
 msgstr "Fréquence de mise à jour"
 
-#: open_data/templates/od_search.html:340
+#: .\open_data\templates\od_search.html:380
 msgid "Best match"
 msgstr "pertinence"
 
-#: open_data/templates/od_search.html:342
+#: .\open_data\templates\od_search.html:382
 msgid "Newest"
 msgstr "Date de modification"
 
-#: open_data/templates/od_search.html:344
+#: .\open_data\templates\od_search.html:384
 msgid "Title"
 msgstr "Titre"
 
-#: open_data/templates/od_search.html:374
+#: .\open_data\templates\od_search.html:395
 #, python-format
 msgid ""
 "Found\n"
 "                                %(result_num)s record%(result_s)s"
 msgstr ""
 
-#: open_data/templates/od_search.html:378
+#: .\open_data\templates\od_search.html:399
 msgid "Order By"
 msgstr "Trier par"
 
-#: wet/templates/base.html:13
+#: .\open_data\templates\od_search.html:425
+#: .\open_data\templates\od_search.html:438
+#: .\open_data\templates\od_search.html:443
+msgid ""
+"This third party metadata element has been translated using an automated "
+"translation tool (DeepL).  To report any discrepancies please contact open-"
+"ouvert@tbs-sct.gc.ca"
+msgstr ""
+"Cet élément de métadonnées provenant d’une tierce partie a été traduit à "
+"l'aide d'un outil de traduction automatisée (DeepL). Pour signaler toute "
+"anomalie, veuillez communiquer avec nous à open-ouvert@tbs-sct.gc.ca"
+
+#: .\open_data\templates\od_search.html:516
+msgid "/en/forms/contact-us"
+msgstr "/fr/formulaire/faites-nous-part-de-vos-commentaires"
+
+#: .\open_data\templates\od_search.html:517
+#| msgid "Open Government Portal"
+msgid "Open Government Contact"
+msgstr "Contactez-nous du gouvernement ouvert"
+
+#: .\open_data\templates\od_search.html:519
+msgid "https://www.canada.ca/en/government/dept.html"
+msgstr "https://www.canada.ca/fr/gouvernement/min.html"
+
+#: .\open_data\templates\od_search.html:520
+msgid "Departments and agencies"
+msgstr "Ministères et organismes"
+
+#: .\open_data\templates\od_search.html:522
+msgid "https://www.canada.ca/en/government/publicservice.html"
+msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
+
+#: .\open_data\templates\od_search.html:523
+msgid "Public service and military"
+msgstr "Fonction publique et force militaire"
+
+#: .\open_data\templates\od_search.html:525
+msgid "http://news.gc.ca/"
+msgstr "http://nouvelles.gc.ca"
+
+#: .\open_data\templates\od_search.html:526
+msgid "News"
+msgstr "Nouvelles"
+
+#: .\open_data\templates\od_search.html:528
+msgid "https://www.canada.ca/en/government/system/laws.html"
+msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
+
+#: .\open_data\templates\od_search.html:529
+msgid "Treaties, laws and regulations"
+msgstr "Traités, lois et règlements"
+
+#: .\open_data\templates\od_search.html:531
+msgid "https://www.canada.ca/en/transparency/reporting.html"
+msgstr "https://www.canada.ca/fr/transparence/rapports.html"
+
+#: .\open_data\templates\od_search.html:532
+msgid "Government-wide reporting"
+msgstr "Rapports à l'échelle du gouvernement"
+
+#: .\open_data\templates\od_search.html:534
+msgid "/en/user"
+msgstr "/fr/user"
+
+#: .\open_data\templates\od_search.html:535
+#| msgid "Open Government"
+msgid "Open Government Log In"
+msgstr "Ouverture de session Gouvernement ouvert"
+
+#: .\open_data\templates\od_search.html:537
+msgid "https://www.canada.ca/en/government/system.html"
+msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
+
+#: .\open_data\templates\od_search.html:538
+msgid "How government works"
+msgstr "Comment le gouvernement fonctionne"
+
+#: .\wet\templates\base-cdts.html:12 .\wet\templates\base.html:13
 msgid "Open Government"
 msgstr "Gouvernement ouvert"
 
-#: wet/templates/base.html:58
-msgid "Skip to main content"
-msgstr "Passer au contenu principal"
-
-#: wet/templates/base.html:61
-msgid "Skip to \"About government\""
-msgstr "Passer à «&#160;Au sujet du gouvernement&#160;»"
-
-#: wet/templates/base.html:67
+#: .\wet\templates\base-cdts.html:63 .\wet\templates\base.html:67
 msgid "Language selection"
 msgstr "Sélection de la langue"
 
-#: wet/templates/base.html:84 wet/templates/base.html:86
-#: wet/templates/base.html:89
+#: .\wet\templates\base-cdts.html:189
+msgid "About this site"
+msgstr "À propos de ce site"
+
+#: .\wet\templates\base-cdts.html:192
+msgid "https://www.canada.ca/en/social.html"
+msgstr "https://www.canada.ca/fr/sociaux.html"
+
+#: .\wet\templates\base-cdts.html:192
+msgid "Social media"
+msgstr "Médias sociaux"
+
+#: .\wet\templates\base-cdts.html:193
+msgid "https://www.canada.ca/en/mobile.html"
+msgstr "https://www.canada.ca/fr/mobile.html"
+
+#: .\wet\templates\base-cdts.html:193
+msgid "Mobile applications"
+msgstr "Applications mobiles"
+
+#: .\wet\templates\base-cdts.html:194
+msgid "https://www1.canada.ca/en/newsite.html"
+msgstr "https://www1.canada.ca/fr/nouveausite.html"
+
+#: .\wet\templates\base-cdts.html:194
+msgid "About Canada.ca"
+msgstr "À propos de Canada.ca"
+
+#: .\wet\templates\base-cdts.html:195
+msgid "https://www.canada.ca/en/transparency/terms.html"
+msgstr "https://www.canada.ca/fr/transparence/avis.html"
+
+#: .\wet\templates\base-cdts.html:195
+msgid "Terms and conditions"
+msgstr "Avis"
+
+#: .\wet\templates\base-cdts.html:196
+msgid "https://www.canada.ca/en/transparency/privacy.html"
+msgstr "https://www.canada.ca/fr/transparence/confidentialite.html"
+
+#: .\wet\templates\base-cdts.html:196
+msgid "Privacy"
+msgstr "Confidentialité"
+
+#: .\wet\templates\base-cdts.html:201
+msgid "Top of Page"
+msgstr "Haut de page"
+
+#: .\wet\templates\base-cdts.html:205
+msgid "Symbol of the Government of Canada"
+msgstr "Symbole du gouvernement du Canada"
+
+#: .\wet\templates\base.html:58
+msgid "Skip to main content"
+msgstr "Passer au contenu principal"
+
+#: .\wet\templates\base.html:61
+msgid "Skip to \"About government\""
+msgstr "Passer à «&#160;Au sujet du gouvernement&#160;»"
+
+#: .\wet\templates\base.html:84 .\wet\templates\base.html:86
+#: .\wet\templates\base.html:89
 msgid "Search and menus"
 msgstr "Rechercher dans Canada"
 
-#: wet/templates/base.html:99
+#: .\wet\templates\base.html:99
 msgid "Search website"
 msgstr "Recherchez le site Web"
 
-#: wet/templates/base.html:147
+#: .\wet\templates\base.html:147
 msgid ""
 "\n"
 "    <nav role=\"navigation\" class=\"container wb-navcurr\">\n"
@@ -344,8 +482,8 @@ msgid ""
 "    </div>\n"
 msgstr ""
 
-#~ msgid "other"
-#~ msgstr "autre"
+msgid "other"
+msgstr "autre"
 
-msgid "This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca"
-msgstr "Cet élément de métadonnées provenant d’une tierce partie a été traduit à l'aide d'un outil de traduction automatisée (DeepL). Pour signaler toute anomalie, veuillez communiquer avec nous à open-ouvert@tbs-sct.gc.ca"
+msgid "Other"
+msgstr "Autre"
