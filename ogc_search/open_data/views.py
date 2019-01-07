@@ -69,8 +69,9 @@ def _calc_pagination_range(results, pagesize, current_page):
 
 
 # Create your views here.
-def od_search(request):
-    return render(request, 'search-en.html')
+def default_search(request):
+    return redirect('/od')
+
 
 class ODSearchView(View):
 

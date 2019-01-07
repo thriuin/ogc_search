@@ -22,7 +22,7 @@ from open_data.views import ODSearchView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.od_search),
+    path('', views.default_search),
     ]
 urlpatterns += i18n_patterns (
     path('od/', ODSearchView.as_view(), name='ODQuery'),

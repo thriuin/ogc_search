@@ -8,83 +8,7 @@
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/od{% endblock language_switch_url %}
 
 {% block custom_page_javascript %}
-<script>
-
-var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-search-jur', 'od-search-keywords',
-                    'od-search-subjects', 'od-search-format', 'od-search-rsct', 'od-search-update'];
-
-function select_facet(selected_item, accumulator) {
-    var old_facet_arr = [];
-    if (sessionStorage.getItem(accumulator)) {
-        old_facet_str = sessionStorage.getItem(accumulator);
-        old_facet_arr = String(old_facet_str).split(',');
-    }
-    var new_facet_arr = [];
-    var found_it = false;
-    for (i=0; i<old_facet_arr.length; i++) {
-        var item = old_facet_arr[i];
-        if (item != encodeURIComponent(selected_item)) {
-            new_facet_arr.push(item);
-        } else {
-            found_it = true;
-        }
-    };
-    if (!found_it) {
-        new_facet_arr.push(selected_item);
-    }
-    var new_facets = new_facet_arr.toString();
-    if (new_facets.charAt(0) == ',') {
-        new_facets = new_facets.substring(1);
-    }
-    sessionStorage.setItem(accumulator, new_facets);
-    $('#page').value = '1';
-    submitForm();
-}
-
-function clear_facets() {
-    var cbs = $( "input:checked" );
-    cbs.each(function(i) {
-        this['checked'] = false;
-    });
-    var tbs = $( "input:text" );
-    tbs.each(function(i) {
-        this['value'] = '';
-    });
-    sessionStorage.clear();
-    submitForm();
-}
-
-function gotoPage(page_no) {
-    $('#page').val(page_no);
-    submitForm();
-}
-
-function submitForm() {
-
-    var sort_opt = $('#sort-by').val();
-    var page_no = $('#page').val();
-    var search_text = $('#od-search-input').val();
-    var search_terms = `sort=${sort_opt}&page=${page_no}`;
-    if (typeof search_text !== 'undefined') {
-        search_terms = `${search_terms}&search_text=${search_text}`;
-    }
-    for (let i=0; i<accumulators.length; i++) {
-        if (sessionStorage.getItem(accumulators[i])) {
-            facet_str = sessionStorage.getItem(accumulators[i]);
-            search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
-        }
-    };
-    window.location.search = search_terms;
-}
-
-function submitFormOnEnter(e) {
-    if(e.which == 10 || e.which == 13) {
-        $('#page').val('1');
-        submitForm();
-    }
-}
-
-</script>
+<script src="{% static 'od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 
 {% block top-settings %}
@@ -113,268 +37,31 @@ function submitFormOnEnter(e) {
         <div class="col-md-12">{% block search-alert %}{% endblock %}</div>
     </div>
     <div class="row">
-        <div class="col-md-4">
-            {% block main-content-sidebar %}
-            <aside>
-                <div>
-                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}" class="btn btn-info mrgn-bttm-md">
-                            {% trans 'Suggest a Dataset'%}</a>
-                </div>
-                <div>
-                    <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md">{% trans 'Clear all choices' %}</a>
-                </div>
-                {# Organizations Facet #}
-                <div>
-                    <details class="panel" {% if organizations_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Organization' %}</h5>
-                        </summary>
-                        <ul class="list-group" id="org-list">
-
-                        {% if LANGUAGE_CODE == 'fr' %}
-
-                            {% for k, v in org_facets_fr.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-                                    <label><input type="checkbox"
-                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            {% for k, v in org_facets_en.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-                                    <label><input type="checkbox"
-                                    {% if k in organizations_selected %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        </ul>
-                    </details>
-                </div>
-                {# Portal - Schema Type Facet #}
-                <div>
-                    <details class="panel" {% if portal_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Portal Type' %}</h5>
-                        </summary>
-                        <ul class="list-group">
-                            {% for k, v in portal_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in portal_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-                                    <label><input type="checkbox"
-                                             {% if k in portal_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'od-search-portal')"
-                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k }} ({{ v }})</label></div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-                {# Collection Type Facet #}
-                <div>
-                    <details class="panel" {% if col_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Collection Type' %}</h5>
-                        </summary>
-
-                        <ul class="list-group">
-                            {% for k, v in collection_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in col_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
-                                    <label><input type="checkbox" value="{{ k }}" id="month{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-col')"
-                                    {% if k in col_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
-                                </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-                {# Jurisdiction Facet #}
-                <div>
-                    <details class="panel" {% if jur_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Jurisdiction' %}</h5>
-                        </summary>
-
-                        <ul class="list-group">
-                            {% for k, v in jurisdiction_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in jur_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
-                                    <label><input type="checkbox" value="{{ k }}" id="jur{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-jur')"
-                                    {% if k in jur_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
-                                </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-                {# Keywords Facet #}
-                <div>
-                    <details class="panel" {% if keyw_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Key Words' %}</h5>
-                        </summary>
-
-                        <ul class="list-group" id="key-list">
-                            {% for k, v in keyword_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
-                                    <label><input type="checkbox" value="{{ k }}" id="keyw{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-keywords')"
-                                    {% if k in keyw_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
-                                </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-                {# Subjects Facet #}
-                <div>
-                    <details class="panel" {% if subject_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Subjects' %}</h5>
-                        </summary>
-
-                        <ul class="list-group">
-                            {% for k, v in subject_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in subject_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
-                                    <label><input type="checkbox" value="{{ k }}" id="subject{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-subjects')"
-                                    {% if k in subject_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
-                                </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-                {# Formats Facet #}
-                <div>
-                    <details class="panel" {% if format_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Formats' %}</h5>
-                        </summary>
-
-                        <ul class="list-group">
-                            {% for k, v in format_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in format_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
-                                    <label><input type="checkbox" value="{{ k }}" id="format{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-format')"
-                                    {% if k in format_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
-                                </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-                {# Resource Type Facet #}
-                <div>
-                    <details class="panel" {% if rsct_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Resource Types' %}</h5>
-                        </summary>
-
-                        <ul class="list-group">
-                            {% for k, v in type_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in rsct_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
-                                    <label><input type="checkbox" value="{{ k }}" id="rsct{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-rsct')"
-                                    {% if k in rsct_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
-                                </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-                {# Update Frequency Facet #}
-                <div>
-                    <details class="panel" {% if update_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Update Frequency' %}</h5>
-                        </summary>
-
-                        <ul class="list-group">
-                            {% for k, v in frequency_facets.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in update_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
-                                    <label><input type="checkbox" value="{{ k }}" id="freq{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-update')"
-                                    {% if k in update_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
-                                </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </details>
-                </div>
-            </aside>
-            {% endblock %}
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
             <section>
                 <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
                     <div class="row">
-                        <div class="col-md-9">
-                        <div class="input-group">
-                            <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
-                            <input type="text" name="od-search-input" class="form-control" id="od-search-input"
-                                   value="{{ search_text }}" placeholder="{% trans 'Search' %}"
-                                   onkeypress="submitFormOnEnter(event)" />
-
-                            <span class="input-group-btn">
-                                 <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                                 <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
-                                        onclick="submitForm()">{% trans 'Search' %}
-                                </button>
-                            </span>
+                        <div class="col-md-12 col-sm-12">
+                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
                         </div>
+                        <div class="col-md-9 col-sm-12">
+                            <div class="input-group">
+                                <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                                <input type="text" name="od-search-input" class="form-control" id="od-search-input"
+                                       value="{{ search_text }}" placeholder="{% trans 'Search' %}"
+                                       onkeypress="submitFormOnEnter(event)" />
 
+                                <span class="input-group-btn">
+                                     <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                                     <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                            onclick="submitForm()">{% trans 'Search' %}
+                                    </button>
+                                </span>
+                            </div>
                         </div>
-                        <div class="input-group col-md-3">
+                        <div class="col-md-3 col-sm-4">
+                            <div class="input-group">
                             <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
@@ -383,6 +70,10 @@ function submitFormOnEnter(e) {
                                 <option value="title_en_s asc" {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
                                     >{% trans 'Title' %}</option>
                             </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-md-push-9 col-sm-6 col-sm-push-6">
+                            <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
                         </div>
 
                         <div class="input-group hidden">
@@ -390,12 +81,6 @@ function submitFormOnEnter(e) {
                             <div class="col-md-1">
                                 <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
                             </div>
-                        </div>
-                        <div class="col-md-9">
-                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
                         </div>
                     </div>
                     <div class="row">
@@ -499,6 +184,247 @@ function submitFormOnEnter(e) {
             {% endblock %}
         {% endblock %}
         </div>
+        <div class="col-md-4 col-md-pull-8">
+            {% block main-content-sidebar %}
+            <aside>
+                <div>
+                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}" class="btn btn-info mrgn-bttm-md">
+                            {% trans 'Suggest a Dataset'%}</a>
+                </div>
+                <div>
+                    <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md">{% trans 'Clear all choices' %}</a>
+                </div>
+                {# Organizations Facet #}
+                <div>
+                    <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Organization' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+
+                            {% for k, v in org_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in org_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected %} checked="checked"{% endif %}
+                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </details>
+
+                {# Portal - Schema Type Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if portal_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Portal Type' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                            {% for k, v in portal_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in portal_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in portal_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'od-search-portal')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                {# Collection Type Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if col_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Collection Type' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in collection_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in col_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="month{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-col')"
+                                    {% if k in col_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                {# Jurisdiction Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if jur_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Jurisdiction' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in jurisdiction_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in jur_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="jur{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-jur')"
+                                    {% if k in jur_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                {# Keywords Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if keyw_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Key Words' %}</h5>
+                        </summary>
+
+                        <ul class="list-group" id="key-list">
+                            {% for k, v in keyword_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="keyw{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-keywords')"
+                                    {% if k in keyw_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                {# Subjects Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if subject_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Subjects' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in subject_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in subject_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="subject{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-subjects')"
+                                    {% if k in subject_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                {# Formats Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if format_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Formats' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in format_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in format_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="format{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-format')"
+                                    {% if k in format_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                {# Resource Type Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if rsct_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Resource Types' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in type_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in rsct_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="rsct{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-rsct')"
+                                    {% if k in rsct_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                {# Update Frequency Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if update_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Update Frequency' %}</h5>
+                        </summary>
+
+                        <ul class="list-group">
+                            {% for k, v in frequency_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in update_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+
+                                    <label><input type="checkbox" value="{{ k }}" id="freq{{ k }}"
+                                    onclick="select_facet('{{ k }}', 'od-search-update')"
+                                    {% if k in update_selected_list %} checked{% endif %}
+                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+                </div>
+            </aside>
+            {% endblock %}
+        </div>
+
     </div>
 
 </section>

@@ -136,6 +136,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "themes-dist-GCWeb"),
+    os.path.join(BASE_DIR, "cdts", "v4_0_28"),
+    os.path.join(BASE_DIR, "open_data", "templates", "static"),
 ]
 
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
