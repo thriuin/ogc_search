@@ -14,7 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from open_data import views
@@ -23,7 +25,7 @@ from open_data.views import ODSearchView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.default_search),
-    ]
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += i18n_patterns (
     path('od/', ODSearchView.as_view(), name='ODQuery'),
 )
