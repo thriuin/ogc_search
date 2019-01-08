@@ -387,5 +387,6 @@ class ODSearchView(View):
 
         context["od_en_url"] = settings.OPEN_DATA_EN_URL_BASE
         context["od_fr_url"] = settings.OPEN_DATA_FR_URL_BASE
+        context["cdts_version"] = settings.CDTS_VERSION
 
         return render(request, "od_search.html", context)

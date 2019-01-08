@@ -8,7 +8,7 @@
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/od{% endblock language_switch_url %}
 
 {% block custom_page_javascript %}
-<script src="{% static 'od_search.js' %}"></script>
+<script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 
 {% block top-settings %}
@@ -228,6 +228,7 @@
                             {% endif %}
                             {% endfor %}
                         {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ org_facets_fr | EmptyFacetMessage }}{% else %}{{ org_facets_en | EmptyFacetMessage }}{% endif %}
                         </ul>
                     </details>
 
@@ -250,6 +251,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ portal_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
 
@@ -274,6 +276,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ collection_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
 
@@ -298,6 +301,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ jurisdiction_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
 
@@ -322,6 +326,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ keyword_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
 
@@ -346,6 +351,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ subject_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
 
@@ -370,6 +376,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ format_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
 
@@ -394,6 +401,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ type_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
 
@@ -418,6 +426,7 @@
                             </li>
                             {% endif %}
                             {% endfor %}
+                            {{ frequency_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
                 </div>

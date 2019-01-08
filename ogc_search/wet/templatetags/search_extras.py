@@ -28,6 +28,17 @@ def other_lang(value):
     else:
         return ''
 
+@register.filter('EmptyFacetMessage', autoescape=True)
+def search_facet_is_empty_message(value):
+    msg = ''
+    if type(value) is dict:
+        c = 0
+        for k,v in value.items():
+            c = c + v
+        if c == 0:
+            msg = gettext("There are no filters for this search")
+    return msg
+
 
 @register.filter('ToMonth', autoescape=True)
 def to_month(value):

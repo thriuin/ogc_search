@@ -17,23 +17,23 @@
           content="Web Experience Toolkit (WET) includes reusable components for building and maintaining innovative Web sites that are accessible, usable, and interoperable. These reusable components are open source software and free for use by departments and external Web communities">
     <!-- Meta data-->
     <!--[if gte IE 9 | !IE ]><!-->
-    <link href="{% static 'GCWeb/assets/favicon.ico' %}" rel="icon" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'GCWeb/css/theme.min.css' %}">
+    <link href="{% static 'wxt/GCWeb/assets/favicon.ico' %}" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'wxt/GCWeb/css/theme.min.css' %}">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <!--<![endif]-->
     <!--[if lt IE 9]>
-    <link href="{% static '/GCWeb/assets/favicon.ico' %}" rel="shortcut icon"/>
+    <link href="{% static 'wxt//GCWeb/assets/favicon.ico' %}" rel="shortcut icon"/>
 
-    <link rel="stylesheet" href="{% static '/GCWeb/css/ie8-theme.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'wxt//GCWeb/css/ie8-theme.min.css' %}"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="{% static 'wet-boew/js/ie8-wet-boew.min.js' %}"></script>
+    <script src="{% static 'wxt/wet-boew/js/ie8-wet-boew.min.js' %}"></script>
     <![endif]-->
     <!--[if lte IE 9]>
 
 
     <![endif]-->
     <noscript>
-        <link rel="stylesheet" href="{% static '/wet-boew/css/noscript.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'wxt//wet-boew/css/noscript.min.css' %}"/>
     </noscript>
     <!-- Google Tag Manager DO NOT REMOVE OR MODIFY - NE PAS SUPPRIMER OU MODIFIER -->
     <script>dataLayer1 = [];</script>
@@ -75,7 +75,7 @@
         </section>
         <div class="row">
             <div class="brand col-xs-8 col-sm-9 col-md-6">
-                <a href="https://www.canada.ca/en.html"><img src="{% static '/GCWeb/assets/sig-blk-en.svg'%}"
+                <a href="https://www.canada.ca/en.html"><img src="{% static 'wxt//GCWeb/assets/sig-blk-en.svg'%}"
                                                              alt=""><span class="wb-inv"> Government of Canada / <span
                         lang="fr">Gouvernement du Canada</span></span></a>
             </div>
@@ -118,7 +118,7 @@
             {% endblock canada_ca_search %}
         </div>
     </div>
-    <nav role="navigation" id="wb-sm" data-ajax-replace="{% static '/ajax/sitemenu-en.html' %}" data-trgt="mb-pnl"
+    <nav role="navigation" id="wb-sm" data-ajax-replace="{% static 'wxt//ajax/sitemenu-en.html' %}" data-trgt="mb-pnl"
          class="wb-menu visible-md visible-lg" typeof="SiteNavigationElement">
         <div class="container nvbar">
             <h2>Topics menu</h2>
@@ -185,13 +185,13 @@
 </footer>
 <!--[if gte IE 9 | !IE ]><!-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-<script src="{% static '/wet-boew/js/wet-boew.min.js' %}"></script>
+<script src="{% static 'wxt/wet-boew/js/wet-boew.min.js' %}"></script>
 <!--<![endif]-->
 <!--[if lt IE 9]>
-<script src="{% static '/wet-boew/js/ie8-wet-boew2.min.js' %}"></script>
+<script src="{% static 'wxt/wet-boew/js/ie8-wet-boew2.min.js' %}"></script>
 
 <![endif]-->
-<script src="{% static '/GCWeb/js/theme.min.js' %}"></script>
+<script src="{% static 'wxt/GCWeb/js/theme.min.js' %}"></script>
 {% block custom-jquery %}{% endblock %}
 </body>
 </html>

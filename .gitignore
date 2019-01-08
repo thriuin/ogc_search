@@ -113,6 +113,7 @@ ati/
 bin/
 /ogc_search/ckan/presets.yaml
 /ogc_search/themes-dist-GCWeb
+static/
 
 /ogc_search/settings.py
 /ogc_search/*.jl

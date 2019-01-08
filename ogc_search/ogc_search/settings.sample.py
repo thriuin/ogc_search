@@ -65,6 +65,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'wet', 'templates'),
             os.path.join(BASE_DIR, 'open_data', 'templates'),
+            os.path.join(BASE_DIR, 'static'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -135,9 +136,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "themes-dist-GCWeb"),
-    os.path.join(BASE_DIR, "cdts", "v4_0_28"),
-    os.path.join(BASE_DIR, "open_data", "templates", "static"),
+    ('wxt', os.path.join(BASE_DIR, "themes-dist-GCWeb")),
+    ('cdts', os.path.join(BASE_DIR, "cdts", "v4_0_28")),
+    ('open_data', os.path.join(BASE_DIR, "open_data", "static")),
 ]
 
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
@@ -147,3 +148,5 @@ OPEN_DATA_EN_URL_BASE = "https://open.canada.ca/data/en/dataset/"
 OPEN_DATA_FR_URL_BASE = "https://ouvert.canada.ca/data/fr/dataset/"
 
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
+
+CDTS_VERSION = 'v4_0_28'
