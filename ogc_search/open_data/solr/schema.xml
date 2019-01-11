@@ -614,6 +614,14 @@
     <copyField source="resource_title_fr_s" dest="_text_fr_"/>
     <copyField source="resource_title_en_s" dest="_text_en_"/>
 
+    <!-- Fields added for export -->
+    <copyField source="id_name_s" dest="id_s"/>
+    <copyField source="owner_org_s" dest="org_s"/>
+    <copyField source="description_txt_en" dest="description_en_s"/>
+    <copyField source="description_xlt_txt_en" dest="description_en_s"/>
+    <copyField source="description_txt_fr" dest="description_fr_s"/>
+    <copyField source="description_xlt_txt_fr" dest="description_fr_s"/>
+
     <!-- Added for Highlighting -->
     <field name="owner_org_title_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="title_txt_en" type="text_en" indexed="true" stored="true"/>
@@ -627,23 +635,23 @@
     <!-- Added for Open Data Search -->
 
     <!-- facets -->
-    <field name="portal_type_en_s" type="string" indexed="true" stored="true"/>
-    <field name="portal_type_fr_s" type="string" indexed="true" stored="true"/>
-    <field name="collection_type_en_s" type="string" indexed="true" stored="true"/>
-    <field name="collection_type_fr_s" type="string" indexed="true" stored="true"/>
-    <field name="jurisdiction_en_s" type="string" indexed="true" stored="true"/>
-    <field name="jurisdiction_fr_s" type="string" indexed="true" stored="true"/>
-    <field name="owner_org_title_en_s" type="string" indexed="true" stored="true"/>
-    <field name="owner_org_title_fr_s" type="string" indexed="true" stored="true"/>
-    <field name="keywords_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="keywords_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="subject_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="subject_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="resource_format_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="resource_type_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="resource_type_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="update_cycle_en_s" type="string" indexed="true" stored="true"/>
-    <field name="update_cycle_fr_s" type="string" indexed="true" stored="true"/>
+    <field name="portal_type_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="portal_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="collection_type_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="collection_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="jurisdiction_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="jurisdiction_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="owner_org_title_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="owner_org_title_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="keywords_en_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="keywords_fr_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="subject_en_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="subject_fr_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="resource_format_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="resource_type_en_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="resource_type_fr_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="update_cycle_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="update_cycle_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <!-- end facets -->
 
     <field name="id_name_s" type="text_ws" indexed="true" stored="true"/>
@@ -654,10 +662,12 @@
     <field name="description_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="description_xlt_txt_fr" type="text_fr" indexed="true" stored="true"/>
 
-    <field name="title_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"/>
-    <field name="title_xlt_en_s" type="string" indexed="true" stored="true"/>
-    <field name="title_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"/>
-    <field name="title_xlt_fr_s" type="string" indexed="true" stored="true"/>
+    <field name="title_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
+           docValues="true"/>
+    <field name="title_xlt_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="title_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
+           docValues="true"/>
+    <field name="title_xlt_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="resource_title_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="resource_title_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="last_modified_tdt" type="tdate" indexed="true" stored="true" multiValued="false"

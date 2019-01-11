@@ -8,7 +8,6 @@ from operator import itemgetter
 import os
 import pysolr
 import re
-import shlex
 
 logger = logging.getLogger(__name__)
 
@@ -162,6 +161,10 @@ class ODSearchView(View):
         }
 
 
+    def split_with_quotes(self, csv_string):
+        # As per https://stackoverflow.com/a/23155180
+        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
+
     def _query_solr(self, q, startrow='0', pagesize='10', facets={}, language='en', search_text='', sort_order='score asc'):
         solr = pysolr.Solr(settings.SOLR_URL)
         solr_facets = []
@@ -236,7 +239,7 @@ class ODSearchView(View):
 
         search_text = str(request.GET.get('search_text', ''))
         # Respect quoted strings
-        search_terms = shlex.split(search_text)
+        search_terms = self.split_with_quotes(search_text)
         if len(search_terms) == 0:
             solr_search_terms = "*"
         elif len(search_terms) == 1:
@@ -390,3 +393,102 @@ class ODSearchView(View):
         context["cdts_version"] = settings.CDTS_VERSION
 
         return render(request, "od_search.html", context)
+
+
+class ODExportView(View):
+
+    def __init__(self):
+        super().__init__()
+        self.solr_fields_en = (
+            "id_s", "org_s", "description_en_s", "description_en_s", "description_fr_s",  "description_fr_s",
+        )
+
+    def split_with_quotes(self, csv_string):
+        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
+
+    def get(self, request):
+        # Handle search text
+
+        search_text = str(request.GET.get('search_text', ''))
+        # Respect quoted strings
+        search_terms = self.split_with_quotes(search_text)
+        if len(search_terms) == 0:
+            solr_search_terms = "*"
+        elif len(search_terms) == 1:
+            solr_search_terms = '"{0}"'.format(search_terms)
+        else:
+            solr_search_terms = ' '.join(search_terms)
+
+        # Retrieve any search facets and add to context
+
+        solr_search_portal = request.GET.get('od-search-portal', '')
+        solr_search_col = request.GET.get('od-search-col', '')
+        solr_search_jur = request.GET.get('od-search-jur', '')
+        solr_search_orgs = request.GET.get('od-search-orgs', '')
+        solr_search_keyw = request.GET.get('od-search-keywords', '')
+        solr_search_subj = request.GET.get('od-search-subjects', '')
+        solr_search_fmts = request.GET.get('od-search-format', '')
+        solr_search_rsct = request.GET.get('od-search-rsct', '')
+        solr_search_updc = request.GET.get('od-search-update', '')
+
+        if request.LANGUAGE_CODE == 'fr':
+            facets_dict = dict(portal_type_fr_s=context['portal_selected'],
+                               collection_type_fr_s=context['col_selected'],
+                               jurisdiction_fr_s=context['jur_selected'],
+                               owner_org_title_fr_s=context['organizations_selected'],
+                               keywords_fr_s=context['keyw_selected'],
+                               subject_fr_s=context['subject_selected'],
+                               resource_format_s=context['format_selected'],
+                               resource_type_fr_s=context['rsct_selected'],
+                               update_cycle_fr_s=context['update_selected'])
+        else:
+            facets_dict = dict(portal_type_en_s=context['portal_selected'],
+                               collection_type_en_s=context['col_selected'],
+                               jurisdiction_en_s=context['jur_selected'],
+                               owner_org_title_en_s=context['organizations_selected'],
+                               keywords_en_s=context['keyw_selected'],
+                               subject_en_s=context['subject_selected'],
+                               resource_format_s=context['format_selected'],
+                               resource_type_en_s=context['rsct_selected'],
+                               update_cycle_en_s=context['update_selected'])
+
+
+        return ""
+
+
+    def _query_solr(self, q, facets={}, language='en', search_text='', sort_order='score asc'):
+
+        solr = pysolr.Solr(settings.SOLR_URL)
+        solr_facets = []
+        for facet in facets.keys():
+            if facets[facet] != '':
+                facet_terms = facets[facet].split(',')
+                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
+                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
+                solr_facets.append(facet_text)
+
+        if language == 'fr':
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields_fr,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_fr,
+                'sort': sort_order,
+            }
+            extras.update(self.solr_facet_limits_fr)
+        else:
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields_en,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_en,
+                'sort': sort_order,
+            }
+            extras.update(self.solr_facet_limits_en)
+        if q != '*':
+            if language == 'fr':
+                extras.update(self.phrase_xtras_fr)
+            elif language == 'en':
+                extras.update(self.phrase_xtras_en)
+
+        sr = solr.search(q, **extras)
