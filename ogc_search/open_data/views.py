@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.views.generic import View
 import logging
@@ -397,11 +398,15 @@ class ODSearchView(View):
 
 class ODExportView(View):
 
+
     def __init__(self):
         super().__init__()
-        self.solr_fields_en = (
-            "id_s", "org_s", "description_en_s", "description_en_s", "description_fr_s",  "description_fr_s",
-        )
+        self.solr_fields = (
+            "id_s", "org_s", "title_en_s", "title_fr_s", "description_en_s", "description_fr_s")
+        self.solr_query_fields_en = ['owner_org_title_txt_en^2', 'description_txt_en', 'keywords_txt_en^2',
+                                     'title_txt_en^3', 'author_txt', 'resource_title_txt_en^2']
+        self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',
+                                     'title_txt_fr^5', 'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5']
 
     def split_with_quotes(self, csv_string):
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
@@ -432,33 +437,35 @@ class ODExportView(View):
         solr_search_updc = request.GET.get('od-search-update', '')
 
         if request.LANGUAGE_CODE == 'fr':
-            facets_dict = dict(portal_type_fr_s=context['portal_selected'],
-                               collection_type_fr_s=context['col_selected'],
-                               jurisdiction_fr_s=context['jur_selected'],
-                               owner_org_title_fr_s=context['organizations_selected'],
-                               keywords_fr_s=context['keyw_selected'],
-                               subject_fr_s=context['subject_selected'],
-                               resource_format_s=context['format_selected'],
-                               resource_type_fr_s=context['rsct_selected'],
-                               update_cycle_fr_s=context['update_selected'])
+            facets_dict = dict(portal_type_fr_s=solr_search_portal,
+                               collection_type_fr_s=solr_search_col,
+                               jurisdiction_fr_s=solr_search_jur,
+                               owner_org_title_fr_s=solr_search_orgs,
+                               keywords_fr_s=solr_search_keyw,
+                               subject_fr_s=solr_search_subj,
+                               resource_format_s=solr_search_fmts,
+                               resource_type_fr_s=solr_search_rsct,
+                               update_cycle_fr_s=solr_search_updc)
         else:
-            facets_dict = dict(portal_type_en_s=context['portal_selected'],
-                               collection_type_en_s=context['col_selected'],
-                               jurisdiction_en_s=context['jur_selected'],
-                               owner_org_title_en_s=context['organizations_selected'],
-                               keywords_en_s=context['keyw_selected'],
-                               subject_en_s=context['subject_selected'],
-                               resource_format_s=context['format_selected'],
-                               resource_type_en_s=context['rsct_selected'],
-                               update_cycle_en_s=context['update_selected'])
+            facets_dict = dict(portal_type_en_s=solr_search_portal,
+                               collection_type_en_s=solr_search_col,
+                               jurisdiction_en_s=solr_search_jur,
+                               owner_org_title_en_s=solr_search_orgs,
+                               keywords_en_s=solr_search_keyw,
+                               subject_en_s=solr_search_subj,
+                               resource_format_s=solr_search_fmts,
+                               resource_type_en_s=solr_search_rsct,
+                               update_cycle_en_s=solr_search_updc)
 
 
-        return ""
+        search_results = self._query_solr(solr_search_terms, facets=facets_dict,
+                                     language=request.LANGUAGE_CODE , search_text=search_text)
+        return HttpResponse(search_results)
 
 
-    def _query_solr(self, q, facets={}, language='en', search_text='', sort_order='score asc'):
+    def _query_solr(self, q, facets={}, language='en', search_text='', sort_order='last_modified_tdt desc'):
 
-        solr = pysolr.Solr(settings.SOLR_URL)
+        solr = pysolr.Solr(settings.SOLR_URL, search_handler='/export')
         solr_facets = []
         for facet in facets.keys():
             if facets[facet] != '':
@@ -470,25 +477,19 @@ class ODExportView(View):
         if language == 'fr':
             extras = {
                 'fq': solr_facets,
-                'fl': self.solr_fields_fr,
+                'fl': self.solr_fields,
                 'defType': 'edismax',
                 'qf': self.solr_query_fields_fr,
                 'sort': sort_order,
             }
-            extras.update(self.solr_facet_limits_fr)
         else:
             extras = {
                 'fq': solr_facets,
-                'fl': self.solr_fields_en,
+                'fl': self.solr_fields,
                 'defType': 'edismax',
                 'qf': self.solr_query_fields_en,
                 'sort': sort_order,
             }
-            extras.update(self.solr_facet_limits_en)
-        if q != '*':
-            if language == 'fr':
-                extras.update(self.phrase_xtras_fr)
-            elif language == 'en':
-                extras.update(self.phrase_xtras_en)
 
         sr = solr.search(q, **extras)
+        return sr
