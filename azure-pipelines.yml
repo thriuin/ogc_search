@@ -52,7 +52,8 @@ steps:
   condition: succeededOrFailed()
   displayName: 'Run tests'
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: "**/TEST-*.xml"
-    testRunTitle: 'Python $(PYTHON_VERSION)'
+# No Tests as of yet
+#- task: PublishTestResults@2
+#  inputs:
+#    testResultsFiles: "**/TEST-*.xml"
+#    testRunTitle: 'Python $(PYTHON_VERSION)'
