@@ -65,6 +65,21 @@ function submitForm() {
     window.location.search = search_terms;
 }
 
+function downloadResults() {
+    var search_text = $('#od-search-input').val();
+    var search_terms = '';
+    if (typeof search_text !== 'undefined') {
+        search_terms = `${search_terms}&search_text=${search_text}`;
+    }
+    for (let i=0; i<accumulators.length; i++) {
+        if (sessionStorage.getItem(accumulators[i])) {
+            facet_str = sessionStorage.getItem(accumulators[i]);
+            search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
+        }
+    };
+    var export_href =`${window.location.host}${windows.locatione}`;
+}
+
 function submitFormOnEnter(e) {
     if(e.which == 10 || e.which == 13) {
         $('#page').val('1');

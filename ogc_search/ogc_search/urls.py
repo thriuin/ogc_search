@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from open_data import views
-from open_data.views import ODSearchView
+from open_data.views import ODSearchView, ODExportView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     ]
 urlpatterns += i18n_patterns (
     path('od/', ODSearchView.as_view(), name='ODQuery'),
+    path('export/', ODExportView.as_view(), name='ODExport'),
 )
 
 # Added for Debug toolbar ----

@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'aicj%q&*y=ibiuav%h@rwmo8lv-@-lqxp+x_+*=)$4n!ti&j*4'
+SECRET_KEY = 'changeme'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -132,6 +132,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_URL = '/static/'
 
@@ -146,6 +147,14 @@ CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
 OPEN_DATA_EN_URL_BASE = "https://open.canada.ca/data/en/dataset/"
 
 OPEN_DATA_FR_URL_BASE = "https://ouvert.canada.ca/data/fr/dataset/"
+
+OPEN_DATA_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
+
+OPEN_DATA_DATASET_TITLE_EN = "Open Data Portal Catalogue Dataset"
+
+OPEN_DATA_DATASET_TITLE_FR = "Catalogue du portail de données ouvertes ensemble de données"
+
+EXPORT_FILE_CACHE_DIR = "/tmp"
 
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
 

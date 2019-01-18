@@ -6,6 +6,7 @@ from django.views.generic import View
 import logging
 from math import floor, ceil
 from operator import itemgetter
+import hashlib
 import os
 import pysolr
 import re
@@ -329,6 +330,10 @@ class ODSearchView(View):
                                      language=request.LANGUAGE_CODE , search_text=search_text,
                                      sort_order=solr_search_sort)
 
+        export_url = "/{0}/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
+
+        context['export_url'] = export_url
+
         if request.LANGUAGE_CODE == 'fr':
             context['portal_facets'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['portal_type_fr_s'])
@@ -391,6 +396,9 @@ class ODSearchView(View):
 
         context["od_en_url"] = settings.OPEN_DATA_EN_URL_BASE
         context["od_fr_url"] = settings.OPEN_DATA_FR_URL_BASE
+        context["od_ds_id"] = settings.OPEN_DATA_DATASET_ID
+        context["od_ds_title_en"] = settings.OPEN_DATA_DATASET_TITLE_EN
+        context["od_ds_title_fr"] = settings.OPEN_DATA_DATASET_TITLE_FR
         context["cdts_version"] = settings.CDTS_VERSION
 
         return render(request, "od_search.html", context)
@@ -401,17 +409,26 @@ class ODExportView(View):
 
     def __init__(self):
         super().__init__()
-        self.solr_fields = (
-            "id_s", "org_s", "title_en_s", "title_fr_s", "description_en_s", "description_fr_s")
+        self.solr_fields = ['id_s, org_s, title_en_s, title_fr_s, description_en_s, description_fr_s']
         self.solr_query_fields_en = ['owner_org_title_txt_en^2', 'description_txt_en', 'keywords_txt_en^2',
                                      'title_txt_en^3', 'author_txt', 'resource_title_txt_en^2']
         self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',
                                      'title_txt_fr^5', 'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5']
+#       @todo check for settings.EXPORT_FILE_CACHE_DIR - create if it does not exists
 
     def split_with_quotes(self, csv_string):
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
     def get(self, request):
+
+        # Check to see if cached results exist
+
+        # hashed_query = hashlib.sha1(request.GET.urlencode())
+
+        # @todo Add check for hashed query file - and refresh if more than 5 minutes old
+        #       Save export results to hashed query file in EXPORT_FILE_CACHE_DIR
+        #       Return link to file - not raw text
+
         # Handle search text
 
         search_text = str(request.GET.get('search_text', ''))
@@ -460,7 +477,7 @@ class ODExportView(View):
 
         search_results = self._query_solr(solr_search_terms, facets=facets_dict,
                                      language=request.LANGUAGE_CODE , search_text=search_text)
-        return HttpResponse(search_results)
+        return HttpResponse(search_results, content_type='text/json')
 
 
     def _query_solr(self, q, facets={}, language='en', search_text='', sort_order='last_modified_tdt desc'):

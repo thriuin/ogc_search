@@ -188,12 +188,13 @@
             {% block main-content-sidebar %}
             <aside>
                 <div>
-                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}" class="btn btn-info mrgn-bttm-md">
-                            {% trans 'Suggest a Dataset'%}</a>
-                </div>
-                <div>
                     <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md">{% trans 'Clear all choices' %}</a>
                 </div>
+                {% if export_terms != "" %}
+                <div>
+                    <a onclick="" href="{{ export_url }}" class="btn btn-default mrgn-bttm-md">{% trans 'Download Results' %}</a>
+                </div>
+                {% endif %}
                 {# Organizations Facet #}
                 <div>
                     <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
@@ -429,6 +430,17 @@
                             {{ frequency_facets | EmptyFacetMessage }}
                         </ul>
                     </details>
+                </div>
+            </aside>
+            <aside class="mrgn-tp-lg">
+                <div class="list-group">
+                {% if LANGUAGE_CODE == 'fr' %}
+                    <a href="{{ od_fr_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info">{{ od_ds_title_fr }}</a>
+                {% else %}
+                    <a href="{{ od_en_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info">{{ od_ds_title_en }}</a>
+                {% endif %}
+                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}" class="list-group-item list-group-item-success mrgn-tp-md">
+                            {% trans 'Suggest a Dataset'%}</a>
                 </div>
             </aside>
             {% endblock %}
