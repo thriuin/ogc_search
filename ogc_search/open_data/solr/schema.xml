@@ -617,6 +617,10 @@
     <!-- Fields added for export -->
     <copyField source="id_name_s" dest="id_s"/>
     <copyField source="owner_org_s" dest="org_s"/>
+    <copyField source="title_txt_en" dest="title_en_s"/>
+    <copyField source="title_xlt_en_s" dest="title_en_s"/>
+    <copyField source="title_txt_fr" dest="title_fr_s"/>
+    <copyField source="title_xlt_fr_s" dest="title_fr_s"/>
     <copyField source="description_txt_en" dest="description_en_s"/>
     <copyField source="description_xlt_txt_en" dest="description_en_s"/>
     <copyField source="description_txt_fr" dest="description_fr_s"/>

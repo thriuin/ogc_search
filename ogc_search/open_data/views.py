@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.views.generic import View
 import logging
 from math import floor, ceil
 from operator import itemgetter
+import csv
 import hashlib
 import os
 import pysolr
@@ -414,12 +415,28 @@ class ODExportView(View):
                                      'title_txt_en^3', 'author_txt', 'resource_title_txt_en^2']
         self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',
                                      'title_txt_fr^5', 'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5']
-#       @todo check for settings.EXPORT_FILE_CACHE_DIR - create if it does not exists
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
+
+    def cache_search_results_file(self, hashed_filename: str, sr: pysolr.Results):
+
+        # @todo move this check to the get function and implement the rest of the logic
+        
+        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_filename))
+        if not os.path.exists(cached_filename):
+            with open(cached_filename, 'w', newline='') as csvfile:
+                cache_writer = csv.writer(csvfile, dialect='excel')
+                cache_writer.writerow(self.solr_fields[0].split(','))
+                for i in sr.docs:
+                    cache_writer.writerow(i.values())
+        return "{}.csv".format(hashed_filename)
 
     def split_with_quotes(self, csv_string):
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
-    def get(self, request):
+    def get(self, request: HttpRequest):
 
         # Check to see if cached results exist
 
@@ -475,12 +492,13 @@ class ODExportView(View):
                                update_cycle_en_s=solr_search_updc)
 
 
-        search_results = self._query_solr(solr_search_terms, facets=facets_dict,
-                                     language=request.LANGUAGE_CODE , search_text=search_text)
-        return HttpResponse(search_results, content_type='text/json')
+        search_results = self.query_solr(solr_search_terms, facets=facets_dict,
+                                         language=request.LANGUAGE_CODE, search_text=search_text,
+                                         url=request.GET.urlencode().encode('utf8'))
+        return HttpResponseRedirect(search_results)
 
 
-    def _query_solr(self, q, facets={}, language='en', search_text='', sort_order='last_modified_tdt desc'):
+    def query_solr(self, q, facets={}, language='en', search_text='', sort_order='last_modified_tdt desc', url=''):
 
         solr = pysolr.Solr(settings.SOLR_URL, search_handler='/export')
         solr_facets = []
@@ -509,4 +527,7 @@ class ODExportView(View):
             }
 
         sr = solr.search(q, **extras)
-        return sr
+        sha = hashlib.sha1()
+        sha.update(url)
+        cache_file = self.cache_search_results_file(sha.hexdigest(), sr)
+        return "/static/" + cache_file
