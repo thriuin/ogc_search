@@ -156,6 +156,8 @@ OPEN_DATA_DATASET_TITLE_FR = "Catalogue du portail de données ouvertes ensemble
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
 
+EXPORT_FILE_CACHE_URL = ""
+
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
 
 CDTS_VERSION = 'v4_0_28'

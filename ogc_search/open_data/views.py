@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.views.generic import View
 import logging
@@ -11,6 +11,7 @@ import hashlib
 import os
 import pysolr
 import re
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -407,7 +408,6 @@ class ODSearchView(View):
 
 class ODExportView(View):
 
-
     def __init__(self):
         super().__init__()
         self.solr_fields = ['id_s, org_s, title_en_s, title_fr_s, description_en_s, description_fr_s']
@@ -419,36 +419,41 @@ class ODExportView(View):
         if not os.path.exists(self.cache_dir):
             os.mkdir(self.cache_dir)
 
+    def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results):
 
-    def cache_search_results_file(self, hashed_filename: str, sr: pysolr.Results):
-
-        # @todo move this check to the get function and implement the rest of the logic
-        
-        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_filename))
         if not os.path.exists(cached_filename):
             with open(cached_filename, 'w', newline='') as csvfile:
                 cache_writer = csv.writer(csvfile, dialect='excel')
                 cache_writer.writerow(self.solr_fields[0].split(','))
                 for i in sr.docs:
-                    cache_writer.writerow(i.values())
-        return "{}.csv".format(hashed_filename)
+                    try:
+                        cache_writer.writerow(i.values())
+                    except UnicodeEncodeError:
+                        pass
+        return True
 
     def split_with_quotes(self, csv_string):
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
     def get(self, request: HttpRequest):
 
-        # Check to see if cached results exist
+        # Check to see if a recent cached results exists and return that instead if it exists
 
-        # hashed_query = hashlib.sha1(request.GET.urlencode())
-
-        # @todo Add check for hashed query file - and refresh if more than 5 minutes old
-        #       Save export results to hashed query file in EXPORT_FILE_CACHE_DIR
-        #       Return link to file - not raw text
+        hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
+        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_query))
+        if os.path.exists(cached_filename):
+            if time.time() - os.path.getmtime(cached_filename) > 600:
+                os.remove(cached_filename)
+            else:
+                if settings.EXPORT_FILE_CACHE_URL == "":
+                    return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+                else:
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
         # Handle search text
 
         search_text = str(request.GET.get('search_text', ''))
+
         # Respect quoted strings
         search_terms = self.split_with_quotes(search_text)
         if len(search_terms) == 0:
@@ -491,14 +496,15 @@ class ODExportView(View):
                                resource_type_en_s=solr_search_rsct,
                                update_cycle_en_s=solr_search_updc)
 
-
         search_results = self.query_solr(solr_search_terms, facets=facets_dict,
-                                         language=request.LANGUAGE_CODE, search_text=search_text,
-                                         url=request.GET.urlencode().encode('utf8'))
-        return HttpResponseRedirect(search_results)
+                                         language=request.LANGUAGE_CODE, search_text=search_text)
+        self.cache_search_results_file(cached_filename, search_results)
+        if settings.EXPORT_FILE_CACHE_URL == "":
+            return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+        else:
+            return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
-
-    def query_solr(self, q, facets={}, language='en', search_text='', sort_order='last_modified_tdt desc', url=''):
+    def query_solr(self, q, facets={}, language='en', search_text='', sort_order='last_modified_tdt desc'):
 
         solr = pysolr.Solr(settings.SOLR_URL, search_handler='/export')
         solr_facets = []
@@ -527,7 +533,4 @@ class ODExportView(View):
             }
 
         sr = solr.search(q, **extras)
-        sha = hashlib.sha1()
-        sha.update(url)
-        cache_file = self.cache_search_results_file(sha.hexdigest(), sr)
-        return "/static/" + cache_file
+        return sr
