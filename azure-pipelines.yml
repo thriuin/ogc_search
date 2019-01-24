@@ -57,3 +57,24 @@ steps:
 #  inputs:
 #    testResultsFiles: "**/TEST-*.xml"
 #    testRunTitle: 'Python $(PYTHON_VERSION)'
+
+- script: |
+    pip download -d $(Build.ArtifactStagingDirectory)/Staging/Dependencies -r requirements.txt
+  displayName: 'Download Dependencies for Offline Install'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/Staging' 
+    includeRootFolder: false
+    archiveType: 'tar'
+    tarCompression: 'gz'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/OfflinePackage/OGC_Search_DeploymentPackage.tar.gz' 
+    replaceExistingArchive: true 
+  displayName: 'Create OfflinePackage (tarball)'
+
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'OfflinePackage'
+    targetPath: '$(Build.ArtifactStagingDirectory)/OfflinePackage'
+  displayName: 'Upload OfflinePackage to Artifacts'
