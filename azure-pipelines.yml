@@ -6,7 +6,7 @@
 trigger:
 - master
 
-pool: 'oc_ckan_devweb02'
+pool: 'Ubuntu-16.04'
 strategy:
   matrix:
 #    Python35:
