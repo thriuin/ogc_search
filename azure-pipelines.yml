@@ -7,7 +7,8 @@ trigger:
 - master
 
 pool: 
-  name: 'Open Canada'
+  vmImage: 'Ubuntu-16.04'
+  
 strategy:
   matrix:
 #    Python35:
