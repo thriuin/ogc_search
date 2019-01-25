@@ -6,7 +6,7 @@
 trigger:
 - master
 
-pool: 'Open Canada'
+pool: 'oc_ckan_devweb02'
 strategy:
   matrix:
 #    Python35:
