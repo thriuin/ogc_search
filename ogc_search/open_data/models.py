@@ -38,3 +38,19 @@ class Collections(models.Model):
 
     def __unicode__(self):
         return "{}".format(self.id)
+
+
+class QueryLog(models.Model):
+    language = models.CharField(max_length=2)
+    action = models.CharField(max_length=12)
+    timestamp = models.TimeField()
+    search_terms = models.CharField(max_length=150)
+    organization_terms = models.CharField(max_length=256)
+    portal_terms = models.CharField(max_length=128)
+    jurisdiction_terms = models.CharField(max_length=128)
+    collection_terms = models.CharField(max_length=256)
+    keyword_terms = models.CharField(max_length=256)
+    subject_terms = models.CharField(max_length=256)
+    format_terms = models.CharField(max_length=256)
+    res_type_terms = models.CharField(max_length=256)
+    frequency_terms = models.CharField(max_length=256)

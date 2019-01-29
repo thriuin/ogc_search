@@ -15,10 +15,12 @@ class QueryLoggingMiddleware:
 
         response = self.get_response(request)
 
-        # Code to be executed for each request/response after
-        # the view is called.
-        log_dict = request.GET.copy()
-        log_dict['path'] = request.path
-        log_dict['timestamp'] = datetime.datetime.now().replace(microsecond=0).isoformat()
-        self.logger.info(json.dumps(log_dict))
+        if request.path in ['/en/od/', '/fr/od/', '/en/export/', '/fr/export']:
+            # Code to be executed for each request/response after
+            # the view is called.
+            log_dict = request.GET.copy()
+            log_dict['path'] = request.path
+
+            log_dict['timestamp'] = datetime.datetime.now().replace(microsecond=0).isoformat()
+            self.logger.info(json.dumps(log_dict))
         return response
