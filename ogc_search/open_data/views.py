@@ -1,11 +1,9 @@
-from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpRequest, HttpResponseRedirect, FileResponse
-from django.shortcuts import get_object_or_404, render, redirect, render_to_response
+from django.shortcuts import render, redirect
 from django.views.generic import View
 import logging
-from math import floor, ceil
-from operator import itemgetter
+from math import ceil
 import csv
 import hashlib
 import os
@@ -13,21 +11,17 @@ import pysolr
 import re
 import time
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('ogc_search')
 
-def _query_solr_row(id_number):
-    solr = pysolr.Solr('http://127.0.0.1:8983/solr/ckan_od_search')
-    q = 'id:{}'.format(id_number)
-    return solr.search(q)
 
 def _convert_facet_list_to_dict(facet_list: dict, reverse=False) -> dict:
-    '''
+    """
     Solr returns search facet results in the form of an alternating list. Convert the list into a dictionary key
     on the facet
     :param facet_list: facet list returned by Solr
     :param reverse: boolean flag indicating if the search results should be returned in reverse order
     :return: A dictonary of the facet values and counts
-    '''
+    """
     facet_dict = {}
     for i in range(0, len(facet_list)):
         if i % 2 == 0:
@@ -72,11 +66,16 @@ def _calc_pagination_range(results, pagesize, current_page):
 
 
 # Create your views here.
+
 def default_search(request):
     return redirect('/od')
 
 
 class ODSearchView(View):
+    """
+    Open Data search view provides an interactive form to allow searching of a custom Solr core that has the data
+    from Open Canada.
+    """
 
     def __init__(self):
         super().__init__()
@@ -164,12 +163,13 @@ class ODSearchView(View):
             'pf2': self.solr_bigram_fields_fr,
         }
 
-
-    def split_with_quotes(self, csv_string):
+    @staticmethod
+    def split_with_quotes(csv_string):
         # As per https://stackoverflow.com/a/23155180
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
-    def _query_solr(self, q, startrow='0', pagesize='10', facets={}, language='en', search_text='', sort_order='score asc'):
+    def solr_query(self, q, startrow='0', pagesize='10', facets={}, language='en', search_text='',
+                   sort_order='score asc'):
         solr = pysolr.Solr(settings.SOLR_URL)
         solr_facets = []
         for facet in facets.keys():
@@ -214,7 +214,6 @@ class ODSearchView(View):
                 extras.update(self.phrase_xtras_en)
 
         sr = solr.search(q, **extras)
-        print('Solr Query: Terms {0}, Extras {1}'.format(q, extras))
 
         # If there are highlighted results, substitute the highlighted field in the doc results
 
@@ -299,7 +298,7 @@ class ODSearchView(View):
         # Set Sort order
 
         solr_search_sort = request.GET.get('sort', 'score desc')
-        if not solr_search_sort in ['score desc', 'last_modified_tdt desc', 'title_en_s asc']:
+        if solr_search_sort not in ['score desc', 'last_modified_tdt desc', 'title_en_s asc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 
@@ -328,9 +327,9 @@ class ODSearchView(View):
 
         # Retrieve search results and transform facets results to python dict
 
-        search_results = self._query_solr(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
-                                     language=request.LANGUAGE_CODE , search_text=search_text,
-                                     sort_order=solr_search_sort)
+        search_results = self.solr_query(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
+                                         language=request.LANGUAGE_CODE, search_text=search_text,
+                                         sort_order=solr_search_sort)
 
         export_url = "/{0}/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
 
@@ -407,6 +406,9 @@ class ODSearchView(View):
 
 
 class ODExportView(View):
+    """
+    A view for downloading a simple CSV containing a subset of the fields from the Search View.
+    """
 
     def __init__(self):
         super().__init__()
@@ -432,8 +434,40 @@ class ODExportView(View):
                         pass
         return True
 
-    def split_with_quotes(self, csv_string):
+    @staticmethod
+    def split_with_quotes(csv_string):
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
+
+    def solr_query(self, q, facets={}, language='en', sort_order='last_modified_tdt desc'):
+
+        solr = pysolr.Solr(settings.SOLR_URL, search_handler='/export')
+        solr_facets = []
+        for facet in facets.keys():
+            if facets[facet] != '':
+                facet_terms = facets[facet].split(',')
+                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
+                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
+                solr_facets.append(facet_text)
+
+        if language == 'fr':
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_fr,
+                'sort': sort_order,
+            }
+        else:
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_en,
+                'sort': sort_order,
+            }
+
+        sr = solr.search(q, **extras)
+        return sr
 
     def get(self, request: HttpRequest):
 
@@ -496,41 +530,9 @@ class ODExportView(View):
                                resource_type_en_s=solr_search_rsct,
                                update_cycle_en_s=solr_search_updc)
 
-        search_results = self.query_solr(solr_search_terms, facets=facets_dict,
-                                         language=request.LANGUAGE_CODE, search_text=search_text)
+        search_results = self.solr_query(solr_search_terms, facets=facets_dict, language=request.LANGUAGE_CODE)
         self.cache_search_results_file(cached_filename, search_results)
         if settings.EXPORT_FILE_CACHE_URL == "":
             return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
         else:
             return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
-
-    def query_solr(self, q, facets={}, language='en', search_text='', sort_order='last_modified_tdt desc'):
-
-        solr = pysolr.Solr(settings.SOLR_URL, search_handler='/export')
-        solr_facets = []
-        for facet in facets.keys():
-            if facets[facet] != '':
-                facet_terms = facets[facet].split(',')
-                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
-                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
-                solr_facets.append(facet_text)
-
-        if language == 'fr':
-            extras = {
-                'fq': solr_facets,
-                'fl': self.solr_fields,
-                'defType': 'edismax',
-                'qf': self.solr_query_fields_fr,
-                'sort': sort_order,
-            }
-        else:
-            extras = {
-                'fq': solr_facets,
-                'fl': self.solr_fields,
-                'defType': 'edismax',
-                'qf': self.solr_query_fields_en,
-                'sort': sort_order,
-            }
-
-        sr = solr.search(q, **extras)
-        return sr
