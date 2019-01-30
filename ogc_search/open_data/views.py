@@ -401,6 +401,8 @@ class ODSearchView(View):
         context["od_ds_title_en"] = settings.OPEN_DATA_DATASET_TITLE_EN
         context["od_ds_title_fr"] = settings.OPEN_DATA_DATASET_TITLE_FR
         context["cdts_version"] = settings.CDTS_VERSION
+        context['od_en_fgp_root'] = settings.OPEN_DATA_EN_FGP_BASE
+        context['od_fr_fgp_root'] = settings.OPEN_DATA_FR_FGP_BASE
 
         return render(request, "od_search.html", context)
 

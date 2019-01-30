@@ -9,6 +9,7 @@
 
 {% block custom_page_javascript %}
 <script src="{% static 'open_data/od_search.js' %}"></script>
+
 {% endblock custom_page_javascript %}
 
 {% block top-settings %}
@@ -40,6 +41,12 @@
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
             <section>
+                <div class="ogscartwrapper mrgn-bttm-md" style="display:none;visibility:hidden;">
+                    <span class="ogscarttally fa fa-shopping-cart"> {{ _('Tally of Cart Items') }}</span>
+                    <a id="OGSCartListItems" class="ogscartlistbtn btn btn-primary btn-xs" href="#"><span class="fa fa-list-alt"></span> {{ _('List Cart Items') }}</a>
+                    <a id="OGSCartPlotItems" class="ogscartplotbtn btn btn-primary btn-xs" href="#"><span class="fa fa-globe"></span> {{ _('View on Map') }}</a>
+                    <a id="OGSCartDumpItems" class="ogscartplotbtn btn btn-danger btn-xs" href="#"><span class="fa fa-trash-o"></span> {{ _('Empty Cart') }}</a>
+                </div>
                 <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
@@ -139,6 +146,18 @@
                                     {% for y in doc.keywords_txt_en %}<span class="label label-default">{{y | safe}}</span> {% endfor %}
                                 {% endif %}
                             </p>
+                            {% if doc.collection_type_en_s == 'Open Maps' or doc.collection_type_fr_s == 'Cartes Ouvertes' %}
+                            <p>
+                                <a value="{{ doc.id_name_s }}"
+                                   id="OGSCartAdd_{{ doc.id_name_s }}"
+                                   class="ogscartbtn ogscartaddbtn btn btn-success btn-xs" href="javascript:;">
+                                   <span class="fa fa-plus"></span> {% trans 'Add to Map Cart' %}</a>
+                                <a value="{{ doc.id_name_s }}"
+                                   id="OGSCartRemove_{{ doc.id_name_s }}"
+                                   class="ogscartbtn ogscartremovebtn btn btn-danger btn-xs" href="javascript:;">
+                                <span class="fa fa-minus"></span> {% trans 'Remove from Map Cart' %}</a>
+                            </p>
+                            {% endif %}
                         </div>
                      </div>
 
@@ -486,6 +505,62 @@
 "showFeatures": false
 {% endblock %}
 {% block custom-jquery %}
+<script src="{% static 'open_data/OGSCookie.js' %}"></script>
+<script src="{% static 'open_data/OGSMapsCart.js' %}"></script>
+<script src="{% static 'open_data/i18n.js' %}"></script>
+<script type="text/javascript">
+var OGSMapsCart_lang = 'en'
+{% if LANGUAGE_CODE == 'fr' %}
+var OGSRoot = '{{ od_fr_fgp_root }}'
+{% else %}
+var OGSRoot = '{{ od_en_fgp_root }}'
+{% endif %}
+
+
+$( document ).ready(function() {
+  initCart()
+  updateCartUI()
+
+  $("#OGSCartPlotItems").click(function() {
+    viewOnMap()
+  });
+
+  // Part UI ease of use and part system reset
+  $("#OGSCartDumpItems").click(function() {
+    dumpCart()
+    updateCartUI()
+  });
+
+  $(".ogscartviewbtn").click(function() {
+    var action = $(this).attr('id').split('_')
+    type = action[0]
+    id = action[1]
+
+    location.href='https://open.canada.ca/data/en/fgpv_vpgf/'+id
+    return false
+  });
+
+  $(".ogscartbtn").click(function() {
+    var action = $(this).attr('id').split('_')
+    type = action[0]
+    id = action[1]
+
+    // Action
+    if(type == 'OGSCartAdd')    { addCartItem(id)    }
+    if(type == 'OGSCartRemove') { removeCartItem(id) }
+    updateCartUI()
+  });
+
+  // Changes to the cart in another tab/window should be accounted for
+  $(window).focus(function() {
+    initCart()
+    updateCartUI()
+  });
+
+<!-- End Cart -->
+
+});
+</script>
 <script type="text/javascript">
 
 $(function(){
