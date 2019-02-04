@@ -35,13 +35,17 @@
         {% endif %}
     </p>
     <div class="row">
-        <div class="col-md-12">{% block search-alert %}{% endblock %}</div>
-    </div>
-    <div class="row">
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
             <section>
-                <div class="ogscartwrapper mrgn-bttm-md" style="display:none;visibility:hidden;">
+                <div class="row">
+                {% autoescape off %}
+                {% for alert in alerts %}
+                    <section class="alert alert-info">{% trans alert %}</section>
+                {% endfor %}
+                {% endautoescape %}
+                </div>
+                <div class="ogscartwrapper mrgn-bttm-md" style="display:none; visibility:hidden;">
                     <span class="ogscarttally fa fa-shopping-cart"> {{ _('Tally of Cart Items') }}</span>
                     <a id="OGSCartListItems" class="ogscartlistbtn btn btn-primary btn-xs" href="#"><span class="fa fa-list-alt"></span> {{ _('List Cart Items') }}</a>
                     <a id="OGSCartPlotItems" class="ogscartplotbtn btn btn-primary btn-xs" href="#"><span class="fa fa-globe"></span> {{ _('View on Map') }}</a>

@@ -295,6 +295,12 @@ class ODSearchView(View):
             page = 10000
         start_row = 10 * (page - 1)
 
+        alerts = []
+        if 'Open Maps'in context['col_selected_list'] or 'Cartes Ouvertes' in context['col_selected_list']:
+            alerts.append('Search for geospatial data or click <b>Add to cart</b> to select multiple datasets to plot on a single map.<br/>Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial viewer')
+        if 'Open Information' in context['portal_selected_list'] or  'Information ouverte' in context['portal_selected_list']:
+            alerts.append('Please note that the Open Information Portal contains a sample of government of Canada publications and information resources. For more resources, please visit <a href="http://publications.gc.ca/">Government of Canada Publications</a> and <a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.')
+        context['alerts'] = alerts
         # Set Sort order
 
         solr_search_sort = request.GET.get('sort', 'score desc')
