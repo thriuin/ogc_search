@@ -115,7 +115,9 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 'resource_format_s': list(set(resource_fmt)),
                 'resource_title_en_s': resource_title_en,
                 'resource_title_fr_s': resource_title_fr,
-                'last_modified_tdt': o['metadata_modified'] + 'Z'
+                'last_modified_tdt': o['metadata_modified'] + 'Z',
+                'ogp_link_en_s': '{0}{1}'.format(settings.OPEN_DATA_EN_URL_BASE, o['name']),
+                'ogp_link_fr_s': '{0}{1}'.format(settings.OPEN_DATA_FR_URL_BASE, o['name']),
             }
             if 'en' in o['keywords']:
                 od_obj['keywords_en_s'] = o['keywords']['en']

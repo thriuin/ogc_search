@@ -420,7 +420,7 @@ class ODExportView(View):
 
     def __init__(self):
         super().__init__()
-        self.solr_fields = ['id_s, org_s, title_en_s, title_fr_s, description_en_s, description_fr_s']
+        self.solr_fields = ['id_s, org_s, title_en_s, title_fr_s, description_en_s, description_fr_s, ogp_link_en_s, ogp_link_fr_s']
         self.solr_query_fields_en = ['owner_org_title_txt_en^2', 'description_txt_en', 'keywords_txt_en^2',
                                      'title_txt_en^3', 'author_txt', 'resource_title_txt_en^2']
         self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',
@@ -432,7 +432,7 @@ class ODExportView(View):
     def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results):
 
         if not os.path.exists(cached_filename):
-            with open(cached_filename, 'w', newline='') as csvfile:
+            with open(cached_filename, 'w', newline='', encoding='cp1252') as csvfile:
                 cache_writer = csv.writer(csvfile, dialect='excel')
                 cache_writer.writerow(self.solr_fields[0].split(','))
                 for i in sr.docs:
