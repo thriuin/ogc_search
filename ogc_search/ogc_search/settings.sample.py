@@ -172,6 +172,10 @@ OPEN_DATA_EN_URL_BASE = "https://open.canada.ca/data/en/dataset/"
 
 OPEN_DATA_FR_URL_BASE = "https://ouvert.canada.ca/data/fr/dataset/"
 
+OPEN_DATA_EN_FGP_BASE = "https://open.canada.ca/data/en/fgpv_vpgf/"
+
+OPEN_DATA_FR_FGP_BASE = "https://ouvert.canada.ca/data/fr/fgpv_vpgf/"
+
 OPEN_DATA_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
 
 OPEN_DATA_DATASET_TITLE_EN = "Open Data Portal Catalogue Dataset"
