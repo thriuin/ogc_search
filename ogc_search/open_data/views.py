@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render, redirect
+from django.utils.translation import gettext as _
 from django.views.generic import View
 import logging
 from math import ceil
@@ -297,9 +298,9 @@ class ODSearchView(View):
 
         alerts = []
         if 'Open Maps'in context['col_selected_list'] or 'Cartes Ouvertes' in context['col_selected_list']:
-            alerts.append('Search for geospatial data or click <b>Add to cart</b> to select multiple datasets to plot on a single map.<br/>Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial viewer')
+            alerts.append(_('<b>Open Maps</b>: Search for geospatial data or click <b>Add to cart</b> to select multiple datasets to plot on a single map. Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial viewer'))
         if 'Open Information' in context['portal_selected_list'] or  'Information ouverte' in context['portal_selected_list']:
-            alerts.append('Please note that the Open Information Portal contains a sample of government of Canada publications and information resources. For more resources, please visit <a href="http://publications.gc.ca/">Government of Canada Publications</a> and <a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.')
+            alerts.append(_('<b></b>Please note that the Open Information Portal contains a sample of government of Canada publications and information resources. For more resources, please visit <a href="http://publications.gc.ca/">Government of Canada Publications</a> and <a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.'))
         context['alerts'] = alerts
         # Set Sort order
 
