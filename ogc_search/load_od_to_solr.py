@@ -6,9 +6,9 @@ import sys
 from yaml import load
 
 try:
-    from yaml import CLoader as Loader, CDumper as Dumper
+    from yaml import CLoader as Loader
 except ImportError:
-    from yaml import Loader, Dumper
+    from yaml import Loader
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 

@@ -1,12 +1,12 @@
-var OGSMapsMaxCart = 5
-var OGSMapsChecked_ids = []
+var OGSMapsMaxCart = 5;
+var OGSMapsChecked_ids = [];
 
 // Low cost sanity functions
 function uniqueArray(){ OGSMapsChecked_ids = $.grep(OGSMapsChecked_ids, function(v, k){ return $.inArray(v ,OGSMapsChecked_ids) === k; }); }
 function cleanCart()
 {
     // Duplicates?
-    uniqueArray(OGSMapsChecked_ids)
+    uniqueArray();
 
     // Blanks?
     var index = OGSMapsChecked_ids.indexOf('');
@@ -38,9 +38,13 @@ function cleanCart()
 
 function updateCartUI()
 {
+    var solr_query = '';
     cleanCart();
-
-    solr_query = '/data/'+wb.lang+'/dataset?q=name%3A%22'+OGSMapsChecked_ids.join("%22+OR+name%3A%22")+'%22+&sort=metadata_modified+desc'
+    if (wb.lang == 'fr') {
+        solr_query = 'https://ouvert.canada.ca/data/fr/dataset?q=name%3A%22' + OGSMapsChecked_ids.join("%22+OR+name%3A%22") + '%22+&sort=metadata_modified+desc'
+    } else {
+        solr_query = 'https://open.canada.ca/data/en/dataset?q=name%3A%22' + OGSMapsChecked_ids.join("%22+OR+name%3A%22") + '%22+&sort=metadata_modified+desc'
+    }
     $('.ogscartlistbtn').attr("href", solr_query);
 
     cart_full = false
@@ -75,11 +79,11 @@ function updateCartUI()
 
     $(".ogscartbtn").each(function() {
         var action = $(this).attr('id').split('_');
-        type = action[0];
-        id = action[1];
+        var type = action[0];
+        var id = action[1];
 
-        cart_has = false;
-        if(OGSMapsChecked_ids.indexOf(id) > -1) { cart_has = true }
+        var cart_has = false;
+        if(OGSMapsChecked_ids.indexOf(id) > -1) { cart_has = true; }
 
         if(type == 'OGSCartAdd')
         {
@@ -123,7 +127,7 @@ function updateCartUI()
 // Cart setup
 function initCart()
 {
-    OGSMapsShoppingCart_cookie = readCookie('OGSMapsCookie_cart');
+    var OGSMapsShoppingCart_cookie = readCookie('OGSMapsCookie_cart');
     if (OGSMapsShoppingCart_cookie != null)
     { OGSMapsChecked_ids = OGSMapsShoppingCart_cookie.split(',') }
     cleanCart();

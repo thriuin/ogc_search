@@ -1,8 +1,6 @@
 # coding=utf-8
 
 from django import template
-#from django.conf.urls.i18n import i18n_patterns
-from django.urls import reverse
 from django.utils.translation import gettext
 
 

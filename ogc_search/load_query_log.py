@@ -52,5 +52,4 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as qlog:
                 log_entry.save()
         except Exception as x:
             print('Error on line {0}: {1}'.format(i, x))
-            pass
         i += 1

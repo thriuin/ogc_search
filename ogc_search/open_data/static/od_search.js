@@ -3,13 +3,14 @@ var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-s
 
 function select_facet(selected_item, accumulator) {
     var old_facet_arr = [];
+    var old_facet_str = '';
     if (sessionStorage.getItem(accumulator)) {
         old_facet_str = sessionStorage.getItem(accumulator);
         old_facet_arr = String(old_facet_str).split(',');
     }
     var new_facet_arr = [];
     var found_it = false;
-    for (i=0; i<old_facet_arr.length; i++) {
+    for (var i=0; i<old_facet_arr.length; i++) {
         var item = old_facet_arr[i];
         if (item != encodeURIComponent(selected_item)) {
             new_facet_arr.push(item);
@@ -58,7 +59,7 @@ function submitForm() {
     }
     for (let i=0; i<accumulators.length; i++) {
         if (sessionStorage.getItem(accumulators[i])) {
-            facet_str = sessionStorage.getItem(accumulators[i]);
+            var facet_str = sessionStorage.getItem(accumulators[i]);
             search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
         }
     };
@@ -77,7 +78,6 @@ function downloadResults() {
             search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
         }
     };
-    var export_href =`${window.location.host}${windows.locatione}`;
 }
 
 function submitFormOnEnter(e) {
