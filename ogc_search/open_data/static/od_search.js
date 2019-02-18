@@ -74,8 +74,8 @@ function downloadResults() {
     }
     for (let i=0; i<accumulators.length; i++) {
         if (sessionStorage.getItem(accumulators[i])) {
-            facet_str = sessionStorage.getItem(accumulators[i]);
-            search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
+            var facet_str = sessionStorage.getItem(accumulators[i]);
+            search_terms = `${search_terms}&${accumulators[i]}=${facet_str}`
         }
     };
 }

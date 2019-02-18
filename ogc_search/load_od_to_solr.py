@@ -138,7 +138,6 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 i = 0
         except Exception as x:
             print('Error on line {0}: {1}'.format(i, x))
-            pass
 
     if len(od_list) > 0:
         solr.add(od_list)
