@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-13 16:47-0500\n"
+"POT-Creation-Date: 2019-02-18 15:44-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,58 +21,67 @@ msgstr ""
 msgid "Home"
 msgstr "Accueil"
 
-#: .\open_data\templates\od_search.html:30
+#: .\open_data\templates\od_search.html:26 .\wet\templates\base-cdts.html:12
+#: .\wet\templates\base.html:13
+msgid "Open Government"
+msgstr "Gouvernement ouvert"
+
+#: .\open_data\templates\od_search.html:27
+msgid "https://open.canada.ca"
+msgstr "https://ouvert.canada.ca"
+
+#: .\open_data\templates\od_search.html:33
 msgid "Open Government Portal"
 msgstr "Portail du gouvernement ouvert"
 
-#: .\open_data\templates\od_search.html:49
+#: .\open_data\templates\od_search.html:52
 msgid "Tally of Cart Items"
 msgstr "Compte des articels du panier"
 
-#: .\open_data\templates\od_search.html:50
+#: .\open_data\templates\od_search.html:53
 msgid "List Cart Items"
 msgstr "Liste des articles du panier"
 
-#: .\open_data\templates\od_search.html:51
+#: .\open_data\templates\od_search.html:54
 msgid "View on Map"
 msgstr "Afficher la carte"
 
-#: .\open_data\templates\od_search.html:52
+#: .\open_data\templates\od_search.html:55
 msgid "Empty Cart"
 msgstr "Vider le panier"
 
-#: .\open_data\templates\od_search.html:57
+#: .\open_data\templates\od_search.html:60
 #, python-format
 msgid "Found %(result_num)s record%(result_s)s"
 msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
 
-#: .\open_data\templates\od_search.html:61
-#: .\open_data\templates\od_search.html:63
-#: .\open_data\templates\od_search.html:67
-#: .\open_data\templates\od_search.html:69 .\wet\templates\base.html:103
+#: .\open_data\templates\od_search.html:64
+#: .\open_data\templates\od_search.html:66
+#: .\open_data\templates\od_search.html:70
+#: .\open_data\templates\od_search.html:72 .\wet\templates\base.html:103
 #: .\wet\templates\base.html:112
 msgid "Search"
 msgstr "Recherche"
 
-#: .\open_data\templates\od_search.html:78
+#: .\open_data\templates\od_search.html:81
 msgid "Best match"
 msgstr "Pertinence"
 
-#: .\open_data\templates\od_search.html:80
+#: .\open_data\templates\od_search.html:83
 msgid "Newest"
 msgstr "Date de modification"
 
-#: .\open_data\templates\od_search.html:82
+#: .\open_data\templates\od_search.html:85
 msgid "Title"
 msgstr "Titre"
 
-#: .\open_data\templates\od_search.html:87
+#: .\open_data\templates\od_search.html:90
 msgid "Order By"
 msgstr "Trier par"
 
-#: .\open_data\templates\od_search.html:120
-#: .\open_data\templates\od_search.html:133
-#: .\open_data\templates\od_search.html:138
+#: .\open_data\templates\od_search.html:123
+#: .\open_data\templates\od_search.html:136
+#: .\open_data\templates\od_search.html:141
 msgid ""
 "This third party metadata element has been translated using an automated "
 "translation tool (DeepL).  To report any discrepancies please contact open-"
@@ -82,145 +91,145 @@ msgstr ""
 "l'aide d'un outil de traduction automatisée (DeepL). Pour signaler toute "
 "anomalie, veuillez communiquer avec nous à open-ouvert@tbs-sct.gc.ca"
 
-#: .\open_data\templates\od_search.html:141
-#: .\open_data\templates\od_search.html:240
+#: .\open_data\templates\od_search.html:144
+#: .\open_data\templates\od_search.html:243
 msgid "Organization"
 msgstr "Organisation"
 
-#: .\open_data\templates\od_search.html:143
-#: .\open_data\templates\od_search.html:401
+#: .\open_data\templates\od_search.html:146
+#: .\open_data\templates\od_search.html:404
 msgid "Formats"
 msgstr "Formats"
 
-#: .\open_data\templates\od_search.html:146
-#: .\open_data\templates\od_search.html:351
+#: .\open_data\templates\od_search.html:149
+#: .\open_data\templates\od_search.html:354
 msgid "Key Words"
 msgstr "Mots clés"
 
-#: .\open_data\templates\od_search.html:158
+#: .\open_data\templates\od_search.html:161
 msgid "Add to Map Cart"
 msgstr "Ajouter au panier de cartes"
 
-#: .\open_data\templates\od_search.html:162
+#: .\open_data\templates\od_search.html:165
 msgid "Remove from Map Cart"
 msgstr "Supprimer du panier"
 
-#: .\open_data\templates\od_search.html:178
 #: .\open_data\templates\od_search.html:181
+#: .\open_data\templates\od_search.html:184
 msgid "Previous"
 msgstr "Précédent"
 
-#: .\open_data\templates\od_search.html:184
-#: .\open_data\templates\od_search.html:188
+#: .\open_data\templates\od_search.html:187
+#: .\open_data\templates\od_search.html:191
 msgid "Go to"
 msgstr "Aller à la page"
 
-#: .\open_data\templates\od_search.html:190
 #: .\open_data\templates\od_search.html:193
+#: .\open_data\templates\od_search.html:196
 msgid "Next"
 msgstr "Suivant"
 
-#: .\open_data\templates\od_search.html:216
+#: .\open_data\templates\od_search.html:219
 msgid "Clear all choices"
 msgstr "Effacer tout"
 
-#: .\open_data\templates\od_search.html:221
+#: .\open_data\templates\od_search.html:224
 msgid "Download Results"
 msgstr "Télécharger les résultats de recherche"
 
-#: .\open_data\templates\od_search.html:231
+#: .\open_data\templates\od_search.html:234
 msgid "https://open.canada.ca/en/suggested-datasets"
 msgstr "https://ouvert.canada.ca/fr/jeux-de-donnees-suggeres"
 
-#: .\open_data\templates\od_search.html:232
+#: .\open_data\templates\od_search.html:235
 msgid "Suggest a Dataset"
 msgstr "Proposez un jeu de données"
 
-#: .\open_data\templates\od_search.html:278
+#: .\open_data\templates\od_search.html:281
 msgid "Portal Type"
 msgstr "Type de portail"
 
-#: .\open_data\templates\od_search.html:301
+#: .\open_data\templates\od_search.html:304
 msgid "Collection Type"
 msgstr "Type de collection"
 
-#: .\open_data\templates\od_search.html:326
+#: .\open_data\templates\od_search.html:329
 msgid "Jurisdiction"
 msgstr "Juridiction"
 
-#: .\open_data\templates\od_search.html:376
+#: .\open_data\templates\od_search.html:379
 msgid "Subjects"
 msgstr "Sujets"
 
-#: .\open_data\templates\od_search.html:426
+#: .\open_data\templates\od_search.html:429
 msgid "Resource Types"
 msgstr "Type de ressource"
 
-#: .\open_data\templates\od_search.html:451
+#: .\open_data\templates\od_search.html:454
 msgid "Update Frequency"
 msgstr "Fréquence de mise à jour"
 
-#: .\open_data\templates\od_search.html:489
+#: .\open_data\templates\od_search.html:492
 msgid "/en/forms/contact-us"
 msgstr "/fr/formulaire/faites-nous-part-de-vos-commentaires"
 
-#: .\open_data\templates\od_search.html:490
+#: .\open_data\templates\od_search.html:493
 msgid "Open Government Contact"
 msgstr "Contactez-nous du gouvernement ouvert"
 
-#: .\open_data\templates\od_search.html:492
+#: .\open_data\templates\od_search.html:495
 msgid "https://www.canada.ca/en/government/dept.html"
 msgstr "https://www.canada.ca/fr/gouvernement/min.html"
 
-#: .\open_data\templates\od_search.html:493
+#: .\open_data\templates\od_search.html:496
 msgid "Departments and agencies"
 msgstr "Ministères et organismes"
 
-#: .\open_data\templates\od_search.html:495
+#: .\open_data\templates\od_search.html:498
 msgid "https://www.canada.ca/en/government/publicservice.html"
 msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
 
-#: .\open_data\templates\od_search.html:496
+#: .\open_data\templates\od_search.html:499
 msgid "Public service and military"
 msgstr "Fonction publique et force militaire"
 
-#: .\open_data\templates\od_search.html:498
+#: .\open_data\templates\od_search.html:501
 msgid "http://news.gc.ca/"
 msgstr "http://nouvelles.gc.ca"
 
-#: .\open_data\templates\od_search.html:499
+#: .\open_data\templates\od_search.html:502
 msgid "News"
 msgstr "Nouvelles"
 
-#: .\open_data\templates\od_search.html:501
+#: .\open_data\templates\od_search.html:504
 msgid "https://www.canada.ca/en/government/system/laws.html"
 msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
 
-#: .\open_data\templates\od_search.html:502
+#: .\open_data\templates\od_search.html:505
 msgid "Treaties, laws and regulations"
 msgstr "Traités, lois et règlements"
 
-#: .\open_data\templates\od_search.html:504
+#: .\open_data\templates\od_search.html:507
 msgid "https://www.canada.ca/en/transparency/reporting.html"
 msgstr "https://www.canada.ca/fr/transparence/rapports.html"
 
-#: .\open_data\templates\od_search.html:505
+#: .\open_data\templates\od_search.html:508
 msgid "Government-wide reporting"
 msgstr "Rapports à l'échelle du gouvernement"
 
-#: .\open_data\templates\od_search.html:507
+#: .\open_data\templates\od_search.html:510
 msgid "/en/user"
 msgstr "/fr/user"
 
-#: .\open_data\templates\od_search.html:508
+#: .\open_data\templates\od_search.html:511
 msgid "Open Government Log In"
 msgstr "Ouverture de session Gouvernement ouvert"
 
-#: .\open_data\templates\od_search.html:510
+#: .\open_data\templates\od_search.html:513
 msgid "https://www.canada.ca/en/government/system.html"
 msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
 
-#: .\open_data\templates\od_search.html:511
+#: .\open_data\templates\od_search.html:514
 msgid "How government works"
 msgstr "Comment le gouvernement fonctionne"
 
@@ -237,22 +246,18 @@ msgstr ""
 
 #: .\open_data\views.py:303
 msgid ""
-"<b></b>Please note that the Open Information Portal contains a sample of government "
-"of Canada publications and information resources. For more resources, please "
-"visit <a href=\"http://publications.gc.ca/\">Government of Canada "
-"Publications</a> and <a href=\"http://www.bac-lac.gc.ca/\">Library and "
-"Archives Canada</a>."
+"<b></b>Please note that the Open Information Portal contains a sample of "
+"government of Canada publications and information resources. For more "
+"resources, please visit <a href=\"http://publications.gc.ca/\">Government of "
+"Canada Publications</a> and <a href=\"http://www.bac-lac.gc.ca/\">Library "
+"and Archives Canada</a>."
 msgstr ""
-"<b></b>Veuillez noter que le Portail d’information ouverte contient un échantillon "
-"de publications et de ressources d’information du gouvernement du Canada. "
-"Pour consulter d’autres ressources, veuillez visiter <a href=\"http://"
-"publications.gc.ca/\">Publications du gouvernement du Canada</a> et <a href="
-"\"http://www.bac-lac.gc.ca/Pages/default.aspx\">Bibliothèque et Archives "
-"Canada</a>."
-
-#: .\wet\templates\base-cdts.html:12 .\wet\templates\base.html:13
-msgid "Open Government"
-msgstr "Gouvernement ouvert"
+"<b></b>Veuillez noter que le Portail d’information ouverte contient un "
+"échantillon de publications et de ressources d’information du gouvernement "
+"du Canada. Pour consulter d’autres ressources, veuillez visiter <a href="
+"\"http://publications.gc.ca/\">Publications du gouvernement du Canada</a> et "
+"<a href=\"http://www.bac-lac.gc.ca/Pages/default.aspx\">Bibliothèque et "
+"Archives Canada</a>."
 
 #: .\wet\templates\base.html:58
 msgid "Skip to main content"
@@ -359,7 +364,7 @@ msgstr ""
 "\"./GCWeb/assets/wmms-blk.svg\" alt=\"Symbole du gouvernement du Canada\"></"
 "div>\n"
 
-#: .\wet\templatetags\search_extras.py:39
+#: .\wet\templatetags\search_extras.py:37
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
 
