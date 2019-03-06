@@ -11,8 +11,6 @@ pool:
   
 strategy:
   matrix:
-#    Python35:
-#      PYTHON_VERSION: '3.5'
     Python36:
       PYTHON_VERSION: '3.6'
 #    Python37:
@@ -44,7 +42,7 @@ steps:
 - script: |
     python -m pip install --upgrade pip setuptools wheel
     pip install -r requirements.txt
-    pip install unittest-xml-reporting
+#    pip install unittest-xml-reporting
   displayName: 'Install prerequisites'
 
 #- script: |
