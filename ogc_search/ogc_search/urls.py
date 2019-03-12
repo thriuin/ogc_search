@@ -22,7 +22,6 @@ from open_data import views
 from open_data.views import ODSearchView, ODExportView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.default_search),
     ]
 urlpatterns += i18n_patterns(
@@ -41,3 +40,10 @@ if settings.DEBUG:
     ] + urlpatterns
 
 # -----------------
+
+if settings.ADMIN_ENABLED:
+    urlpatterns += [
+        path('admin/', admin.site.urls),
+        ]
+
+
