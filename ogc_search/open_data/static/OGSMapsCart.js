@@ -41,9 +41,9 @@ function updateCartUI()
     var solr_query = '';
     cleanCart();
     if (wb.lang == 'fr') {
-        solr_query = 'https://ouvert.canada.ca/data/fr/dataset?q=name%3A%22' + OGSMapsChecked_ids.join("%22+OR+name%3A%22") + '%22+&sort=metadata_modified+desc'
+        solr_query = '/fr/od/?ids=' + OGSMapsChecked_ids.join(",")
     } else {
-        solr_query = 'https://open.canada.ca/data/en/dataset?q=name%3A%22' + OGSMapsChecked_ids.join("%22+OR+name%3A%22") + '%22+&sort=metadata_modified+desc'
+        solr_query = '/en/od/?ids=' + OGSMapsChecked_ids.join(",")
     }
     $('.ogscartlistbtn').attr("href", solr_query);
 

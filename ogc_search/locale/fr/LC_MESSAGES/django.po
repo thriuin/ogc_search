@@ -35,20 +35,20 @@ msgid "Open Government Portal"
 msgstr "Portail du gouvernement ouvert"
 
 #: .\open_data\templates\od_search.html:52
-msgid "Tally of Cart Items"
-msgstr "Compte des articels du panier"
+msgid "Tally of Items"
+msgstr "Compte des articels"
 
 #: .\open_data\templates\od_search.html:53
-msgid "List Cart Items"
-msgstr "Liste des articles du panier"
+msgid "List Items"
+msgstr "Liste des articles"
 
 #: .\open_data\templates\od_search.html:54
 msgid "View on Map"
 msgstr "Afficher la carte"
 
 #: .\open_data\templates\od_search.html:55
-msgid "Empty Cart"
-msgstr "Vider le panier"
+msgid "Clear List"
+msgstr "Vider la list"
 
 #: .\open_data\templates\od_search.html:60
 #, python-format
@@ -107,12 +107,12 @@ msgid "Key Words"
 msgstr "Mots clés"
 
 #: .\open_data\templates\od_search.html:161
-msgid "Add to Map Cart"
-msgstr "Ajouter au panier de cartes"
+msgid "Add to Map List"
+msgstr "Ajouter à la liste de cartes"
 
 #: .\open_data\templates\od_search.html:165
-msgid "Remove from Map Cart"
-msgstr "Supprimer du panier"
+msgid "Remove from Map List"
+msgstr "Supprimer de la liste de cartes"
 
 #: .\open_data\templates\od_search.html:181
 #: .\open_data\templates\od_search.html:184

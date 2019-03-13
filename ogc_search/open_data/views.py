@@ -65,6 +65,18 @@ def _calc_pagination_range(results, pagesize, current_page):
 
     return spaced_pagination
 
+# Credit to https://gist.github.com/kgriffs/c20084db6686fee2b363fdc1a8998792 for this function
+def _create_pattern(version):
+    return re.compile(
+        (
+            '[a-f0-9]{8}-' +
+            '[a-f0-9]{4}-' +
+            version + '[a-f0-9]{3}-' +
+            '[89ab][a-f0-9]{3}-' +
+            '[a-f0-9]{12}$'
+        ),
+        re.IGNORECASE
+)
 
 # Create your views here.
 
@@ -163,6 +175,7 @@ class ODSearchView(View):
             'bq': 'last_modified_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
             'pf2': self.solr_bigram_fields_fr,
         }
+        self.uuid_regex = _create_pattern('[1-5]')
 
     @staticmethod
     def split_with_quotes(csv_string):
@@ -170,15 +183,9 @@ class ODSearchView(View):
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
     def solr_query(self, q, startrow='0', pagesize='10', facets={}, language='en', search_text='',
-                   sort_order='score asc'):
+                   sort_order='score asc', ids=''):
         solr = pysolr.Solr(settings.SOLR_URL)
         solr_facets = []
-        for facet in facets.keys():
-            if facets[facet] != '':
-                facet_terms = facets[facet].split(',')
-                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
-                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
-                solr_facets.append(facet_text)
 
         if language == 'fr':
             extras = {
@@ -208,11 +215,29 @@ class ODSearchView(View):
                 'sort': sort_order,
             }
             extras.update(self.solr_facet_limits_en)
-        if q != '*':
-            if language == 'fr':
-                extras.update(self.phrase_xtras_fr)
-            elif language == 'en':
-                extras.update(self.phrase_xtras_en)
+
+        # Regular search, facets are respected
+        if ids == '':
+            for facet in facets.keys():
+                if facets[facet] != '':
+                    facet_terms = facets[facet].split(',')
+                    quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
+                    facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
+                    solr_facets.append(facet_text)
+
+            if q != '*':
+                if language == 'fr':
+                    extras.update(self.phrase_xtras_fr)
+                elif language == 'en':
+                    extras.update(self.phrase_xtras_en)
+        else:
+            ids_list = str(ids).split(',')
+            q = ""
+            for id in ids_list:
+                if self.uuid_regex.match(id):
+                    q += 'id:{0} OR '.format(id)
+            if q.endswith(' OR '):
+                q = q[:-4]
 
         sr = solr.search(q, **extras)
 
@@ -239,29 +264,46 @@ class ODSearchView(View):
 
     def get(self, request):
 
-        # Handle search text
+        # If a list of ids is provided, then the facets and search text are ignored.
 
-        search_text = str(request.GET.get('search_text', ''))
-        # Respect quoted strings
-        search_terms = self.split_with_quotes(search_text)
-        if len(search_terms) == 0:
-            solr_search_terms = "*"
-        elif len(search_terms) == 1:
-            solr_search_terms = '"{0}"'.format(search_terms)
-        else:
-            solr_search_terms = ' '.join(search_terms)
+        search_text = ''
+        solr_search_terms  = ''
+        solr_search_portal = ''
+        solr_search_col    = ''
+        solr_search_jur    = ''
+        solr_search_orgs   = ''
+        solr_search_keyw   = ''
+        solr_search_subj   = ''
+        solr_search_fmts   = ''
+        solr_search_rsct   = ''
+        solr_search_updc   = ''
 
-        # Retrieve any search facets and add to context
+        solr_search_ids = request.GET.get('ids', '')
 
-        solr_search_portal = request.GET.get('od-search-portal', '')
-        solr_search_col    = request.GET.get('od-search-col', '')
-        solr_search_jur    = request.GET.get('od-search-jur', '')
-        solr_search_orgs   = request.GET.get('od-search-orgs', '')
-        solr_search_keyw   = request.GET.get('od-search-keywords', '')
-        solr_search_subj   = request.GET.get('od-search-subjects', '')
-        solr_search_fmts   = request.GET.get('od-search-format', '')
-        solr_search_rsct   = request.GET.get('od-search-rsct', '')
-        solr_search_updc   = request.GET.get('od-search-update', '')
+        if solr_search_ids == '':
+            # Handle search text
+
+            search_text = str(request.GET.get('search_text', ''))
+            # Respect quoted strings
+            search_terms = self.split_with_quotes(search_text)
+            if len(search_terms) == 0:
+                solr_search_terms = "*"
+            elif len(search_terms) == 1:
+                solr_search_terms = '"{0}"'.format(search_terms)
+            else:
+                solr_search_terms = ' '.join(search_terms)
+
+            # Retrieve any search facets and add to context
+
+            solr_search_portal = request.GET.get('od-search-portal', '')
+            solr_search_col    = request.GET.get('od-search-col', '')
+            solr_search_jur    = request.GET.get('od-search-jur', '')
+            solr_search_orgs   = request.GET.get('od-search-orgs', '')
+            solr_search_keyw   = request.GET.get('od-search-keywords', '')
+            solr_search_subj   = request.GET.get('od-search-subjects', '')
+            solr_search_fmts   = request.GET.get('od-search-format', '')
+            solr_search_rsct   = request.GET.get('od-search-rsct', '')
+            solr_search_updc   = request.GET.get('od-search-update', '')
 
         context = dict(search_text=search_text,
                        portal_selected_list=str(solr_search_portal).split(','),
@@ -336,7 +378,7 @@ class ODSearchView(View):
 
         search_results = self.solr_query(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
                                          language=request.LANGUAGE_CODE, search_text=search_text,
-                                         sort_order=solr_search_sort)
+                                         sort_order=solr_search_sort, ids=solr_search_ids)
 
         export_url = "/{0}/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
 

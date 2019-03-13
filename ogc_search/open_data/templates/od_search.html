@@ -49,10 +49,10 @@
                 {% endautoescape %}
                 </div>
                 <div class="ogscartwrapper mrgn-bttm-md" style="display:none; visibility:hidden;">
-                    <span class="ogscarttally fa fa-shopping-cart"> {{ _('Tally of Cart Items') }}</span>
-                    <a id="OGSCartListItems" class="ogscartlistbtn btn btn-primary btn-xs" href="#"><span class="fa fa-list-alt"></span> {{ _('List Cart Items') }}</a>
+                    <span class="fa fa-shopping-cart"> </span><span class="ogscarttally" style="font-family:Helvetica,Arial,sans-serif;">{{ _('Tally of Items') }} </span>
+                    <a id="OGSCartListItems" class="ogscartlistbtn btn btn-primary btn-xs" href="#"><span class="fa fa-list-alt"></span> {{ _('List Items') }}</a>
                     <a id="OGSCartPlotItems" class="ogscartplotbtn btn btn-primary btn-xs" href="#"><span class="fa fa-globe"></span> {{ _('View on Map') }}</a>
-                    <a id="OGSCartDumpItems" class="ogscartplotbtn btn btn-danger btn-xs" href="#"><span class="fa fa-trash-o"></span> {{ _('Empty Cart') }}</a>
+                    <a id="OGSCartDumpItems" class="ogscartplotbtn btn btn-danger btn-xs" href="#"><span class="fa fa-trash-o"></span> {{ _('Clear List') }}</a>
                 </div>
                 <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
                     <div class="row">
@@ -158,11 +158,11 @@
                                 <a value="{{ doc.id_name_s }}"
                                    id="OGSCartAdd_{{ doc.id_name_s }}"
                                    class="ogscartbtn ogscartaddbtn btn btn-success btn-xs" href="javascript:;">
-                                   <span class="fa fa-plus"></span> {% trans 'Add to Map Cart' %}</a>
+                                   <span class="fa fa-plus"></span> {% trans 'Add to Map List' %}</a>
                                 <a value="{{ doc.id_name_s }}"
                                    id="OGSCartRemove_{{ doc.id_name_s }}"
                                    class="ogscartbtn ogscartremovebtn btn btn-danger btn-xs" href="javascript:;">
-                                <span class="fa fa-minus"></span> {% trans 'Remove from Map Cart' %}</a>
+                                <span class="fa fa-minus"></span> {% trans 'Remove from Map List' %}</a>
                             </p>
                             {% endif %}
                         </div>
@@ -529,6 +529,7 @@ var OGSRoot = '{{ od_en_fgp_root }}'
 
 
 $( document ).ready(function() {
+  wb.lang = '{{ LANGUAGE_CODE }}';
   initCart()
   updateCartUI()
 

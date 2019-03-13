@@ -1,15 +1,15 @@
 var i18n = {
     "OGSCart_empty": {
-        "en": "Map Cart is Empty",
-        "fr": "Le panier est vide"
+        "en": "Map List is Empty",
+        "fr": "La liste est vide"
     },
     "OGSCart_full": {
-        "en": "Map Cart is full",
-        "fr": "Le panier est plein"
+        "en": "Map List is full",
+        "fr": "La liste est plein"
     },
     "OGSCart_has": {
-        "en": "Map Cart",
-        "fr": "Le panier"
+        "en": "Map List",
+        "fr": "Liste de Cartes"
     },
     "OGSCart_of": {
         "en": "of",
