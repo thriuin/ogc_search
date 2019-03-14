@@ -28,7 +28,7 @@ def _convert_facet_list_to_dict(facet_list: dict, reverse=False) -> dict:
         if i % 2 == 0:
             facet_dict[facet_list[i]] = facet_list[i + 1]
     if reverse:
-        rkeys= sorted(facet_dict,  reverse=True)
+        rkeys = sorted(facet_dict,  reverse=True)
         facet_dict_r = {}
         for k in rkeys:
             facet_dict_r[k] = facet_dict[k]
@@ -82,6 +82,11 @@ def _create_pattern(version):
 
 def default_search(request):
     return redirect('/od')
+
+def handle_404_error(request, exception=None):
+    context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE,)
+    context["cdts_version"] = settings.CDTS_VERSION
+    return render(request, '404.html', context, status=404)
 
 
 class ODSearchView(View):

@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
+from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path
 from django.views.decorators.cache import cache_page
 from open_data import views
-from open_data.views import ODSearchView, ODExportView
+from open_data.views import ODSearchView, ODExportView, handle_404_error
 
 urlpatterns = [
     path('', views.default_search),
@@ -27,23 +29,23 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('od/', cache_page(300)(ODSearchView.as_view()), name='ODQuery'),
     path('export/', ODExportView.as_view(), name='ODExport'),
+    path('404/', handle_404_error)
 )
 
-# Added for Debug toolbar ----
-from django.conf import settings
-from django.conf.urls import include, url
+# Use a friendly rendered page for Page Not Found errors
+handler404 = handle_404_error
 
+if settings.ADMIN_ENABLED:
+    urlpatterns += [
+        path('admin/', admin.site.urls),
+        ]
+
+# Added for Debug toolbar ----
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         url('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
-# -----------------
-
-if settings.ADMIN_ENABLED:
-    urlpatterns += [
-        path('admin/', admin.site.urls),
-        ]
 
 
