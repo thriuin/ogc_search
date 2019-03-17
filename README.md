@@ -5,6 +5,9 @@ This project uses a Django framework web application as a thin frontend to Solr 
 proactive disclosure data for the Open Government Portal. Instead of using the usual CKAN Solr 6 cores, data is 
 loaded into custom Solr cores that better support Canada's two official languages.
 
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/context:javascript)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/context:javascript)
 ## Setup
 
 Some extra steps are required
