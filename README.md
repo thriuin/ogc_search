@@ -8,6 +8,8 @@ loaded into custom Solr cores that better support Canada's two official language
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/context:javascript)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/context:javascript)
+[![Known Vulnerabilities](https://snyk.io/test/github/thriuin/ogc_search/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/thriuin/ogc_search?targetFile=requirements.txt)
+
 ## Setup
 
 Some extra steps are required
