@@ -476,13 +476,16 @@ class ODExportView(View):
         self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
         if not os.path.exists(self.cache_dir):
             os.mkdir(self.cache_dir)
+        self.uuid_regex = _create_pattern('[1-5]')
 
     def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results):
 
         if not os.path.exists(cached_filename):
-            with open(cached_filename, 'w', newline='', encoding='cp1252') as csvfile:
+            with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
                 cache_writer = csv.writer(csvfile, dialect='excel')
-                cache_writer.writerow(self.solr_fields[0].split(','))
+                headers = self.solr_fields[0].split(',')
+                headers[0] = u'\N{BOM}' + headers[0]
+                cache_writer.writerow(headers)
                 for i in sr.docs:
                     try:
                         cache_writer.writerow(i.values())
@@ -494,7 +497,7 @@ class ODExportView(View):
     def split_with_quotes(csv_string):
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
-    def solr_query(self, q, facets={}, language='en', sort_order='last_modified_tdt desc'):
+    def solr_query(self, q, facets={}, language='en', sort_order='last_modified_tdt desc', ids=''):
 
         solr = pysolr.Solr(settings.SOLR_URL, search_handler='/export')
         solr_facets = []
@@ -521,7 +524,14 @@ class ODExportView(View):
                 'qf': self.solr_query_fields_en,
                 'sort': sort_order,
             }
-
+        if not ids == '':
+            ids_list = str(ids).split(',')
+            q = ""
+            for id in ids_list:
+                if self.uuid_regex.match(id):
+                    q += 'id:{0} OR '.format(id)
+            if q.endswith(' OR '):
+                q = q[:-4]
         sr = solr.search(q, **extras)
         return sr
 
@@ -540,30 +550,47 @@ class ODExportView(View):
                 else:
                     return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
-        # Handle search text
+        # If a list of ids is provided, then the facets and search text are ignored.
 
-        search_text = str(request.GET.get('search_text', ''))
+        search_text = ''
+        solr_search_terms = ''
+        solr_search_portal = ''
+        solr_search_col = ''
+        solr_search_jur = ''
+        solr_search_orgs = ''
+        solr_search_keyw = ''
+        solr_search_subj = ''
+        solr_search_fmts = ''
+        solr_search_rsct = ''
+        solr_search_updc = ''
 
-        # Respect quoted strings
-        search_terms = self.split_with_quotes(search_text)
-        if len(search_terms) == 0:
-            solr_search_terms = "*"
-        elif len(search_terms) == 1:
-            solr_search_terms = '"{0}"'.format(search_terms)
-        else:
-            solr_search_terms = ' '.join(search_terms)
+        solr_search_ids = request.GET.get('ids', '')
+        if solr_search_ids == '':
 
-        # Retrieve any search facets and add to context
+            # Handle search text
 
-        solr_search_portal = request.GET.get('od-search-portal', '')
-        solr_search_col = request.GET.get('od-search-col', '')
-        solr_search_jur = request.GET.get('od-search-jur', '')
-        solr_search_orgs = request.GET.get('od-search-orgs', '')
-        solr_search_keyw = request.GET.get('od-search-keywords', '')
-        solr_search_subj = request.GET.get('od-search-subjects', '')
-        solr_search_fmts = request.GET.get('od-search-format', '')
-        solr_search_rsct = request.GET.get('od-search-rsct', '')
-        solr_search_updc = request.GET.get('od-search-update', '')
+            search_text = str(request.GET.get('search_text', ''))
+
+            # Respect quoted strings
+            search_terms = self.split_with_quotes(search_text)
+            if len(search_terms) == 0:
+                solr_search_terms = "*"
+            elif len(search_terms) == 1:
+                solr_search_terms = '"{0}"'.format(search_terms)
+            else:
+                solr_search_terms = ' '.join(search_terms)
+
+            # Retrieve any search facets and add to context
+
+            solr_search_portal = request.GET.get('od-search-portal', '')
+            solr_search_col = request.GET.get('od-search-col', '')
+            solr_search_jur = request.GET.get('od-search-jur', '')
+            solr_search_orgs = request.GET.get('od-search-orgs', '')
+            solr_search_keyw = request.GET.get('od-search-keywords', '')
+            solr_search_subj = request.GET.get('od-search-subjects', '')
+            solr_search_fmts = request.GET.get('od-search-format', '')
+            solr_search_rsct = request.GET.get('od-search-rsct', '')
+            solr_search_updc = request.GET.get('od-search-update', '')
 
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(portal_type_fr_s=solr_search_portal,
@@ -586,7 +613,8 @@ class ODExportView(View):
                                resource_type_en_s=solr_search_rsct,
                                update_cycle_en_s=solr_search_updc)
 
-        search_results = self.solr_query(solr_search_terms, facets=facets_dict, language=request.LANGUAGE_CODE)
+        search_results = self.solr_query(solr_search_terms, facets=facets_dict, language=request.LANGUAGE_CODE,
+                                         ids=solr_search_ids)
         self.cache_search_results_file(cached_filename, search_results)
         if settings.EXPORT_FILE_CACHE_URL == "":
             return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
