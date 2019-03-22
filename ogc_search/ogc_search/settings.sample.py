@@ -99,6 +99,8 @@ DATABASES = {
     }
 }
 
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-1234567-8'
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
@@ -118,6 +120,10 @@ logging.config.dictConfig({
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
+    },
+    'ogc_query': {
+        'handlers': ['console'],
+        'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
     },
 })
 
