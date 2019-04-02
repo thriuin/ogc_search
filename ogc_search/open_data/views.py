@@ -114,8 +114,6 @@ class ODSearchView(View):
                                      '{!ex=tag_resource_format_s}resource_format_s',
                                      '{!ex=tag_resource_type_fr_s}resource_type_fr_s',
                                      '{!ex=tag_update_cycle_fr_s}update_cycle_fr_s']
-        self.solr_facet_limits_fr = {'f.keywords_fr_s.facet.limit': 250,
-                                     'f.keywords_fr_s.facet.sort': 'count'}
         self.solr_hl_fields_fr = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr']
         self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',
                                      'title_txt_fr^5', 'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5']

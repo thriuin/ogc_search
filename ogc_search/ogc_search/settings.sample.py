@@ -68,6 +68,7 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'wet', 'templates'),
             os.path.join(BASE_DIR, 'open_data', 'templates'),
+            os.path.join(BASE_DIR, 'briefing_notes', 'templates'),
             os.path.join(BASE_DIR, 'static'),
         ],
         'APP_DIRS': True,

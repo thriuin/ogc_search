@@ -1,5 +1,6 @@
 var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-search-jur', 'od-search-keywords',
-                    'od-search-subjects', 'od-search-format', 'od-search-rsct', 'od-search-update'];
+                    'od-search-subjects', 'od-search-format', 'od-search-rsct', 'od-search-update',
+                    'bn-search-orgs', 'bn-search-year', 'bn-search-month', 'bn-search-action', 'bn-search-addressee'];
 
 function select_facet(selected_item, accumulator) {
     var old_facet_arr = [];
