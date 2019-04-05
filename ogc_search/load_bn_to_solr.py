@@ -73,11 +73,11 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
             od_obj['owner_org_fr_s'] = bi_org_title[1].strip()
             bn_list.append(od_obj)
             i += 1
+            total += 1
             if i == bulk_size:
                 solr.add(bn_list)
                 solr.commit()
                 bn_list = []
-                total += i
                 print('{0} Records Processed'.format(total))
                 i = 0
         except Exception as x:

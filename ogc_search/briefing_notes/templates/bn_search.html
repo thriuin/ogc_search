@@ -48,7 +48,7 @@
                 {% endfor %}
                 {% endautoescape %}
                 </div>
-                <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
+                <form action="{% url 'BNQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                              <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
@@ -57,7 +57,7 @@
                             <div class="input-group">
                                 <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
                                 <input type="text" name="od-search-input" class="form-control" id="od-search-input"
-                                       value="{{ search_text }}" placeholder="{% trans 'Search' %}"
+                                       value="{{ search_text | safe }}" placeholder="{% trans 'Search' %}"
                                        onkeypress="submitFormOnEnter(event)" />
 
                                 <span class="input-group-btn">
@@ -103,47 +103,38 @@
                  <div class="panel-body">
 
                     <div class="row">
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                 {% if LANGUAGE_CODE == 'en' %}
-                                <a href="{{od_en_url}}{{doc.id_name_s}}">
-                                    {% if "title_en_s" in doc %}{{ doc.title_en_s | safe }}{% elif 'title_xlt_en_s' in doc %}{{ doc.title_xlt_en_s | safe }}{% endif %}
+                                    {{ doc.title_txt_en | safe }}
                                 {% else %}
-                                <a href="{{od_fr_url}}{{doc.id_name_s}}">
-                                    {% if "title_fr_s" in doc %}
-                                        {{ doc.title_fr_s | safe }}
-                                    {% elif 'title_xlt_fr_s' in doc %}
-                                        {{ doc.title_xlt_fr_s | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
-                                                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
-                                    {% endif %}
+                                    {{ doc.title_txt_s | safe }}
                                 {% endif %}
-                                </a></h4>
+                            </h4>
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.tracking_number_s | safe }}</h4><br>
+                            <small>{{ doc.date_received_tdt | date:"Y m d" }}</small>
                         </div>
 
                         <div class="col-sm-12">
-                            <p>{% if LANGUAGE_CODE == 'en' %}
-                                    {% if 'description_txt_en' in doc %}{{ doc.description_txt_en | safe }}
-                                    {% elif 'description_xlt_txt_en' in doc %}{{ doc.description_xlt_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
-                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
-                                    {% endif %}
-                                {% else %}
-                                    {% if 'description_txt_fr' in doc %}{{ doc.description_txt_fr | safe }}
-                                    {% elif 'description_xlt_txt_fr' in doc %}{{ doc.description_xlt_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
-                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
-                                    {% endif %}
-                                {% endif %}</p>
-                            <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
-                                {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ doc.owner_org_title_txt_fr | safe }}{% endif %}</p>
-                            <p><strong>{% trans 'Formats' %}: </strong>
-                                {% for f in doc.resource_format_s %}<span class="badge">{% trans f %}</span> {% endfor %}
-                            </p>
-                            <p><span class="wb-inv">{% trans 'Key Words' %}: </span>
-                                {% if LANGUAGE_CODE == 'fr' %}
-                                    {% for y in doc.keywords_txt_fr %}<span class="label label-default">{{y | safe}}</span> {% endfor %}
-                                {% else %}
-                                    {% for y in doc.keywords_txt_en %}<span class="label label-default">{{y | safe}}</span> {% endfor %}
-                                {% endif %}
-                            </p>
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% if doc.additional_information_en_s %}
+                            <p>{{ doc.additional_information_en_s }}</p>
+                            {% endif %}
+                            <p><strong>Organization</strong>: {{ doc.owner_org_fr_s }}</p>
+                            <p><strong>Sector</strong>: {{ doc.org_sector_ft_s }}</p>
+                            <p><strong>Addressee</strong>: {{ doc.addressee_fr_s }}</p>
+                            <p><strong>Action Required</strong>: {{ doc.action_required_fr_s }}</p>
+                        {% else %}
+                            {% if doc.additional_information_en_s %}
+                            <p>{{ doc.additional_information_en_s }}</p>
+                            {% endif %}
+                            <p><strong>Organization</strong>: {{ doc.owner_org_en_s }}</p>
+                            <p><strong>Sector</strong>: {{ doc.org_sector_en_s }}</p>
+                            <p><strong>Addressee</strong>: {{ doc.addressee_en_s }}</p>
+                            <p><strong>Action Required</strong>: {{ doc.action_required_en_s }}</p>
+                        {% endif %}
                         </div>
                      </div>
 
@@ -210,8 +201,6 @@
                 {% else %}
                     <a href="{{ od_en_url }}/{{ bn_ds_id }}" class="list-group-item list-group-item-info">{{ bn_ds_title_en }}</a>
                 {% endif %}
-                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}" class="list-group-item list-group-item-success mrgn-tp-md">
-                            {% trans 'Suggest a Dataset'%}</a>
                 </div>
             </aside>
             <aside>

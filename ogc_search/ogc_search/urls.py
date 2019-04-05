@@ -20,7 +20,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path
 from django.views.decorators.cache import cache_page
-from briefing_notes.views import BNSearchView
+from briefing_notes.views import BNSearchView, BNExportView
 from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
 
@@ -29,9 +29,11 @@ urlpatterns = [
     ]
 urlpatterns += i18n_patterns(
     path('od/', cache_page(300)(ODSearchView.as_view()), name='ODQuery'),
-    path('export/', ODExportView.as_view(), name='ODExport'),
+    path('od/export/', ODExportView.as_view(), name='ODExport'),
     path('404/', handle_404_error),
-    path('bn/', BNSearchView.as_view(), name='BNQuery')
+    path('bn/', BNSearchView.as_view(), name='BNQuery'),
+    path('bn/export/', BNExportView.as_view(), name='BNExport')
+
 )
 
 # Use a friendly rendered page for Page Not Found errors

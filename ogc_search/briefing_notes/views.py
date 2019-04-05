@@ -3,9 +3,14 @@ from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from django.views.generic import View
+import csv
+import hashlib
 import logging
+from math import ceil
+import os
 import pysolr
 import re
+import time
 
 logger = logging.getLogger('ogc_search')
 
@@ -67,10 +72,10 @@ class BNSearchView(View):
     def __init__(self):
         super().__init__()
         # French search fields
-        self.solr_fields_fr = ("id,tracking_number_s,title_txt_fr,org_sector_fr_s,addressee_fr_s,action_required_fr_s"
+        self.solr_fields_fr = ("id,tracking_number_s,title_txt_fr,org_sector_fr_s,addressee_fr_s,action_required_fr_s,"
                                "date_received_tdt,month_i,year_i,owner_org_fr_s,additional_information_fr_s")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
-                                     'title_txt_fr^5', '_text_fr_^0.5']
+                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
@@ -79,10 +84,10 @@ class BNSearchView(View):
         self.solr_hl_fields_fr = ['additional_information_fr_s', 'title_txt_fr', 'org_sector_fr_s']
 
         # English search fields
-        self.solr_fields_en = ("id,tracking_number_s,title_txt_en,org_sector_en_s,addressee_en_s,action_required_en_s"
+        self.solr_fields_en = ("id,tracking_number_s,title_txt_en,org_sector_en_s,addressee_en_s,action_required_en_s,"
                                "date_received_tdt,month_i,year_i,owner_org_en_s,additional_information_en_s")
         self.solr_query_fields_en = ['owner_org_en_s^2', 'additional_information_en_s^3', 'org_sector_en_s^4',
-                                     'title_txt_en^5', '_text_en_^0.5']
+                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
@@ -120,7 +125,7 @@ class BNSearchView(View):
         # As per https://stackoverflow.com/a/23155180
         return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
-    def solr_query(self, q, startrow='0', pagesize='10', facets={}, language='en', search_text='',
+    def solr_query(self, q, startrow='0', pagesize='10', facets={}, language='en',
                    sort_order='score asc', ids=''):
         solr = pysolr.Solr(settings.SOLR_BN)
         solr_facets = []
@@ -204,6 +209,7 @@ class BNSearchView(View):
 
         search_text = str(request.GET.get('search_text', ''))
         # Respect quoted strings
+        context['search_text'] = search_text
         search_terms = self.split_with_quotes(search_text)
         if len(search_terms) == 0:
             solr_search_terms = "*"
@@ -216,9 +222,9 @@ class BNSearchView(View):
 
         solr_search_orgs: str = request.GET.get('bn-search-orgs', '')
         solr_search_year: str = request.GET.get('bn-search-year', '')
-        solr_search_month:str = request.GET.get('bn-search-month', '')
-        solr_search_ar : str = request.GET.get('bn-search-action', '')
-        solr_search_addrs : str = request.GET.get('bn-search-addressee', '')
+        solr_search_month: str = request.GET.get('bn-search-month', '')
+        solr_search_ar: str = request.GET.get('bn-search-action', '')
+        solr_search_addrs: str = request.GET.get('bn-search-addressee', '')
 
         context["organizations_selected"] = solr_search_orgs
         context["organizations_selected_list"] = solr_search_orgs.split(',')
@@ -264,9 +270,10 @@ class BNSearchView(View):
                                addressee_en_s=context['addressee_selected'])
 
         search_results = self.solr_query(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
-                                         language=request.LANGUAGE_CODE, search_text=search_text,
+                                         language=request.LANGUAGE_CODE,
                                          sort_order=solr_search_sort, ids=solr_search_ids)
 
+        context['results'] = search_results
         export_url = "/{0}/bn/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
         context['export_url'] = export_url
 
@@ -291,3 +298,127 @@ class BNSearchView(View):
             search_results.facets['facet_fields']['year_i'])
 
         return render(request, "bn_search.html", context)
+
+class BNExportView(View):
+
+    def __init__(self):
+        super().__init__()
+        self.solr_fields = ['tracking_id_s, owner_org_en_s, owner_org_fr_s, org_sector_en_s, org_sector_fr_s,'
+                            'additional_information_en_s, additional_information_fr_s, date_received_tdt,'
+                            'addressee_en_s, addressee_fr_s, action_required_en_s, action_required_fr_s']
+
+        self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
+                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5']
+        self.solr_query_fields_en = ['owner_org_en_s^2', 'additional_information_en_s^3', 'org_sector_en_s^4',
+                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5']
+
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
+    def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results):
+
+        if not os.path.exists(cached_filename):
+            with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
+                cache_writer = csv.writer(csvfile, dialect='excel')
+                headers = self.solr_fields[0].split(',')
+                headers[0] = u'\N{BOM}' + headers[0]
+                cache_writer.writerow(headers)
+                for i in sr.docs:
+                    try:
+                        cache_writer.writerow(i.values())
+                    except UnicodeEncodeError:
+                        pass
+        return True
+
+    @staticmethod
+    def split_with_quotes(csv_string):
+        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
+
+    def solr_query(self, q, facets={}, language='en', sort_order='date_received_tdt desc', ids=''):
+
+        solr = pysolr.Solr(settings.SOLR_BN, search_handler='/export')
+        solr_facets = []
+        for facet in facets.keys():
+            if facets[facet] != '':
+                facet_terms = facets[facet].split(',')
+                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
+                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
+                solr_facets.append(facet_text)
+
+        if language == 'fr':
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_fr,
+                'sort': sort_order,
+            }
+        else:
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_en,
+                'sort': sort_order,
+            }
+        sr = solr.search(q, **extras)
+        return sr
+
+    def get(self, request: HttpRequest):
+
+        # Check to see if a recent cached results exists and return that instead if it exists
+
+        hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
+        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_query))
+        if os.path.exists(cached_filename):
+            if time.time() - os.path.getmtime(cached_filename) > 600:
+                os.remove(cached_filename)
+            else:
+                if settings.EXPORT_FILE_CACHE_URL == "":
+                    return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+                else:
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+        # Get any search terms
+
+        search_text = str(request.GET.get('search_text', ''))
+        # Respect quoted strings
+        search_terms = self.split_with_quotes(search_text)
+        if len(search_terms) == 0:
+            solr_search_terms = "*"
+        elif len(search_terms) == 1:
+            solr_search_terms = '"{0}"'.format(search_terms)
+        else:
+            solr_search_terms = ' '.join(search_terms)
+
+        # Retrieve search results and transform facets results to python dict
+
+        solr_search_orgs: str = request.GET.get('bn-search-orgs', '')
+        solr_search_year: str = request.GET.get('bn-search-year', '')
+        solr_search_month: str = request.GET.get('bn-search-month', '')
+        solr_search_ar: str = request.GET.get('bn-search-action', '')
+        solr_search_addrs : str = request.GET.get('bn-search-addressee', '')
+
+        if request.LANGUAGE_CODE == 'fr':
+            facets_dict = dict(owner_org_fr_s=solr_search_orgs,
+                               year_i=solr_search_year,
+                               month_i=solr_search_month,
+                               action_required_fr_s=solr_search_ar,
+                               addressee_fr_s=solr_search_addrs)
+        else:
+            facets_dict = dict(owner_org_en_s=solr_search_orgs,
+                               year_i=solr_search_year,
+                               month_i=solr_search_month,
+                               action_required_en_s=solr_search_ar,
+                               addressee_en_s=solr_search_addrs)
+
+        search_results = self.solr_query(solr_search_terms, facets=facets_dict,
+                                         language=request.LANGUAGE_CODE)
+
+        self.cache_search_results_file(cached_filename, search_results)
+        if settings.EXPORT_FILE_CACHE_URL == "":
+            return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+        else:
+            return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+

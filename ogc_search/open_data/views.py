@@ -383,7 +383,7 @@ class ODSearchView(View):
                                          language=request.LANGUAGE_CODE, search_text=search_text,
                                          sort_order=solr_search_sort, ids=solr_search_ids)
 
-        export_url = "/{0}/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
+        export_url = "/{0}/od/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
 
         context['export_url'] = export_url
 
