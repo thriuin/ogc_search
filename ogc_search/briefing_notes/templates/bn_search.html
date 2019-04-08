@@ -73,7 +73,7 @@
                             <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
-                                <option value="last_modified_tdt desc" {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
+                                <option value="date_received_tdt desc" {% if sortby == "date_received_tdt desc" %}selected="selected"{% endif %}
                                     >{% trans 'Newest' %}</option>
                                 <option value="title_en_s asc" {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
                                     >{% trans 'Title' %}</option>
@@ -419,13 +419,19 @@ $(function(){
     if (window.location.search.length > 1) {
         facets = window.location.search.substring(1).split('&');
         for (let i=0; i<facets.length; i++) {
-            pair = facets[i].split('=');
+            var pair = facets[i].split('=');
             sessionStorage.setItem(pair[0], pair[1]);
             //alert(pair[0].substring(0,3));
-            if (pair[0].substring(0,3) == 'od-') {
+            if (pair[0].substring(0,3) == 'bn-') {
                 var display_terms = decodeURIComponent(pair[1]).split(',');
                 for(let j=0; j<display_terms.length; j++) {
-                    $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
+                    var new_link = $("<a />", {
+                        class : "btn btn-default btn-xs",
+                        onclick : `select_facet('${display_terms[j]}','${pair[0]}');`,
+                        text : `${display_terms[j]} `
+                    }).append($("<span />", {class: 'glyphicon glyphicon-remove', text: ' '}));
+                    $('#search_terms').append(new_link);
+                    // $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
                 }
             }
         }

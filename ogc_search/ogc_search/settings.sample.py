@@ -26,6 +26,8 @@ SECRET_KEY = 'changeme'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ADMIN_ENABLED = False
+
 ALLOWED_HOSTS = []
 
 INTERNAL_IPS = ['127.0.0.1']
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'analytical',
     'memcache_status',
     'debug_toolbar',
     'open_data',

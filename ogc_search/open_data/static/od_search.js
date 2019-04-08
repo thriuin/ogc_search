@@ -3,6 +3,7 @@ var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-s
                     'bn-search-orgs', 'bn-search-year', 'bn-search-month', 'bn-search-action', 'bn-search-addressee'];
 
 function select_facet(selected_item, accumulator) {
+
     var old_facet_arr = [];
     var old_facet_str = '';
     if (sessionStorage.getItem(accumulator)) {
@@ -13,14 +14,15 @@ function select_facet(selected_item, accumulator) {
     var found_it = false;
     for (var i=0; i<old_facet_arr.length; i++) {
         var item = old_facet_arr[i];
-        if (item != encodeURIComponent(selected_item)) {
+        var en_selected_item = encodeURIComponent(selected_item)
+        if (item != en_selected_item) {
             new_facet_arr.push(item);
         } else {
             found_it = true;
         }
     };
     if (!found_it) {
-        new_facet_arr.push(selected_item);
+        new_facet_arr.push(encodeURIComponent(selected_item));
     }
     var new_facets = new_facet_arr.toString();
     if (new_facets.charAt(0) == ',') {

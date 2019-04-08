@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.http import HttpRequest, HttpResponseRedirect, FileResponse
-from django.shortcuts import render, redirect
-from django.utils.translation import gettext as _
+from django.shortcuts import render
 from django.views.generic import View
 import csv
 import hashlib
@@ -105,7 +104,7 @@ class BNSearchView(View):
             'hl.preserveMulti': 'true',
             'ps': 10,
             'mm': '3<70%',
-            'bq': 'last_modified_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
+            'bq': 'date_received_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
         }
         self.phrase_xtras_en = {
             'hl': 'on',
@@ -117,7 +116,7 @@ class BNSearchView(View):
             'hl.preserveMulti': 'true',
             'ps': 10,
             'mm': '3<70%',
-            'bq': 'last_modified_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
+            'bq': 'date_received_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
         }
 
     @staticmethod
@@ -252,7 +251,7 @@ class BNSearchView(View):
         # Retrieve search sort order
 
         solr_search_sort = request.GET.get('sort', 'score desc')
-        if solr_search_sort not in ['score desc', 'last_modified_tdt desc', 'title_txt_en asc']:
+        if solr_search_sort not in ['score desc', 'date_received_tdt desc', 'title_txt_en asc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 
