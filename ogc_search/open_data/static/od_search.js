@@ -89,3 +89,16 @@ function submitFormOnEnter(e) {
         submitForm();
     }
 }
+
+function toMonthLabel(month) {
+    if (month < 1 || month > 12) {
+       return 'Error';
+    }
+    if (window.location.pathname.startsWith('/en/')) {
+        let months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        return months[month - 1];
+    } else {
+        let months = ['janvier','fevrier','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','decembre'];
+        return months[month - 1];
+    }
+}

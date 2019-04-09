@@ -2,6 +2,7 @@
 
 from django import template
 from django.utils.translation import gettext
+from dateutil import parser
 
 
 register = template.Library()
@@ -65,5 +66,8 @@ def to_month(value):
         return gettext(months[month_int - 1])
 
 
-
+@register.filter('isoDateTimeToDate')
+def iso_date_time_to_date(value):
+    my_date = parser.parse(value)
+    return my_date.strftime("%Y-%m-%d")
 

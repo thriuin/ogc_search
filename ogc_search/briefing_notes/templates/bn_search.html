@@ -30,7 +30,7 @@
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans "Search Briefing Note Titles" %}</h1>
+<h1 property="name" id="wb-cont">{% trans "Search Briefing Notes Titles" %}</h1>
 {% endblock %}
 <section>
     <p class="gc-byline">{% if request.user.is_authenticated %}
@@ -108,32 +108,32 @@
                                 {% if LANGUAGE_CODE == 'en' %}
                                     {{ doc.title_txt_en | safe }}
                                 {% else %}
-                                    {{ doc.title_txt_s | safe }}
+                                    {{ doc.title_txt_fr | safe }}
                                 {% endif %}
                             </h4>
                         </div>
                         <div class="col-sm-4 text-right">
-                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.tracking_number_s | safe }}</h4><br>
-                            <small>{{ doc.date_received_tdt | date:"Y m d" }}</small>
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.date_received_tdt | isoDateTimeToDate }}</h4>
+                            <small>{{ doc.tracking_number_s | safe }}</small>
                         </div>
 
                         <div class="col-sm-12">
                         {% if LANGUAGE_CODE == 'fr' %}
-                            {% if doc.additional_information_en_s %}
-                            <p>{{ doc.additional_information_en_s }}</p>
+                            <p>{% if doc.additional_information_fr_s %}
+                            {{ doc.additional_information_fr_s }}<br>
                             {% endif %}
-                            <p><strong>Organization</strong>: {{ doc.owner_org_fr_s }}</p>
-                            <p><strong>Sector</strong>: {{ doc.org_sector_ft_s }}</p>
-                            <p><strong>Addressee</strong>: {{ doc.addressee_fr_s }}</p>
-                            <p><strong>Action Required</strong>: {{ doc.action_required_fr_s }}</p>
+                            <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_fr_s }}<br>
+                            <strong>{% trans 'Sector' %}</strong>: {{ doc.org_sector_fr_s }}<br>
+                            <strong>{% trans 'Addressee' %}</strong>: {{ doc.addressee_fr_s }}<br>
+                            <strong>{% trans 'Action Required' %}</strong>: {{ doc.action_required_fr_s }}</p>
                         {% else %}
-                            {% if doc.additional_information_en_s %}
-                            <p>{{ doc.additional_information_en_s }}</p>
+                            <p>{% if doc.additional_information_en_s %}
+                            {{ doc.additional_information_en_s }}<br>
                             {% endif %}
-                            <p><strong>Organization</strong>: {{ doc.owner_org_en_s }}</p>
-                            <p><strong>Sector</strong>: {{ doc.org_sector_en_s }}</p>
-                            <p><strong>Addressee</strong>: {{ doc.addressee_en_s }}</p>
-                            <p><strong>Action Required</strong>: {{ doc.action_required_en_s }}</p>
+                            <strong>Organization</strong>: {{ doc.owner_org_en_s }}<br>
+                            <strong>Sector</strong>: {{ doc.org_sector_en_s }}<br>
+                            <strong>Addressee</strong>: {{ doc.addressee_en_s }}<br>
+                            <strong>Action Required</strong>: {{ doc.action_required_en_s }}</p>
                         {% endif %}
                         </div>
                      </div>
@@ -415,20 +415,24 @@
 $(function(){
 // reset seessionStorage based on the URL
     sessionStorage.clear();
-    var facets = [];
+    let facets = [];
     if (window.location.search.length > 1) {
         facets = window.location.search.substring(1).split('&');
         for (let i=0; i<facets.length; i++) {
-            var pair = facets[i].split('=');
+            let pair = facets[i].split('=');
             sessionStorage.setItem(pair[0], pair[1]);
-            //alert(pair[0].substring(0,3));
             if (pair[0].substring(0,3) == 'bn-') {
-                var display_terms = decodeURIComponent(pair[1]).split(',');
+                let display_terms = decodeURIComponent(pair[1]).split(',');
                 for(let j=0; j<display_terms.length; j++) {
-                    var new_link = $("<a />", {
+                    let display_key = pair[0];
+                    let display_text = display_terms[j];
+                    if (display_key == 'bn-search-month') {
+                        display_text = toMonthLabel(display_text);
+                    }
+                    let new_link = $("<a />", {
                         class : "btn btn-default btn-xs",
-                        onclick : `select_facet('${display_terms[j]}','${pair[0]}');`,
-                        text : `${display_terms[j]} `
+                        onclick : `select_facet('${display_terms[j]}','${display_key}');`,
+                        text : `${display_text} `
                     }).append($("<span />", {class: 'glyphicon glyphicon-remove', text: ' '}));
                     $('#search_terms').append(new_link);
                     // $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
