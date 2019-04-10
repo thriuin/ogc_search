@@ -31,10 +31,13 @@ urlpatterns += i18n_patterns(
     path('od/', cache_page(300)(ODSearchView.as_view()), name='ODQuery'),
     path('od/export/', ODExportView.as_view(), name='ODExport'),
     path('404/', handle_404_error),
-    path('bn/', BNSearchView.as_view(), name='BNQuery'),
-    path('bn/export/', BNExportView.as_view(), name='BNExport')
-
 )
+
+if settings.BN_ENABLED:
+    urlpatterns += i18n_patterns(
+        path('bn/', BNSearchView.as_view(), name='BNQuery'),
+        path('bn/export/', BNExportView.as_view(), name='BNExport')
+    )
 
 # Use a friendly rendered page for Page Not Found errors
 handler404 = handle_404_error

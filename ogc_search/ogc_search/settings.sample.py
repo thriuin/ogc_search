@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'analytical',
     'memcache_status',
     'debug_toolbar',
+    'briefing_notes',
     'open_data',
     'wet'
 ]
@@ -176,7 +177,14 @@ STATICFILES_DIRS = [
     ('open_data', os.path.join(BASE_DIR, "open_data", "static")),
 ]
 
+
+ADMIN_ENABLED = False
+
+BN_ENABLED = False
+
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
+
+BRIEF_NOTE_YAML_FILE = os.path.join(BASE_DIR, "ckan", "briefingt.yaml")
 
 OPEN_DATA_EN_URL_BASE = "https://open.canada.ca/data/en/dataset/"
 
@@ -192,10 +200,18 @@ OPEN_DATA_DATASET_TITLE_EN = "Open Data Portal Catalogue Dataset"
 
 OPEN_DATA_DATASET_TITLE_FR = "Catalogue du portail de données ouvertes ensemble de données"
 
+BRIEFING_NOTE_DATASET_TITLE_EN = "Briefing Notes Dataest"
+
+BRIEFING_NOTE_DATASET_TITLE_FR = "Note de breffage"
+
+BRIEFING_NOTE_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
+
 EXPORT_FILE_CACHE_DIR = "/tmp"
 
 EXPORT_FILE_CACHE_URL = ""
 
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
+
+SOLR_BN = 'http://127.0.0.1:8983/solr/core_bn_search'
 
 CDTS_VERSION = 'v4_0_28'
