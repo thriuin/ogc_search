@@ -421,12 +421,12 @@ $(function(){
         for (let i=0; i<facets.length; i++) {
             let pair = facets[i].split('=');
             sessionStorage.setItem(pair[0], pair[1]);
-            if (pair[0].substring(0,3) == 'bn-') {
+            if (pair[0].substring(0,3) === 'bn-') {
                 let display_terms = decodeURIComponent(pair[1]).split(',');
                 for(let j=0; j<display_terms.length; j++) {
                     let display_key = pair[0];
                     let display_text = display_terms[j];
-                    if (display_key == 'bn-search-month') {
+                    if (display_key === 'bn-search-month') {
                         display_text = toMonthLabel(display_text);
                     }
                     let new_link = $("<a />", {

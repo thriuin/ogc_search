@@ -578,17 +578,22 @@ $( document ).ready(function() {
 $(function(){
 // reset seessionStorage based on the URL
     sessionStorage.clear();
-    var facets = [];
+    let facets = [];
     if (window.location.search.length > 1) {
         facets = window.location.search.substring(1).split('&');
         for (let i=0; i<facets.length; i++) {
-            pair = facets[i].split('=');
+            let pair = facets[i].split('=');
             sessionStorage.setItem(pair[0], pair[1]);
-            //alert(pair[0].substring(0,3));
-            if (pair[0].substring(0,3) == 'od-') {
-                var display_terms = decodeURIComponent(pair[1]).split(',');
+            if (pair[0].substring(0,3) === 'od-') {
+                let display_terms = decodeURIComponent(pair[1]).split(',');
                 for(let j=0; j<display_terms.length; j++) {
-                    $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
+                   let display_key = pair[0];
+                    let new_link = $("<a />", {
+                        class: "btn btn-default btn-xs",
+                        onclick: `select_facet('${display_terms[j]}','${display_key}');`,
+                        text: `${display_terms[j]} `
+                    }).append($("<span />", {class: 'glyphicon glyphicon-remove', text: ' '}));
+                    $('#search_terms').append(new_link);
                 }
             }
         }
