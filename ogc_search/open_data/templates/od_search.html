@@ -38,6 +38,7 @@
         {% endif %}
     </p>
     <div class="row">
+        <div class="col-md-8 col-md-push-4"><div data-ajax-replace="/data/static/_site_messaging/header_od_ckan.{{ LANGUAGE_CODE }}"></div></div>
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
             <section>
@@ -77,10 +78,10 @@
                         <div class="col-md-3 col-sm-4">
                             <div class="input-group">
                             <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
-                                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
-                                    >{% trans 'Best match' %}</option>
                                 <option value="last_modified_tdt desc" {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
                                     >{% trans 'Newest' %}</option>
+                                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
+                                    >{% trans 'Best match' %}</option>
                                 <option value="title_en_s asc" {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
                                     >{% trans 'Title' %}</option>
                             </select>

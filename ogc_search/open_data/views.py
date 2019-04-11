@@ -238,7 +238,7 @@ class ODSearchView(View):
             q = ""
             for id in ids_list:
                 if self.uuid_regex.match(id):
-                    q += 'id:{0} OR '.format(id)
+                    q += 'id_s:"{0}" OR '.format(id)
             if q.endswith(' OR '):
                 q = q[:-4]
 
@@ -349,7 +349,7 @@ class ODSearchView(View):
         context['alerts'] = alerts
         # Set Sort order
 
-        solr_search_sort = request.GET.get('sort', 'score desc')
+        solr_search_sort = request.GET.get('sort', 'last_modified_tdt desc')
         if solr_search_sort not in ['score desc', 'last_modified_tdt desc', 'title_en_s asc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
