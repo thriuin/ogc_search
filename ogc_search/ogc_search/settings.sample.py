@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'analytical',
     'memcache_status',
     'debug_toolbar',
+    'ATI',
     'briefing_notes',
     'open_data',
     'wet'
@@ -73,6 +74,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'wet', 'templates'),
             os.path.join(BASE_DIR, 'open_data', 'templates'),
             os.path.join(BASE_DIR, 'briefing_notes', 'templates'),
+            os.path.join(BASE_DIR, 'ATI', 'templates'),
             os.path.join(BASE_DIR, 'static'),
         ],
         'APP_DIRS': True,
@@ -182,6 +184,8 @@ ADMIN_ENABLED = False
 
 BN_ENABLED = False
 
+ATI_ENABLED = True
+
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
 
 BRIEF_NOTE_YAML_FILE = os.path.join(BASE_DIR, "ckan", "briefingt.yaml")
@@ -206,6 +210,12 @@ BRIEFING_NOTE_DATASET_TITLE_FR = "Note de breffage"
 
 BRIEFING_NOTE_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
 
+ATI_DATASET_TITLE_EN = "Access To Information"
+
+ATI_DATASET_TITLE_FR = "Accès à l'information"
+
+ATI_DATASET_ID = "0797e893-751e-4695-8229-a5066e4fe43c"
+
 EXPORT_FILE_CACHE_DIR = "/tmp"
 
 EXPORT_FILE_CACHE_URL = ""
@@ -213,5 +223,7 @@ EXPORT_FILE_CACHE_URL = ""
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
 
 SOLR_BN = 'http://127.0.0.1:8983/solr/core_bn_search'
+
+SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
 
 CDTS_VERSION = 'v4_0_28'

@@ -20,6 +20,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path
 from django.views.decorators.cache import cache_page
+from ATI.views import ATISearchView
 from briefing_notes.views import BNSearchView, BNExportView
 from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
@@ -35,8 +36,14 @@ urlpatterns += i18n_patterns(
 
 if settings.BN_ENABLED:
     urlpatterns += i18n_patterns(
-        path('bn/', BNSearchView.as_view(), name='BNQuery'),
+        path('bn/', BNSearchView.as_view(), name='ATIQuery'),
         path('bn/export/', BNExportView.as_view(), name='BNExport')
+    )
+
+if settings.ATI_ENABLED:
+    urlpatterns += i18n_patterns(
+        path('ati/', ATISearchView.as_view(), name='ATIQuery'),
+        path('ati/export/', BNExportView.as_view(), name='BNExport')
     )
 
 # Use a friendly rendered page for Page Not Found errors

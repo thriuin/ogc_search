@@ -1,6 +1,7 @@
 var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-search-jur', 'od-search-keywords',
                     'od-search-subjects', 'od-search-format', 'od-search-rsct', 'od-search-update',
-                    'bn-search-orgs', 'bn-search-year', 'bn-search-month', 'bn-search-action', 'bn-search-addressee'];
+                    'bn-search-orgs', 'bn-search-year', 'bn-search-month', 'bn-search-action', 'bn-search-addressee',
+                    'ati-search-orgs', 'ati-search-year', 'ati-search-month'];
 
 function select_facet(selected_item, accumulator) {
 
