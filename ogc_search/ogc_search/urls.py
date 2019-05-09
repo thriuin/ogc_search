@@ -36,7 +36,7 @@ urlpatterns += i18n_patterns(
 
 if settings.BN_ENABLED:
     urlpatterns += i18n_patterns(
-        path('bn/', BNSearchView.as_view(), name='ATIQuery'),
+        path('bn/', BNSearchView.as_view(), name='BNQuery'),
         path('bn/export/', BNExportView.as_view(), name='BNExport')
     )
 

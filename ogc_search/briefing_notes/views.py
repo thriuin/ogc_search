@@ -276,6 +276,19 @@ class BNSearchView(View):
         export_url = "/{0}/bn/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
         context['export_url'] = export_url
 
+        # Set pagination values for the page
+
+        pagination = _calc_pagination_range(context['results'], 10, page)
+        context['pagination'] = pagination
+        context['previous_page'] = (1 if page == 1 else page - 1)
+        last_page = (pagination[len(pagination) - 1] if len(pagination) > 0 else 1)
+        last_page = (1 if last_page < 1 else last_page)
+        context['last_page'] = last_page
+        next_page = page + 1
+        next_page = (last_page if next_page > last_page else next_page)
+        context['next_page'] = next_page
+        context['currentpage'] = page
+
         if request.LANGUAGE_CODE == 'fr':
             context['org_facets_fr'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_fr_s'])
