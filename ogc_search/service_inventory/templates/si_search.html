@@ -1,0 +1,398 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/si{% endblock language_switch_url %}
+
+{% block custom_page_javascript %}
+<script src="{% static 'open_data/od_search.js' %}"></script>
+
+{% endblock custom_page_javascript %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/bn",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    }]
+{% endblock %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Search Service Inventory" %}</h1>
+{% endblock %}
+<section>
+    <p class="gc-byline">{% if request.user.is_authenticated %}
+        Logged in as {{ request.user.username }}
+        {% endif %}
+    </p>
+    <div class="row">
+        <div class="col-md-8 col-md-push-4">
+            {% block main-content-content %}
+            <section>
+                <div class="row">
+                {% autoescape off %}
+                {% for alert in alerts %}
+                    <div class="alert alert-info">{% trans alert %}</div>
+                {% endfor %}
+                {% endautoescape %}
+                </div>
+                <form action="{% url 'SIQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
+                        </div>
+                        <div class="col-md-9 col-sm-12">
+                            <div class="input-group">
+                                <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                                <input type="text" name="od-search-input" class="form-control" id="od-search-input"
+                                       value="{{ search_text | safe }}" placeholder="{% trans 'Search' %}"
+                                       onkeypress="submitFormOnEnter(event)" />
+
+                                <span class="input-group-btn">
+                                     <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                                     <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                            onclick="submitForm()">{% trans 'Search' %}
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4">
+                            <div class="input-group">
+                            <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
+                            {% if LANGUAGE_CODE == 'fr' %}
+                                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
+                                    >{% trans 'Best match' %}</option>
+                                <option value="program_name_fr_s asc" {% if sortby == "program_name_fr_s asc" %}selected="selected"{% endif %}
+                                    >{% trans 'Program' %}</option>
+                                <option value="service_name_fr_s asc" {% if sortby == "service_name_fr_s asc" %}selected="selected"{% endif %}
+                                    >{% trans 'Service' %}</option>
+                            {% else %}
+                                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
+                                    >Best match</option>
+                                <option value="program_name_en_s asc" {% if sortby == "program_name_en_s asc" %}selected="selected"{% endif %}
+                                    >Program</option>
+                                <option value="service_name_en_s asc" {% if sortby == "service_name_en_s asc" %}selected="selected"{% endif %}
+                                    >Service</option>
+                            {% endif %}
+                            </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-md-push-9 col-sm-6 col-sm-push-6">
+                            <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
+                        </div>
+
+                        <div class="input-group hidden">
+                            {# Facet fields -- start #}
+                            <div class="col-md-1">
+                                <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="search_terms">
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <section>
+            {% for doc in results.docs %}
+            <div class="panel panel-default mrg-tp-sm">
+                 <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    {{ doc.service_name_txt_en | safe }}
+                                {% else %}
+                                    {{ doc.service_name_txt_fr | safe }}
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            Code: <strong class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.program_id_code_s }}</strong>
+                        </div>
+
+                        <div class="col-sm-12">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            <p>{% if doc.service_description_txt_fr %}
+                            {{ doc.service_description_txt_fr | safe }}<br>
+                            {% endif %}
+                            <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_title_txt_fr }}<br>
+                            <strong>{% trans 'Program' %}</strong>: {{ doc.program_name_txt_fr }}<br>
+                            <strong>{% trans 'Service' %}</strong>: {{ doc.service_name_txt_fr }}<br>
+                            <strong>{% trans 'Service Fee' %}</strong>: {{ doc.service_fee_fr_s }}</p>
+                        {% else %}
+                            <p>{% if doc.service_description_txt_en %}
+                            {{ doc.service_description_txt_en | safe }}<br>
+                            {% endif %}
+                            <strong>Organization</strong>: {{ doc.owner_org_title_txt_en }}<br>
+                            <strong>Program</strong>: {{ doc.program_name_txt_en }}<br>
+                            <strong>Service</strong>: {{ doc.service_name_txt_en }}<br>
+                            <strong>Service Fee</strong>: {{ doc.service_fee_en_s }}</p>
+                        {% endif %}
+                        </div>
+                     </div>
+
+                </div>
+            </div>
+            {% endfor %}
+                </section>
+            {% block main-content-pagination %}
+            <section>
+                <ul class="pagination">
+                    {% for pg in pagination %}
+                        {% if pg == 1 %}
+                            {% if currentpage == 1 %}
+                            <li class="previous disabled"><a href="#" rel="prev">{% trans 'Previous' %}</a></li>
+                            {% else %}
+                            <li class="previous"><a href="#" onclick="gotoPage('{{ previous_page }}')">
+                            {% trans 'Previous' %} <span class="wb-inv">Go to page {{ previous_page }}</span></a></li>
+                            {% endif %}
+                            <li{% if currentpage == 1 %} class="active" {% endif %}><a href="#" onclick="gotoPage('1')">
+                                1<span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                            {% elif pg == last_page %}
+                            <li{% if currentpage == last_page %} class="active" {% endif %}><a
+                                    href="#" onclick="gotoPage('{{ last_page }}')">{{ pg }}
+                                <span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                            {% if currentpage == last_page %}
+                            <li class="next disabled"><a href="#" rel="next">{% trans 'Next' %}</a></li>
+                            {% else %}
+                            <li class="next"><a href="#" onclick="gotoPage('{{ next_page }}')">
+                                {% trans 'Next' %} <span
+                                        class="wb-inv">Go to page {{ next_page }}</span></a></li>
+                            {% endif %}
+                        {% elif pg == 0 %}
+                        <li><a href="#" onclick="">...<span class="wb-inv"></span></a></li>
+                        {% else %}
+                        <li {% if currentpage == pg %}class="active" {% endif %}>
+                            <a href="#" onclick="gotoPage('{{ pg }}')">
+                                {{ pg }} <span
+                                        class="wb-inv">Go to page {{pg}}</span></a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endblock %}
+        {% endblock %}
+        </div>
+        <div class="col-md-4 col-md-pull-8">
+            {% block main-content-sidebar %}
+            <aside class="mrgn-tp-lg">
+                <div class="btn-block">
+                    <div>
+                        <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md btn-block"><span
+                            class="glyphicon glyphicon-refresh"></span> {% trans 'Clear all choices' %}</a>
+                    </div>
+                    {% if export_terms != "" %}
+                    <div>
+                        <a onclick="" href="{{ export_url }}" class="btn btn-default mrgn-bttm-md btn-block"><span
+                                class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Results' %}</a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="list-group">
+                {% if LANGUAGE_CODE == 'fr' %}
+                    <a href="{{ od_fr_url }}/{{ si_ds_id }}" class="list-group-item list-group-item-info text-center">{{ si_ds_title_fr }}</a>
+                {% else %}
+                    <a href="{{ od_en_url }}/{{ si_ds_id }}" class="list-group-item list-group-item-info text-center">{{ si_ds_title_en }}</a>
+                {% endif %}
+                </div>
+            </aside>
+            <aside>
+                {# Organizations Facet #}
+                <div>
+                    <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Organization' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+
+                            {% for k, v in org_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick="select_facet('{{ k }}', 'si-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in org_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick="select_facet('{{ k }}', 'si-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ org_facets_fr | EmptyFacetMessage }}{% else %}{{ org_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                {# Year Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if years_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Year' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                            {% for k, v in fiscal_year.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in years_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in year_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-year')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            {{ fiscal_year | EmptyFacetMessage }}
+                        </ul>
+                    </details>
+
+                {# External/Internal Facet #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if xis_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'External/Internal' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in xis_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in xis_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in xis_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-ext-int')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in xis_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in xis_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in xis_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-ext-int')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ xis_facets_fr | EmptyFacetMessage }}{% else %}{{ xis_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                {# Service Type #}
+
+                {# Special Designations #}
+
+                {# Client Target Groups #}
+
+                </div>
+            </aside>
+            {% endblock %}
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}
+
+{% block footer-settings %}
+"footerSections": [{
+    "href": "{% trans '/en/forms/contact-us' %}",
+    "text": "{% trans 'Open Government Contact' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/dept.html' %}",
+    "text": "{% trans 'Departments and agencies' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/publicservice.html' %}",
+    "text": "{% trans 'Public service and military' %}"
+},{
+    "href": "{% trans 'http://news.gc.ca/' %}",
+    "text": "{% trans 'News' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system/laws.html' %}",
+    "text": "{% trans 'Treaties, laws and regulations' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/transparency/reporting.html' %}",
+    "text": "{% trans 'Government-wide reporting' %}"
+},{
+    "href": "{% trans '/en/user' %}",
+    "text": "{% trans 'Open Government Log In' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system.html' %}",
+    "text": "{% trans 'How government works' %}"
+}],
+"showFeatures": false
+{% endblock %}
+{% block custom-jquery %}
+
+<script type="text/javascript">
+
+$(function(){
+// reset seessionStorage based on the URL
+    sessionStorage.clear();
+    let facets = [];
+    if (window.location.search.length > 1) {
+        facets = window.location.search.substring(1).split('&');
+        for (let i=0; i<facets.length; i++) {
+            let pair = facets[i].split('=');
+            sessionStorage.setItem(pair[0], pair[1]);
+            if (pair[0].substring(0,3) === 'bn-') {
+                let display_terms = decodeURIComponent(pair[1]).split(',');
+                for(let j=0; j<display_terms.length; j++) {
+                    let display_key = pair[0];
+                    let display_text = display_terms[j];
+                    if (display_key === 'bn-search-month') {
+                        display_text = toMonthLabel(display_text);
+                    }
+                    let new_link = $("<a />", {
+                        class : "btn btn-default btn-xs",
+                        onclick : `select_facet('${display_terms[j]}','${display_key}');`,
+                        text : `${display_text} `
+                    }).append($("<span />", {class: 'glyphicon glyphicon-remove', text: ' '}));
+                    $('#search_terms').append(new_link);
+                    // $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

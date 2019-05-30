@@ -71,11 +71,12 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'wet', 'templates'),
-            os.path.join(BASE_DIR, 'open_data', 'templates'),
-            os.path.join(BASE_DIR, 'briefing_notes', 'templates'),
-            os.path.join(BASE_DIR, 'ATI', 'templates'),
             os.path.join(BASE_DIR, 'static'),
+            os.path.join(BASE_DIR, 'wet', 'templates'),
+            os.path.join(BASE_DIR, 'ATI', 'templates'),
+            os.path.join(BASE_DIR, 'briefing_notes', 'templates'),
+            os.path.join(BASE_DIR, 'open_data', 'templates'),
+            os.path.join(BASE_DIR, 'service_inventory', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -184,7 +185,9 @@ ADMIN_ENABLED = False
 
 BN_ENABLED = False
 
-ATI_ENABLED = True
+ATI_ENABLED = False
+
+SI_ENABLED = False
 
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
 
@@ -216,6 +219,18 @@ ATI_DATASET_TITLE_FR = "Accès à l'information"
 
 ATI_DATASET_ID = "0797e893-751e-4695-8229-a5066e4fe43c"
 
+ATI_REQUEST_URL_EN = "https://open.canada.ca/search/ati/reference/"
+
+ATI_REQUEST_URL_FR = "https://ouvert.canada.ca/fr/search/ati/reference/"
+
+SI_DATASET_TITLE_EN = 'Service Inventory'
+
+SI_DATASET_TITLE_FR = 'Répertoire des services'
+
+SI_DATASET_ID = '3ac0d080-6149-499a-8b06-7ce5f00ec56c'
+
+SERVICES_YAML_FILE = os.path.join(BASE_DIR, "ckan", "service.yaml")
+
 EXPORT_FILE_CACHE_DIR = "/tmp"
 
 EXPORT_FILE_CACHE_URL = ""
@@ -225,5 +240,7 @@ SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
 SOLR_BN = 'http://127.0.0.1:8983/solr/core_bn_search'
 
 SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
+
+SOLR_SI = 'http://127.0.0.1:8983/solr/core_sv_search'
 
 CDTS_VERSION = 'v4_0_28'

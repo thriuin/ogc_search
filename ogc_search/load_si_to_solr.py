@@ -32,6 +32,7 @@ def get_cs_choices(field_name, lang = 'en'):
     return {'en': choices_en, 'fr': choices_fr}
 
 
+
 def expand_count_field(field_value, lang):
     if field_value == 'NA' and lang == 'en':
         return 'Not Available'
@@ -61,6 +62,17 @@ controlled_lists = {'external_internal': get_cs_choices('external_internal'),
                     'client_feedback': get_cs_choices('client_feedback'),
                     }
 
+
+def get_multivalue_choice(choices, lang, field_values: str):
+    results = []
+    for field_value in field_values.split(','):
+        if field_value in controlled_lists[choices][lang]:
+            results.append(controlled_lists[choices][lang][field_value])
+        else:
+            print("Unknown value {0} for {1}".format(field_value, choices))
+    return results
+
+
 solr = pysolr.Solr(settings.SOLR_SI)
 solr.delete(q='*:*')
 solr.commit()
@@ -79,8 +91,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                           service_description_en_s=si['service_description_en'],
                           service_description_fr_s=si['service_description_fr'], authority_en_s=si['authority_en'],
                           authority_fr_s=si['authority_fr'], service_url_en_s=si['service_url_en'],
-                          service_url_fr_s=si['service_url_fr'], program_name_en_s=si['program_name_en'],
-                          program_name_fr_s=si['program_name_fr'], program_id_code_s=si['program_id_code'],
+                          service_url_fr_s=si['service_url_fr'], program_name_en_s=str(si['program_name_en']).strip(),
+                          program_name_fr_s=str(si['program_name_fr']).strip(), program_id_code_s=si['program_id_code'],
                           online_application_en_s=expand_count_field(si['online_applications'], 'en'),
                           online_application_fr_s=expand_count_field(si['online_applications'], 'fr'),
                           web_visits_info_service_en_s=expand_count_field(si['web_visits_info_service'], 'en'),
@@ -105,10 +117,10 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                               si['special_designations']],
                           special_designations_fr_s=controlled_lists['special_designations']['fr'][
                               si['special_designations']],
-                          client_target_groups_en_s=controlled_lists['client_target_groups']['en'][
-                              si['client_target_groups']], #@TODO Need to handle multi-value
-                          client_target_groups_fr_s=controlled_lists['client_target_groups']['fr'][
-                              si['client_target_groups']],
+                          client_target_groups_en_s=get_multivalue_choice('client_target_groups','en',
+                              si['client_target_groups']),
+                          client_target_groups_fr_s=get_multivalue_choice('client_target_groups','fr',
+                              si['client_target_groups']),
                           service_fee_en_s=controlled_lists['service_fee']['en'][si['service_fee']],
                           service_fee_fr_s=controlled_lists['service_fee']['fr'][si['service_fee']],
                           cra_business_number_en_s=controlled_lists['cra_business_number']['en'][
@@ -129,8 +141,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                           e_issuance_fr_s=controlled_lists['e_issuance']['fr'][si['e_issuance']],
                           e_feedback_en_s=controlled_lists['e_feedback']['en'][si['e_feedback']],
                           e_feedback_fr_s=controlled_lists['e_feedback']['fr'][si['e_feedback']],
-                          client_feedback_en_s=controlled_lists['client_feedback']['en'][si['client_feedback']] if not si['client_feedback'] == '' else '',
-                          client_feedback_fr_s=controlled_lists['client_feedback']['fr'][si['client_feedback']] if not si['client_feedback'] == '' else '')
+                          client_feedback_en_s=get_multivalue_choice('client_feedback','en',si['client_feedback']) if not si['client_feedback'] == '' else '',
+                          client_feedback_fr_s=get_multivalue_choice('client_feedback','fr',si['client_feedback']) if not si['client_feedback'] == '' else '')
             bi_org_title = str(si['owner_org_title']).split('|')
             od_obj['owner_org_en_s'] = bi_org_title[0].strip()
             od_obj['owner_org_fr_s'] = bi_org_title[1].strip()
