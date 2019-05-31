@@ -3,7 +3,10 @@ var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-s
                     'bn-search-orgs', 'bn-search-year', 'bn-search-month', 'bn-search-action', 'bn-search-addressee',
                     'ati-search-orgs', 'ati-search-year', 'ati-search-month',
                     'si-search-orgs', 'si-search-year', 'si-search-ext-int', 'si-search-service-type',
-                    'si-search-designations', 'si-target-groups'];
+                    'si-search-designations', 'si-search-target-groups', 'si-search-service-fee',
+                    'si-search-cra-number', 'si-search-e-reg', 'si-search-e-authenticate',
+                    'si-search-e-decision', 'si-search-e-issuance', 'si-search-e-feedback', 'si-search-feedback',
+                    ];
 
 function select_facet(selected_item, accumulator) {
 

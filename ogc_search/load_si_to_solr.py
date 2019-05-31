@@ -113,10 +113,10 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                           external_internal_fr_s=controlled_lists['external_internal']['fr'][si['external_internal']],
                           service_type_en_s=controlled_lists['service_type']['en'][si['service_type']],
                           service_type_fr_s=controlled_lists['service_type']['fr'][si['service_type']],
-                          special_designations_en_s=controlled_lists['special_designations']['en'][
-                              si['special_designations']],
-                          special_designations_fr_s=controlled_lists['special_designations']['fr'][
-                              si['special_designations']],
+                          special_designations_en_s=str(controlled_lists['special_designations']['en'][
+                              si['special_designations']]).replace(',', ';'),
+                          special_designations_fr_s=str(controlled_lists['special_designations']['fr'][
+                              si['special_designations']]).replace(',', ';'),
                           client_target_groups_en_s=get_multivalue_choice('client_target_groups','en',
                               si['client_target_groups']),
                           client_target_groups_fr_s=get_multivalue_choice('client_target_groups','fr',

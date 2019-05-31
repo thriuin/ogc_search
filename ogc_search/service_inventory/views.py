@@ -97,7 +97,6 @@ class SISearchView(View):
                                      '{!ex=tag_client_target_groups_fr_s}client_target_groups_fr_s',
                                      '{!ex=tag_service_fee_fr_s}service_fee_fr_s',
                                      '{!ex=tag_cra_business_number_fr_s}cra_business_number_fr_s',
-                                     '{!ex=tag_use_of_sin_fr_s}use_of_sin_fr_s',
                                      '{!ex=tag_e_registration_fr_s}e_registration_fr_s',
                                      '{!ex=tag_e_authentication_fr_s}e_authentication_fr_s',
                                      '{!ex=tag_e_decision_fr_s}e_decision_fr_s',
@@ -148,7 +147,6 @@ class SISearchView(View):
                                      '{!ex=tag_client_target_groups_en_s}client_target_groups_en_s',
                                      '{!ex=tag_service_fee_en_s}service_fee_en_s',
                                      '{!ex=tag_cra_business_number_en_s}cra_business_number_en_s',
-                                     '{!ex=tag_use_of_sin_en_s}use_of_sin_en_s',
                                      '{!ex=tag_e_registration_en_s}e_registration_en_s',
                                      '{!ex=tag_e_authentication_en_s}e_authentication_en_s',
                                      '{!ex=tag_e_decision_en_s}e_decision_en_s',
@@ -276,6 +274,13 @@ class SISearchView(View):
         solr_search_stype: str = request.GET.get('si-search-service-type', '')
         solr_search_designations: str = request.GET.get('si-search-designations', '')
         solr_search_targets: str = request.GET.get('si-target-groups', '')
+        solr_search_fees: str = request.GET.get('si-search-service-fee', '')
+        solr_search_cra_no: str = request.GET.get('si-search-cra-number', '')
+        solr_search_e_reg: str = request.GET.get('si-search-e-reg', '')
+        solr_search_e_authenticate: str = request.GET.get('si-search-e-authenticate', '')
+        solr_search_e_decision: str = request.GET.get('si-search-e-decision', '')
+        solr_search_e_issuance: str = request.GET.get('si-search-e-issuance', '')
+        solr_search_e_feedback: str = request.GET.get('si-search-e-feedback', '')
 
         context["organizations_selected"] = solr_search_orgs
         context["organizations_selected_list"] = solr_search_orgs.split(',')
@@ -289,6 +294,20 @@ class SISearchView(View):
         context["designations_selected_list"] = solr_search_designations.split(',')
         context["targets_selected"] = solr_search_targets
         context["targets_selected_list"] = solr_search_targets.split(',')
+        context["fees_selected"] = solr_search_fees
+        context["fees_selected_list"] = solr_search_fees.split(',')
+        context["cra_no_selected"] = solr_search_cra_no
+        context["cra_no_selected_list"] = solr_search_cra_no.split(',')
+        context["e_reg_selected"] = solr_search_e_reg
+        context["e_reg_selected_list"] = solr_search_e_reg.split(',')
+        context["e_authenticate_selected"] = solr_search_e_authenticate
+        context["e_authenticate_selected_list"] = solr_search_e_authenticate.split(',')
+        context["e_decision_selected"] = solr_search_e_decision
+        context["e_decision_selected_list"] = solr_search_e_decision.split(',')
+        context["e_issuance_selected"] = solr_search_e_issuance
+        context["e_issuance_selected_list"] = solr_search_e_issuance.split(',')
+        context["e_feedback_selected"] = solr_search_e_feedback
+        context["e_feedback_selected_list"] = solr_search_e_feedback.split(',')
 
         # Calculate a starting row for the Solr search results. We only retrieve one page at a time
 
@@ -311,22 +330,36 @@ class SISearchView(View):
                 solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 
-
-
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=context['organizations_selected'],
                                fiscal_year_s=context['years_selected'],
                                external_internal_fr_s=context['xis_selected'],
                                service_type_fr_s=context['stypes_selected'],
                                special_designations_fr_s=context['designations_selected'],
-                               client_target_groups_fr_s=context['targets_selected'],)
+                               client_target_groups_fr_s=context['targets_selected'],
+                               service_fee_fr_s=context["fees_selected"],
+                               cra_business_number_fr_s=context["cra_no_selected"],
+                               e_registration_fr_s=context["e_reg_selected"],
+                               e_authentication_fr_s=context["e_authenticate_selected"],
+                               e_decision_fr_s=context["e_decision_selected"],
+                               e_issuance_fr_s=context["e_issuance_selected"],
+                               e_feedback_fr_s=context["e_feedback_selected"],
+                               )
         else:
             facets_dict = dict(owner_org_en_s=context['organizations_selected'],
                                fiscal_year_s=context['years_selected'],
                                external_internal_en_s=context['xis_selected'],
                                service_type_en_s=context['stypes_selected'],
                                special_designations_en_s=context['designations_selected'],
-                               client_target_groups_en_s=context['targets_selected'],)
+                               client_target_groups_en_s=context['targets_selected'],
+                               service_fee_en_s=context["fees_selected"],
+                               cra_business_number_en_s=context["cra_no_selected"],
+                               e_registration_en_s=context["e_reg_selected"],
+                               e_authentication_en_s=context["e_authenticate_selected"],
+                               e_decision_en_s=context["e_decision_selected"],
+                               e_issuance_en_s=context["e_issuance_selected"],
+                               e_feedback_en_s=context["e_feedback_selected"],
+                               )
 
         search_results = self.solr_query(solr_search_terms, start_row=str(start_row), pagesize='10', facets=facets_dict,
                                          language=request.LANGUAGE_CODE,
@@ -358,6 +391,20 @@ class SISearchView(View):
                 search_results.facets['facet_fields']['special_designations_fr_s'])
             context['targets_facets_fr'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['client_target_groups_fr_s'])
+            context['fees_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['service_fee_fr_s'])
+            context['cra_no_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['cra_business_number_fr_s'])
+            context['e_reg_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_registration_fr_s'])
+            context['e_authenticate_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_authentication_fr_s'])
+            context['e_decision_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_decision_fr_s'])
+            context['e_issuance_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_issuance_fr_s'])
+            context['e_feedback_facets_fr'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_feedback_fr_s'])
         else:
             context['org_facets_en'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_en_s'])
@@ -369,6 +416,21 @@ class SISearchView(View):
                 search_results.facets['facet_fields']['special_designations_en_s'])
             context['targets_facets_en'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['client_target_groups_en_s'])
+            context['fees_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['service_fee_en_s'])
+            context['cra_no_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['cra_business_number_en_s'])
+            context['e_reg_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_registration_en_s'])
+            context['e_authenticate_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_authentication_en_s'])
+            context['e_decision_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_decision_en_s'])
+            context['e_issuance_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_issuance_en_s'])
+            context['e_feedback_facets_en'] = _convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['e_feedback_en_s'])
+
         context['fiscal_year'] = _convert_facet_list_to_dict(
             search_results.facets['facet_fields']['fiscal_year_s'])
 

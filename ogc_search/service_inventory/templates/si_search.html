@@ -139,9 +139,23 @@
                             {{ doc.service_description_txt_en | safe }}<br>
                             {% endif %}
                             <strong>Organization</strong>: {{ doc.owner_org_title_txt_en }}<br>
-                            <strong>Program</strong>: {{ doc.program_name_txt_en }}<br>
-                            <strong>Service</strong>: {{ doc.service_name_txt_en }}<br>
-                            <strong>Service Fee</strong>: {{ doc.service_fee_en_s }}</p>
+                            <strong>Program</strong>: {{ doc.program_name_txt_en | safe }}<br>
+                            <strong>Service</strong>: {{ doc.service_name_txt_en | safe }}<br>
+                            <details>
+                                <summary>Details</summary>
+                                <strong>Authority</strong>: {{ doc.authority_txt_en }}<br>
+                                <strong>URL to Service</strong>: {{ doc.service_url_en_s }}<br>
+                                <strong>Client/Target Groups</strong>:
+                                    <ul>{% for tg in doc.client_target_groups_en_s %}
+                                        <li>{{ tg }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                <strong>Service Fees</strong>: {{ doc.service_fee_en_s }}<br>
+                                <strong>Use of CRA Business Number</strong>: {{ doc.cra_business_number_en_s }}<br>
+                                <strong>Use of Social Insurance Number</strong>: {{ doc.use_of_sin_en_s }}<br>
+                                <strong>Number of Applications Submitted Online</strong>: {{ doc.online_applications_en_s }}<br>
+                                <strong>Number of Website Visits</strong>: {{ doc.web_visits_info_service_en_s }}<br>
+                            </details></p>
                         {% endif %}
                         </div>
                      </div>
@@ -313,9 +327,383 @@
 
                 {# Service Type #}
 
+                    <details class="panel panel-default mrgn-bttm-0" {% if stypes_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Service Type' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in stype_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in stypes_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in stypes_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-service-type')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in stype_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in stypes_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in stypes_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-service-type')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ stype_facets_fr | EmptyFacetMessage }}{% else %}{{ stype_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
                 {# Special Designations #}
 
+                    <details class="panel panel-default mrgn-bttm-0" {% if designations_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Special Designations' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in designation_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in designations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in designations_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-designations')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in designation_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in designations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in designations_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-designations')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ designation_facets_fr | EmptyFacetMessage }}{% else %}{{ designation_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
                 {# Client Target Groups #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if targets_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Client Target Groups' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in targets_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in targets_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in targets_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-target-groups')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in targets_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in targets_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in targets_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-target-groups')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ targets_facets_fr | EmptyFacetMessage }}{% else %}{{ targets_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                 {# 'si-search-service-fee' #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if fees_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Service Fees' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in fees_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in fees_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in fees_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-service-fee')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in fees_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in fees_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in fees_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-service-fee')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ fees_facets_fr | EmptyFacetMessage }}{% else %}{{ fees_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                 {# 'si-search-cra-number' #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if cra_no_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'CRA Business Number Used' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in cra_no_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in cra_no_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in cra_no_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-cra-number')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in cra_no_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in cra_no_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in cra_no_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-cra-number')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ cra_no_facets_fr | EmptyFacetMessage }}{% else %}{{ cra_no_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                 {# E-Registrations #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if e_reg_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'E-Registrations' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in e_reg_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_reg_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_reg_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-reg')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in e_reg_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_reg_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_reg_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-reg')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ e_reg_facets_fr | EmptyFacetMessage }}{% else %}{{ e_reg_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                 {# E-Authentications #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if e_authenticate_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'E-Authentication' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in e_authenticate_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_authenticate_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_authenticate_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-authenticate')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in e_authenticate_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_authenticate_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_authenticate_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-authenticate')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ e_authenticate_facets_fr | EmptyFacetMessage }}{% else %}{{ e_authenticate_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                 {# 'E-Decision' #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if e_decision_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'E-Decision' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in e_decision_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_decision_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_decision_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-decision')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in e_decision_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_decision_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_decision_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-decision')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ e_decision_facets_fr | EmptyFacetMessage }}{% else %}{{ e_decision_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                 {# 'si-search-e-issuance' #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if e_issuance_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'E-Issuance' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in e_issuance_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_issuance_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_issuance_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-issuance')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in e_issuance_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_issuance_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_issuance_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-issuance')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ e_issuance_facets_fr | EmptyFacetMessage }}{% else %}{{ e_issuance_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                 {# 'E-Feedback' #}
+
+                    <details class="panel panel-default mrgn-bttm-0" {% if e_feedback_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'E-Feedback' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in e_feedback_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_feedback_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_feedback_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-feedback')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in e_feedback_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in e_feedback_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in e_feedback_selected_list %} checked="checked"{% endif %}
+                                             onclick="select_facet('{{ k }}', 'si-search-e-feedback')"
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ e_feedback_facets_fr | EmptyFacetMessage }}{% else %}{{ e_feedback_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
 
                 </div>
             </aside>
