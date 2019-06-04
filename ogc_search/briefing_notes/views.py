@@ -158,7 +158,7 @@ class BNSearchView(View):
 
         for facet in facets.keys():
             if facets[facet] != '':
-                facet_terms = facets[facet].split(',')
+                facet_terms = facets[facet].split('|')
                 quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
                 facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
                 solr_facets.append(facet_text)
@@ -226,15 +226,15 @@ class BNSearchView(View):
         solr_search_addrs: str = request.GET.get('bn-search-addressee', '')
 
         context["organizations_selected"] = solr_search_orgs
-        context["organizations_selected_list"] = solr_search_orgs.split(',')
+        context["organizations_selected_list"] = solr_search_orgs.split('|')
         context["year_selected"] = solr_search_year
-        context["year_selected_list"] = solr_search_year.split(',')
+        context["year_selected_list"] = solr_search_year.split('|')
         context["month_selected"] = solr_search_month
-        context["month_selected_list"] = solr_search_month.split(',')
+        context["month_selected_list"] = solr_search_month.split('|')
         context["actions_selected"] = solr_search_ar
-        context["actions_selected_list"] = solr_search_ar.split(',')
+        context["actions_selected_list"] = solr_search_ar.split('|')
         context["addressee_selected"] = solr_search_addrs
-        context["addressee_selected_list"] = solr_search_addrs.split(',')
+        context["addressee_selected_list"] = solr_search_addrs.split('|')
 
         # Calculate a starting row for the Solr search results. We only retrieve one page at a time
 

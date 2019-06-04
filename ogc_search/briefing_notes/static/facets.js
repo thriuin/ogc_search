@@ -1,0 +1,1 @@
+var accumulators = ['bn-search-orgs', 'bn-search-year', 'bn-search-month', 'bn-search-action', 'bn-search-addressee'];

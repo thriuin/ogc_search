@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-09 13:07-0400\n"
+"POT-Creation-Date: 2019-06-04 15:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,220 +17,309 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: .\ATI\templates\ati_search.html:23
 #: .\briefing_notes\templates\bn_search.html:23
-#: .\open_data\templates\od_search.html:23 .\wet\templates\404.html:17
+#: .\open_data\templates\od_search.html:23
+#: .\service_inventory\templates\si_search.html:23 .\wet\templates\404.html:17
 msgid "Home"
 msgstr "Accueil"
 
+#: .\ATI\templates\ati_search.html:26
 #: .\briefing_notes\templates\bn_search.html:26
-#: .\open_data\templates\od_search.html:26 .\wet\templates\404.html:20
+#: .\open_data\templates\od_search.html:26
+#: .\service_inventory\templates\si_search.html:26 .\wet\templates\404.html:20
 #: .\wet\templates\base-cdts.html:13 .\wet\templates\base.html:13
 msgid "Open Government"
 msgstr "Gouvernement ouvert"
 
+#: .\ATI\templates\ati_search.html:27
 #: .\briefing_notes\templates\bn_search.html:27
-#: .\open_data\templates\od_search.html:27 .\wet\templates\404.html:21
+#: .\open_data\templates\od_search.html:27
+#: .\service_inventory\templates\si_search.html:27 .\wet\templates\404.html:21
 msgid "https://open.canada.ca"
 msgstr "https://ouvert.canada.ca"
+
+#: .\ATI\templates\ati_search.html:33
+msgid "Completed Access to Information Requests"
+msgstr "Demandes d’accès à l’information complétées"
+
+#: .\ATI\templates\ati_search.html:54
+#: .\briefing_notes\templates\bn_search.html:54
+#: .\open_data\templates\od_search.html:61
+#: .\service_inventory\templates\si_search.html:54
+#, python-format
+msgid "Found %(result_num)s record%(result_s)s"
+msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
+
+#: .\ATI\templates\ati_search.html:58 .\ATI\templates\ati_search.html:60
+#: .\ATI\templates\ati_search.html:64 .\ATI\templates\ati_search.html:66
+#: .\briefing_notes\templates\bn_search.html:58
+#: .\briefing_notes\templates\bn_search.html:60
+#: .\briefing_notes\templates\bn_search.html:64
+#: .\briefing_notes\templates\bn_search.html:66
+#: .\open_data\templates\od_search.html:65
+#: .\open_data\templates\od_search.html:67
+#: .\open_data\templates\od_search.html:71
+#: .\open_data\templates\od_search.html:73
+#: .\service_inventory\templates\si_search.html:58
+#: .\service_inventory\templates\si_search.html:60
+#: .\service_inventory\templates\si_search.html:64
+#: .\service_inventory\templates\si_search.html:66
+#: .\wet\templates\base.html:103 .\wet\templates\base.html:112
+msgid "Search"
+msgstr "Recherche"
+
+#: .\ATI\templates\ati_search.html:75
+#: .\briefing_notes\templates\bn_search.html:75
+#: .\open_data\templates\od_search.html:84
+#: .\service_inventory\templates\si_search.html:76
+msgid "Best match"
+msgstr "Pertinence"
+
+#: .\ATI\templates\ati_search.html:77
+#: .\briefing_notes\templates\bn_search.html:77
+#: .\open_data\templates\od_search.html:82
+msgid "Newest"
+msgstr "Date de modification"
+
+#: .\ATI\templates\ati_search.html:79
+msgid "Oldest"
+msgstr ""
+
+#: .\ATI\templates\ati_search.html:84
+#: .\briefing_notes\templates\bn_search.html:84
+#: .\open_data\templates\od_search.html:91
+#: .\service_inventory\templates\si_search.html:93
+msgid "Order By"
+msgstr "Trier par"
+
+#: .\ATI\templates\ati_search.html:142
+msgid "Nothing to report"
+msgstr ""
+
+#: .\ATI\templates\ati_search.html:156 .\ATI\templates\ati_search.html:159
+#: .\briefing_notes\templates\bn_search.html:151
+#: .\briefing_notes\templates\bn_search.html:154
+#: .\open_data\templates\od_search.html:182
+#: .\open_data\templates\od_search.html:185
+#: .\service_inventory\templates\si_search.html:216
+#: .\service_inventory\templates\si_search.html:219
+msgid "Previous"
+msgstr "Précédent"
+
+#: .\ATI\templates\ati_search.html:162 .\ATI\templates\ati_search.html:166
+#: .\briefing_notes\templates\bn_search.html:157
+#: .\briefing_notes\templates\bn_search.html:161
+#: .\open_data\templates\od_search.html:188
+#: .\open_data\templates\od_search.html:192
+#: .\service_inventory\templates\si_search.html:222
+#: .\service_inventory\templates\si_search.html:226
+msgid "Go to"
+msgstr "Aller à la page"
+
+#: .\ATI\templates\ati_search.html:168 .\ATI\templates\ati_search.html:171
+#: .\briefing_notes\templates\bn_search.html:163
+#: .\briefing_notes\templates\bn_search.html:166
+#: .\open_data\templates\od_search.html:194
+#: .\open_data\templates\od_search.html:197
+#: .\service_inventory\templates\si_search.html:228
+#: .\service_inventory\templates\si_search.html:231
+msgid "Next"
+msgstr "Suivant"
+
+#: .\ATI\templates\ati_search.html:194
+#: .\briefing_notes\templates\bn_search.html:189
+#: .\open_data\templates\od_search.html:220
+#: .\service_inventory\templates\si_search.html:254
+msgid "Clear all choices"
+msgstr "Effacer tout"
+
+#: .\ATI\templates\ati_search.html:199
+#: .\briefing_notes\templates\bn_search.html:194
+#: .\open_data\templates\od_search.html:225
+#: .\service_inventory\templates\si_search.html:259
+msgid "Download Results"
+msgstr "Télécharger les résultats de recherche"
+
+#: .\ATI\templates\ati_search.html:216
+#: .\briefing_notes\templates\bn_search.html:125
+#: .\briefing_notes\templates\bn_search.html:211
+#: .\open_data\templates\od_search.html:145
+#: .\open_data\templates\od_search.html:244
+#: .\service_inventory\templates\si_search.html:133
+#: .\service_inventory\templates\si_search.html:276
+msgid "Organization"
+msgstr "Organisation"
+
+#: .\ATI\templates\ati_search.html:254
+#: .\briefing_notes\templates\bn_search.html:249
+#: .\service_inventory\templates\si_search.html:314
+msgid "Year"
+msgstr "Année"
+
+#: .\ATI\templates\ati_search.html:277
+#: .\briefing_notes\templates\bn_search.html:272
+msgid "Month"
+msgstr "Mois"
+
+#: .\ATI\templates\ati_search.html:315
+#: .\briefing_notes\templates\bn_search.html:385
+#: .\open_data\templates\od_search.html:493
+#: .\service_inventory\templates\si_search.html:769 .\wet\templates\404.html:47
+msgid "/en/forms/contact-us"
+msgstr "/fr/formulaire/faites-nous-part-de-vos-commentaires"
+
+#: .\ATI\templates\ati_search.html:316
+#: .\briefing_notes\templates\bn_search.html:386
+#: .\open_data\templates\od_search.html:494
+#: .\service_inventory\templates\si_search.html:770 .\wet\templates\404.html:48
+msgid "Open Government Contact"
+msgstr "Contactez-nous du gouvernement ouvert"
+
+#: .\ATI\templates\ati_search.html:318
+#: .\briefing_notes\templates\bn_search.html:388
+#: .\open_data\templates\od_search.html:496
+#: .\service_inventory\templates\si_search.html:772 .\wet\templates\404.html:50
+msgid "https://www.canada.ca/en/government/dept.html"
+msgstr "https://www.canada.ca/fr/gouvernement/min.html"
+
+#: .\ATI\templates\ati_search.html:319
+#: .\briefing_notes\templates\bn_search.html:389
+#: .\open_data\templates\od_search.html:497
+#: .\service_inventory\templates\si_search.html:773 .\wet\templates\404.html:51
+msgid "Departments and agencies"
+msgstr "Ministères et organismes"
+
+#: .\ATI\templates\ati_search.html:321
+#: .\briefing_notes\templates\bn_search.html:391
+#: .\open_data\templates\od_search.html:499
+#: .\service_inventory\templates\si_search.html:775 .\wet\templates\404.html:53
+msgid "https://www.canada.ca/en/government/publicservice.html"
+msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
+
+#: .\ATI\templates\ati_search.html:322
+#: .\briefing_notes\templates\bn_search.html:392
+#: .\open_data\templates\od_search.html:500
+#: .\service_inventory\templates\si_search.html:776 .\wet\templates\404.html:54
+msgid "Public service and military"
+msgstr "Fonction publique et force militaire"
+
+#: .\ATI\templates\ati_search.html:324
+#: .\briefing_notes\templates\bn_search.html:394
+#: .\open_data\templates\od_search.html:502
+#: .\service_inventory\templates\si_search.html:778 .\wet\templates\404.html:56
+msgid "http://news.gc.ca/"
+msgstr "http://nouvelles.gc.ca"
+
+#: .\ATI\templates\ati_search.html:325
+#: .\briefing_notes\templates\bn_search.html:395
+#: .\open_data\templates\od_search.html:503
+#: .\service_inventory\templates\si_search.html:779 .\wet\templates\404.html:57
+msgid "News"
+msgstr "Nouvelles"
+
+#: .\ATI\templates\ati_search.html:327
+#: .\briefing_notes\templates\bn_search.html:397
+#: .\open_data\templates\od_search.html:505
+#: .\service_inventory\templates\si_search.html:781 .\wet\templates\404.html:59
+msgid "https://www.canada.ca/en/government/system/laws.html"
+msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
+
+#: .\ATI\templates\ati_search.html:328
+#: .\briefing_notes\templates\bn_search.html:398
+#: .\open_data\templates\od_search.html:506
+#: .\service_inventory\templates\si_search.html:782 .\wet\templates\404.html:60
+msgid "Treaties, laws and regulations"
+msgstr "Traités, lois et règlements"
+
+#: .\ATI\templates\ati_search.html:330
+#: .\briefing_notes\templates\bn_search.html:400
+#: .\open_data\templates\od_search.html:508
+#: .\service_inventory\templates\si_search.html:784 .\wet\templates\404.html:62
+msgid "https://www.canada.ca/en/transparency/reporting.html"
+msgstr "https://www.canada.ca/fr/transparence/rapports.html"
+
+#: .\ATI\templates\ati_search.html:331
+#: .\briefing_notes\templates\bn_search.html:401
+#: .\open_data\templates\od_search.html:509
+#: .\service_inventory\templates\si_search.html:785 .\wet\templates\404.html:63
+msgid "Government-wide reporting"
+msgstr "Rapports à l'échelle du gouvernement"
+
+#: .\ATI\templates\ati_search.html:333
+#: .\briefing_notes\templates\bn_search.html:403
+#: .\open_data\templates\od_search.html:511
+#: .\service_inventory\templates\si_search.html:787 .\wet\templates\404.html:65
+msgid "/en/user"
+msgstr "/fr/user"
+
+#: .\ATI\templates\ati_search.html:334
+#: .\briefing_notes\templates\bn_search.html:404
+#: .\open_data\templates\od_search.html:512
+#: .\service_inventory\templates\si_search.html:788 .\wet\templates\404.html:66
+msgid "Open Government Log In"
+msgstr "Ouverture de session Gouvernement ouvert"
+
+#: .\ATI\templates\ati_search.html:336
+#: .\briefing_notes\templates\bn_search.html:406
+#: .\open_data\templates\od_search.html:514
+#: .\service_inventory\templates\si_search.html:790 .\wet\templates\404.html:68
+msgid "https://www.canada.ca/en/government/system.html"
+msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
+
+#: .\ATI\templates\ati_search.html:337
+#: .\briefing_notes\templates\bn_search.html:407
+#: .\open_data\templates\od_search.html:515
+#: .\service_inventory\templates\si_search.html:791 .\wet\templates\404.html:69
+msgid "How government works"
+msgstr "Comment le gouvernement fonctionne"
 
 #: .\briefing_notes\templates\bn_search.html:33
 msgid "Search Briefing Notes Titles"
 msgstr "Rechercher les titres des note de breffage"
 
-#: .\briefing_notes\templates\bn_search.html:54
-#: .\open_data\templates\od_search.html:60
-#, python-format
-msgid "Found %(result_num)s record%(result_s)s"
-msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
-
-#: .\briefing_notes\templates\bn_search.html:58
-#: .\briefing_notes\templates\bn_search.html:60
-#: .\briefing_notes\templates\bn_search.html:64
-#: .\briefing_notes\templates\bn_search.html:66
-#: .\open_data\templates\od_search.html:64
-#: .\open_data\templates\od_search.html:66
-#: .\open_data\templates\od_search.html:70
-#: .\open_data\templates\od_search.html:72 .\wet\templates\base.html:103
-#: .\wet\templates\base.html:112
-msgid "Search"
-msgstr "Recherche"
-
-#: .\briefing_notes\templates\bn_search.html:75
-#: .\open_data\templates\od_search.html:81
-msgid "Best match"
-msgstr "Pertinence"
-
-#: .\briefing_notes\templates\bn_search.html:77
-#: .\open_data\templates\od_search.html:83
-msgid "Newest"
-msgstr "Date de modification"
-
 #: .\briefing_notes\templates\bn_search.html:79
-#: .\open_data\templates\od_search.html:85
+#: .\open_data\templates\od_search.html:86
 msgid "Title"
 msgstr "Titre"
 
-#: .\briefing_notes\templates\bn_search.html:84
-#: .\open_data\templates\od_search.html:90
-msgid "Order By"
-msgstr "Trier par"
+#: .\briefing_notes\templates\bn_search.html:126
+msgid "Sector"
+msgstr ""
 
-#: .\briefing_notes\templates\bn_search.html:151
-#: .\briefing_notes\templates\bn_search.html:154
-#: .\open_data\templates\od_search.html:181
-#: .\open_data\templates\od_search.html:184
-msgid "Previous"
-msgstr "Précédent"
-
-#: .\briefing_notes\templates\bn_search.html:157
-#: .\briefing_notes\templates\bn_search.html:161
-#: .\open_data\templates\od_search.html:187
-#: .\open_data\templates\od_search.html:191
-msgid "Go to"
-msgstr "Aller à la page"
-
-#: .\briefing_notes\templates\bn_search.html:163
-#: .\briefing_notes\templates\bn_search.html:166
-#: .\open_data\templates\od_search.html:193
-#: .\open_data\templates\od_search.html:196
-msgid "Next"
-msgstr "Suivant"
-
-#: .\briefing_notes\templates\bn_search.html:189
-#: .\open_data\templates\od_search.html:219
-msgid "Clear all choices"
-msgstr "Effacer tout"
-
-#: .\briefing_notes\templates\bn_search.html:194
-#: .\open_data\templates\od_search.html:224
-msgid "Download Results"
-msgstr "Télécharger les résultats de recherche"
-
-#: .\briefing_notes\templates\bn_search.html:211
-#: .\open_data\templates\od_search.html:144
-#: .\open_data\templates\od_search.html:243
-msgid "Organization"
-msgstr "Organisation"
-
-#: .\briefing_notes\templates\bn_search.html:249
-msgid "Year"
-msgstr "Année"
-
-#: .\briefing_notes\templates\bn_search.html:272
-msgid "Month"
-msgstr "Mois"
-
-#: .\briefing_notes\templates\bn_search.html:295
-msgid "Action Required"
-msgstr "Mesure requise"
-
+#: .\briefing_notes\templates\bn_search.html:127
 #: .\briefing_notes\templates\bn_search.html:333
 msgid "Addressee"
 msgstr "Destinataire"
 
-#: .\briefing_notes\templates\bn_search.html:385
-#: .\open_data\templates\od_search.html:492 .\wet\templates\404.html:47
-msgid "/en/forms/contact-us"
-msgstr "/fr/formulaire/faites-nous-part-de-vos-commentaires"
-
-#: .\briefing_notes\templates\bn_search.html:386
-#: .\open_data\templates\od_search.html:493 .\wet\templates\404.html:48
-msgid "Open Government Contact"
-msgstr "Contactez-nous du gouvernement ouvert"
-
-#: .\briefing_notes\templates\bn_search.html:388
-#: .\open_data\templates\od_search.html:495 .\wet\templates\404.html:50
-msgid "https://www.canada.ca/en/government/dept.html"
-msgstr "https://www.canada.ca/fr/gouvernement/min.html"
-
-#: .\briefing_notes\templates\bn_search.html:389
-#: .\open_data\templates\od_search.html:496 .\wet\templates\404.html:51
-msgid "Departments and agencies"
-msgstr "Ministères et organismes"
-
-#: .\briefing_notes\templates\bn_search.html:391
-#: .\open_data\templates\od_search.html:498 .\wet\templates\404.html:53
-msgid "https://www.canada.ca/en/government/publicservice.html"
-msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
-
-#: .\briefing_notes\templates\bn_search.html:392
-#: .\open_data\templates\od_search.html:499 .\wet\templates\404.html:54
-msgid "Public service and military"
-msgstr "Fonction publique et force militaire"
-
-#: .\briefing_notes\templates\bn_search.html:394
-#: .\open_data\templates\od_search.html:501 .\wet\templates\404.html:56
-msgid "http://news.gc.ca/"
-msgstr "http://nouvelles.gc.ca"
-
-#: .\briefing_notes\templates\bn_search.html:395
-#: .\open_data\templates\od_search.html:502 .\wet\templates\404.html:57
-msgid "News"
-msgstr "Nouvelles"
-
-#: .\briefing_notes\templates\bn_search.html:397
-#: .\open_data\templates\od_search.html:504 .\wet\templates\404.html:59
-msgid "https://www.canada.ca/en/government/system/laws.html"
-msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
-
-#: .\briefing_notes\templates\bn_search.html:398
-#: .\open_data\templates\od_search.html:505 .\wet\templates\404.html:60
-msgid "Treaties, laws and regulations"
-msgstr "Traités, lois et règlements"
-
-#: .\briefing_notes\templates\bn_search.html:400
-#: .\open_data\templates\od_search.html:507 .\wet\templates\404.html:62
-msgid "https://www.canada.ca/en/transparency/reporting.html"
-msgstr "https://www.canada.ca/fr/transparence/rapports.html"
-
-#: .\briefing_notes\templates\bn_search.html:401
-#: .\open_data\templates\od_search.html:508 .\wet\templates\404.html:63
-msgid "Government-wide reporting"
-msgstr "Rapports à l'échelle du gouvernement"
-
-#: .\briefing_notes\templates\bn_search.html:403
-#: .\open_data\templates\od_search.html:510 .\wet\templates\404.html:65
-msgid "/en/user"
-msgstr "/fr/user"
-
-#: .\briefing_notes\templates\bn_search.html:404
-#: .\open_data\templates\od_search.html:511 .\wet\templates\404.html:66
-msgid "Open Government Log In"
-msgstr "Ouverture de session Gouvernement ouvert"
-
-#: .\briefing_notes\templates\bn_search.html:406
-#: .\open_data\templates\od_search.html:513 .\wet\templates\404.html:68
-msgid "https://www.canada.ca/en/government/system.html"
-msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
-
-#: .\briefing_notes\templates\bn_search.html:407
-#: .\open_data\templates\od_search.html:514 .\wet\templates\404.html:69
-msgid "How government works"
-msgstr "Comment le gouvernement fonctionne"
+#: .\briefing_notes\templates\bn_search.html:128
+#: .\briefing_notes\templates\bn_search.html:295
+msgid "Action Required"
+msgstr "Mesure requise"
 
 #: .\open_data\templates\od_search.html:33
 msgid "Open Government Portal"
 msgstr "Portail du gouvernement ouvert"
 
-#: .\open_data\templates\od_search.html:52
+#: .\open_data\templates\od_search.html:53
 msgid "Tally of Items"
 msgstr "Compte des articels"
 
-#: .\open_data\templates\od_search.html:53
+#: .\open_data\templates\od_search.html:54
 msgid "List Items"
 msgstr "Liste des articles"
 
-#: .\open_data\templates\od_search.html:54
+#: .\open_data\templates\od_search.html:55
 msgid "View on Map"
 msgstr "Afficher la carte"
 
-#: .\open_data\templates\od_search.html:55
+#: .\open_data\templates\od_search.html:56
 msgid "Clear List"
 msgstr "Vider la list"
 
-#: .\open_data\templates\od_search.html:123
-#: .\open_data\templates\od_search.html:136
-#: .\open_data\templates\od_search.html:141
+#: .\open_data\templates\od_search.html:124
+#: .\open_data\templates\od_search.html:137
+#: .\open_data\templates\od_search.html:142
 msgid ""
 "This third party metadata element has been translated using an automated "
 "translation tool (DeepL).  To report any discrepancies please contact open-"
@@ -240,53 +329,53 @@ msgstr ""
 "l'aide d'un outil de traduction automatisée (DeepL). Pour signaler toute "
 "anomalie, veuillez communiquer avec nous à open-ouvert@tbs-sct.gc.ca"
 
-#: .\open_data\templates\od_search.html:146
-#: .\open_data\templates\od_search.html:404
+#: .\open_data\templates\od_search.html:147
+#: .\open_data\templates\od_search.html:405
 msgid "Formats"
 msgstr "Formats"
 
-#: .\open_data\templates\od_search.html:149
-#: .\open_data\templates\od_search.html:354
+#: .\open_data\templates\od_search.html:150
+#: .\open_data\templates\od_search.html:355
 msgid "Key Words"
 msgstr "Mots clés"
 
-#: .\open_data\templates\od_search.html:161
+#: .\open_data\templates\od_search.html:162
 msgid "Add to Map List"
 msgstr "Ajouter à la liste de cartes"
 
-#: .\open_data\templates\od_search.html:165
+#: .\open_data\templates\od_search.html:166
 msgid "Remove from Map List"
 msgstr "Supprimer de la liste de cartes"
 
-#: .\open_data\templates\od_search.html:234
+#: .\open_data\templates\od_search.html:235
 msgid "https://open.canada.ca/en/suggested-datasets"
 msgstr "https://ouvert.canada.ca/fr/jeux-de-donnees-suggeres"
 
-#: .\open_data\templates\od_search.html:235
+#: .\open_data\templates\od_search.html:236
 msgid "Suggest a Dataset"
 msgstr "Proposez un jeu de données"
 
-#: .\open_data\templates\od_search.html:281
+#: .\open_data\templates\od_search.html:282
 msgid "Portal Type"
 msgstr "Type de portail"
 
-#: .\open_data\templates\od_search.html:304
+#: .\open_data\templates\od_search.html:305
 msgid "Collection Type"
 msgstr "Type de collection"
 
-#: .\open_data\templates\od_search.html:329
+#: .\open_data\templates\od_search.html:330
 msgid "Jurisdiction"
 msgstr "Juridiction"
 
-#: .\open_data\templates\od_search.html:379
+#: .\open_data\templates\od_search.html:380
 msgid "Subjects"
 msgstr "Sujets"
 
-#: .\open_data\templates\od_search.html:429
+#: .\open_data\templates\od_search.html:430
 msgid "Resource Types"
 msgstr "Type de ressource"
 
-#: .\open_data\templates\od_search.html:454
+#: .\open_data\templates\od_search.html:455
 msgid "Update Frequency"
 msgstr "Fréquence de mise à jour"
 
@@ -315,6 +404,139 @@ msgstr ""
 "\"http://publications.gc.ca/\">Publications du gouvernement du Canada</a> et "
 "<a href=\"http://www.bac-lac.gc.ca/Pages/default.aspx\">Bibliothèque et "
 "Archives Canada</a>."
+
+#: .\service_inventory\templates\si_search.html:33
+msgid "Search Service Inventory"
+msgstr "Rechercher le répertoire des services"
+
+#: .\service_inventory\templates\si_search.html:78
+#: .\service_inventory\templates\si_search.html:138
+msgid "Program"
+msgstr "Programme"
+
+#: .\service_inventory\templates\si_search.html:80
+#: .\service_inventory\templates\si_search.html:135
+msgid "Service"
+msgstr "Service"
+
+#: .\service_inventory\templates\si_search.html:134
+msgid "Code"
+msgstr "Code"
+
+#: .\service_inventory\templates\si_search.html:137
+msgid "Details"
+msgstr "Détails"
+
+#: .\service_inventory\templates\si_search.html:139
+msgid "Authority"
+msgstr "Instruments habilitants"
+
+#: .\service_inventory\templates\si_search.html:140
+msgid "URL to Service"
+msgstr "URL du service"
+
+#: .\service_inventory\templates\si_search.html:141
+msgid "Client/Target Groups"
+msgstr "Clients/groupes cibles"
+
+#: .\service_inventory\templates\si_search.html:147
+#: .\service_inventory\templates\si_search.html:489
+msgid "Service Fees"
+msgstr "Frais de service"
+
+#: .\service_inventory\templates\si_search.html:150
+msgid "Use of CRA Business Number"
+msgstr "Utilisation du numéro d’entreprise de l’ARC"
+
+#: .\service_inventory\templates\si_search.html:152
+msgid "Use of Social Insurance Number"
+msgstr "Utilisation du numéro d’assurance sociale (NAS)"
+
+#: .\service_inventory\templates\si_search.html:153
+msgid "Number of Applications Submitted Online"
+msgstr "Nombre de demandes soumises en ligne"
+
+#: .\service_inventory\templates\si_search.html:154
+msgid "Number of Website Visits"
+msgstr "Nombre de visites sur le site Web"
+
+#: .\service_inventory\templates\si_search.html:155
+msgid "Number of Telephone Calls Received"
+msgstr "Nombre d’appels téléphoniques reçus"
+
+#: .\service_inventory\templates\si_search.html:156
+msgid "Number of Applications Submitted In-Person"
+msgstr "Nombre de demandes soumises en personne"
+
+#: .\service_inventory\templates\si_search.html:157
+msgid "Number of Applications Submitted via Email"
+msgstr "Nombre de demandes soumises par courriel"
+
+#: .\service_inventory\templates\si_search.html:158
+msgid "Number of Applications via Fax"
+msgstr "Nombre de demandes soumises par télécopieur"
+
+#: .\service_inventory\templates\si_search.html:159
+msgid "Number of Applications Submitted via Postal Mail"
+msgstr "Nombre de demandes soumises par la poste"
+
+#: .\service_inventory\templates\si_search.html:160
+msgid "E-enabled Services - Account Registration/Enrollment"
+msgstr "Services électroniques : Enregistrement/ inscription du compte"
+
+#: .\service_inventory\templates\si_search.html:161
+msgid "E-enabled Services - Authentication"
+msgstr "Services électroniques : Authentification"
+
+#: .\service_inventory\templates\si_search.html:162
+msgid "E-enabled Services - Application"
+msgstr "Services offerts par voie électronique : Demande"
+
+#: .\service_inventory\templates\si_search.html:163
+msgid "E-enabled Services - Decision"
+msgstr "Services offerts par voie électronique : Décision"
+
+#: .\service_inventory\templates\si_search.html:337
+msgid "External/Internal"
+msgstr "Service externe ou service intégré interne"
+
+#: .\service_inventory\templates\si_search.html:375
+#, fuzzy
+#| msgid "Resource Types"
+msgid "Service Type"
+msgstr "Type de ressource"
+
+#: .\service_inventory\templates\si_search.html:413
+msgid "Special Designations"
+msgstr "Désignations spéciales"
+
+#: .\service_inventory\templates\si_search.html:451
+msgid "Client Target Groups"
+msgstr ""
+
+#: .\service_inventory\templates\si_search.html:527
+msgid "CRA Business Number Used"
+msgstr "Utilisation du numéro d’entreprise de l’ARC"
+
+#: .\service_inventory\templates\si_search.html:565
+msgid "E-Registrations"
+msgstr "Enregistrement électroniques"
+
+#: .\service_inventory\templates\si_search.html:603
+msgid "E-Authentication"
+msgstr "Authentification électroniques"
+
+#: .\service_inventory\templates\si_search.html:641
+msgid "E-Decision"
+msgstr "Décision électroniques"
+
+#: .\service_inventory\templates\si_search.html:679
+msgid "E-Issuance"
+msgstr "Délivrance électroniques"
+
+#: .\service_inventory\templates\si_search.html:717
+msgid "E-Feedback"
+msgstr "Rétroaction électroniques"
 
 #: .\wet\templates\404.html:31
 msgid "We couldn't find that Web page"
@@ -445,15 +667,12 @@ msgstr ""
 "\"./GCWeb/assets/wmms-blk.svg\" alt=\"Symbole du gouvernement du Canada\"></"
 "div>\n"
 
-#: .\wet\templatetags\search_extras.py:37
+#: .\wet\templatetags\search_extras.py:38
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
 
 #~ msgid "Disposition"
 #~ msgstr "Période de transition"
-
-#~ msgid "Completed Access to Information Requests"
-#~ msgstr "Demandes d’accès à l’information complétées"
 
 #~ msgid "Transitional Period"
 #~ msgstr "Période de transition"

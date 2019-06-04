@@ -1,12 +1,3 @@
-var accumulators = ['od-search-orgs', 'od-search-portal', 'od-search-col', 'od-search-jur', 'od-search-keywords',
-                    'od-search-subjects', 'od-search-format', 'od-search-rsct', 'od-search-update',
-                    'bn-search-orgs', 'bn-search-year', 'bn-search-month', 'bn-search-action', 'bn-search-addressee',
-                    'ati-search-orgs', 'ati-search-year', 'ati-search-month',
-                    'si-search-orgs', 'si-search-year', 'si-search-ext-int', 'si-search-service-type',
-                    'si-search-designations', 'si-search-target-groups', 'si-search-service-fee',
-                    'si-search-cra-number', 'si-search-e-reg', 'si-search-e-authenticate',
-                    'si-search-e-decision', 'si-search-e-issuance', 'si-search-e-feedback', 'si-search-feedback',
-                    ];
 
 function select_facet(selected_item, accumulator) {
 
@@ -14,7 +5,8 @@ function select_facet(selected_item, accumulator) {
     let old_facet_str = '';
     if (sessionStorage.getItem(accumulator)) {
         old_facet_str = sessionStorage.getItem(accumulator);
-        old_facet_arr = String(old_facet_str).split(',');
+        // @TODO split on |, not comma
+        old_facet_arr = String(old_facet_str).split('|');
     }
     let new_facet_arr = [];
     let  found_it = false;
@@ -31,9 +23,11 @@ function select_facet(selected_item, accumulator) {
         new_facet_arr.push(encodeURIComponent(selected_item));
     }
     let new_facets = new_facet_arr.toString();
-    if (new_facets.charAt(0) === ',') {
+    if (new_facets.charAt(0) === '|') {
         new_facets = new_facets.substring(1);
     }
+    // Use | to separate values, not a comma
+    new_facets = new_facets.replace(/,/g, '|');
     sessionStorage.setItem(accumulator, new_facets);
     $('#page').value = '1';
     submitForm();

@@ -8,8 +8,8 @@
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/bn{% endblock language_switch_url %}
 
 {% block custom_page_javascript %}
-<script src="{% static 'open_data/od_search.js' %}"></script>
-
+    <script src="{% static 'bn/facets.js' %}"></script>
+    <script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 
 {% block top-settings %}
@@ -409,37 +409,5 @@
 "showFeatures": false
 {% endblock %}
 {% block custom-jquery %}
-
-<script type="text/javascript">
-
-$(function(){
-// reset seessionStorage based on the URL
-    sessionStorage.clear();
-    let facets = [];
-    if (window.location.search.length > 1) {
-        facets = window.location.search.substring(1).split('&');
-        for (let i=0; i<facets.length; i++) {
-            let pair = facets[i].split('=');
-            sessionStorage.setItem(pair[0], pair[1]);
-            if (pair[0].substring(0,3) === 'bn-') {
-                let display_terms = decodeURIComponent(pair[1]).split(',');
-                for(let j=0; j<display_terms.length; j++) {
-                    let display_key = pair[0];
-                    let display_text = display_terms[j];
-                    if (display_key === 'bn-search-month') {
-                        display_text = toMonthLabel(display_text);
-                    }
-                    let new_link = $("<a />", {
-                        class : "btn btn-default btn-xs",
-                        onclick : `select_facet('${display_terms[j]}','${display_key}');`,
-                        text : `${display_text} `
-                    }).append($("<span />", {class: 'glyphicon glyphicon-remove', text: ' '}));
-                    $('#search_terms').append(new_link);
-                    // $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
-                }
-            }
-        }
-    }
-});
-</script>
+<script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
 {% endblock %}

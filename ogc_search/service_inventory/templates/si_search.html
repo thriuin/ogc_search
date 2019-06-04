@@ -8,14 +8,14 @@
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/si{% endblock language_switch_url %}
 
 {% block custom_page_javascript %}
-<script src="{% static 'open_data/od_search.js' %}"></script>
-
+    <script src="{% static 'si/facets.js' %}"></script>
+    <script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
-        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/bn",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/si",
         "text": "{{ LANGUAGE_CODE | SwapLangName }}"
     }],
     search: false,
@@ -122,7 +122,7 @@
                             </h4>
                         </div>
                         <div class="col-sm-4 text-right">
-                            Code: <strong class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.program_id_code_s }}</strong>
+                            <strong class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.new_service_id_s }}</strong>
                         </div>
 
                         <div class="col-sm-12">
@@ -131,18 +131,51 @@
                             {{ doc.service_description_txt_fr | safe }}<br>
                             {% endif %}
                             <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_title_txt_fr }}<br>
-                            <strong>{% trans 'Program' %}</strong>: {{ doc.program_name_txt_fr }}<br>
-                            <strong>{% trans 'Service' %}</strong>: {{ doc.service_name_txt_fr }}<br>
-                            <strong>{% trans 'Service Fee' %}</strong>: {{ doc.service_fee_fr_s }}</p>
+                            <strong>{% trans 'Service' %}</strong>: {{ doc.service_name_txt_fr | safe }}<br>
+                            <strong>{% trans 'Fiscal Year' %}</strong>: {{ doc.fiscal_year_s }}<br>
+                            <strong>{% trans 'Code' %}</strong>: {{ doc.program_id_code_s }}<br>
+                            <details>
+                                <summary>{% trans 'Details' %}</summary>
+                                <strong>{% trans 'Program' %}</strong> : {{ doc.program_name_txt_fr | safe }}<br>
+                                <strong>{% trans 'Authority' %}</strong> : {{ doc.authority_txt_fr }}<br>
+                                <strong>{% trans 'URL to Service' %}</strong> : {{ doc.service_url_fr_s }}<br>
+                                <strong>{% trans 'Client/Target Groups' %}</strong> :
+                                    <ul>{% for tg in doc.client_target_groups_fr_s %}
+                                        <li>{{ tg }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% if doc.service_fee_fr_s|length > 0 %}
+                                    <strong>{% trans 'Service Fees' %}</strong> : {{ doc.service_fee_fr_s }}<br>
+                                {% endif %}
+                                {% if doc.cra_business_number_fr_s|length > 0 %}
+                                    <strong>{% trans 'Use of CRA Business Number' %}</strong> : {{ doc.cra_business_number_fr_s }}<br>
+                                {% endif %}
+                                {% if doc.use_of_sin_fr_s|length > 0 %}<strong>{% trans 'Use of Social Insurance Number' %}</strong> : {{ doc.use_of_sin_fr_s }}<br>{% endif %}
+                                {% if doc.online_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted Online' %}</strong> : {{ doc.online_applications_fr_s }}<br>{% endif %}
+                                {% if doc.web_visits_info_service_fr_s|length > 0 %}<strong>{% trans 'Number of Website Visits' %}</strong> : {{ doc.web_visits_info_service_fr_s }}<br>{% endif %}
+                                {% if doc.calls_received_fr_s|length > 0 %}<strong>{% trans 'Number of Telephone Calls Received' %}</strong> : {{ doc.calls_received_fr_s }}<br>{% endif %}
+                                {% if doc.in_person_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted In-Person' %}</strong> : {{ doc.in_person_applications_fr_s }}<br>{% endif %}
+                                {% if doc.email_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted via Email' %}</strong> : {{ doc.email_applications_fr_s }}<br>{% endif %}
+                                {% if doc.fax_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications via Fax' %}</strong> : {{ doc.fax_applications_fr_s }}<br>{% endif %}
+                                {% if doc.postal_mail_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted via Postal Mail' %}</strong> : {{ doc.postal_mail_applications_fr_s }}<br>{% endif %}
+                                {% if doc.e_registration_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Account Registration/Enrollment' %}</strong> : {{ doc.e_registration_fr_s }}<br>{% endif %}
+                                {% if doc.e_authentication_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Authentication' %}</strong> : {{ doc.e_authentication_fr_s }}<br>{% endif %}
+                                {% if doc.e_application_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Application' %}</strong> : {{ doc.e_application_fr_s }}<br>{% endif %}
+                                {% if doc.e_decision_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Decision' %}</strong> : {{ doc.e_decision_fr_s }}<br>{% endif %}
+                            </details></p>
+
                         {% else %}
                             <p>{% if doc.service_description_txt_en %}
                             {{ doc.service_description_txt_en | safe }}<br>
                             {% endif %}
                             <strong>Organization</strong>: {{ doc.owner_org_title_txt_en }}<br>
-                            <strong>Program</strong>: {{ doc.program_name_txt_en | safe }}<br>
+
                             <strong>Service</strong>: {{ doc.service_name_txt_en | safe }}<br>
+                            <strong>Fiscal Year</strong>: {{ doc.fiscal_year_s }}<br>
+                            <strong>Code</strong>: {{ doc.program_id_code_s }}<br>
                             <details>
                                 <summary>Details</summary>
+                                <strong>Program</strong>: {{ doc.program_name_txt_en | safe }}<br>
                                 <strong>Authority</strong>: {{ doc.authority_txt_en }}<br>
                                 <strong>URL to Service</strong>: {{ doc.service_url_en_s }}<br>
                                 <strong>Client/Target Groups</strong>:
@@ -150,11 +183,24 @@
                                         <li>{{ tg }}</li>
                                         {% endfor %}
                                     </ul>
-                                <strong>Service Fees</strong>: {{ doc.service_fee_en_s }}<br>
-                                <strong>Use of CRA Business Number</strong>: {{ doc.cra_business_number_en_s }}<br>
-                                <strong>Use of Social Insurance Number</strong>: {{ doc.use_of_sin_en_s }}<br>
-                                <strong>Number of Applications Submitted Online</strong>: {{ doc.online_applications_en_s }}<br>
-                                <strong>Number of Website Visits</strong>: {{ doc.web_visits_info_service_en_s }}<br>
+                                {% if doc.service_fee_en_s|length > 0 %}
+                                    <strong>Service Fees</strong>: {{ doc.service_fee_en_s }}<br>
+                                {% endif %}
+                                {% if doc.cra_business_number_en_s|length > 0 %}
+                                    <strong>Use of CRA Business Number</strong>: {{ doc.cra_business_number_en_s }}<br>
+                                {% endif %}
+                                {% if doc.use_of_sin_en_s|length > 0 %}<strong>Use of Social Insurance Number</strong>: {{ doc.use_of_sin_en_s }}<br>{% endif %}
+                                {% if doc.online_applications_en_s|length > 0 %}<strong>Number of Applications Submitted Online</strong>: {{ doc.online_applications_en_s }}<br>{% endif %}
+                                {% if doc.web_visits_info_service_en_s|length > 0 %}<strong>Number of Website Visits</strong>: {{ doc.web_visits_info_service_en_s }}<br>{% endif %}
+                                {% if doc.calls_received_en_s|length > 0 %}<strong>Number of Telephone Calls Received</strong>: {{ doc.calls_received_en_s }}<br>{% endif %}
+                                {% if doc.in_person_applications_en_s|length > 0 %}<strong>Number of Applications Submitted In-Person</strong>: {{ doc.in_person_applications_en_s }}<br>{% endif %}
+                                {% if doc.email_applications_en_s|length > 0 %}<strong>Number of Applications Submitted via Email</strong>: {{ doc.email_applications_en_s }}<br>{% endif %}
+                                {% if doc.fax_applications_en_s|length > 0 %}<strong>Number of Applications via Fax</strong>: {{ doc.fax_applications_en_s }}<br>{% endif %}
+                                {% if doc.postal_mail_applications_en_s|length > 0 %}<strong>Number of Applications Submitted via Postal Mail</strong>: {{ doc.postal_mail_applications_en_s }}<br>{% endif %}
+                                {% if doc.e_registration_en_s|length > 0 %}<strong>E-enabled Services - Account Registration/Enrollment</strong>: {{ doc.e_registration_en_s }}<br>{% endif %}
+                                {% if doc.e_authentication_en_s|length > 0 %}<strong>E-enabled Services - Authentication</strong>: {{ doc.e_authentication_en_s }}<br>{% endif %}
+                                {% if doc.e_application_en_s|length > 0 %}<strong>E-enabled Services - Application</strong>: {{ doc.e_application_en_s }}<br>{% endif %}
+                                {% if doc.e_decision_en_s|length > 0 %}<strong>E-enabled Services - Decision</strong>: {{ doc.e_decision_en_s }}<br>{% endif %}
                             </details></p>
                         {% endif %}
                         </div>
@@ -750,37 +796,5 @@
 "showFeatures": false
 {% endblock %}
 {% block custom-jquery %}
-
-<script type="text/javascript">
-
-$(function(){
-// reset seessionStorage based on the URL
-    sessionStorage.clear();
-    let facets = [];
-    if (window.location.search.length > 1) {
-        facets = window.location.search.substring(1).split('&');
-        for (let i=0; i<facets.length; i++) {
-            let pair = facets[i].split('=');
-            sessionStorage.setItem(pair[0], pair[1]);
-            if (pair[0].substring(0,3) === 'bn-') {
-                let display_terms = decodeURIComponent(pair[1]).split(',');
-                for(let j=0; j<display_terms.length; j++) {
-                    let display_key = pair[0];
-                    let display_text = display_terms[j];
-                    if (display_key === 'bn-search-month') {
-                        display_text = toMonthLabel(display_text);
-                    }
-                    let new_link = $("<a />", {
-                        class : "btn btn-default btn-xs",
-                        onclick : `select_facet('${display_terms[j]}','${display_key}');`,
-                        text : `${display_text} `
-                    }).append($("<span />", {class: 'glyphicon glyphicon-remove', text: ' '}));
-                    $('#search_terms').append(new_link);
-                    // $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
-                }
-            }
-        }
-    }
-});
-</script>
+<script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
 {% endblock %}

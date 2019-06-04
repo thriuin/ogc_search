@@ -178,6 +178,9 @@ STATICFILES_DIRS = [
     ('wxt', os.path.join(BASE_DIR, "themes-dist-GCWeb")),
     ('cdts', os.path.join(BASE_DIR, "cdts", "v4_0_28")),
     ('open_data', os.path.join(BASE_DIR, "open_data", "static")),
+    ('ati', os.path.join(BASE_DIR, "ATI", "static")),
+    ('bn', os.path.join(BASE_DIR, "briefing_notes", "static")),
+    ('si', os.path.join(BASE_DIR, "service_inventory", "static")),
 ]
 
 

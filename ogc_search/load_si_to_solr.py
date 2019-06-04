@@ -73,16 +73,31 @@ def get_multivalue_choice(choices, lang, field_values: str):
     return results
 
 
+def get_standards_for_service(std_filename, fiscal_year, new_service_id):
+    standards = {}
+    with open(std_filename, 'r', encoding='utf-8-sig', errors="ignore") as si_std_file:
+        si_std_reader = csv.DictReader(si_std_file, dialect='excel')
+        for std in si_std_reader:
+            old_service_id = str(std['service_id']).split('-')
+            old_service_id = old_service_id[1] if len(old_service_id) == 2 else old_service_id[0]
+            service_id_int = int(old_service_id)
+            old_service_id = str(service_id_int).zfill(2)
+            service_id = "{0} - {1}".format(std['owner_org'], old_service_id)
+            if new_service_id == service_id and std['fiscal_yr'] == fiscal_year:
+                standards[std['service_std_id']] = std
+    return standards
+
+
 solr = pysolr.Solr(settings.SOLR_SI)
 solr.delete(q='*:*')
 solr.commit()
 
 si_list = []
-bulk_size = 500
+bulk_size = 10
 i = 0
 total = 0
-with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
-    si_reader = csv.DictReader(bn_file, dialect='excel')
+with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
+    si_reader = csv.DictReader(si_file, dialect='excel')
     for si in si_reader:
         try:
             od_obj = dict(id='{0}-{1}-{2}'.format(si['owner_org'], si['fiscal_yr'], si['service_id']),
@@ -114,9 +129,9 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                           service_type_en_s=controlled_lists['service_type']['en'][si['service_type']],
                           service_type_fr_s=controlled_lists['service_type']['fr'][si['service_type']],
                           special_designations_en_s=str(controlled_lists['special_designations']['en'][
-                              si['special_designations']]).replace(',', ';'),
+                              si['special_designations']]),
                           special_designations_fr_s=str(controlled_lists['special_designations']['fr'][
-                              si['special_designations']]).replace(',', ';'),
+                              si['special_designations']]),
                           client_target_groups_en_s=get_multivalue_choice('client_target_groups','en',
                               si['client_target_groups']),
                           client_target_groups_fr_s=get_multivalue_choice('client_target_groups','fr',
@@ -143,6 +158,21 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                           e_feedback_fr_s=controlled_lists['e_feedback']['fr'][si['e_feedback']],
                           client_feedback_en_s=get_multivalue_choice('client_feedback','en',si['client_feedback']) if not si['client_feedback'] == '' else '',
                           client_feedback_fr_s=get_multivalue_choice('client_feedback','fr',si['client_feedback']) if not si['client_feedback'] == '' else '')
+            old_service_id = str(si['service_id']).split('-')
+            old_service_id = old_service_id[1] if len(old_service_id) == 2 else old_service_id[0]
+            service_id_int = int(old_service_id)
+            old_service_id = str(service_id_int).zfill(2)
+            new_service_id = "{0} - {1}".format(si['owner_org'], old_service_id)
+            od_obj['new_service_id_s'] = new_service_id
+            standards = get_standards_for_service(sys.argv[2], od_obj['fiscal_year_s'], new_service_id)
+            if len(standards) > 0:
+                standards_dict = {}
+                for std in standards:
+                    std_dict = {'service_std_en': standards[std]['service_std_en'],
+                                'service_std_fr': standards[std]['service_std_fr']}
+                    standards_dict[standards[std]['service_std_id']] = std_dict
+                od_obj['standards'] = standards_dict
+
             bi_org_title = str(si['owner_org_title']).split('|')
             od_obj['owner_org_en_s'] = bi_org_title[0].strip()
             od_obj['owner_org_fr_s'] = bi_org_title[1].strip()

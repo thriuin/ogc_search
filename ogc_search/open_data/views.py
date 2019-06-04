@@ -223,7 +223,7 @@ class ODSearchView(View):
         if ids == '':
             for facet in facets.keys():
                 if facets[facet] != '':
-                    facet_terms = facets[facet].split(',')
+                    facet_terms = facets[facet].split('|')
                     quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
                     facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
                     solr_facets.append(facet_text)
@@ -309,23 +309,23 @@ class ODSearchView(View):
             solr_search_updc   = request.GET.get('od-search-update', '')
 
         context = dict(search_text=search_text,
-                       portal_selected_list=str(solr_search_portal).split(','),
+                       portal_selected_list=str(solr_search_portal).split('|'),
                        portal_selected=solr_search_portal,
-                       col_selected_list=str(solr_search_col).split(','),
+                       col_selected_list=str(solr_search_col).split('|'),
                        col_selected=solr_search_col,
-                       jur_selected_list=str(solr_search_jur).split(','),
+                       jur_selected_list=str(solr_search_jur).split('|'),
                        jur_selected=solr_search_jur,
-                       organizations_selected_list=str(solr_search_orgs).split(','),
+                       organizations_selected_list=str(solr_search_orgs).split('|'),
                        organizations_selected=solr_search_orgs,
-                       keyw_selected_list=str(solr_search_keyw).split(','),
+                       keyw_selected_list=str(solr_search_keyw).split('|'),
                        keyw_selected=solr_search_keyw,
-                       subject_selected_list=str(solr_search_subj).split(','),
+                       subject_selected_list=str(solr_search_subj).split('|'),
                        subject_selected=solr_search_subj,
-                       format_selected_list=str(solr_search_fmts).split(','),
+                       format_selected_list=str(solr_search_fmts).split('|'),
                        format_selected=solr_search_fmts,
-                       rsct_selected_list=str(solr_search_rsct).split(','),
+                       rsct_selected_list=str(solr_search_rsct).split('|'),
                        rsct_selected=solr_search_rsct,
-                       update_selected_list=str(solr_search_updc).split(','),
+                       update_selected_list=str(solr_search_updc).split('|'),
                        update_selected=solr_search_updc,
                        )
 

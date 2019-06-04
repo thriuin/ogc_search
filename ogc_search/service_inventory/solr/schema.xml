@@ -653,6 +653,7 @@
     <!-- id field is populated with fiscal_year_i + service_id_s -->
     <field name="service_id_s" type="string" indexed="true" stored="true"/>
     <field name="owner_org_s" type="text_ws" indexed="true" stored="true"/>
+    <field name="new_service_id_s" type="string" indexed="true" stored="true"/>
     <field name="service_name_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>
     <field name="service_name_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
@@ -714,5 +715,7 @@
            docValues="true"/>
     <field name="special_remarks_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>
+
+    <field name="standards" type="string" indexed="true" stored="true" multiValued="true"/>
 
 </schema>

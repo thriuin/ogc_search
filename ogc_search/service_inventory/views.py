@@ -72,6 +72,7 @@ class SISearchView(View):
         # French search fields
         self.solr_fields_fr = ("id,service_id_s,service_name_fr_s,service_name_txt_fr,"
                                "service_description_fr_s,service_description_txt_fr,"
+                               "new_service_id_s,"
                                "authority_fr_s,authority_txt_fr,"
                                "program_name_fr_s,program_name_txt_fr,"
                                "special_remarks_fr_s,special_remarks_txt_fr,"
@@ -122,6 +123,7 @@ class SISearchView(View):
         # English search fields
         self.solr_fields_en = ("id,service_id_s,service_name_en_s,service_name_txt_en,"
                                "service_description_en_s,service_description_txt_en,"
+                               "new_service_id_s,"
                                "authority_en_s,authority_txt_en,"
                                "program_name_en_s,program_name_txt_en,"
                                "special_remarks_en_s,special_remarks_txt_en,"
@@ -208,7 +210,7 @@ class SISearchView(View):
 
         for facet in facets.keys():
             if facets[facet] != '':
-                facet_terms = facets[facet].split(',')
+                facet_terms = facets[facet].split('|')
                 quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
                 facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
                 solr_facets.append(facet_text)
@@ -273,7 +275,7 @@ class SISearchView(View):
         solr_search_xis: str = request.GET.get('si-search-ext-int', '')
         solr_search_stype: str = request.GET.get('si-search-service-type', '')
         solr_search_designations: str = request.GET.get('si-search-designations', '')
-        solr_search_targets: str = request.GET.get('si-target-groups', '')
+        solr_search_targets: str = request.GET.get('si-search-target-groups', '')
         solr_search_fees: str = request.GET.get('si-search-service-fee', '')
         solr_search_cra_no: str = request.GET.get('si-search-cra-number', '')
         solr_search_e_reg: str = request.GET.get('si-search-e-reg', '')
@@ -283,31 +285,31 @@ class SISearchView(View):
         solr_search_e_feedback: str = request.GET.get('si-search-e-feedback', '')
 
         context["organizations_selected"] = solr_search_orgs
-        context["organizations_selected_list"] = solr_search_orgs.split(',')
+        context["organizations_selected_list"] = solr_search_orgs.split('|')
         context["years_selected"] = solr_search_years
-        context["years_selected_list"] = solr_search_years.split(',')
+        context["years_selected_list"] = solr_search_years.split('|')
         context["xis_selected"] = solr_search_xis
-        context["xis_selected_list"] = solr_search_xis.split(',')
+        context["xis_selected_list"] = solr_search_xis.split('|')
         context["stypes_selected"] = solr_search_stype
-        context["stypes_selected_list"] = solr_search_stype.split(',')
+        context["stypes_selected_list"] = solr_search_stype.split('|')
         context["designations_selected"] = solr_search_designations
-        context["designations_selected_list"] = solr_search_designations.split(',')
+        context["designations_selected_list"] = solr_search_designations.split('|')
         context["targets_selected"] = solr_search_targets
-        context["targets_selected_list"] = solr_search_targets.split(',')
+        context["targets_selected_list"] = solr_search_targets.split('|')
         context["fees_selected"] = solr_search_fees
-        context["fees_selected_list"] = solr_search_fees.split(',')
+        context["fees_selected_list"] = solr_search_fees.split('|')
         context["cra_no_selected"] = solr_search_cra_no
-        context["cra_no_selected_list"] = solr_search_cra_no.split(',')
+        context["cra_no_selected_list"] = solr_search_cra_no.split('|')
         context["e_reg_selected"] = solr_search_e_reg
-        context["e_reg_selected_list"] = solr_search_e_reg.split(',')
+        context["e_reg_selected_list"] = solr_search_e_reg.split('|')
         context["e_authenticate_selected"] = solr_search_e_authenticate
-        context["e_authenticate_selected_list"] = solr_search_e_authenticate.split(',')
+        context["e_authenticate_selected_list"] = solr_search_e_authenticate.split('|')
         context["e_decision_selected"] = solr_search_e_decision
-        context["e_decision_selected_list"] = solr_search_e_decision.split(',')
+        context["e_decision_selected_list"] = solr_search_e_decision.split('|')
         context["e_issuance_selected"] = solr_search_e_issuance
-        context["e_issuance_selected_list"] = solr_search_e_issuance.split(',')
+        context["e_issuance_selected_list"] = solr_search_e_issuance.split('|')
         context["e_feedback_selected"] = solr_search_e_feedback
-        context["e_feedback_selected_list"] = solr_search_e_feedback.split(',')
+        context["e_feedback_selected_list"] = solr_search_e_feedback.split('|')
 
         # Calculate a starting row for the Solr search results. We only retrieve one page at a time
 
