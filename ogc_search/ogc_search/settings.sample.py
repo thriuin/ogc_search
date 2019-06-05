@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'analytical',
-    'memcache_status',
     'debug_toolbar',
     'ATI',
     'briefing_notes',
