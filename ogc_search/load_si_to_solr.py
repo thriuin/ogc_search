@@ -166,12 +166,26 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
             od_obj['new_service_id_s'] = new_service_id
             standards = get_standards_for_service(sys.argv[2], od_obj['fiscal_year_s'], new_service_id)
             if len(standards) > 0:
-                standards_dict = {}
+                standards_list = []
                 for std in standards:
-                    std_dict = {'service_std_en': standards[std]['service_std_en'],
-                                'service_std_fr': standards[std]['service_std_fr']}
-                    standards_dict[standards[std]['service_std_id']] = std_dict
-                od_obj['standards'] = standards_dict
+                    std_dict = {'service_std_id': standards[std]['service_std_id'],
+                                'service_std_en': standards[std]['service_std_en'],
+                                'service_std_fr': standards[std]['service_std_fr'],
+                                'service_std_url_en': standards[std]['service_std_url_en'],
+                                'service_std_url_fr': standards[std]['service_std_url_fr'],
+                                'service_std_type': standards[std]['service_std_type'],
+                                'service_std_target': standards[std]['service_std_target'],
+                                'q1_performance_result': standards[std]['q1_performance_result'],
+                                'q1_business_volume': standards[std]['q1_business_volume'],
+                                'q2_performance_result': standards[std]['q2_performance_result'],
+                                'q2_business_volume': standards[std]['q2_business_volume'],
+                                'q3_performance_result': standards[std]['q3_performance_result'],
+                                'q3_business_volume': standards[std]['q3_business_volume'],
+                                'q4_performance_result': standards[std]['q4_performance_result'],
+                                'q4_business_volume': standards[std]['q4_business_volume'],
+                                }
+                    standards_list.append(std_dict)
+                od_obj['standards'] = standards_list
 
             bi_org_title = str(si['owner_org_title']).split('|')
             od_obj['owner_org_en_s'] = bi_org_title[0].strip()

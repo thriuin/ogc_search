@@ -84,7 +84,8 @@ class SISearchView(View):
                                "service_type_fr_s,special_designations_fr_s,client_target_groups_fr_s,"
                                "service_fee_fr_s,cra_business_number_fr_s,use_of_sin_fr_s,e_registration_fr_s,"
                                "e_authentication_fr_s,e_decision_fr_s,e_issuance_fr_s,e_feedback_fr_s,"
-                               "client_feedback_fr_s")
+                               "client_feedback_fr_s,"
+                               "standards")
 
         self.solr_query_fields_fr = ['service_name_txt_fr^5', 'service_description_txt_fr^3', 'authority_txt_fr^2',
                                      'program_name_txt_fr^3', 'special_remarks_txt_fr^6', 'owner_org_title_txt_fr^2',
@@ -135,7 +136,8 @@ class SISearchView(View):
                                "service_type_en_s,special_designations_en_s,client_target_groups_en_s,"
                                "service_fee_en_s,cra_business_number_en_s,use_of_sin_en_s,e_registration_en_s,"
                                "e_authentication_en_s,e_decision_en_s,e_issuance_en_s,e_feedback_en_s,"
-                               "client_feedback_en_s")
+                               "client_feedback_en_s,"
+                               "standards")
 
         self.solr_query_fields_en = ['service_name_txt_en^5', 'service_description_txt_en^3', 'authority_txt_en^2',
                                      'program_name_txt_en^3', 'special_remarks_txt_en^6', 'owner_org_title_txt_en^2',
@@ -254,6 +256,7 @@ class SISearchView(View):
         context["si_ds_id"] = settings.SI_DATASET_ID
         context["si_ds_title_en"] = settings.SI_DATASET_TITLE_EN
         context["si_ds_title_fr"] = settings.SI_DATASET_TITLE_FR
+        context["si_dv_path"] = settings.SI_DATAVIZ_PATH
 
         # Get any search terms
 

@@ -231,6 +231,8 @@ SI_DATASET_TITLE_FR = 'Répertoire des services'
 
 SI_DATASET_ID = '3ac0d080-6149-499a-8b06-7ce5f00ec56c'
 
+SI_DATAVIZ_PATH = "/chart/si"
+
 SERVICES_YAML_FILE = os.path.join(BASE_DIR, "ckan", "service.yaml")
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
