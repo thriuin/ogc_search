@@ -158,8 +158,11 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
                           e_feedback_fr_s=controlled_lists['e_feedback']['fr'][si['e_feedback']],
                           client_feedback_en_s=get_multivalue_choice('client_feedback','en',si['client_feedback']) if not si['client_feedback'] == '' else '',
                           client_feedback_fr_s=get_multivalue_choice('client_feedback','fr',si['client_feedback']) if not si['client_feedback'] == '' else '')
-            old_service_id = str(si['service_id']).split('-')
-            old_service_id = old_service_id[1] if len(old_service_id) == 2 else old_service_id[0]
+            old_service_id_sections = str(si['service_id']).split('-')
+            if len(old_service_id_sections) > 1:
+                old_service_id = old_service_id_sections[len(old_service_id_sections) - 1]
+            else:
+                old_service_id = si['service_id']
             service_id_int = int(old_service_id)
             old_service_id = str(service_id_int).zfill(2)
             new_service_id = "{0} - {1}".format(si['owner_org'], old_service_id)

@@ -3,6 +3,7 @@
 from django import template
 from django.utils.translation import gettext
 from dateutil import parser
+import json
 
 
 register = template.Library()
@@ -71,3 +72,18 @@ def iso_date_time_to_date(value):
     my_date = parser.parse(value)
     return my_date.strftime("%Y-%m-%d")
 
+
+@register.filter('service_standards_en')
+def si_std_json_to_html_en(value):
+    std_obj = json.loads(value)
+    return "<strong>Standard: {0}</strong><br>{1}<br>".format(
+        std_obj['service_std_id'],
+        std_obj['service_std_en'])
+
+
+@register.filter('service_standards_fr')
+def si_std_json_to_html_fr(value):
+    std_obj = json.loads(value)
+    return "<strong>Norme : {0}</strong><br>{1}<br>".format(
+        std_obj['service_std_id'],
+        std_obj['service_std_fr'])

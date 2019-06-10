@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-06 13:39-0400\n"
+"POT-Creation-Date: 2019-06-10 10:59-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -420,8 +420,8 @@ msgid "Service"
 msgstr "Service"
 
 #: .\service_inventory\templates\si_search.html:126
-msgid "Chart"
-msgstr "Graphique"
+msgid "Performance Dashboard"
+msgstr "Bord des performances de service"
 
 #: .\service_inventory\templates\si_search.html:136
 msgid "Fiscal Year"
@@ -678,6 +678,9 @@ msgstr ""
 #: .\wet\templatetags\search_extras.py:39
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
+
+#~ msgid "Chart"
+#~ msgstr "Graphique"
 
 #~ msgid "Disposition"
 #~ msgstr "Période de transition"

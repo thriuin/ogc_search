@@ -115,15 +115,16 @@
                         <div class="col-sm-8">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                 {% if LANGUAGE_CODE == 'en' %}
-                                    {{ doc.service_name_txt_en | safe }}
+                                    <a href="{{ si_dv_path }}/{{ doc.new_service_id_s }}">
+                                    {{ doc.service_name_txt_en | safe }}</a>
                                 {% else %}
-                                    {{ doc.service_name_txt_fr | safe }}
+                                     <a href="{{ si_dv_path }}/{{ doc.new_service_id_s }}">
+                                    {{ doc.service_name_txt_fr | safe }}</a>
                                 {% endif %}
                             </h4>
                         </div>
                         <div class="col-sm-4 text-right">
-                            <strong class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.new_service_id_s }}</strong><br>
-                            <a href="{{ si_dv_path }}/{{ doc.new_service_id_s }}" class="btn btn-success btn-xs" role="button">{% trans 'Chart' %}</a>
+                            <a href="{{ si_dv_path }}/{{ doc.new_service_id_s }}" class="btn btn-success btn-xs" role="button">{% trans 'Performance Dashboard' %}</a>
                         </div>
 
                         <div class="col-sm-12">
@@ -132,37 +133,18 @@
                             {{ doc.service_description_txt_fr | safe }}<br>
                             {% endif %}
                             <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_title_txt_fr }}<br>
-                            <strong>{% trans 'Service' %}</strong>: {{ doc.service_name_txt_fr | safe }}<br>
-                            <strong>{% trans 'Fiscal Year' %}</strong>: {{ doc.fiscal_year_s }}<br>
-                            <strong>{% trans 'Code' %}</strong>: {{ doc.program_id_code_s }}<br>
                             <details>
                                 <summary>{% trans 'Details' %}</summary>
                                 <strong>{% trans 'Program' %}</strong> : {{ doc.program_name_txt_fr | safe }}<br>
                                 <strong>{% trans 'Authority' %}</strong> : {{ doc.authority_txt_fr }}<br>
-                                <strong>{% trans 'URL to Service' %}</strong> : {{ doc.service_url_fr_s }}<br>
+                                {% if doc.service_url_fr_s|length > 0 %}
+                                    <strong>{% trans 'URL to Service' %}</strong>: <a href="{{ doc.service_url_fr_s }}" target="_blank">{{ doc.service_url_fr_s }}</a><br>
+                                    {% endif %}
                                 <strong>{% trans 'Client/Target Groups' %}</strong> :
                                     <ul>{% for tg in doc.client_target_groups_fr_s %}
                                         <li>{{ tg }}</li>
                                         {% endfor %}
                                     </ul>
-                                {% if doc.service_fee_fr_s|length > 0 %}
-                                    <strong>{% trans 'Service Fees' %}</strong> : {{ doc.service_fee_fr_s }}<br>
-                                {% endif %}
-                                {% if doc.cra_business_number_fr_s|length > 0 %}
-                                    <strong>{% trans 'Use of CRA Business Number' %}</strong> : {{ doc.cra_business_number_fr_s }}<br>
-                                {% endif %}
-                                {% if doc.use_of_sin_fr_s|length > 0 %}<strong>{% trans 'Use of Social Insurance Number' %}</strong> : {{ doc.use_of_sin_fr_s }}<br>{% endif %}
-                                {% if doc.online_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted Online' %}</strong> : {{ doc.online_applications_fr_s }}<br>{% endif %}
-                                {% if doc.web_visits_info_service_fr_s|length > 0 %}<strong>{% trans 'Number of Website Visits' %}</strong> : {{ doc.web_visits_info_service_fr_s }}<br>{% endif %}
-                                {% if doc.calls_received_fr_s|length > 0 %}<strong>{% trans 'Number of Telephone Calls Received' %}</strong> : {{ doc.calls_received_fr_s }}<br>{% endif %}
-                                {% if doc.in_person_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted In-Person' %}</strong> : {{ doc.in_person_applications_fr_s }}<br>{% endif %}
-                                {% if doc.email_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted via Email' %}</strong> : {{ doc.email_applications_fr_s }}<br>{% endif %}
-                                {% if doc.fax_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications via Fax' %}</strong> : {{ doc.fax_applications_fr_s }}<br>{% endif %}
-                                {% if doc.postal_mail_applications_fr_s|length > 0 %}<strong>{% trans 'Number of Applications Submitted via Postal Mail' %}</strong> : {{ doc.postal_mail_applications_fr_s }}<br>{% endif %}
-                                {% if doc.e_registration_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Account Registration/Enrollment' %}</strong> : {{ doc.e_registration_fr_s }}<br>{% endif %}
-                                {% if doc.e_authentication_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Authentication' %}</strong> : {{ doc.e_authentication_fr_s }}<br>{% endif %}
-                                {% if doc.e_application_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Application' %}</strong> : {{ doc.e_application_fr_s }}<br>{% endif %}
-                                {% if doc.e_decision_fr_s|length > 0 %}<strong>{% trans 'E-enabled Services - Decision' %}</strong> : {{ doc.e_decision_fr_s }}<br>{% endif %}
                             </details></p>
 
                         {% else %}
@@ -170,38 +152,18 @@
                             {{ doc.service_description_txt_en | safe }}<br>
                             {% endif %}
                             <strong>Organization</strong>: {{ doc.owner_org_title_txt_en }}<br>
-
-                            <strong>Service</strong>: {{ doc.service_name_txt_en | safe }}<br>
-                            <strong>Fiscal Year</strong>: {{ doc.fiscal_year_s }}<br>
-                            <strong>Code</strong>: {{ doc.program_id_code_s }}<br>
                             <details>
                                 <summary>Details</summary>
                                 <strong>Program</strong>: {{ doc.program_name_txt_en | safe }}<br>
                                 <strong>Authority</strong>: {{ doc.authority_txt_en }}<br>
-                                <strong>URL to Service</strong>: {{ doc.service_url_en_s }}<br>
+                                {% if doc.service_url_en_s|length > 0 %}
+                                    <strong>URL to Service</strong>: <a href="{{ doc.service_url_en_s }}" target="_blank">{{ doc.service_url_en_s }}</a><br>
+                                    {% endif %}
                                 <strong>Client/Target Groups</strong>:
                                     <ul>{% for tg in doc.client_target_groups_en_s %}
                                         <li>{{ tg }}</li>
                                         {% endfor %}
                                     </ul>
-                                {% if doc.service_fee_en_s|length > 0 %}
-                                    <strong>Service Fees</strong>: {{ doc.service_fee_en_s }}<br>
-                                {% endif %}
-                                {% if doc.cra_business_number_en_s|length > 0 %}
-                                    <strong>Use of CRA Business Number</strong>: {{ doc.cra_business_number_en_s }}<br>
-                                {% endif %}
-                                {% if doc.use_of_sin_en_s|length > 0 %}<strong>Use of Social Insurance Number</strong>: {{ doc.use_of_sin_en_s }}<br>{% endif %}
-                                {% if doc.online_applications_en_s|length > 0 %}<strong>Number of Applications Submitted Online</strong>: {{ doc.online_applications_en_s }}<br>{% endif %}
-                                {% if doc.web_visits_info_service_en_s|length > 0 %}<strong>Number of Website Visits</strong>: {{ doc.web_visits_info_service_en_s }}<br>{% endif %}
-                                {% if doc.calls_received_en_s|length > 0 %}<strong>Number of Telephone Calls Received</strong>: {{ doc.calls_received_en_s }}<br>{% endif %}
-                                {% if doc.in_person_applications_en_s|length > 0 %}<strong>Number of Applications Submitted In-Person</strong>: {{ doc.in_person_applications_en_s }}<br>{% endif %}
-                                {% if doc.email_applications_en_s|length > 0 %}<strong>Number of Applications Submitted via Email</strong>: {{ doc.email_applications_en_s }}<br>{% endif %}
-                                {% if doc.fax_applications_en_s|length > 0 %}<strong>Number of Applications via Fax</strong>: {{ doc.fax_applications_en_s }}<br>{% endif %}
-                                {% if doc.postal_mail_applications_en_s|length > 0 %}<strong>Number of Applications Submitted via Postal Mail</strong>: {{ doc.postal_mail_applications_en_s }}<br>{% endif %}
-                                {% if doc.e_registration_en_s|length > 0 %}<strong>E-enabled Services - Account Registration/Enrollment</strong>: {{ doc.e_registration_en_s }}<br>{% endif %}
-                                {% if doc.e_authentication_en_s|length > 0 %}<strong>E-enabled Services - Authentication</strong>: {{ doc.e_authentication_en_s }}<br>{% endif %}
-                                {% if doc.e_application_en_s|length > 0 %}<strong>E-enabled Services - Application</strong>: {{ doc.e_application_en_s }}<br>{% endif %}
-                                {% if doc.e_decision_en_s|length > 0 %}<strong>E-enabled Services - Decision</strong>: {{ doc.e_decision_en_s }}<br>{% endif %}
                             </details></p>
                         {% endif %}
                         </div>
@@ -258,10 +220,12 @@
                             class="glyphicon glyphicon-refresh"></span> {% trans 'Clear all choices' %}</a>
                     </div>
                     {% if export_terms != "" %}
+                    <!-- Not implemented yet
                     <div>
                         <a onclick="" href="{{ export_url }}" class="btn btn-default mrgn-bttm-md btn-block"><span
                                 class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Results' %}</a>
                     </div>
+                    -->
                     {% endif %}
                 </div>
                 <div class="list-group">

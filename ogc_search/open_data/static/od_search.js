@@ -5,7 +5,6 @@ function select_facet(selected_item, accumulator) {
     let old_facet_str = '';
     if (sessionStorage.getItem(accumulator)) {
         old_facet_str = sessionStorage.getItem(accumulator);
-        // @TODO split on |, not comma
         old_facet_arr = String(old_facet_str).split('|');
     }
     let new_facet_arr = [];
@@ -56,14 +55,17 @@ function submitForm() {
     let sort_opt = $('#sort-by').val();
     let page_no = $('#page').val();
     let search_text = $('#od-search-input').val();
-    let search_terms = `sort=${sort_opt}&page=${page_no}`;
+    // IE 11 incompatible: let search_terms = `sort=${sort_opt}&page=${page_no}`;
+    let search_terms = "sort=" + sort_opt + "&page=" + page_no;
     if (typeof search_text !== 'undefined') {
-        search_terms = `${search_terms}&search_text=${search_text}`;
+        // IE 11 incompatible: search_terms = `${search_terms}&search_text=${search_text}`;
+        search_terms = search_terms + "&search_text=" + search_text;
     }
     for (let i=0; i<accumulators.length; i++) {
         if (sessionStorage.getItem(accumulators[i])) {
             let facet_str = sessionStorage.getItem(accumulators[i]);
-            search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
+            // IE 11 incompatible: search_terms=`${search_terms}&${accumulators[i]}=${facet_str}`
+            search_terms = search_terms + "&" + accumulators[i] + "=" + facet_str;
         }
     }
     window.location.search = search_terms;
@@ -73,12 +75,14 @@ function downloadResults() {
     let search_text = $('#od-search-input').val();
     let search_terms = '';
     if (typeof search_text !== 'undefined') {
-        search_terms = `${search_terms}&search_text=${search_text}`;
+        // IE 11 incompatible: search_terms = `${search_terms}&search_text=${search_text}`;
+        search_terms = search_terms + "&search_text=" + search_text;
     }
     for (let i=0; i<accumulators.length; i++) {
         if (sessionStorage.getItem(accumulators[i])) {
             let facet_str = sessionStorage.getItem(accumulators[i]);
-            search_terms = `${search_terms}&${accumulators[i]}=${facet_str}`
+            // IE 11 incompatible: search_terms = `${search_terms}&${accumulators[i]}=${facet_str}`
+            search_terms = search_terms + "&" + accumulators[i] + "=" + facet_str;
         }
     }
 }
