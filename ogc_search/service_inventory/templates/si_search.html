@@ -115,16 +115,16 @@
                         <div class="col-sm-8">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                 {% if LANGUAGE_CODE == 'en' %}
-                                    <a href="{{ si_dv_path }}/{{ doc.new_service_id_s }}">
+                                    <a href="{{ si_dv_path }}{{ doc.new_service_id_s }}">
                                     {{ doc.service_name_txt_en | safe }}</a>
                                 {% else %}
-                                     <a href="{{ si_dv_path }}/{{ doc.new_service_id_s }}">
+                                     <a href="{{ si_dv_path }}{{ doc.new_service_id_s }}">
                                     {{ doc.service_name_txt_fr | safe }}</a>
                                 {% endif %}
                             </h4>
                         </div>
                         <div class="col-sm-4 text-right">
-                            <a href="{{ si_dv_path }}/{{ doc.new_service_id_s }}" class="btn btn-success btn-xs" role="button">{% trans 'Performance Dashboard' %}</a>
+                            <a href="{{ si_dv_path }}{{ doc.new_service_id_s }}" class="btn btn-success btn-xs" role="button">{% trans 'Performance Dashboard' %}</a>
                         </div>
 
                         <div class="col-sm-12">
