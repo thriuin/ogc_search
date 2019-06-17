@@ -99,10 +99,12 @@ total = 0
 with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
     si_reader = csv.DictReader(si_file, dialect='excel')
     for si in si_reader:
+        if si['fiscal_yr'] != '2017-2018':
+            continue
         try:
             od_obj = dict(id='{0}-{1}-{2}'.format(si['owner_org'], si['fiscal_yr'], si['service_id']),
-                          service_id_s=si['service_id'], owner_org_s=si['owner_org'],
-                          service_name_en_s=si['service_name_en'], service_name_fr_s=si['service_name_fr'],
+                          service_id_s=si['harmonized_service_id'], owner_org_s=si['owner_org'],
+                          service_name_en_s=si['harmonized_service_name_en'], service_name_fr_s=si['harmonized_service_name_fr'],
                           service_description_en_s=si['service_description_en'],
                           service_description_fr_s=si['service_description_fr'], authority_en_s=si['authority_en'],
                           authority_fr_s=si['authority_fr'], service_url_en_s=si['service_url_en'],

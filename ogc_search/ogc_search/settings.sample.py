@@ -195,6 +195,8 @@ CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
 
 BRIEF_NOTE_YAML_FILE = os.path.join(BASE_DIR, "ckan", "briefingt.yaml")
 
+NAP_YAML_FILE = os.path.join(BASE_DIR, "ckan", "nap.yaml")
+
 OPEN_DATA_EN_URL_BASE = "https://open.canada.ca/data/en/dataset/"
 
 OPEN_DATA_FR_URL_BASE = "https://ouvert.canada.ca/data/fr/dataset/"
@@ -233,6 +235,8 @@ SI_DATASET_ID = '3ac0d080-6149-499a-8b06-7ce5f00ec56c'
 
 SI_DATAVIZ_PATH = "/chart/si/index-en.html?"
 
+SI_ITEMS_PER_PAGE = 25
+
 SERVICES_YAML_FILE = os.path.join(BASE_DIR, "ckan", "service.yaml")
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
@@ -246,5 +250,7 @@ SOLR_BN = 'http://127.0.0.1:8983/solr/core_bn_search'
 SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
 
 SOLR_SI = 'http://127.0.0.1:8983/solr/core_sv_search'
+
+SOLR_NAP = 'http://127.0.0.1:8983/solr/core_ap_search'
 
 CDTS_VERSION = 'v4_0_28'

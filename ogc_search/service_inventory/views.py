@@ -69,6 +69,9 @@ class SISearchView(View):
 
     def __init__(self):
         super().__init__()
+
+        items_per_page = int(settings.SI_ITEMS_PER_PAGE)
+
         # French search fields
         self.solr_fields_fr = ("id,service_id_s,service_name_fr_s,service_name_txt_fr,"
                                "service_description_fr_s,service_description_txt_fr,"
@@ -114,10 +117,10 @@ class SISearchView(View):
             'hl.simple.pre': '<mark class="highlight">',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
-            'hl.snippets': 10,
+            'hl.snippets': items_per_page,
             'hl.fl': self.solr_hl_fields_fr,
             'hl.preserveMulti': 'true',
-            'ps': 10,
+            'ps': items_per_page,
             'mm': '3<70%',
         }
 
@@ -166,10 +169,10 @@ class SISearchView(View):
             'hl.simple.pre': '<mark class="highlight">',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
-            'hl.snippets': 10,
+            'hl.snippets': items_per_page,
             'hl.fl': self.solr_hl_fields_en,
             'hl.preserveMulti': 'true',
-            'ps': 10,
+            'ps': items_per_page,
             'mm': '3<70%',
         }
 
@@ -271,6 +274,8 @@ class SISearchView(View):
         else:
             solr_search_terms = ' '.join(search_terms)
 
+        items_per_page = int(settings.SI_ITEMS_PER_PAGE)
+
         # Retrieve search results and transform facets results to python dict
 
         solr_search_orgs: str = request.GET.get('si-search-orgs', '')
@@ -324,7 +329,7 @@ class SISearchView(View):
             page = 1
         elif page > 10000:  # @magic_number: arbitrary upper range
             page = 10000
-        start_row = 10 * (page - 1)
+        start_row = items_per_page * (page - 1)
 
         solr_search_sort = request.GET.get('sort', 'score desc')
         if request.LANGUAGE_CODE == 'fr':
@@ -366,7 +371,7 @@ class SISearchView(View):
                                e_feedback_en_s=context["e_feedback_selected"],
                                )
 
-        search_results = self.solr_query(solr_search_terms, start_row=str(start_row), pagesize='10', facets=facets_dict,
+        search_results = self.solr_query(solr_search_terms, start_row=str(start_row), pagesize=str(items_per_page), facets=facets_dict,
                                          language=request.LANGUAGE_CODE,
                                          sort_order=solr_search_sort)
 
@@ -374,7 +379,7 @@ class SISearchView(View):
         context["organizations_selected"] = solr_search_orgs
 
         context['results'] = search_results
-        pagination = _calc_pagination_range(context['results'], 10, page)
+        pagination = _calc_pagination_range(context['results'], items_per_page, page)
         context['pagination'] = pagination
         context['previous_page'] = (1 if page == 1 else page - 1)
         last_page = (pagination[len(pagination) - 1] if len(pagination) > 0 else 1)
