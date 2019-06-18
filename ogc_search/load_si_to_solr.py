@@ -32,6 +32,61 @@ def get_cs_choices(field_name, lang = 'en'):
     return {'en': choices_en, 'fr': choices_fr}
 
 
+def is_discontinued_id(an_id: str):
+    '''
+    Temporary fix - to be replaced with new logic - currently a manually curated list of discontinued services
+    :param an_id: A service ID
+    :return: Falso if the provided service ID is not in the list, otherwise True
+    '''
+    discontinued_ids = [
+        "aafc-aac - 15",
+        "aafc-aac - 25",
+        "esdc-edsc - 02",
+        "esdc-edsc - 13",
+        "esdc-edsc - 15",
+        "esdc-edsc - 26",
+        "esdc-edsc - 27",
+        "esdc-edsc - 28",
+        "esdc-edsc - 33",
+        "ic - 16",
+        "ic - 17",
+        "ic - 18",
+        "ic - 32",
+        "pwgsc-tpsgc - 05",
+        "pwgsc-tpsgc - 06",
+        "pwgsc-tpsgc - 07",
+        "pwgsc-tpsgc - 08",
+        "pwgsc-tpsgc - 09",
+        "pwgsc-tpsgc - 11",
+        "pwgsc-tpsgc - 12",
+        "pwgsc-tpsgc - 13",
+        "pwgsc-tpsgc - 15",
+        "pwgsc-tpsgc - 16",
+        "pwgsc-tpsgc - 19",
+        "pwgsc-tpsgc - 22",
+        "pwgsc-tpsgc - 23",
+        "pwgsc-tpsgc - 28",
+        "pwgsc-tpsgc - 29",
+        "pwgsc-tpsgc - 30",
+        "pwgsc-tpsgc - 31",
+        "pwgsc-tpsgc - 33",
+        "pwgsc-tpsgc - 35",
+        "pwgsc-tpsgc - 37",
+        "pwgsc-tpsgc - 42",
+        "pwgsc-tpsgc - 43",
+        "ssc-spc - 10",
+        "ssc-spc - 11",
+        "ssc-spc - 12",
+        "ssc-spc - 22",
+        "ssc-spc - 23",
+        "ssc-spc - 24",
+        "ssc-spc - 30",
+    ]
+    if an_id in discontinued_ids:
+        return True
+    else:
+        return False
+
 
 def expand_count_field(field_value, lang):
     if field_value == 'NA' and lang == 'en':
@@ -99,7 +154,7 @@ total = 0
 with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
     si_reader = csv.DictReader(si_file, dialect='excel')
     for si in si_reader:
-        if si['fiscal_yr'] != '2017-2018':
+        if (si['fiscal_yr'] != '2017-2018') and (not is_discontinued_id(si['harmonized_service_id'])):
             continue
         try:
             od_obj = dict(id='{0}-{1}-{2}'.format(si['owner_org'], si['fiscal_yr'], si['service_id']),
@@ -160,16 +215,9 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
                           e_feedback_fr_s=controlled_lists['e_feedback']['fr'][si['e_feedback']],
                           client_feedback_en_s=get_multivalue_choice('client_feedback','en',si['client_feedback']) if not si['client_feedback'] == '' else '',
                           client_feedback_fr_s=get_multivalue_choice('client_feedback','fr',si['client_feedback']) if not si['client_feedback'] == '' else '')
-            old_service_id_sections = str(si['service_id']).split('-')
-            if len(old_service_id_sections) > 1:
-                old_service_id = old_service_id_sections[len(old_service_id_sections) - 1]
-            else:
-                old_service_id = si['service_id']
-            service_id_int = int(old_service_id)
-            old_service_id = str(service_id_int).zfill(2)
-            new_service_id = "{0} - {1}".format(si['owner_org'], old_service_id)
-            od_obj['new_service_id_s'] = new_service_id
-            standards = get_standards_for_service(sys.argv[2], od_obj['fiscal_year_s'], new_service_id)
+
+            od_obj['new_service_id_s'] = si['harmonized_service_id']
+            standards = get_standards_for_service(sys.argv[2], od_obj['fiscal_year_s'], si['harmonized_service_id'])
             if len(standards) > 0:
                 standards_list = []
                 for std in standards:
