@@ -22,6 +22,7 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 from ATI.views import ATISearchView
 from briefing_notes.views import BNSearchView, BNExportView
+from national_action_plan.views import NAPSearchView
 from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
 from service_inventory.views import SISearchView
@@ -50,6 +51,12 @@ if settings.BN_ENABLED:
 if settings.SI_ENABLED:
     urlpatterns += i18n_patterns(
         path('si/', SISearchView.as_view(), name='SIQuery'),
+        # path('si/export/', SIExportView.as_view(), name='SIExport')
+    )
+
+if settings.NAP_ENABLED:
+    urlpatterns += i18n_patterns(
+        path('nap/', NAPSearchView.as_view(), name='NAPQuery'),
         # path('si/export/', SIExportView.as_view(), name='SIExport')
     )
 

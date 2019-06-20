@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
+{% load markdown_filter %}
 {% load search_extras %}
 
 {% block canada_ca_search %} {% endblock canada_ca_search %}
@@ -132,12 +133,12 @@
                         </div>
                         <div class="col-sm-12">
                             <p>{% if LANGUAGE_CODE == 'en' %}
-                                    {% if 'description_txt_en' in doc %}{{ doc.description_txt_en | safe }}
+                                    {% if 'description_txt_en' in doc %}{{ doc.description_txt_en | markdown_filter | safe }}
                                     {% elif 'description_xlt_txt_en' in doc %}{{ doc.description_xlt_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
                                 {% else %}
-                                    {% if 'description_txt_fr' in doc %}{{ doc.description_txt_fr | safe }}
+                                    {% if 'description_txt_fr' in doc %}{{ doc.description_txt_fr | markdown_filter | safe }}
                                     {% elif 'description_xlt_txt_fr' in doc %}{{ doc.description_xlt_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}

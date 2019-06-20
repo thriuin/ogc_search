@@ -87,3 +87,17 @@ def si_std_json_to_html_fr(value):
     return "<strong>Norme : {0}</strong><br>{1}<br>".format(
         std_obj['service_std_id'],
         std_obj['service_std_fr'])
+
+
+@register.filter('nap_status')
+def nap_status_alert(value):
+    if value in ('Not started', 'Non commencé'):
+        return '<span class="label label-default">{0}</span>'.format(value)
+    elif value in ('Limited progress', 'Progrès limité'):
+        return '<span class="label label-warning">{0}</span>'.format(value)
+    elif value in ('Substantial progress', 'Progrès important'):
+        return '<span class="label label-info">{0}</span>'.format(value)
+    elif value in ('Complete', 'Réalisé'):
+        return '<span class="label label-success">{0}</span>'.format(value)
+    else:
+        return value

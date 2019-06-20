@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'analytical',
+    'markdown_filter',
     'debug_toolbar',
     'ATI',
     'briefing_notes',
+    'national_action_plan',
     'open_data',
     'wet'
 ]
@@ -64,6 +66,17 @@ MIDDLEWARE = [
     'ogc_search.middleware.QueryLoggingMiddleware',
 ]
 
+MARKDOWN_FILTER_WHITELIST_TAGS = [
+    'a',
+    'p',
+    'code',
+    'h1', 'h2', 'h3', 'h4',
+    'ul',
+    'ol',
+    'li',
+    'br',
+]
+
 ROOT_URLCONF = 'ogc_search.urls'
 
 TEMPLATES = [
@@ -74,6 +87,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'wet', 'templates'),
             os.path.join(BASE_DIR, 'ATI', 'templates'),
             os.path.join(BASE_DIR, 'briefing_notes', 'templates'),
+            os.path.join(BASE_DIR, 'national_action_plan', 'templates'),
             os.path.join(BASE_DIR, 'open_data', 'templates'),
             os.path.join(BASE_DIR, 'service_inventory', 'templates'),
         ],
@@ -179,6 +193,7 @@ STATICFILES_DIRS = [
     ('open_data', os.path.join(BASE_DIR, "open_data", "static")),
     ('ati', os.path.join(BASE_DIR, "ATI", "static")),
     ('bn', os.path.join(BASE_DIR, "briefing_notes", "static")),
+    ('nap', os.path.join(BASE_DIR, "national_action_plan", "static")),
     ('si', os.path.join(BASE_DIR, "service_inventory", "static")),
 ]
 
@@ -191,11 +206,17 @@ ATI_ENABLED = False
 
 SI_ENABLED = False
 
+NAP_ENABLED = False
+
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
 
 BRIEF_NOTE_YAML_FILE = os.path.join(BASE_DIR, "ckan", "briefingt.yaml")
 
 NAP_YAML_FILE = os.path.join(BASE_DIR, "ckan", "nap.yaml")
+
+OPEN_CANADA_EN_URL_BASE = "https://open.canada.ca/"
+
+OPEN_CANADA_FR_URL_BASE = "https://ouvert.canada.ca/"
 
 OPEN_DATA_EN_URL_BASE = "https://open.canada.ca/data/en/dataset/"
 
@@ -226,6 +247,12 @@ ATI_DATASET_ID = "0797e893-751e-4695-8229-a5066e4fe43c"
 ATI_REQUEST_URL_EN = "https://open.canada.ca/search/ati/reference/"
 
 ATI_REQUEST_URL_FR = "https://ouvert.canada.ca/fr/search/ati/reference/"
+
+NAP_DATASET_TITLE_EN = 'National Action Plan Dataset'
+
+NAP_DATASET_TITLE_FR = 'Plan d’action national bjeu de données'
+
+NAP_DATASET_ID = 'd2d72709-e4bf-412d-a1bd-8c726d19393e'
 
 SI_DATASET_TITLE_EN = 'Service Inventory'
 

@@ -1,0 +1,1 @@
+var accumulators = ['nap-search-orgs', 'nap-reporting-period', 'nap-commitment', 'nap-status', 'nap-due-date'];
