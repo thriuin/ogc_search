@@ -1,15 +1,10 @@
 from django.conf import settings
-from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.views.generic import View
-import csv
-import hashlib
 import logging
 from math import ceil
-import os
 import pysolr
 import re
-import time
 
 logger = logging.getLogger('ogc_search')
 

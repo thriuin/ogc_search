@@ -586,6 +586,8 @@
     <copyField source="additional_information_en_s" dest="_text_en_"/>
     <copyField source="owner_org_fr_s" dest="_text_fr_"/>
     <copyField source="owner_org_en_s" dest="_text_en_"/>
+    <copyField source="tracking_number_s" dest="_text_en_"/>
+    <copyField source="tracking_number_s" dest="_text_fr_"/>
 
     <!-- Copy strings to the highlight fields -->
     <copyField source="owner_org_en_s" dest="owner_org_title_txt_en"/>

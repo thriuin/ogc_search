@@ -98,7 +98,7 @@ class NAPSearchView(View):
         context["od_fr_url"] = settings.OPEN_DATA_FR_URL_BASE
         context["oc_en_url"] = settings.OPEN_CANADA_EN_URL_BASE
         context["oc_fr_url"] = settings.OPEN_CANADA_FR_URL_BASE
-        context["nap_ds_id"] = settings.SI_DATASET_ID
+        context["nap_ds_id"] = settings.NAP_DATASET_ID
         context["nap_ds_title_en"] = settings.NAP_DATASET_TITLE_EN
         context["nap_ds_title_fr"] = settings.NAP_DATASET_TITLE_FR
 
