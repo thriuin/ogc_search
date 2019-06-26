@@ -236,7 +236,11 @@ BRIEFING_NOTE_DATASET_TITLE_EN = "Briefing Notes Dataest"
 
 BRIEFING_NOTE_DATASET_TITLE_FR = "Note de breffage"
 
-BRIEFING_NOTE_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
+BRIEFING_NOTE_DATASET_ID = "ee9bd7e8-90a5-45db-9287-85c8cf3589b6"
+
+BRIEF_NOTE_ALERT_EN = 'A list of briefing note titles prepared for deputy ministers and ministers'
+
+BRIEF_NOTE_ALERT_FR = "Listes des notes d'information préparées à l'intention des sous-ministres et ministres"
 
 ATI_DATASET_TITLE_EN = "Access To Information"
 

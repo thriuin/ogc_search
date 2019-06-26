@@ -74,7 +74,8 @@ class BNSearchView(View):
         self.solr_fields_fr = ("id,tracking_number_s,title_txt_fr,org_sector_fr_s,addressee_fr_s,action_required_fr_s,"
                                "date_received_tdt,month_i,year_i,owner_org_fr_s,additional_information_fr_s")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
-                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5']
+                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5',
+                                     'tracking_number_s^5']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
@@ -86,7 +87,8 @@ class BNSearchView(View):
         self.solr_fields_en = ("id,tracking_number_s,title_txt_en,org_sector_en_s,addressee_en_s,action_required_en_s,"
                                "date_received_tdt,month_i,year_i,owner_org_en_s,additional_information_en_s")
         self.solr_query_fields_en = ['owner_org_en_s^2', 'additional_information_en_s^3', 'org_sector_en_s^4',
-                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5']
+                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5',
+                                     'tracking_number_s^5']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
@@ -296,6 +298,9 @@ class BNSearchView(View):
                 search_results.facets['facet_fields']['action_required_fr_s'])
             context['addressee_fr_s'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['addressee_fr_s'])
+            if settings.BRIEF_NOTE_ALERT_FR and len(settings.BRIEF_NOTE_ALERT_FR) > 0:
+                context['alerts'] = [settings.BRIEF_NOTE_ALERT_FR]
+
         else:
             context['org_facets_en'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_en_s'])
@@ -303,6 +308,8 @@ class BNSearchView(View):
                 search_results.facets['facet_fields']['action_required_en_s'])
             context['addressee_en_s'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['addressee_en_s'])
+            if settings.BRIEF_NOTE_ALERT_EN and len(settings.BRIEF_NOTE_ALERT_EN) > 0:
+                context['alerts'] = [settings.BRIEF_NOTE_ALERT_EN]
 
         context['month_i'] = _convert_facet_list_to_dict(
             search_results.facets['facet_fields']['month_i'])

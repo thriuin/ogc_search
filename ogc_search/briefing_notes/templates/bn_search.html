@@ -41,6 +41,7 @@
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
             <section>
+            {% if alerts|length > 0 %}
                 <div class="row">
                 {% autoescape off %}
                 {% for alert in alerts %}
@@ -48,6 +49,7 @@
                 {% endfor %}
                 {% endautoescape %}
                 </div>
+            {% endif %}
                 <form action="{% url 'BNQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
