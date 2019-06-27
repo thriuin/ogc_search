@@ -38,6 +38,7 @@ class NAPSearchView(View):
                                                                                                      '_text_en_']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_commitments_en_s}commitments_en_s',
+                                     '{!ex=tag_milestones_en_s}milestones_en_s',
                                      '{!ex=tag_status_en_s}status_en_s',
                                      '{!ex=tag_reporting_period_s}reporting_period_s',
                                      '{!ex=tag_due_date_s}due_date_s']
@@ -73,6 +74,7 @@ class NAPSearchView(View):
                                                                                                      '_text_fr_']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_commitments_fr_s}commitments_fr_s',
+                                     '{!ex=tag_milestones_fr_s}milestones_fr_s',
                                      '{!ex=tag_status_fr_s}status_fr_s',
                                      '{!ex=tag_reporting_period_s}reporting_period_s',
                                      '{!ex=tag_due_date_s}due_date_s']
@@ -122,6 +124,7 @@ class NAPSearchView(View):
         solr_search_orgs: str = request.GET.get('nap-search-orgs', '')
         solr_search_periods: str = request.GET.get('nap-reporting-period', '')
         solr_search_commitments: str = request.GET.get('nap-commitment', '')
+        solr_search_milestones: str = request.GET.get('nap-milestone', '')
         solr_search_status: str = request.GET.get('nap-status', '')
         solr_search_due_dates: str = request.GET.get('nap-due-date', '')
 
@@ -131,6 +134,8 @@ class NAPSearchView(View):
         context["periods_selected_list"] = solr_search_periods.split('|')
         context["commitments_selected"] = solr_search_commitments
         context["commitments_selected_list"] = solr_search_commitments.split('|')
+        context["milestones_selected"] = solr_search_milestones
+        context["milestones_selected_list"] = solr_search_milestones.split('|')
         context["statuses_selected"] = solr_search_status
         context["statuses_selected_list"] = solr_search_status.split('|')
         context["due_dates_selected"] = solr_search_due_dates
@@ -161,6 +166,7 @@ class NAPSearchView(View):
             facets_dict = dict(owner_org_fr_s=context['organizations_selected'],
                                reporting_period_s=context['periods_selected'],
                                commitments_fr_s=context['commitments_selected'],
+                               milestones_fr_s=context['milestones_selected'],
                                status_fr_s=context['statuses_selected'],
                                due_date_s=context['due_dates_selected'],
                                )
@@ -168,6 +174,7 @@ class NAPSearchView(View):
             facets_dict = dict(owner_org_en_s=context['organizations_selected'],
                                reporting_period_s=context['periods_selected'],
                                commitments_en_s=context['commitments_selected'],
+                               milestones_en_s=context['milestones_selected'],
                                status_en_s=context['statuses_selected'],
                                due_date_s=context['due_dates_selected'],
                                )
@@ -214,6 +221,8 @@ class NAPSearchView(View):
                 search_results.facets['facet_fields']['reporting_period_s'])
             context['commitment_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['commitments_fr_s'])
+            context['milestone_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['milestones_fr_s'])
             context['status_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_fr_s'])
             context['due_date_facets_fr'] = search_util.convert_facet_list_to_dict(
@@ -225,6 +234,8 @@ class NAPSearchView(View):
                 search_results.facets['facet_fields']['reporting_period_s'])
             context['commitment_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['commitments_en_s'])
+            context['milestone_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['milestones_en_s'])
             context['status_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_en_s'])
             context['due_date_facets_en'] = search_util.convert_facet_list_to_dict(
