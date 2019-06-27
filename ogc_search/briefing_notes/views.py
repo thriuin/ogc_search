@@ -298,8 +298,7 @@ class BNSearchView(View):
                 search_results.facets['facet_fields']['action_required_fr_s'])
             context['addressee_fr_s'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['addressee_fr_s'])
-            if settings.BRIEF_NOTE_ALERT_FR and len(settings.BRIEF_NOTE_ALERT_FR) > 0:
-                context['alerts'] = [settings.BRIEF_NOTE_ALERT_FR]
+            context['info_msg'] = settings.BRIEF_NOTE_INFO_FR
 
         else:
             context['org_facets_en'] = _convert_facet_list_to_dict(
@@ -308,8 +307,7 @@ class BNSearchView(View):
                 search_results.facets['facet_fields']['action_required_en_s'])
             context['addressee_en_s'] = _convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['addressee_en_s'])
-            if settings.BRIEF_NOTE_ALERT_EN and len(settings.BRIEF_NOTE_ALERT_EN) > 0:
-                context['alerts'] = [settings.BRIEF_NOTE_ALERT_EN]
+            context['info_msg'] = settings.BRIEF_NOTE_INFO_EN
 
         context['month_i'] = _convert_facet_list_to_dict(
             search_results.facets['facet_fields']['month_i'])

@@ -30,13 +30,19 @@
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans "Search Briefing Notes Titles" %}</h1>
+<h1 property="name" id="wb-cont">{% trans "Search Briefing Note Titles and Numbers" %}</h1>
 {% endblock %}
 <section>
     <p class="gc-byline">{% if request.user.is_authenticated %}
         Logged in as {{ request.user.username }}
         {% endif %}
     </p>
+    <div class="row">
+        <details>
+            <summary>{% trans 'About this information' %}</summary>
+            {{ info_msg }}
+        </details>
+    </div>
     <div class="row">
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
@@ -116,7 +122,7 @@
                         </div>
                         <div class="col-sm-4 text-right">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.date_received_tdt | isoDateTimeToDate }}</h4>
-                            <small>Ref. {{ doc.tracking_number_s | safe }}</small>
+                            <small>{% trans 'Ref #' %}{{ doc.tracking_number_s | safe }}</small>
                         </div>
 
                         <div class="col-sm-12">
