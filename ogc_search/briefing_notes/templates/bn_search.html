@@ -37,12 +37,14 @@
         Logged in as {{ request.user.username }}
         {% endif %}
     </p>
+    {% if info_msg|length > 0 %}
     <div class="row">
         <details>
             <summary>{% trans 'About this information' %}</summary>
             {{ info_msg }}
         </details>
     </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
