@@ -265,7 +265,9 @@ SI_DATASET_TITLE_FR = 'Répertoire des services'
 
 SI_DATASET_ID = '3ac0d080-6149-499a-8b06-7ce5f00ec56c'
 
-SI_DATAVIZ_PATH = "/chart/si/index-en.html?"
+SI_DATAVIZ_PATH_EN = "/chart/si/index-en.html?"
+
+SI_DATAVIZ_PATH_FR = "/chart/si/index-fr.html?"
 
 SI_ITEMS_PER_PAGE = 25
 

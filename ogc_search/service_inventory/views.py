@@ -254,7 +254,8 @@ class SISearchView(View):
         context["si_ds_id"] = settings.SI_DATASET_ID
         context["si_ds_title_en"] = settings.SI_DATASET_TITLE_EN
         context["si_ds_title_fr"] = settings.SI_DATASET_TITLE_FR
-        context["si_dv_path"] = settings.SI_DATAVIZ_PATH
+        context["si_dv_path_en"] = settings.SI_DATAVIZ_PATH_EN
+        context["si_dv_path_fr"] = settings.SI_DATAVIZ_PATH_FR
 
         # Get any search terms
 

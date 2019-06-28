@@ -536,10 +536,9 @@ msgid "External/Internal"
 msgstr "Service externe ou service intégré interne"
 
 #: .\service_inventory\templates\si_search.html:343
-#, fuzzy
 #| msgid "Resource Types"
 msgid "Service Type"
-msgstr "Type de ressource"
+msgstr "Type de service"
 
 #: .\service_inventory\templates\si_search.html:381
 msgid "Special Designations"

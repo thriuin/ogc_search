@@ -115,10 +115,10 @@
                         <div class="col-sm-8">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                 {% if LANGUAGE_CODE == 'en' %}
-                                    <a href="{{ si_dv_path }}{{ doc.new_service_id_s }}">
+                                    <a href="{{ si_dv_path_en }}{{ doc.new_service_id_s }}">
                                     {{ doc.service_name_txt_en | safe }}</a>
                                 {% else %}
-                                     <a href="{{ si_dv_path }}{{ doc.new_service_id_s }}">
+                                     <a href="{{ si_dv_path_fr }}{{ doc.new_service_id_s }}">
                                     {{ doc.service_name_txt_fr | safe }}</a>
                                 {% endif %}
                             </h4>
