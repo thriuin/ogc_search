@@ -124,7 +124,7 @@
                             </h4>
                         </div>
                         <div class="col-sm-4 text-right">
-                            <a href="{{ si_dv_path }}{{ doc.new_service_id_s }}" class="btn btn-success btn-xs" role="button">{% trans 'Performance Dashboard' %}</a>
+                            <a href="{% if LANGUAGE_CODE == 'fr' %}{{ si_dv_path_fr }}{% else %}{{ si_dv_path_en }}{% endif %}{{ doc.new_service_id_s }}" class="btn btn-success btn-xs" role="button">{% trans 'Performance Dashboard' %}</a>
                         </div>
 
                         <div class="col-sm-12">
