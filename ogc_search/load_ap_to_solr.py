@@ -107,6 +107,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                 'cmt_url_fr_s': controlled_lists['indicators']['cmt_url_fr'][nap['indicators']],
                 'milestone_full_text_en_s': controlled_lists['milestones']['full_text_en'][nap['milestones']],
                 'milestone_full_text_fr_s': controlled_lists['milestones']['full_text_fr'][nap['milestones']],
+                'milestone_en_s': controlled_lists['milestones']['en'][nap['milestones']],
+                'milestone_fr_s': controlled_lists['milestones']['fr'][nap['milestones']],
                 'due_date_s': controlled_lists['indicators']['due_date'][nap['indicators']],
             }
             bi_org_title = str(nap['owner_org_title']).split('|')

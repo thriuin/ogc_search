@@ -255,7 +255,7 @@ ATI_REQUEST_URL_FR = "https://ouvert.canada.ca/fr/search/ati/reference/"
 
 NAP_DATASET_TITLE_EN = 'National Action Plan Dataset'
 
-NAP_DATASET_TITLE_FR = 'Plan d’action national bjeu de données'
+NAP_DATASET_TITLE_FR = 'Plan d’action national jeu de données'
 
 NAP_DATASET_ID = 'd2d72709-e4bf-412d-a1bd-8c726d19393e'
 

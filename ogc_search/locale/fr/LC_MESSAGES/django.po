@@ -357,6 +357,9 @@ msgstr "Période considérée"
 msgid "Milestone"
 msgstr "Étape"
 
+msgid "Milestones"
+msgstr "Étapes"
+
 #: .\national_action_plan\templates\nap_search.html:137
 #: .\national_action_plan\templates\nap_search.html:159
 msgid "Commitment"

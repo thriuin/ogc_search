@@ -299,10 +299,10 @@
                                 </ul>
                             </details>
 
-                        {# Commitments Facet #}
+                        {# Milestones Facet #}
                         <div>
                             <details class="panel panel-default mrgn-bttm-0"
-                                     {% if milestones_selected|length > 0 %}open{% endif %}>
+                                     {% if milestone_selected|length > 0 %}open{% endif %}>
                                 <summary class="panel-heading">
                                     <h5 class="panel-title">{% trans 'Milestones' %}</h5>
                                 </summary>
@@ -312,10 +312,10 @@
 
                                         {% for k, v in milestone_facets_fr.items %}
                                             {% if v > 0 %}
-                                                <li class="list-group-item {% if k in milestones_selected_list %} active{% endif %}">
+                                                <li class="list-group-item {% if k in milestone_selected_list %} active{% endif %}">
                                                     <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                                         <label><input type="checkbox"
-                                                                {% if k in milestones_selected_list %}
+                                                                {% if k in milestone_selected_list %}
                                                                       checked="checked"{% endif %}
                                                                       onclick="select_facet('{{ k }}', 'nap-milestone')"
                                                                       value="{{ k }}"
@@ -327,10 +327,10 @@
                                     {% else %}
                                         {% for k, v in milestone_facets_en.items %}
                                             {% if v > 0 %}
-                                                <li class="list-group-item {% if k in milestones_selected_list %} active{% endif %}">
+                                                <li class="list-group-item {% if k in milestone_selected_list %} active{% endif %}">
                                                     <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                                         <label><input type="checkbox"
-                                                                {% if k in milestones_selected_list %}
+                                                                {% if k in milestone_selected_list %}
                                                                       checked="checked"{% endif %}
                                                                       onclick="select_facet('{{ k }}', 'nap-milestone')"
                                                                       value="{{ k }}"
