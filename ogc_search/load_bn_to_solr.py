@@ -60,9 +60,9 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                 'action_required_en_s': controlled_lists['action_required']['en'][bn['action_required']],
                 'action_required_fr_s': controlled_lists['action_required']['fr'][bn['action_required']],
                 'additional_information_en_s':
-                    bn['additional_information_en_s'] if 'additional_information_en_s' in bn else '',
+                    bn['additional_information_en'] if 'additional_information_en' in bn else '',
                 'additional_information_fr_s':
-                    bn['additional_information_fr_s'] if 'additional_information_fr_s' in bn else '',
+                    bn['additional_information_fr'] if 'additional_information_fr' in bn else '',
                 'date_received_tdt': bn['date_received'],
             }
             date_received = datetime.strptime(bn['date_received'], '%Y-%m-%d'),
