@@ -1,15 +1,11 @@
 from django.conf import settings
-from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.views.generic import View
 import csv
-import hashlib
-import logging
 from math import ceil
 import os
 import pysolr
 import re
-import time
 
 
 def _convert_facet_list_to_dict(facet_list: list, reverse: bool = False) -> dict:
@@ -74,8 +70,11 @@ class ATISearchView(View):
     def __init__(self):
         super().__init__()
         # French search fields
-        self.solr_fields_fr = ("id,request_no_txt_ws,request_no_txt_ws,summary_text_fr,summary_fr_s,owner_org_fr_s,disposition_fr_s,"
-                               "month_i,year_i, pages_i,umd_i,nil_report_b,owner_org_title_txt_fr")
+        self.solr_fields_fr = ("id,hashed_id,request_no_s,request_no_txt_ws,"
+                               "summary_text_fr,summary_fr_s,"
+                               "owner_org_fr_s,disposition_fr_s,"
+                               "month_i,year_i, pages_i,umd_i,nil_report_b,"
+                               "owner_org_title_txt_fr")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'request_no_txt_ws', 'summary_fr_s^3', '_text_fr_^0.5']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_month_i}month_i',
@@ -83,8 +82,11 @@ class ATISearchView(View):
         self.solr_hl_fields_fr = ['summary_text_fr', 'request_no_txt_ws', 'owner_org_title_txt_fr']
 
         # English search fields
-        self.solr_fields_en = ("id,request_no_s,request_no_txt_ws,summary_text_en,summary_en_s,owner_org_en_s,disposition_en_s,"
-                               "month_i,year_i, pages_i,umd_i,nil_report_b,owner_org_title_txt_en")
+        self.solr_fields_en = ("id,hashed_id,request_no_s,request_no_txt_ws,"
+                               "summary_text_en,summary_en_s,"
+                               "owner_org_en_s,disposition_en_s,"
+                               "month_i,year_i, pages_i,umd_i,nil_report_b,"
+                               "owner_org_title_txt_en")
         self.solr_query_fields_en = ['owner_org_en_s^2', 'request_no_txt_ws', 'summary_en_s^3', '_text_en_^0.5']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_month_i}month_i',
@@ -148,7 +150,7 @@ class ATISearchView(View):
 
         for facet in facets.keys():
             if facets[facet] != '':
-                facet_terms = facets[facet].split(',')
+                facet_terms = facets[facet].split('|')
                 quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
                 facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
                 solr_facets.append(facet_text)
@@ -188,9 +190,11 @@ class ATISearchView(View):
         context["cdts_version"] = settings.CDTS_VERSION
         context["od_en_url"] = settings.OPEN_DATA_EN_URL_BASE
         context["od_fr_url"] = settings.OPEN_DATA_FR_URL_BASE
-        context["ati_ds_id"] = settings.BRIEFING_NOTE_DATASET_ID
-        context["ati_ds_title_en"] = settings.BRIEFING_NOTE_DATASET_TITLE_EN
-        context["ati_ds_title_fr"] = settings.BRIEFING_NOTE_DATASET_TITLE_FR
+        context["ati_ds_id"] = settings.ATI_DATASET_ID
+        context["ati_ds_title_en"] = settings.ATI_DATASET_TITLE_EN
+        context["ati_ds_title_fr"] = settings.ATI_DATASET_TITLE_FR
+        context['ati_request_form_url_en'] = settings.ATI_REQUEST_URL_EN
+        context['ati_request_form_url_fr'] = settings.ATI_REQUEST_URL_FR
 
         # Get any search terms
 
@@ -212,11 +216,11 @@ class ATISearchView(View):
         solr_search_month: str = request.GET.get('ati-search-month', '')
 
         context["organizations_selected"] = solr_search_orgs
-        context["organizations_selected_list"] = solr_search_orgs.split(',')
+        context["organizations_selected_list"] = solr_search_orgs.split('|')
         context["year_selected"] = solr_search_year
-        context["year_selected_list"] = solr_search_year.split(',')
+        context["year_selected_list"] = solr_search_year.split('|')
         context["month_selected"] = solr_search_month
-        context["month_selected_list"] = solr_search_month.split(',')
+        context["month_selected_list"] = solr_search_month.split('|')
 
         # Calculate a starting row for the Solr search results. We only retrieve one page at a time
 
@@ -280,3 +284,86 @@ class ATISearchView(View):
 
         return render(request, "ati_search.html", context)
 
+
+class ATIExportView(View):
+    """
+    A view for downloading a simple CSV containing a subset of the fields from the Search View.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.solr_fields_fr = ("id,"
+                               "request_no_s,"
+                               "summary_fr_s,"
+                               "owner_org_fr_s,"
+                               "disposition_fr_s,"
+                               "month_i,"
+                               "year_i, "
+                               "pages_i,"
+                               "owner_org_title_txt_fr")
+        self.solr_query_fields_fr = ['owner_org_fr_s^2', 'request_no_txt_ws', 'summary_fr_s^3', '_text_fr_^0.5']
+        self.solr_fields_en = ("id,"
+                               "request_no_s,"
+                               "summary_en_s,"
+                               "owner_org_en_s,"
+                               "disposition_en_s,"
+                               "month_i,"
+                               "year_i,"
+                               "pages_i,"
+                               "owner_org_title_txt_en")
+        self.solr_query_fields_en = ['owner_org_en_s^2', 'request_no_txt_ws', 'summary_en_s^3', '_text_en_^0.5']
+
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
+    def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results, header_fields: str):
+
+        if not os.path.exists(cached_filename):
+            with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
+                cache_writer = csv.writer(csvfile, dialect='excel')
+                headers = header_fields.split(',')
+                headers[0] = u'\N{BOM}' + headers[0]
+                cache_writer.writerow(headers)
+                for i in sr.docs:
+                    try:
+                        cache_writer.writerow(i.values())
+                    except UnicodeEncodeError:
+                        pass
+        return True
+
+    @staticmethod
+    def split_with_quotes(csv_string):
+        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
+
+    def solr_query(self, q, facets={}, language='en', sort_order='score asc'):
+        solr = pysolr.Solr(settings.SOLR_ATI, search_handler='/export')
+        solr_facets = []
+        if language == 'fr':
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields_fr,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_fr,
+                'sort': sort_order,
+            }
+
+        else:
+            extras = {
+                'fq': solr_facets,
+                'fl': self.solr_fields_en,
+                'defType': 'edismax',
+                'qf': self.solr_query_fields_en,
+                'sort': sort_order,
+            }
+
+        for facet in facets.keys():
+            if facets[facet] != '':
+                facet_terms = facets[facet].split(',')
+                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
+                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
+                solr_facets.append(facet_text)
+
+        sr = solr.search(q, **extras)
+        return sr

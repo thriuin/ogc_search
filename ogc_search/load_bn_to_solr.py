@@ -18,7 +18,7 @@ with open(settings.BRIEF_NOTE_YAML_FILE, mode='r', encoding='utf8', errors="igno
     bn_schema = load(ckan_schema_file, Loader=Loader)
 
 
-def get_cs_choices(field_name, lang = 'en'):
+def get_cs_choices(field_name):
     choices_en = {}
     choices_fr = {}
 

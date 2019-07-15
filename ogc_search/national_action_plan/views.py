@@ -2,10 +2,6 @@ from django.conf import settings
 from django.shortcuts import render
 from django.views.generic import View
 import logging
-from math import ceil
-import pysolr
-import re
-
 import search_util
 
 logger = logging.getLogger('ogc_search')
@@ -34,7 +30,7 @@ class NAPSearchView(View):
                                "commitments_en_s,commitment_txt_en,"
                                "status_en_s,"
                                "reporting_period_s")
-        self.solr_query_fields_en = ['progress_txt_en^2', 'evidence_txt_en^2', 'indicator_txt_en^2', 'milestone_txt_en'
+        self.solr_query_fields_en = ['progress_txt_en^2', 'evidence_txt_en^2', 'indicator_txt_en^2', 'milestone_txt_en',
                                                                                                      '_text_en_']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_commitments_en_s}commitments_en_s',
@@ -70,7 +66,7 @@ class NAPSearchView(View):
                                "commitments_fr_s,commitment_txt_fr,"
                                "status_fr_s,"
                                "reporting_period_s")
-        self.solr_query_fields_fr = ['progress_txt_fr^2', 'evidence_txt_fr^2', 'indicator_txt_fr^2', 'milestone_txt_fr'
+        self.solr_query_fields_fr = ['progress_txt_fr^2', 'evidence_txt_fr^2', 'indicator_txt_fr^2', 'milestone_txt_fr',
                                                                                                      '_text_fr_']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_commitments_fr_s}commitments_fr_s',

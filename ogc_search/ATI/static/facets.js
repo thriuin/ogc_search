@@ -1,0 +1,1 @@
+var accumulators = ['ati-search-orgs', 'ati-search-year', 'ati-search-month'];

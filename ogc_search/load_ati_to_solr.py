@@ -1,15 +1,10 @@
 import csv
-from datetime import datetime
 from django.conf import settings
+import hashlib
 import os
 import pysolr
 import sys
-from yaml import load
 
-try:
-    from yaml import CLoader as Loader
-except ImportError:
-    from yaml import Loader
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
@@ -43,7 +38,16 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as ati_file:
             od_obj['owner_org_fr_s'] = bi_org_title[1].strip() if len(bi_org_title) == 2 else ''
             bi_disposition = str(ati_rec['disposition']).split('/')
             od_obj['disposition_en_s'] = bi_disposition[0].strip()
-            od_obj['disposition_fr_s'] = bi_disposition[1].strip() if len(bi_disposition) == 2 else ''
+            od_obj['disposition_fr_s'] = bi_disposition[1].strip() if len(bi_disposition) == 2 else \
+                bi_disposition[0].strip()
+
+            # Generate a hashed ID that is used by Drupal to generate a submission form
+            orghash = hashlib.md5(ati_rec['owner_org'].encode('utf-8')).hexdigest()
+            year = ati_rec['year']
+            month = ati_rec['month']
+            request_str = orghash + ati_rec.get('request_number', repr((year, month)))
+            unique = hashlib.md5(request_str.encode('utf-8')).hexdigest()
+            od_obj['hashed_id'] = unique
 
             ati_list.append(od_obj)
             i += 1

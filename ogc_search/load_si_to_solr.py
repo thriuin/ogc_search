@@ -17,7 +17,7 @@ with open(settings.SI_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as 
     si_schema = load(ckan_schema_file, Loader=Loader)
 
 
-def get_cs_choices(field_name, lang = 'en'):
+def get_cs_choices(field_name):
     choices_en = {}
     choices_fr = {}
 

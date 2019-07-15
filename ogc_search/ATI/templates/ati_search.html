@@ -5,17 +5,17 @@
 {% load search_extras %}
 
 {% block canada_ca_search %} {% endblock canada_ca_search %}
-{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/bn{% endblock language_switch_url %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/ati{% endblock language_switch_url %}
 
 {% block custom_page_javascript %}
-<script src="{% static 'open_data/od_search.js' %}"></script>
-
+    <script src="{% static 'ati/facets.js' %}"></script>
+    <script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
-        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/bn",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/ati",
         "text": "{{ LANGUAGE_CODE | SwapLangName }}"
     }],
     search: false,
@@ -99,34 +99,49 @@
             </section>
             <section>
             {% for doc in results.docs %}
-            <div class="panel panel-default mrg-tp-sm">
+            <div class="panel panel-default mrg-tp-sm mrgn-bttm-sm">
                  <div class="panel-body">
                  {% if not doc.nil_report_b %}
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-3">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
-                                {{ doc.request_no_s }}
+                                <a href="{% if LANGUAGE_CODE == 'fr' %}{{ ati_request_form_url_fr }}{% else %}{{ ati_request_form_url_en }}{% endif %}{{ doc.hashed_id }}">
+                                    {{ doc.request_no_s }}</a>
                             </h4>
-                        </div>
-                        <div class="col-sm-4 text-right">
-                            <strong>{{ doc.pages_i }}</strong> page{{ doc.pages_i|pluralize }}<br>
                             <small>{{ doc.month_i | ToMonth }} {{ doc.year_i }}</small>
                         </div>
-
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
+                            <h5 class="mrgn-tp-0 mrgn-bttm-sm text-left">
+                                {% if LANGUAGE_CODE == 'fr' %}{{ doc.owner_org_fr_s }}{% else %}{{ doc.owner_org_en_s }}{% endif %}
+                            </h5>
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <small>{{ doc.pages_i }} page{{ doc.pages_i|pluralize }}</small>
+                            <br>
+                            <small>{% if LANGUAGE_CODE == 'fr' %}{{ doc.disposition_fr_s }}{% else %}{{ doc.disposition_en_s }}{% endif %}</small><br>
+                        </div>
+                        <div class="col-sm-12 mrgn-tp-md">
                         {% if LANGUAGE_CODE == 'fr' %}
                             <p>{{ doc.summary_text_fr | safe }}<br>
-                            <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_fr_s }}<br>
-                            <strong>{% trans 'Disposition' %}</strong>: {{ doc.disposition_fr_s }}<br>
                         {% else %}
                             <p>{{ doc.summary_text_en | safe }}<br>
-                            <strong>Organization</strong>: {{ doc.owner_org_en_s }}<br>
-                            <strong>Disposition</strong>: {{ doc.disposition_en_s }}<br>
                         {% endif %}
                         </div>
                      </div>
-                 {% else %}
-                     NIL
+                 {% elif doc.nil_report_b %}
+                     <div class="row">
+                         <div class="col-sm-3">
+                            <small>{{ doc.month_i | ToMonth }} {{ doc.year_i }}</small>
+                        </div>
+                         <div class="col-sm-9">
+                            <h5 class="mrgn-tp-0 mrgn-bttm-sm text-left">
+                                {% if LANGUAGE_CODE == 'fr' %}{{ doc.owner_org_fr_s }}{% else %}{{ doc.owner_org_en_s }}{% endif %}
+                            </h5>
+                        </div>
+                        <div class="col-sm-12 mrgn-tp-md">
+                            {% trans 'Nothing to report' %}
+                        </div>
+                     </div>
                  {% endif %}
                 </div>
             </div>
@@ -185,7 +200,7 @@
                     </div>
                     {% endif %}
                 </div>
-                <div class="list-group">
+                <div class="list-group text-center">
                 {% if LANGUAGE_CODE == 'fr' %}
                     <a href="{{ od_fr_url }}/{{ ati_ds_id }}" class="list-group-item list-group-item-info">{{ ati_ds_title_fr }}</a>
                 {% else %}
@@ -324,37 +339,5 @@
 "showFeatures": false
 {% endblock %}
 {% block custom-jquery %}
-
-<script type="text/javascript">
-
-$(function(){
-// reset seessionStorage based on the URL
-    sessionStorage.clear();
-    let facets = [];
-    if (window.location.search.length > 1) {
-        facets = window.location.search.substring(1).split('&');
-        for (let i=0; i<facets.length; i++) {
-            let pair = facets[i].split('=');
-            sessionStorage.setItem(pair[0], pair[1]);
-            if (pair[0].substring(0,3) === 'bn-') {
-                let display_terms = decodeURIComponent(pair[1]).split(',');
-                for(let j=0; j<display_terms.length; j++) {
-                    let display_key = pair[0];
-                    let display_text = display_terms[j];
-                    if (display_key === 'bn-search-month') {
-                        display_text = toMonthLabel(display_text);
-                    }
-                    let new_link = $("<a />", {
-                        class : "btn btn-default btn-xs",
-                        onclick : `select_facet('${display_terms[j]}','${display_key}');`,
-                        text : `${display_text} `
-                    }).append($("<span />", {class: 'glyphicon glyphicon-remove', text: ' '}));
-                    $('#search_terms').append(new_link);
-                    // $('#search_terms').append(`<a class="btn btn-default btn-xs" onclick="select_facet('${display_terms[j]}','${pair[0]}');">${display_terms[j]} <span class="glyphicon glyphicon-remove"></span></a> `);
-                }
-            }
-        }
-    }
-});
-</script>
+    <script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
 {% endblock %}

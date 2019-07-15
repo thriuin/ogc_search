@@ -1,5 +1,4 @@
 import csv
-from datetime import datetime
 from django.conf import settings
 import os
 import pysolr
