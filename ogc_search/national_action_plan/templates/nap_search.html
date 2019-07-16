@@ -115,11 +115,12 @@
                     </section>
                     <section>
                         {% for doc in results.docs %}
-                            <div class="panel panel-default mrg-tp-sm">
-                                <div class="panel-body">
 
-                                    <div class="row">
-                                        <div class="col-sm-12">
+                            <div class="row">
+
+                                <div  class="panel panel-default mrgn-tp-md mrgn-bttm-0">
+                                    <div class="panel-body">
+                                        <div class="col-sm-10">
                                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                                 {% if LANGUAGE_CODE == 'fr' %}
                                                     {{ doc.indicators_fr_s }} - {{ doc.ind_full_text_fr_s }}
@@ -128,9 +129,12 @@
                                                 {% endif %}
                                             </h4>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.reporting_period_s }}</h4>
+                                        </div>
                                         <div class="col-sm-12">
                                             {% if LANGUAGE_CODE == 'fr' %}
-                                                <p>
+
                                                     <strong>{% trans 'Milestone' %}</strong>: <a
                                                         href="{{ oc_fr_url }}{{ doc.commitment_nap_url_fr_s }}"
                                                 >{{ doc.milestones_fr_s }} - {{ doc.milestone_full_text_fr_s }}</a><br>
@@ -143,16 +147,15 @@
                                                     <a href="{{ oc_fr_url }}{{ doc.cmt_url_fr_s }}" class="btn btn-sm btn-default">
                                                         <span class="fa fa-comment"></span> {% trans 'Comment' %}
                                                     </a>
-                                                    <details>
+                                                    <details class="mrgn-tp-sm">
+                                                        <p>
                                                         <summary>{% trans 'Progress Summary' %}</summary>
                                                         {{ doc.progress_txt_fr | safe | urlize }}<br>
                                                         {{ doc.evidence_txt_fr| safe  | urlize }}<br>
-                                                        {{ doc.challenges_txt_fr | safe | urlize }}<br>
+                                                        {{ doc.challenges_txt_fr | safe | urlize }}
+                                                        </p>
                                                     </details>
-                                                </p>
-
                                             {% else %}
-                                                <p>
                                                     <strong>{% trans 'Milestone' %}</strong>: <a
                                                         href="{{ oc_en_url }}{{ doc.commitment_nap_url_en_s }}"
                                                 >{{ doc.milestones_en_s }} - {{ doc.milestone_full_text_en_s }}</a><br>
@@ -162,24 +165,23 @@
                                                     <strong>Lead Organization</strong>: {{ doc.owner_org_title_txt_en }}<br>
                                                     <strong>Status</strong>: {{ doc.status_en_s | nap_status | safe }}
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <a href="{{ oc_en_url }}{{ doc.cmt_url_en_s }}" class="btn btn-sm btn-default">
+                                                    <a href="{{ oc_en_url }}{{ doc.cmt_url_en_s }}" class="btn btn-xs btn-default">
                                                         <span class="fa fa-comment"></span> Comment
                                                     </a>
-                                                    <details>
+                                                    <details class="mrgn-tp-sm">
                                                         <summary>{% trans 'Progress Summary' %}</summary>
+                                                        <p>
                                                         {{ doc.progress_txt_en | safe | urlize }}<br>
                                                         {{ doc.evidence_txt_en | safe | urlize }}<br>
-                                                        {{ doc.challenges_txt_en | safe | urlize }}<br>
+                                                        {{ doc.challenges_txt_en | safe | urlize }}
+                                                        </p>
                                                     </details>
-
-
-                                                </p>
                                             {% endif %}
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
+
                         {% endfor %}
                     </section>
                     {% block main-content-pagination %}
