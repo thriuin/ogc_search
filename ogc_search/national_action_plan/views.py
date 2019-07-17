@@ -210,31 +210,28 @@ class NAPSearchView(View):
         context['next_page'] = next_page
         context['currentpage'] = page
 
+        # Facet results
+        context['reporting_periods_facets'] = search_util.convert_facet_list_to_dict(
+            search_results.facets['facet_fields']['reporting_period_s'])
+        context['due_date_facets_en'] = search_util.convert_facet_list_to_dict(
+            search_results.facets['facet_fields']['due_date_s'])
         if request.LANGUAGE_CODE == 'fr':
             context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_fr_s'])
-            context['reporting_periods_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['reporting_period_s'])
             context['commitment_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['commitments_fr_s'])
             context['milestone_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['milestone_fr_s'])
             context['status_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_fr_s'])
-            context['due_date_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['due_date_s'])
         else:
             context['org_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_en_s'])
-            context['reporting_periods_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['reporting_period_s'])
             context['commitment_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['commitments_en_s'])
             context['milestone_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['milestone_en_s'])
             context['status_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_en_s'])
-            context['due_date_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['due_date_s'])
 
         return render(request, "nap_search.html", context)

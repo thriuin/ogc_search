@@ -401,7 +401,7 @@
                                 <h5 class="panel-title">{% trans 'Reporting Period' %}</h5>
                             </summary>
                             <ul class="list-group" id="periods-list">
-                                {% for k, v in reporting_periods_facets_en.items %}
+                                {% for k, v in reporting_periods_facets.items %}
                                     {% if v > 0 %}
                                         <li class="list-group-item{% if k in periods_selected_list %} active{% endif %}">
                                             <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
@@ -414,7 +414,7 @@
                                         </li>
                                     {% endif %}
                                 {% endfor %}
-                                {{ reporting_periods_facets_en | EmptyFacetMessage }}
+                                {{ reporting_periods_facets | EmptyFacetMessage }}
                             </ul>
                         </details>
 
