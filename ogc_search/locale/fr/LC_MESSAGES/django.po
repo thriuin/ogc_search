@@ -360,35 +360,33 @@ msgstr "Mesure requise"
 
 #: .\national_action_plan\templates\nap_search.html:33
 msgid "Search National Action Plan on Open Government Tracker"
-msgstr ""
-"Rechercher le plan d'action national sur le gouvernement ouvert Tracker"
+msgstr "Rechercher l'outil de suivi pour le Plan d'action national pour un gouvernement ouvert"
 
 #: .\national_action_plan\templates\nap_search.html:85
 #: .\national_action_plan\templates\nap_search.html:93
 #: .\national_action_plan\templates\nap_search.html:399
 msgid "Reporting Period"
-msgstr "Période considérée"
+msgstr "Période de déclaration"
 
 #: .\national_action_plan\templates\nap_search.html:134
 #: .\national_action_plan\templates\nap_search.html:156
 msgid "Milestone"
-msgstr "Étape"
+msgstr "Jalon"
 
 #: .\national_action_plan\templates\nap_search.html:137
 #: .\national_action_plan\templates\nap_search.html:159
 msgid "Commitment"
-msgstr "Exigence"
+msgstr "Engagement"
 
 #: .\national_action_plan\templates\nap_search.html:140
-#, fuzzy
 #| msgid "Organization"
 msgid "Lead Organization"
-msgstr "Organisation"
+msgstr "Ministrère responsable"
 
 #: .\national_action_plan\templates\nap_search.html:141
 #: .\national_action_plan\templates\nap_search.html:353
 msgid "Status"
-msgstr "Statut"
+msgstr "État"
 
 #: .\national_action_plan\templates\nap_search.html:144
 msgid "Comment"
@@ -401,15 +399,15 @@ msgstr "Résumé des progrès"
 
 #: .\national_action_plan\templates\nap_search.html:261
 msgid "Commitments"
-msgstr "Exigences"
+msgstr "Engagements"
 
 #: .\national_action_plan\templates\nap_search.html:307
 msgid "Milestones"
-msgstr "Étapes"
+msgstr "Jalons"
 
 #: .\national_action_plan\templates\nap_search.html:470
 msgid "Due Date"
-msgstr "Date prévue"
+msgstr "Date limite"
 
 #: .\open_data\templates\od_search.html:34
 msgid "Open Government Portal"
