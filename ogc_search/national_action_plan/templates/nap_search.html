@@ -48,32 +48,35 @@
                                 {% endfor %}
                             {% endautoescape %}
                         </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <p>
+                                    {% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{ result_num }} record{{ result_s }}{% endblocktrans %}</p>
+                            </div>
+                        </div>
                         <form action="{% url 'NAPQuery' %}" id="search_form" method="get" role="form"
-                              class="mrgn-bttm-md fofm-inline">
+                              class="mrgn-bttm-md form-inline">
                             <div class="row">
-                                <div class="col-md-12 col-sm-12">
-                                    <p>
-                                        {% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{ result_num }} record{{ result_s }}{% endblocktrans %}</p>
-                                </div>
-                                <div class="col-md-8 col-sm-12">
+                                <div class="col-md-7 col-sm-12">
                                     <div class="input-group">
                                         <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
                                         <input type="text" name="od-search-input" class="form-control"
-                                               id="od-search-input"
+                                               id="od-search-input" size="60"
                                                value="{{ search_text | safe }}" placeholder="{% trans 'Search' %}"
                                                onkeypress="submitFormOnEnter(event)"/>
 
                                         <span class="input-group-btn">
-                                     <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                                     <button type="button" class="btn btn-primary btn-small form-submit"
-                                             id="od-search-button"
-                                             onclick="submitForm()">{% trans 'Search' %}
-                                    </button>
-                                </span>
+                                             <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                                             <button type="button" class="btn btn-primary btn-small form-submit"
+                                                     id="od-search-button"
+                                                     onclick="submitForm()">{% trans 'Search' %}
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-4">
-                                    <div class="input-group">
+                                <div class="col-md-5 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
                                         <select class="form-control" name="sort-by" id="sort-by" value="{{ sortby }}"
                                                 onchange="submitForm();">
                                             {% if LANGUAGE_CODE == 'fr' %}
@@ -95,23 +98,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-md-push-9 col-sm-6 col-sm-push-6">
-                                    <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
-                                </div>
-
                                 <div class="input-group hidden">
-                                    {# Facet fields -- start #}
-                                    <div class="col-md-1">
-                                        <input type="text" name="page" class="form-control" id="page"
-                                               value="{{ currentpage }}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12" id="search_terms">
+                                    <input type="text" name="page" class="form-control" id="page" value="{{ currentpage }}">
                                 </div>
                             </div>
                         </form>
+                        <div class="row mrgn-tp-md mrgn-bttm-md">
+                            <div class="col-md-12" id="search_terms"></div>
+                        </div>
                     </section>
                     <section>
                         {% for doc in results.docs %}
@@ -273,7 +267,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in commitments_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-commitment')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-commitment')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -288,7 +282,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in commitments_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-commitment')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-commitment')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -319,7 +313,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in milestone_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-milestone')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-milestone')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -334,7 +328,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in milestone_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-milestone')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-milestone')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -365,7 +359,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in statuses_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-status')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-status')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -380,7 +374,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in statuses_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-status')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-status')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -407,7 +401,7 @@
                                             <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                                 <label><input type="checkbox"
                                                         {% if k in periods_selected_list %} checked="checked"{% endif %}
-                                                              onclick="select_facet('{{ k }}', 'nap-reporting-period')"
+                                                              onclick="select_facet('{{ k }}', 'ap-reporting-period')"
                                                               style="vertical-align:middle;position:relative;top:-1px;"
                                                               value="{{ k }}"
                                                 > {{ k }} ({{ v }})</label></div>
@@ -436,7 +430,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in organizations_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-search-orgs')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-search-orgs')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -451,7 +445,7 @@
                                                         <label><input type="checkbox"
                                                                 {% if k in organizations_selected_list %}
                                                                       checked="checked"{% endif %}
-                                                                      onclick="select_facet('{{ k }}', 'nap-search-orgs')"
+                                                                      onclick="select_facet('{{ k }}', 'ap-search-orgs')"
                                                                       value="{{ k }}"
                                                                       style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                             ({{ v }})</label></div>
@@ -478,7 +472,7 @@
                                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                                     <label><input type="checkbox"
                                                             {% if k in due_dates_selected_list %} checked="checked"{% endif %}
-                                                                  onclick="select_facet('{{ k }}', 'nap-due-date')"
+                                                                  onclick="select_facet('{{ k }}', 'ap-due-date')"
                                                                   style="vertical-align:middle;position:relative;top:-1px;"
                                                                   value="{{ k }}"
                                                     > {{ k }} ({{ v }})</label></div>
@@ -534,5 +528,5 @@
     "showFeatures": false
 {% endblock %}
 {% block custom-jquery %}
-    <script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
+<script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
 {% endblock %}

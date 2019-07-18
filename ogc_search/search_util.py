@@ -1,5 +1,7 @@
+import csv
 import logging
 from math import ceil
+import os
 import pysolr
 import re
 
@@ -63,8 +65,7 @@ def split_with_quotes(csv_string):
 
 
 def solr_query(q, solr_url, solr_fields, solr_query_fields,  solr_facet_fields, phrases_extra,
-               start_row='0', pagesize='10', facets={}, language='en',
-               sort_order='score asc'):
+               start_row='0', pagesize='10', facets={}, sort_order='score asc'):
     solr = pysolr.Solr(solr_url)
     solr_facets = []
     extras = {
@@ -113,3 +114,19 @@ def solr_query(q, solr_url, solr_fields, solr_query_fields,  solr_facet_fields, 
                         doc[hl_fld_id] = hl_entry[hl_fld_id][0]
 
     return sr
+
+
+def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results):
+
+    if not os.path.exists(cached_filename):
+        with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
+            cache_writer = csv.writer(csvfile, dialect='excel')
+            headers = self.solr_fields[0].split(',')
+            headers[0] = u'\N{BOM}' + headers[0]
+            cache_writer.writerow(headers)
+            for i in sr.docs:
+                try:
+                    cache_writer.writerow(i.values())
+                except UnicodeEncodeError:
+                    pass
+    return True

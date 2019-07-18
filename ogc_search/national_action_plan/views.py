@@ -12,8 +12,7 @@ class NAPSearchView(View):
     def __init__(self):
         super().__init__()
 
-    # English search fields
-
+        # English search fields
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 
         self.solr_fields_en = ("id,reporting_period_s,due_date_s"
@@ -88,7 +87,6 @@ class NAPSearchView(View):
             'mm': '3<70%'
         }
 
-
     def get(self, request):
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
@@ -117,12 +115,12 @@ class NAPSearchView(View):
 
         # Retrieve search results and transform facets results to python dict
 
-        solr_search_orgs: str = request.GET.get('nap-search-orgs', '')
-        solr_search_periods: str = request.GET.get('nap-reporting-period', '')
-        solr_search_commitments: str = request.GET.get('nap-commitment', '')
-        solr_search_milestones: str = request.GET.get('nap-milestone', '')
-        solr_search_status: str = request.GET.get('nap-status', '')
-        solr_search_due_dates: str = request.GET.get('nap-due-date', '')
+        solr_search_orgs: str = request.GET.get('ap-search-orgs', '')
+        solr_search_periods: str = request.GET.get('ap-reporting-period', '')
+        solr_search_commitments: str = request.GET.get('ap-commitment', '')
+        solr_search_milestones: str = request.GET.get('ap-milestone', '')
+        solr_search_status: str = request.GET.get('ap-status', '')
+        solr_search_due_dates: str = request.GET.get('ap-due-date', '')
 
         context["organizations_selected"] = solr_search_orgs
         context["organizations_selected_list"] = solr_search_orgs.split('|')
@@ -177,26 +175,24 @@ class NAPSearchView(View):
 
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
-                                             settings.SOLR_NAP,
-                                             self.solr_fields_fr,
-                                             self.solr_query_fields_fr,
-                                             self.solr_facet_fields_fr,
-                                             self.phrase_xtras_fr,
-                                             start_row=str(start_row), pagesize=str(items_per_page),
-                                             facets=facets_dict,
-                                             language=request.LANGUAGE_CODE,
-                                             sort_order=solr_search_sort)
+                                                    settings.SOLR_NAP,
+                                                    self.solr_fields_fr,
+                                                    self.solr_query_fields_fr,
+                                                    self.solr_facet_fields_fr,
+                                                    self.phrase_xtras_fr,
+                                                    start_row=str(start_row), pagesize=str(items_per_page),
+                                                    facets=facets_dict,
+                                                    sort_order=solr_search_sort)
         else:
             search_results = search_util.solr_query(solr_search_terms,
-                                             settings.SOLR_NAP,
-                                             self.solr_fields_en,
-                                             self.solr_query_fields_en,
-                                             self.solr_facet_fields_en,
-                                             self.phrase_xtras_en,
-                                             start_row=str(start_row), pagesize=str(items_per_page),
-                                             facets=facets_dict,
-                                             language=request.LANGUAGE_CODE,
-                                             sort_order=solr_search_sort)
+                                                    settings.SOLR_NAP,
+                                                    self.solr_fields_en,
+                                                    self.solr_query_fields_en,
+                                                    self.solr_facet_fields_en,
+                                                    self.phrase_xtras_en,
+                                                    start_row=str(start_row), pagesize=str(items_per_page),
+                                                    facets=facets_dict,
+                                                    sort_order=solr_search_sort)
 
         context['results'] = search_results
         pagination = search_util.calc_pagination_range(context['results'], items_per_page, page)

@@ -64,17 +64,19 @@
                 {% endautoescape %}
                 </div>
             {% endif %}
-                <form action="{% url 'BNQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
+                    </div>
+                </div>
+                <form action="{% url 'BNQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
                     <div class="row">
-                        <div class="col-md-12 col-sm-12">
-                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
-                        </div>
-                        <div class="col-md-9 col-sm-12">
+                        <div class="col-md-7 col-sm-12">
                             <div class="input-group">
                                 <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
                                 <input type="text" name="od-search-input" class="form-control" id="od-search-input"
                                        value="{{ search_text | safe }}" placeholder="{% trans 'Search' %}"
-                                       onkeypress="submitFormOnEnter(event)" />
+                                       onkeypress="submitFormOnEnter(event)" size="60"/>
 
                                 <span class="input-group-btn">
                                      <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
@@ -84,9 +86,10 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-md-3 col-sm-4">
-                            <div class="input-group">
-                            <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
+                        <div class="col-md-5 col-sm-12">
+                            <div class="form-group">
+                                <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
+                                <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
                                 <option value="date_received_tdt desc" {% if sortby == "date_received_tdt desc" %}selected="selected"{% endif %}
@@ -96,22 +99,14 @@
                             </select>
                             </div>
                         </div>
-                        <div class="col-md-3 col-md-push-9 col-sm-6 col-sm-push-6">
-                            <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
-                        </div>
-
                         <div class="input-group hidden">
-                            {# Facet fields -- start #}
-                            <div class="col-md-1">
-                                <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" id="search_terms">
+                            <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
                         </div>
                     </div>
                 </form>
+                <div class="row mrgn-tp-md mrgn-bttm-md">
+                    <div class="col-md-12" id="search_terms"></div>
+                </div>
             </section>
             <section>
             {% for doc in results.docs %}

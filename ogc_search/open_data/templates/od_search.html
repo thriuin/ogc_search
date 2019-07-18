@@ -33,78 +33,93 @@
 {% block main-content-title %}
 <h1 property="name" id="wb-cont">{% trans "Open Government Portal" %}</h1>
 {% endblock %}
-<section>
-    <p class="gc-byline">{% if request.user.is_authenticated %}
-        Logged in as {{ request.user.username }}
+    <section>
+        <p class="gc-byline">{% if request.user.is_authenticated %}
+            Logged in as {{ request.user.username }}
         {% endif %}
-    </p>
-    <div class="row">
-        <div class="col-md-8 col-md-push-4"><div data-ajax-replace="/data/static/_site_messaging/header_od_ckan.{{ LANGUAGE_CODE }}"></div></div>
-        <div class="col-md-8 col-md-push-4">
-            {% block main-content-content %}
-            <section>
-                <div class="row">
-                {% autoescape off %}
-                {% for alert in alerts %}
-                    <div class="alert alert-info">{% trans alert %}</div>
-                {% endfor %}
-                {% endautoescape %}
-                </div>
-                <div class="ogscartwrapper mrgn-bttm-md" style="display:none; visibility:hidden;">
-                    <span class="fa fa-shopping-cart"> </span><span class="ogscarttally" style="font-family:Helvetica,Arial,sans-serif;">{{ _('Tally of Items') }} </span>
-                    <a id="OGSCartListItems" class="ogscartlistbtn btn btn-primary btn-xs" href="#"><span class="fa fa-list-alt"></span> {{ _('List Items') }}</a>
-                    <a id="OGSCartPlotItems" class="ogscartplotbtn btn btn-primary btn-xs" href="#"><span class="fa fa-globe"></span> {{ _('View on Map') }}</a>
-                    <a id="OGSCartDumpItems" class="ogscartplotbtn btn btn-danger btn-xs" href="#"><span class="fa fa-trash-o"></span> {{ _('Clear List') }}</a>
-                </div>
-                <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md fofm-inline">
+        </p>
+        <div class="row">
+            <div class="col-md-8 col-md-push-4">
+                <div data-ajax-replace="/data/static/_site_messaging/header_od_ckan.{{ LANGUAGE_CODE }}"></div>
+            </div>
+            <div class="col-md-8 col-md-push-4">
+                {% block main-content-content %}
+                <section>
                     <div class="row">
-                        <div class="col-md-12 col-sm-12">
-                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
-                        </div>
-                        <div class="col-md-9 col-sm-12">
-                            <div class="input-group">
-                                <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
-                                <input type="text" name="od-search-input" class="form-control" id="od-search-input"
-                                       value="{{ search_text }}" placeholder="{% trans 'Search' %}"
-                                       onkeypress="submitFormOnEnter(event)" />
-
-                                <span class="input-group-btn">
-                                     <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                                     <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
-                                            onclick="submitForm()">{% trans 'Search' %}
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-4">
-                            <div class="input-group">
-                            <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
-                                <option value="last_modified_tdt desc" {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
-                                    >{% trans 'Newest' %}</option>
-                                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
-                                    >{% trans 'Best match' %}</option>
-                                <option value="title_en_s asc" {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
-                                    >{% trans 'Title' %}</option>
-                            </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-md-push-9 col-sm-6 col-sm-push-6">
-                            <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
-                        </div>
-
-                        <div class="input-group hidden">
-                            {# Facet fields -- start #}
-                            <div class="col-md-1">
-                                <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
-                            </div>
-                        </div>
+                        {% autoescape off %}
+                            {% for alert in alerts %}
+                                <div class="alert alert-info">{% trans alert %}</div>
+                            {% endfor %}
+                        {% endautoescape %}
+                    </div>
+                    <div class="ogscartwrapper mrgn-bttm-md" style="display:none; visibility:hidden;">
+                        <span class="fa fa-shopping-cart"> </span><span class="ogscarttally"
+                                                                        style="font-family:Helvetica,Arial,sans-serif;">{{ _('Tally of Items') }} </span>
+                        <a id="OGSCartListItems" class="ogscartlistbtn btn btn-primary btn-xs" href="#"><span
+                                class="fa fa-list-alt"></span> {{ _('List Items') }}</a>
+                        <a id="OGSCartPlotItems" class="ogscartplotbtn btn btn-primary btn-xs" href="#"><span
+                                class="fa fa-globe"></span> {{ _('View on Map') }}</a>
+                        <a id="OGSCartDumpItems" class="ogscartplotbtn btn btn-danger btn-xs" href="#"><span
+                                class="fa fa-trash-o"></span> {{ _('Clear List') }}</a>
                     </div>
                     <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}
+                                    Found {{ result_num }} record{{ result_s }}{% endblocktrans %}</p>
+                        </div>
+                    </div>
+                    <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form"
+                          class="form-inline">
+                        <div class="row">
+                            <div class="col-sm-7 col-md-7 ">
+                                <div class="input-group">
+                                    <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                                    <input type="text" name="od-search-input" class="form-control"
+                                           id="od-search-input"
+                                           value="{{ search_text }}" placeholder="{% trans 'Search' %}"
+                                           onkeypress="submitFormOnEnter(event)" size="60"/>
+
+                                    <span class="input-group-btn">
+                                         <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                                         <button type="button" class="btn btn-primary btn-small form-submit"
+                                                 id="od-search-button"
+                                                 onclick="submitForm()">{% trans 'Search' %}
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 col-md-5">
+                                <div class="form-group">
+                                    <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
+                                    <select class="form-control" name="sort-by" id="sort-by" value="{{ sortby }}"
+                                            onchange="submitForm();">
+                                        <option value="last_modified_tdt desc"
+                                                {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
+                                        >{% trans 'Newest' %}</option>
+                                        <option value="score desc"
+                                                {% if sortby == "score desc" %}selected="selected"{% endif %}
+                                        >{% trans 'Best match' %}</option>
+                                        <option value="title_en_s asc"
+                                                {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
+                                        >{% trans 'Title' %}</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group hidden">
+                                    <div>
+                                        <input type="text" name="page" class="form-control" id="page"
+                                               value="{{ currentpage }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row mrgn-tp-md mrgn-bttm-md">
                         <div class="col-md-12" id="search_terms">
                         </div>
                     </div>
-                </form>
-            </section>
+
+                </section>
             <section>
             {% for doc in results.docs %}
             <div class="panel panel-default mrg-tp-sm">
