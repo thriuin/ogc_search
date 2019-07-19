@@ -64,7 +64,26 @@ def split_with_quotes(csv_string):
     return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
 
-def solr_query(q, solr_url, solr_fields, solr_query_fields,  solr_facet_fields, phrases_extra,
+def calc_starting_row(page_num, rows_per_age=10):
+    """
+    Calculate a starting row for the Solr search results. We only retrieve one page at a time
+    :param page_num: Current page number
+    :param rows_per_age: number of rows per page
+    :return: starting row
+    """
+    page = 1
+    try:
+        page = int(page_num)
+    except ValueError:
+        pass
+    if page < 1:
+        page = 1
+    elif page > 10000:  # @magic_number: arbitrary upper range
+        page = 10000
+    return rows_per_age * (page - 1), page
+
+
+def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, phrases_extra,
                start_row='0', pagesize='10', facets={}, sort_order='score asc'):
     solr = pysolr.Solr(solr_url)
     solr_facets = []
@@ -116,12 +135,39 @@ def solr_query(q, solr_url, solr_fields, solr_query_fields,  solr_facet_fields, 
     return sr
 
 
-def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results):
+def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, sort_order, facets={}):
+
+    solr = pysolr.Solr(solr_url, search_handler='/export')
+    solr_facets = []
+    for facet in facets.keys():
+        if facets[facet] != '':
+            facet_terms = facets[facet].split(',')
+            quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
+            facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
+            solr_facets.append(facet_text)
+
+    extras = {
+            'fq': solr_facets,
+            'fl': solr_fields,
+            'facet': 'on',
+            'facet.sort': 'index',
+            'facet.field': solr_facet_fields,
+            'defType': 'edismax',
+            'qf': solr_query_fields,
+            'sort': sort_order,
+        }
+
+    sr = solr.search(q, **extras)
+
+    return sr
+
+
+def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fields: str):
 
     if not os.path.exists(cached_filename):
         with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
             cache_writer = csv.writer(csvfile, dialect='excel')
-            headers = self.solr_fields[0].split(',')
+            headers = solr_fields.split(',')
             headers[0] = u'\N{BOM}' + headers[0]
             cache_writer.writerow(headers)
             for i in sr.docs:

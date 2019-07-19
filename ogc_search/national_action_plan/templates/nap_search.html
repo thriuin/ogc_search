@@ -20,11 +20,17 @@
     }],
     search: false,
     "breadcrumbs": [{
-    "title": "{% trans 'Home' %}",
-    "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
     },{
-    "title": "{% trans 'Open Government' %}",
-    "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'Open Information' %}",
+        "href": "{% trans 'https://open.canada.ca/en/open-information' %}",
+    },{
+        "title": "{% trans 'Proactive Disclosure' %}",
+        "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
     }]
 {% endblock %}
 

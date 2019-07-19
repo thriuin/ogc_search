@@ -188,17 +188,7 @@ class SISearchView(View):
         context["e_feedback_selected"] = solr_search_e_feedback
         context["e_feedback_selected_list"] = solr_search_e_feedback.split('|')
 
-        # Calculate a starting row for the Solr search results. We only retrieve one page at a time
-
-        try:
-            page = int(request.GET.get('page', 1))
-        except ValueError:
-            page = 1
-        if page < 1:
-            page = 1
-        elif page > 10000:  # @magic_number: arbitrary upper range
-            page = 10000
-        start_row = items_per_page * (page - 1)
+        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1), items_per_page)
 
         solr_search_sort = request.GET.get('sort', 'score desc')
         if request.LANGUAGE_CODE == 'fr':
@@ -249,7 +239,6 @@ class SISearchView(View):
                                              self.phrase_xtras_fr,
                                              start_row=str(start_row), pagesize=str(items_per_page),
                                              facets=facets_dict,
-                                             language=request.LANGUAGE_CODE,
                                              sort_order=solr_search_sort)
         else:
             search_results = search_util.solr_query(solr_search_terms,
@@ -260,7 +249,6 @@ class SISearchView(View):
                                              self.phrase_xtras_en,
                                              start_row=str(start_row), pagesize=str(items_per_page),
                                              facets=facets_dict,
-                                             language=request.LANGUAGE_CODE,
                                              sort_order=solr_search_sort)
 
         solr_search_orgs: str = request.GET.get('si-search-orgs', '')

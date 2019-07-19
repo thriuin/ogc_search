@@ -110,17 +110,7 @@ class BNSearchView(View):
         context["addressee_selected"] = solr_search_addrs
         context["addressee_selected_list"] = solr_search_addrs.split('|')
 
-        # Calculate a starting row for the Solr search results. We only retrieve one page at a time
-
-        try:
-            page = int(request.GET.get('page', 1))
-        except ValueError:
-            page = 1
-        if page < 1:
-            page = 1
-        elif page > 10000:  # @magic_number: arbitrary upper range
-            page = 10000
-        start_row = 10 * (page - 1)
+        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1))
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')
@@ -209,14 +199,25 @@ class BNExportView(View):
 
     def __init__(self):
         super().__init__()
-        self.solr_fields = ['tracking_id_s, owner_org_en_s, owner_org_fr_s, org_sector_en_s, org_sector_fr_s,'
-                            'additional_information_en_s, additional_information_fr_s, date_received_tdt,'
-                            'addressee_en_s, addressee_fr_s, action_required_en_s, action_required_fr_s']
 
+        self.solr_fields = ("id,tracking_id_s,title_en_s,title_fr_s,org_sector_en_s,org_sector_fr_s,date_received_tdt,"
+                            "action_required_en_s,action_required_fr_s,addressee_en_s,addressee_fr_s")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
-                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5']
+                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5',
+                                     'tracking_number_s^5']
         self.solr_query_fields_en = ['owner_org_en_s^2', 'additional_information_en_s^3', 'org_sector_en_s^4',
-                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5']
+                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5',
+                                     'tracking_number_s^5']
+        self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
+                                     '{!ex=tag_month_i}month_i',
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_action_required_en_s}action_required_en_s',
+                                     '{!ex=tag_addressee_en_s}addressee_en_s']
+        self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
+                                     '{!ex=tag_month_i}month_i',
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_action_required_fr_s}action_required_fr_s',
+                                     '{!ex=tag_addressee_fr_s}addressee_fr_s']
 
         self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
         if not os.path.exists(self.cache_dir):
@@ -241,7 +242,7 @@ class BNExportView(View):
 
         search_text = str(request.GET.get('search_text', ''))
         # Respect quoted strings
-        search_terms = self.split_with_quotes(search_text)
+        search_terms = search_util.split_with_quotes(search_text)
         if len(search_terms) == 0:
             solr_search_terms = "*"
         elif len(search_terms) == 1:
@@ -257,12 +258,14 @@ class BNExportView(View):
         solr_search_ar: str = request.GET.get('bn-search-action', '')
         solr_search_addrs : str = request.GET.get('bn-search-addressee', '')
 
+        solr_search_facets = self.solr_facet_fields_en
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=solr_search_orgs,
                                year_i=solr_search_year,
                                month_i=solr_search_month,
                                action_required_fr_s=solr_search_ar,
                                addressee_fr_s=solr_search_addrs)
+            solr_search_facets = self.solr_facet_fields_fr
         else:
             facets_dict = dict(owner_org_en_s=solr_search_orgs,
                                year_i=solr_search_year,
@@ -270,9 +273,16 @@ class BNExportView(View):
                                action_required_en_s=solr_search_ar,
                                addressee_en_s=solr_search_addrs)
 
-        search_results = search_util.solr_query(solr_search_terms, facets=facets_dict)
+        search_results = search_util.solr_query_for_export(solr_search_terms,
+                                                           settings.SOLR_BN,
+                                                           self.solr_fields,
+                                                           self.solr_query_fields_en,
+                                                           solr_search_facets,
+                                                           "id asc",
+                                                           facets_dict)
 
-        search_util.cache_search_results_file(cached_filename, search_results)
+        search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                              solr_fields=self.solr_fields)
         if settings.EXPORT_FILE_CACHE_URL == "":
             return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
         else:
