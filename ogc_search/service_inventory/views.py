@@ -1,8 +1,12 @@
 from django.conf import settings
+from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.views.generic import View
+import hashlib
 import logging
+import os
 import search_util
+import time
 
 logger = logging.getLogger('ogc_search')
 
@@ -255,6 +259,9 @@ class SISearchView(View):
         context["organizations_selected"] = solr_search_orgs
 
         context['results'] = search_results
+        export_url = "/{0}/si/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
+        context['export_url'] = export_url
+
         pagination = search_util.calc_pagination_range(context['results'], items_per_page, page)
         context['pagination'] = pagination
         context['previous_page'] = (1 if page == 1 else page - 1)
@@ -321,3 +328,170 @@ class SISearchView(View):
             search_results.facets['facet_fields']['fiscal_year_s'])
 
         return render(request, "si_search.html", context)
+
+
+class SIExportView(View):
+
+    def __init__(self):
+        super().__init__()
+
+        self.solr_fields = ("id,service_id_s,service_name_fr_s,service_name_en_s,"
+                            "service_description_fr_s,service_description_en_s,"
+                            "new_service_id_s,"
+                            "authority_fr_s,authority_en_s,"
+                            "program_name_fr_s,program_name_en_s,"
+                            "special_remarks_fr_s,special_remarks_en_s,"
+                            "owner_org_fr_s,owner_org_en_s,"
+                            "service_url_fr_s,service_url_en_s,"
+                            "program_id_code_s,"
+                            "online_applications_fr_s,online_applications_en_s,"
+                            "web_visits_info_service_fr_s,web_visits_info_service_en_s,"
+                            "calls_received_fr_s,calls_received_en_s,"
+                            "in_person_applications_fr_s,in_person_applications_en_s,"
+                            "email_applications_fr_s,email_applications_en_s,"
+                            "fax_applications_fr_s,fax_applications_en_s,"
+                            "postal_mail_applications_fr_s,postal_mail_applications_en_s,"
+                            "fiscal_year_s,"
+                            "external_internal_fr_s,external_internal_en_s,"
+                            "service_type_fr_s,service_type_en_s,"
+                            "special_designations_fr_s,special_designations_en_s,"
+                            "client_target_groups_fr_s,client_target_groups_en_s,"
+                            "service_fee_fr_s,service_fee_en_s,"
+                            "cra_business_number_fr_s,cra_business_number_en_s,"
+                            "use_of_sin_fr_s,use_of_sin_en_s,"
+                            "e_registration_fr_s,e_registration_en_s,"
+                            "e_authentication_fr_s,e_authentication_en_s,"
+                            "e_decision_fr_s,e_decision_en_s,"
+                            "e_issuance_fr_s,e_issuance_en_s,"
+                            "e_feedback_fr_s,e_feedback_en_s,"
+                            "client_feedback_fr_s,client_feedback_en_s,"
+                            "standards")
+        self.solr_query_fields_fr = ['service_name_txt_fr^5', 'service_description_txt_fr^3', 'authority_txt_fr^2',
+                                     'program_name_txt_fr^3', 'special_remarks_txt_fr^6', 'owner_org_title_txt_fr^2',
+                                     '_text_fr_^0.5']
+        self.solr_query_fields_en = ['service_name_txt_en^5', 'service_description_txt_en^3', 'authority_txt_en^2',
+                                     'program_name_txt_en^3', 'special_remarks_txt_en^6', 'owner_org_title_txt_en^2',
+                                     '_text_en_^0.5']
+        self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
+                                     '{!ex=tag_fiscal_year_s}fiscal_year_s',
+                                     '{!ex=tag_external_internal_fr_s}external_internal_fr_s',
+                                     '{!ex=tag_service_type_fr_s}service_type_fr_s',
+                                     '{!ex=tag_special_designations_fr_s}special_designations_fr_s',
+                                     '{!ex=tag_client_target_groups_fr_s}client_target_groups_fr_s',
+                                     '{!ex=tag_service_fee_fr_s}service_fee_fr_s',
+                                     '{!ex=tag_cra_business_number_fr_s}cra_business_number_fr_s',
+                                     '{!ex=tag_e_registration_fr_s}e_registration_fr_s',
+                                     '{!ex=tag_e_authentication_fr_s}e_authentication_fr_s',
+                                     '{!ex=tag_e_decision_fr_s}e_decision_fr_s',
+                                     '{!ex=tag_e_issuance_fr_s}e_issuance_fr_s',
+                                     '{!ex=tag_e_feedback_fr_s}e_feedback_fr_s',
+                                     '{!ex=tag_client_feedback_fr_s}client_feedback_fr_s']
+        self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
+                                     '{!ex=tag_fiscal_year_s}fiscal_year_s',
+                                     '{!ex=tag_external_internal_en_s}external_internal_en_s',
+                                     '{!ex=tag_service_type_en_s}service_type_en_s',
+                                     '{!ex=tag_special_designations_en_s}special_designations_en_s',
+                                     '{!ex=tag_client_target_groups_en_s}client_target_groups_en_s',
+                                     '{!ex=tag_service_fee_en_s}service_fee_en_s',
+                                     '{!ex=tag_cra_business_number_en_s}cra_business_number_en_s',
+                                     '{!ex=tag_e_registration_en_s}e_registration_en_s',
+                                     '{!ex=tag_e_authentication_en_s}e_authentication_en_s',
+                                     '{!ex=tag_e_decision_en_s}e_decision_en_s',
+                                     '{!ex=tag_e_issuance_en_s}e_issuance_en_s',
+                                     '{!ex=tag_e_feedback_en_s}e_feedback_en_s',
+                                     '{!ex=tag_client_feedback_en_s}client_feedback_en_s']
+
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
+    def get(self, request: HttpRequest):
+
+        # Check to see if a recent cached results exists and return that instead if it exists
+
+        hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
+        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_query))
+        if os.path.exists(cached_filename):
+            if time.time() - os.path.getmtime(cached_filename) > 600:
+                os.remove(cached_filename)
+            else:
+                if settings.EXPORT_FILE_CACHE_URL == "":
+                    return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+                else:
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+        # Get any search terms
+
+        search_text = str(request.GET.get('search_text', ''))
+        # Respect quoted strings
+        search_terms = search_util.split_with_quotes(search_text)
+        if len(search_terms) == 0:
+            solr_search_terms = "*"
+        elif len(search_terms) == 1:
+            solr_search_terms = '"{0}"'.format(search_terms)
+        else:
+            solr_search_terms = ' '.join(search_terms)
+
+        # Retrieve search results and transform facets results to python dict
+
+        solr_search_orgs: str = request.GET.get('si-search-orgs', '')
+        solr_search_years: str = request.GET.get('si-search-year', '')
+        solr_search_xis: str = request.GET.get('si-search-ext-int', '')
+        solr_search_stype: str = request.GET.get('si-search-service-type', '')
+        solr_search_designations: str = request.GET.get('si-search-designations', '')
+        solr_search_targets: str = request.GET.get('si-search-target-groups', '')
+        solr_search_fees: str = request.GET.get('si-search-service-fee', '')
+        solr_search_cra_no: str = request.GET.get('si-search-cra-number', '')
+        solr_search_e_reg: str = request.GET.get('si-search-e-reg', '')
+        solr_search_e_authenticate: str = request.GET.get('si-search-e-authenticate', '')
+        solr_search_e_decision: str = request.GET.get('si-search-e-decision', '')
+        solr_search_e_issuance: str = request.GET.get('si-search-e-issuance', '')
+        solr_search_e_feedback: str = request.GET.get('si-search-e-feedback', '')
+
+        solr_search_facets = self.solr_facet_fields_en
+        if request.LANGUAGE_CODE == 'fr':
+            facets_dict = dict(owner_org_fr_s=solr_search_orgs,
+                               fiscal_year_s=solr_search_years,
+                               external_internal_fr_s=solr_search_xis,
+                               service_type_fr_s=solr_search_stype,
+                               special_designations_fr_s=solr_search_designations,
+                               client_target_groups_fr_s=solr_search_targets,
+                               service_fee_fr_s=solr_search_fees,
+                               cra_business_number_fr_s=solr_search_cra_no,
+                               e_registration_fr_s=solr_search_e_reg,
+                               e_authentication_fr_s=solr_search_e_authenticate,
+                               e_decision_fr_s=solr_search_e_decision,
+                               e_issuance_fr_s=solr_search_e_issuance,
+                               e_feedback_fr_s=solr_search_e_feedback,
+                               )
+        else:
+            facets_dict = dict(owner_org_en_s=solr_search_orgs,
+                               fiscal_year_s=solr_search_years,
+                               external_internal_en_s=solr_search_xis,
+                               service_type_en_s=solr_search_stype,
+                               special_designations_en_s=solr_search_designations,
+                               client_target_groups_en_s=solr_search_targets,
+                               service_fee_en_s=solr_search_fees,
+                               cra_business_number_en_s=solr_search_cra_no,
+                               e_registration_en_s=solr_search_e_reg,
+                               e_authentication_en_s=solr_search_e_authenticate,
+                               e_decision_en_s=solr_search_e_decision,
+                               e_issuance_en_s=solr_search_e_issuance,
+                               e_feedback_en_s=solr_search_e_feedback,
+                               )
+
+        search_results = search_util.solr_query_for_export(solr_search_terms,
+                                                           settings.SOLR_SI,
+                                                           self.solr_fields,
+                                                           self.solr_query_fields_en,
+                                                           solr_search_facets,
+                                                           "id asc",
+                                                           facets_dict)
+
+        search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                              solr_fields=self.solr_fields)
+        if settings.EXPORT_FILE_CACHE_URL == "":
+            return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+        else:
+            return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+

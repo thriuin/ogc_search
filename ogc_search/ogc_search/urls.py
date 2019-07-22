@@ -25,7 +25,7 @@ from briefing_notes.views import BNSearchView, BNExportView
 from national_action_plan.views import NAPSearchView, NAPExportView
 from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
-from service_inventory.views import SISearchView
+from service_inventory.views import SISearchView, SIExportView
 
 urlpatterns = [
     path('', views.default_search),
@@ -51,7 +51,7 @@ if settings.BN_ENABLED:
 if settings.SI_ENABLED:
     urlpatterns += i18n_patterns(
         path('si/', SISearchView.as_view(), name='SIQuery'),
-        # path('si/export/', SIExportView.as_view(), name='SIExport')
+        path('si/export/', SIExportView.as_view(), name='SIExport')
     )
 
 if settings.NAP_ENABLED:

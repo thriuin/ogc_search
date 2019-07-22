@@ -141,7 +141,7 @@ def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_face
     solr_facets = []
     for facet in facets.keys():
         if facets[facet] != '':
-            facet_terms = facets[facet].split(',')
+            facet_terms = facets[facet].split('|')
             quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
             facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
             solr_facets.append(facet_text)
