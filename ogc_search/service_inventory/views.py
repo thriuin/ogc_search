@@ -400,7 +400,9 @@ class SIExportView(View):
                                      '{!ex=tag_e_issuance_en_s}e_issuance_en_s',
                                      '{!ex=tag_e_feedback_en_s}e_feedback_en_s',
                                      '{!ex=tag_client_feedback_en_s}client_feedback_en_s']
-
+        self.phrase_xtras = {
+            'mm': '3<70%',
+        }
         self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
         if not os.path.exists(self.cache_dir):
             os.mkdir(self.cache_dir)
@@ -486,7 +488,8 @@ class SIExportView(View):
                                                            self.solr_query_fields_en,
                                                            solr_search_facets,
                                                            "id asc",
-                                                           facets_dict)
+                                                           facets_dict,
+                                                           self.phrase_xtras)
 
         search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
                                               solr_fields=self.solr_fields)

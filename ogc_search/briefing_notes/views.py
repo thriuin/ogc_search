@@ -218,6 +218,9 @@ class BNExportView(View):
                                      '{!ex=tag_year_i}year_i',
                                      '{!ex=tag_action_required_fr_s}action_required_fr_s',
                                      '{!ex=tag_addressee_fr_s}addressee_fr_s']
+        self.phrase_xtras = {
+            'mm': '3<70%',
+        }
 
         self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
         if not os.path.exists(self.cache_dir):
@@ -279,7 +282,8 @@ class BNExportView(View):
                                                            self.solr_query_fields_en,
                                                            solr_search_facets,
                                                            "id asc",
-                                                           facets_dict)
+                                                           facets_dict,
+                                                           self.phrase_xtras)
 
         search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
                                               solr_fields=self.solr_fields)

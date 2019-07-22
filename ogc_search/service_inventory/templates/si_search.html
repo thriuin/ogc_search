@@ -156,7 +156,7 @@
                             <p>{% if doc.service_description_txt_en %}
                             {{ doc.service_description_txt_en | safe }}<br>
                             {% endif %}
-                            <strong>Organization</strong>: {{ doc.owner_org_title_txt_en }}<br>
+                            <strong>Organization</strong>: {{ doc.owner_org_title_txt_en | safe }}<br>
                             <details>
                                 <summary>Details</summary>
                                 <strong>Program</strong>: {{ doc.program_name_txt_en | safe }}<br>

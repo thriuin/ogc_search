@@ -135,7 +135,8 @@ def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, p
     return sr
 
 
-def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, sort_order, facets={}):
+def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, sort_order, facets={},
+                          phrase_extras={}):
 
     solr = pysolr.Solr(solr_url, search_handler='/export')
     solr_facets = []
@@ -156,6 +157,9 @@ def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_face
             'qf': solr_query_fields,
             'sort': sort_order,
         }
+
+    if q != '*':
+        extras.update(phrase_extras)
 
     sr = solr.search(q, **extras)
 
