@@ -1,8 +1,12 @@
 from django.conf import settings
+from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.views.generic import View
+import hashlib
 import logging
+import os
 import search_util
+import time
 
 logger = logging.getLogger('ogc_search')
 
@@ -15,10 +19,10 @@ class NAPSearchView(View):
         # English search fields
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 
-        self.solr_fields_en = ("id,reporting_period_s,due_date_s"
+        self.solr_fields_en = ("id,reporting_period_s,due_date_s,"
                                "owner_org_en_s,owner_org_title_txt_en,"
                                "indicators_en_s,indicator_txt_en,ind_full_text_en_s,ind_full_text_en_s,"
-                               "milestone_en_s,milestones_en_s,milestone_txt_en,"
+                               "milestone_en_s,milestone_txt_en,"
                                "progress_en_s,progress_txt_en,"
                                "evidence_en_s,evidence_txt_en,"
                                "challenges_en_s,challenges_txt_en,"
@@ -51,10 +55,10 @@ class NAPSearchView(View):
             'mm': '3<70%',
         }
 
-        self.solr_fields_fr = ("id,reporting_period_s,due_date_s"
+        self.solr_fields_fr = ("id,reporting_period_s,due_date_s,"
                                "owner_org_fr_s,owner_org_title_txt_fr,"
                                "indicators_fr_s,indicator_txt_fr,ind_full_text_fr_s,ind_full_text_fr_s,"
-                               "milestone_fr_s,milestones_fr_s,milestone_txt_fr,"
+                               "milestone_fr_s,milestone_txt_fr,"
                                "progress_fr_s,progress_txt_fr,"
                                "evidence_fr_s,evidence_txt_fr,"
                                "challenges_fr_s,challenges_txt_fr,"
@@ -185,6 +189,9 @@ class NAPSearchView(View):
                                                     sort_order=solr_search_sort)
 
         context['results'] = search_results
+        export_url = "/{0}/nap/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
+        context['export_url'] = export_url
+
         pagination = search_util.calc_pagination_range(context['results'], items_per_page, page)
         context['pagination'] = pagination
         context['previous_page'] = (1 if page == 1 else page - 1)
@@ -221,3 +228,116 @@ class NAPSearchView(View):
                 search_results.facets['facet_fields']['status_en_s'])
 
         return render(request, "nap_search.html", context)
+
+
+class NAPExportView(View):
+
+    def __init__(self):
+        super().__init__()
+
+        self.solr_fields = ("id,"
+                            "reporting_period_s,"
+                            "due_date_s,"
+                            "owner_org_en_s,"
+                            "owner_org_fr_s,"
+                            "indicators_en_s,indicators_fr_s,"
+                            "ind_full_text_en_s,ind_full_text_fr_s,"
+                            "milestone_en_s,milestone_fr_s,"
+                            "progress_en_s,progress_fr_s,"
+                            "evidence_en_s,evidence_fr_s,"
+                            "challenges_en_s,challenges_fr_s,"
+                            "commitment_nap_url_en_s,commitment_nap_url_fr_s,"
+                            "ind_full_text_en_s,ind_full_text_fr_s,"
+                            "milestone_full_text_en_s,milestone_full_text_fr_s,"
+                            "cmt_url_en_s,cmt_url_fr_s,"
+                            "commitments_en_s,commitments_fr_s,"
+                            "status_en_s,status_fr_s,"
+                            "reporting_period_s")
+        self.solr_query_fields_en = ['progress_txt_en^2', 'evidence_txt_en^2', 'indicator_txt_en^2', 'milestone_txt_en',
+                                                                                                     '_text_en_']
+        self.solr_query_fields_fr = ['progress_txt_fr^2', 'evidence_txt_fr^2', 'indicator_txt_fr^2', 'milestone_txt_fr',
+                                                                                                     '_text_fr_']
+        self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
+                                     '{!ex=tag_commitments_en_s}commitments_en_s',
+                                     '{!ex=tag_milestone_en_s}milestone_en_s',
+                                     '{!ex=tag_status_en_s}status_en_s',
+                                     '{!ex=tag_reporting_period_s}reporting_period_s',
+                                     '{!ex=tag_due_date_s}due_date_s']
+        self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
+                                     '{!ex=tag_commitments_fr_s}commitments_fr_s',
+                                     '{!ex=tag_milestone_fr_s}milestone_fr_s',
+                                     '{!ex=tag_status_fr_s}status_fr_s',
+                                     '{!ex=tag_reporting_period_s}reporting_period_s',
+                                     '{!ex=tag_due_date_s}due_date_s']
+
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
+    def get(self, request: HttpRequest):
+
+        # Check to see if a recent cached results exists and return that instead if it exists
+        hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
+        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_query))
+        if os.path.exists(cached_filename):
+            if time.time() - os.path.getmtime(cached_filename) > 600:
+                os.remove(cached_filename)
+            else:
+                if settings.EXPORT_FILE_CACHE_URL == "":
+                    return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+                else:
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+        # Get any search terms
+        search_text = str(request.GET.get('search_text', ''))
+
+        # Respect quoted strings
+        search_terms = search_util.split_with_quotes(search_text)
+        if len(search_terms) == 0:
+            solr_search_terms = "*"
+        elif len(search_terms) == 1:
+            solr_search_terms = '"{0}"'.format(search_terms)
+        else:
+            solr_search_terms = ' '.join(search_terms)
+
+        # Retrieve search results and transform facets results to python dict
+        solr_search_orgs: str = request.GET.get('ap-search-orgs', '')
+        solr_search_periods: str = request.GET.get('ap-reporting-period', '')
+        solr_search_commitments: str = request.GET.get('ap-commitment', '')
+        solr_search_milestones: str = request.GET.get('ap-milestone', '')
+        solr_search_status: str = request.GET.get('ap-status', '')
+        solr_search_due_dates: str = request.GET.get('ap-due-date', '')
+
+        solr_search_facets = self.solr_facet_fields_en
+        if request.LANGUAGE_CODE == 'fr':
+            facets_dict = dict(owner_org_fr_s=solr_search_orgs,
+                               reporting_period_s=solr_search_periods,
+                               commitments_fr_s=solr_search_commitments,
+                               milestone_fr_s=solr_search_milestones,
+                               status_fr_s=solr_search_status,
+                               due_date_s=solr_search_due_dates,
+                               )
+        else:
+            facets_dict = dict(owner_org_en_s=solr_search_orgs,
+                               reporting_period_s=solr_search_periods,
+                               commitments_en_s=solr_search_commitments,
+                               milestone_en_s=solr_search_milestones,
+                               status_en_s=solr_search_status,
+                               due_date_s=solr_search_due_dates,
+                               )
+
+        search_results = search_util.solr_query_for_export(solr_search_terms,
+                                                           settings.SOLR_NAP,
+                                                           self.solr_fields,
+                                                           self.solr_query_fields_en,
+                                                           solr_search_facets,
+                                                           "id asc",
+                                                           facets_dict)
+
+        search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                              solr_fields=self.solr_fields)
+        if settings.EXPORT_FILE_CACHE_URL == "":
+            return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+        else:
+            return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
