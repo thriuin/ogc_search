@@ -338,10 +338,10 @@ class NAPExportView(View):
                                                            facets_dict,
                                                            self.phrase_xtras)
 
-        search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
-                                              solr_fields=self.solr_fields)
-        if settings.EXPORT_FILE_CACHE_URL == "":
-            return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
-        else:
-            return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                              solr_fields=self.solr_fields):
+            if settings.EXPORT_FILE_CACHE_URL == "":
+                return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+            else:
+                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 

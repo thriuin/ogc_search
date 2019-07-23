@@ -168,10 +168,12 @@ def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_face
 
 def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fields: str):
 
+    if len(sr.docs) == 0:
+        return False
     if not os.path.exists(cached_filename):
         with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
             cache_writer = csv.writer(csvfile, dialect='excel')
-            headers = solr_fields.split(',')
+            headers = list(sr.docs[0])
             headers[0] = u'\N{BOM}' + headers[0]
             cache_writer.writerow(headers)
             for i in sr.docs:
