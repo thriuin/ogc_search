@@ -51,8 +51,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
             od_obj = {
                 'id': bn['owner_org'] + bn['tracking_number'],
                 'tracking_number_s': bn['tracking_number'],
-                'title_txt_en': bn['title_en'],
-                'title_txt_fr': bn['title_fr'],
+                'title_en_s': bn['title_en'],
+                'title_fr_s': bn['title_fr'],
                 'org_sector_en_s': bn['originating_sector_en'],
                 'org_sector_fr_s': bn['originating_sector_fr'],
                 'addressee_en_s': controlled_lists['addressee']['en'][bn['addressee']],
