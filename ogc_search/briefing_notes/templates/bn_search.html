@@ -131,7 +131,7 @@
                         <div class="col-sm-12">
                         {% if LANGUAGE_CODE == 'fr' %}
                             <p>{% if doc.additional_information_fr_s %}
-                            {{ doc.additional_information_fr_s }}<br>
+                            {{ doc.additional_information_fr_s }}</p><p>
                             {% endif %}
                             <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_fr_s }}<br>
                             <strong>{% trans 'Sector' %}</strong>: {{ doc.org_sector_fr_s }}<br>
@@ -139,12 +139,12 @@
                             <strong>{% trans 'Action Required' %}</strong>: {{ doc.action_required_fr_s }}</p>
                         {% else %}
                             <p>{% if doc.additional_information_en_s %}
-                            {{ doc.additional_information_en_s }}<br>
+                            {{ doc.additional_information_en_s }}</p><p>
                             {% endif %}
                             <strong>Organization</strong>: {{ doc.owner_org_en_s }}<br>
                             <strong>Sector</strong>: {{ doc.org_sector_en_s }}<br>
                             <strong>Addressee</strong>: {{ doc.addressee_en_s }}<br>
-                            <strong>Action Required</strong>: {{ doc.action_required_en_s }}</p>
+                            <strong>Action Required</strong>: {{ doc.action_required_en_s }}</>
                         {% endif %}
                         </div>
                      </div>
