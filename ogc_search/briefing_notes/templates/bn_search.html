@@ -43,14 +43,7 @@
         Logged in as {{ request.user.username }}
         {% endif %}
     </p>
-    {% if info_msg|length > 0 %}
-    <div class="row">
-        <details>
-            <summary>{% trans 'About this information' %}</summary>
-            {{ info_msg }}
-        </details>
-    </div>
-    {% endif %}
+
     <div class="row">
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
@@ -104,6 +97,16 @@
                         </div>
                     </div>
                 </form>
+                {% if info_msg|length > 0 %}
+                <div class="row">
+                <div class="col-md-12">
+                    <details>
+                        <summary>{% trans 'About this information' %}</summary>
+                        {{ info_msg }}
+                    </details>
+                </div>
+                </div>
+                {% endif %}
                 <div class="row mrgn-tp-md mrgn-bttm-md">
                     <div class="col-md-12" id="search_terms"></div>
                 </div>
@@ -232,7 +235,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'bn-search-orgs')" value="{{ k }}"
+                                          onclick='select_facet("{{ k }}", "bn-search-orgs")' value="{{ k }}"
                                     style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
                             </li>
                             {% endif %}

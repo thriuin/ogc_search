@@ -14,7 +14,7 @@ $(function(){
                     // IE 11 cannot use template literals: `select_facet('${display_terms[j]}','${display_key}');`
                     // `${display_terms[j]} `
                     let new_link_obj = {class: "btn btn-default btn-xs",
-                        onclick:  "select_facet('" + display_terms[j] + "','" + display_key + "');",
+                        onclick:  'select_facet("' + display_terms[j] + '","' + display_key + '");',
                         text: display_terms[j] + " " };
                     let new_link = $("<a />", new_link_obj).append($("<span />",
                         {class: 'glyphicon glyphicon-remove', text: ' '}));
