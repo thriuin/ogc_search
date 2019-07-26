@@ -11,7 +11,7 @@ function select_facet(selected_item, accumulator) {
     let  found_it = false;
     for (let i=0; i<old_facet_arr.length; i++) {
         let item = old_facet_arr[i];
-        let en_selected_item = encodeURIComponent(selected_item);
+        let en_selected_item = encodeURIComponent(selected_item).replace(/'/g,'%27');
         if (item !== en_selected_item) {
             new_facet_arr.push(item);
         } else {
@@ -26,7 +26,7 @@ function select_facet(selected_item, accumulator) {
         new_facets = new_facets.substring(1);
     }
     // Use | to separate values, not a comma
-    new_facets = new_facets.replace(/,/g, '|');
+    new_facets = new_facets.replace(/,/g, '|').replace(/'/g,'%27');
     sessionStorage.setItem(accumulator, new_facets);
     $('#page').value = '1';
     submitForm();
