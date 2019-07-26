@@ -44,7 +44,7 @@ class BNSearchView(View):
 
         self.phrase_xtras_fr = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': 10,
@@ -56,7 +56,7 @@ class BNSearchView(View):
         }
         self.phrase_xtras_en = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': 10,
@@ -200,8 +200,12 @@ class BNExportView(View):
     def __init__(self):
         super().__init__()
 
-        self.solr_fields = ("id,tracking_id_s,title_en_s,title_fr_s,org_sector_en_s,org_sector_fr_s,date_received_tdt,"
-                            "action_required_en_s,action_required_fr_s,addressee_en_s,addressee_fr_s,"
+        self.solr_fields = ("id,tracking_id_s,"
+                            "title_en_s,title_fr_s,"
+                            "org_sector_en_s,org_sector_fr_s,"
+                            "date_received_tdt,"
+                            "action_required_en_s,action_required_fr_s,"
+                            "addressee_en_s,addressee_fr_s,"
                             "additional_information_en_s,additional_information_fr_s")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
                                      'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5',
@@ -263,6 +267,7 @@ class BNExportView(View):
         solr_search_addrs : str = request.GET.get('bn-search-addressee', '')
 
         solr_search_facets = self.solr_facet_fields_en
+        solr_query_fields = self.solr_query_fields_en
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=solr_search_orgs,
                                year_i=solr_search_year,
@@ -270,6 +275,7 @@ class BNExportView(View):
                                action_required_fr_s=solr_search_ar,
                                addressee_fr_s=solr_search_addrs)
             solr_search_facets = self.solr_facet_fields_fr
+            solr_query_fields = self.solr_query_fields_fr
         else:
             facets_dict = dict(owner_org_en_s=solr_search_orgs,
                                year_i=solr_search_year,
@@ -280,7 +286,7 @@ class BNExportView(View):
         search_results = search_util.solr_query_for_export(solr_search_terms,
                                                            settings.SOLR_BN,
                                                            self.solr_fields,
-                                                           self.solr_query_fields_en,
+                                                           solr_query_fields,
                                                            solr_search_facets,
                                                            "id asc",
                                                            facets_dict,
