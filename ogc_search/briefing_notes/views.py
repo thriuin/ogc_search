@@ -79,17 +79,8 @@ class BNSearchView(View):
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 
         # Get any search terms
-
-        search_text = str(request.GET.get('search_text', ''))
-        # Respect quoted strings
-        context['search_text'] = search_text
-        search_terms = search_util.split_with_quotes(search_text)
-        if len(search_terms) == 0:
-            solr_search_terms = "*"
-        elif len(search_terms) == 1:
-            solr_search_terms = '"{0}"'.format(search_terms)
-        else:
-            solr_search_terms = ' '.join(search_terms)
+        solr_search_terms = search_util.get_search_terms(request)
+        context['search_text'] = solr_search_terms
 
         # Retrieve search results and transform facets results to python dict
 
@@ -246,17 +237,7 @@ class BNExportView(View):
                 else:
                     return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
-        # Get any search terms
-
-        search_text = str(request.GET.get('search_text', ''))
-        # Respect quoted strings
-        search_terms = search_util.split_with_quotes(search_text)
-        if len(search_terms) == 0:
-            solr_search_terms = "*"
-        elif len(search_terms) == 1:
-            solr_search_terms = '"{0}"'.format(search_terms)
-        else:
-            solr_search_terms = ' '.join(search_terms)
+        solr_search_terms = search_util.get_search_terms(request)
 
         # Retrieve search results and transform facets results to python dict
 

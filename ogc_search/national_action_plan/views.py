@@ -45,7 +45,7 @@ class NAPSearchView(View):
                                   'challenges_txt_en']
         self.phrase_xtras_en = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': items_per_page,
@@ -81,7 +81,7 @@ class NAPSearchView(View):
                                   'challenges_txt_fr']
         self.phrase_xtras_fr = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': items_per_page,
@@ -103,17 +103,8 @@ class NAPSearchView(View):
         context["nap_ds_title_fr"] = settings.NAP_DATASET_TITLE_FR
 
         # Get any search terms
-
-        search_text = str(request.GET.get('search_text', ''))
-        # Respect quoted strings
-        context['search_text'] = search_text
-        search_terms = search_util.split_with_quotes(search_text)
-        if len(search_terms) == 0:
-            solr_search_terms = "*"
-        elif len(search_terms) == 1:
-            solr_search_terms = '"{0}"'.format(search_terms)
-        else:
-            solr_search_terms = ' '.join(search_terms)
+        solr_search_terms = search_util.get_search_terms(request)
+        context['search_text'] = solr_search_terms
 
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 
@@ -291,17 +282,7 @@ class NAPExportView(View):
                 else:
                     return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
-        # Get any search terms
-        search_text = str(request.GET.get('search_text', ''))
-
-        # Respect quoted strings
-        search_terms = search_util.split_with_quotes(search_text)
-        if len(search_terms) == 0:
-            solr_search_terms = "*"
-        elif len(search_terms) == 1:
-            solr_search_terms = '"{0}"'.format(search_terms)
-        else:
-            solr_search_terms = ' '.join(search_terms)
+        solr_search_terms = search_util.get_search_terms(request)
 
         # Retrieve search results and transform facets results to python dict
         solr_search_orgs: str = request.GET.get('ap-search-orgs', '')

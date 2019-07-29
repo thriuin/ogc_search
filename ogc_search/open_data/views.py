@@ -10,6 +10,7 @@ import hashlib
 import os
 import pysolr
 import re
+import search_util
 import time
 
 logger = logging.getLogger('ogc_search')
@@ -101,7 +102,7 @@ class ODSearchView(View):
         self.solr_fields_fr = ("portal_type_fr_s,collection_type_fr_s,jurisdiction_fr_s,owner_org_title_fr_s,"
                                "owner_org_title_txt_fr,subject_fr_s,resource_type_fr_s,update_cycle_fr_s,"
                                "description_txt_fr,description_xlt_txt_fr,title_fr_s,title_txt_fr,title_xlt_fr_s,"
-                               "resource_title_fr_s,resource_title_txt_fr,"
+                               "desc_summary_txt_fr,resource_title_fr_s,resource_title_txt_fr,"
                                "keywords_fr_s,keywords_txt_fr,id,_version_,last_modified_tdt,resource_format_s,"
                                "id_name_s")
 
@@ -114,7 +115,8 @@ class ODSearchView(View):
                                      '{!ex=tag_resource_format_s}resource_format_s',
                                      '{!ex=tag_resource_type_fr_s}resource_type_fr_s',
                                      '{!ex=tag_update_cycle_fr_s}update_cycle_fr_s']
-        self.solr_hl_fields_fr = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr']
+        self.solr_hl_fields_fr = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr',
+                                  'desc_summary_txt_fr']
         self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',
                                      'title_txt_fr^5', 'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5']
         self.solr_phrase_fields_fr = ['description_txt_fr~3^10', 'title_txt_fr~3^10']
@@ -126,7 +128,7 @@ class ODSearchView(View):
         self.solr_fields_en = ("portal_type_en_s,collection_type_en_s,jurisdiction_en_s,owner_org_title_en_s,"
                                "owner_org_title_txt_en,subject_en_s,resource_type_en_s,update_cycle_en_s,"
                                "description_txt_en,description_xlt_txt_fr,title_en_s,title_txt_en,title_xlt_en_s,"
-                               "resource_title_en_s,resource_title_txt_en,"
+                               "desc_summary_txt_en,resource_title_en_s,resource_title_txt_en,"
                                "keywords_en_s,keywords_txt_en,id,_version_,last_modified_tdt,"
                                "resource_format_s,id_name_s")
         self.solr_facet_fields_en = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
@@ -140,7 +142,8 @@ class ODSearchView(View):
                                      '{!ex=tag_update_cycle_en_s}update_cycle_en_s']
         self.solr_facet_limits_en = {'f.keywords_en_s.facet.limit': 250,
                                      'f.keywords_en_s.facet.sort': 'count'}
-        self.solr_hl_fields_en = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en']
+        self.solr_hl_fields_en = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en',
+                                  'desc_summary_txt_en']
         self.solr_query_fields_en = ['owner_org_title_txt_en^2', 'description_txt_en', 'keywords_txt_en^2',
                                      'title_txt_en^3', 'author_txt', 'resource_title_txt_en^2']
         self.solr_phrase_fields_en = ['description_txt_en~3^10', 'title_txt_en~3^10']
@@ -151,7 +154,7 @@ class ODSearchView(View):
 
         self.phrase_xtras_en = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': 10,
@@ -166,7 +169,7 @@ class ODSearchView(View):
         }
         self.phrase_xtras_fr = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': 10,
@@ -254,7 +257,7 @@ class ODSearchView(View):
                         if type(doc[hl_fld_id]) is list:
                             # Scan Multi-valued Solr fields for matching highlight fields
                             for y in hl_entry[hl_fld_id]:
-                                y_filtered = re.sub('</mark>', '', re.sub(r'<mark class="highlight">', "", y))
+                                y_filtered = re.sub('</mark>', '', re.sub(r'<mark>', "", y))
                                 x = 0
                                 for hl_fld_txt in doc[hl_fld_id]:
                                     if hl_fld_txt == y_filtered:
@@ -285,16 +288,10 @@ class ODSearchView(View):
 
         if solr_search_ids == '':
             # Handle search text
-
             search_text = str(request.GET.get('search_text', ''))
-            # Respect quoted strings
-            search_terms = self.split_with_quotes(search_text)
-            if len(search_terms) == 0:
-                solr_search_terms = "*"
-            elif len(search_terms) == 1:
-                solr_search_terms = '"{0}"'.format(search_terms)
-            else:
-                solr_search_terms = ' '.join(search_terms)
+
+            # Get any search terms
+            solr_search_terms = search_util.get_search_terms(request)
 
             # Retrieve any search facets and add to context
 
@@ -349,7 +346,7 @@ class ODSearchView(View):
         context['alerts'] = alerts
         # Set Sort order
 
-        solr_search_sort = request.GET.get('sort', 'last_modified_tdt desc')
+        solr_search_sort = request.GET.get('sort', 'score desc')
         if solr_search_sort not in ['score desc', 'last_modified_tdt desc', 'title_en_s asc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort

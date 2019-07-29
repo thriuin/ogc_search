@@ -95,7 +95,7 @@ class ATISearchView(View):
 
         self.phrase_xtras_fr = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': 10,
@@ -106,7 +106,7 @@ class ATISearchView(View):
         }
         self.phrase_xtras_en = {
             'hl': 'on',
-            'hl.simple.pre': '<mark class="highlight">',
+            'hl.simple.pre': '<mark>',
             'hl.simple.post': '</mark>',
             'hl.method': 'unified',
             'hl.snippets': 10,
@@ -173,7 +173,7 @@ class ATISearchView(View):
                         if type(doc[hl_fld_id]) is list:
                             # Scan Multi-valued Solr fields for matching highlight fields
                             for y in hl_entry[hl_fld_id]:
-                                y_filtered = re.sub('</mark>', '', re.sub(r'<mark class="highlight">', "", y))
+                                y_filtered = re.sub('</mark>', '', re.sub(r'<mark>', "", y))
                                 x = 0
                                 for hl_fld_txt in doc[hl_fld_id]:
                                     if hl_fld_txt == y_filtered:

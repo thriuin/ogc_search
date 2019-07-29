@@ -1,4 +1,5 @@
 from django.conf import settings
+import nltk
 import os
 import pysolr
 import simplejson as json
@@ -15,6 +16,21 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 ckan_schema_presets = {}
 with open(settings.CKAN_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
     ckan_schema_presets = load(ckan_schema_file, Loader=Loader)
+sent_tokenizer_en = nltk.data.load('tokenizers/punkt/english.pickle')
+sent_tokenizer_fr = nltk.data.load('tokenizers/punkt/french.pickle')
+
+
+def get_summary(original_text, lang, max_sentences=4):
+    if lang == 'fr':
+        sentences = sent_tokenizer_fr.tokenize(original_text)
+    else:
+        sentences = sent_tokenizer_en.tokenize(original_text)
+    sentence_total = max_sentences if len(sentences) >= max_sentences else len(sentences)
+    if len(sentences) > sentence_total:
+        summary_text = " ".join(sentences[0:sentence_total])
+    else:
+        summary_text = original_text
+    return summary_text
 
 
 def get_cs_choices(field_name, lang = 'en'):
@@ -119,6 +135,15 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 'ogp_link_en_s': '{0}{1}'.format(settings.OPEN_DATA_EN_URL_BASE, o['name']),
                 'ogp_link_fr_s': '{0}{1}'.format(settings.OPEN_DATA_FR_URL_BASE, o['name']),
             }
+            if 'en' in o['notes_translated']:
+                od_obj['desc_summary_txt_en'] = get_summary(str(o['notes_translated']['en']).strip(), 'en')
+            elif 'fr-t-en' in o['notes_translated']:
+                od_obj['desc_summary_txt_en'] = get_summary(str(o['notes_translated']['fr-t-en']).strip(), 'en')
+            if 'fr' in o['notes_translated']:
+                od_obj['desc_summary_txt_fr'] = get_summary(str(o['notes_translated']['fr']).strip(), 'fr')
+            elif 'en-t-fr' in o['notes_translated']:
+                od_obj['desc_summary_txt_fr'] = get_summary(str(o['notes_translated']['en-t-fr']).strip(), 'fr')
+
             if 'en' in o['keywords']:
                 od_obj['keywords_en_s'] = o['keywords']['en']
             elif 'fr-t-en' in o['keywords']:

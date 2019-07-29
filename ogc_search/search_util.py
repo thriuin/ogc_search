@@ -1,9 +1,12 @@
 import csv
+from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 import logging
 from math import ceil
+from nltk.tokenize.regexp import RegexpTokenizer
 import os
 import pysolr
 import re
+
 
 logger = logging.getLogger('ogc_search')
 
@@ -122,7 +125,7 @@ def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, p
                     if type(doc[hl_fld_id]) is list:
                         # Scan Multi-valued Solr fields for matching highlight fields
                         for y in hl_entry[hl_fld_id]:
-                            y_filtered = re.sub('</mark>', '', re.sub(r'<mark class="highlight">', "", y))
+                            y_filtered = re.sub('</mark>', '', re.sub(r'<mark>', "", y))
                             x = 0
                             for hl_fld_txt in doc[hl_fld_id]:
                                 if hl_fld_txt == y_filtered:
@@ -133,6 +136,20 @@ def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, p
                         doc[hl_fld_id] = hl_entry[hl_fld_id][0]
 
     return sr
+
+
+def get_search_terms(request: HttpRequest):
+    # Get any search terms
+
+    tr = RegexpTokenizer('[^"\s]\S*|".+?"', gaps=False)
+    search_text = str(request.GET.get('search_text', ''))
+    # Respect quoted strings
+    search_terms = tr.tokenize(search_text)
+    if len(search_terms) == 0:
+        solr_search_terms = "*"
+    else:
+        solr_search_terms = ' '.join(search_terms)
+    return solr_search_terms
 
 
 def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, sort_order, facets={},
