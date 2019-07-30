@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
+{% load markdown_filter %}
 {% load search_extras %}
 
 {% block canada_ca_search %} {% endblock canada_ca_search %}
@@ -46,7 +47,7 @@
                 {% if info_msg|length > 0 %}
                 <div class="row">
                     <section class="alert alert-info"><h3>{% trans 'About this information' %}</h3>
-                        {{ info_msg }}
+                        {{ info_msg | markdown_filter | safe }}
                     </section>
                 </div>
                 </div>
