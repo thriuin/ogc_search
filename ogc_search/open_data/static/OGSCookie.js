@@ -1,9 +1,7 @@
-/********************************************************************************************************
- * Peter-Paul Koch for these cookie functions (http://www.quirksmode.org/js/cookies.html)
- * Chris Majewski: I've made significant changes to adapt for IE9 and prior
- ********************************************************************************************************/
+/* Peter-Paul Koch for these cookie functions (http://www.quirksmode.org/js/cookies.html) */
+
 function createCookie(name,value,days) {
-    var expires = ""
+    var expires = "";
     if (days) {
         var date = new Date();
         date.setTime(date.getTime()+(days*24*60*60*1000));

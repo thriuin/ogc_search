@@ -340,7 +340,7 @@ class ODSearchView(View):
 
         alerts = []
         if 'Open Maps'in context['col_selected_list'] or 'Cartes Ouvertes' in context['col_selected_list']:
-            alerts.append(_('<b>Open Maps</b>: Search for geospatial data or click <b>Add to cart</b> to select multiple datasets to plot on a single map. Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial viewer'))
+            alerts.append(_('<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to select multiple datasets to plot on a single map. Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial viewer'))
         if 'Open Information' in context['portal_selected_list'] or  'Information ouverte' in context['portal_selected_list']:
             alerts.append(_('<b></b>Please note that the Open Information Portal contains a sample of government of Canada publications and information resources. For more resources, please visit <a href="http://publications.gc.ca/">Government of Canada Publications</a> and <a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.'))
         context['alerts'] = alerts
@@ -463,7 +463,7 @@ class ODExportView(View):
 
     def __init__(self):
         super().__init__()
-        self.solr_fields = ['id_s, org_s, title_en_s, title_fr_s, description_en_s, description_fr_s, ogp_link_en_s, ogp_link_fr_s']
+        self.solr_fields = ['id_s, owner_org_title_en_s, owner_org_title_fr_s, title_en_s, title_fr_s, description_en_s, description_fr_s, ogp_link_en_s, ogp_link_fr_s']
         self.solr_query_fields_en = ['owner_org_title_txt_en^2', 'description_txt_en', 'keywords_txt_en^2',
                                      'title_txt_en^3', 'author_txt', 'resource_title_txt_en^2']
         self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',

@@ -516,11 +516,11 @@ msgstr "Fréquence de mise à jour"
 
 #: .\open_data\views.py:346
 msgid ""
-"<b>Open Maps</b>: Search for geospatial data or click <b>Add to cart</b> to "
+"<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to "
 "select multiple datasets to plot on a single map. Click <b>View on Map</b> "
 "to visualize and overlay the datasets using a geospatial viewer"
 msgstr ""
-"<b>Cartes ouvertes</b>: Rechercher des données géospatiales ou cliquer sur "
+"<h3>Cartes ouvertes</h3> Rechercher des données géospatiales ou cliquer sur "
 "<b>Ajouter au panier</b> pour sélectionner de multiples jeux de données à "
 "tracer sur une seule carte. Cliquez <b>Afficher la carte</b> pour visualiser "
 "et superposer les jeux de données à l'aide d'une visualisateur géospatiale."

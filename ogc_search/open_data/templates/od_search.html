@@ -48,7 +48,7 @@
                     <div class="row">
                         {% autoescape off %}
                             {% for alert in alerts %}
-                                <div class="alert alert-info">{% trans alert %}</div>
+                                <section class="alert alert-info">{% trans alert %}</section>
                             {% endfor %}
                         {% endautoescape %}
                     </div>
@@ -147,7 +147,7 @@
                                 {{ doc.jurisdiction_fr_s }}{% else %}{{doc.jurisdiction_en_s}}{% endif %}</span>
                         </div>
                         <div class="col-sm-12">
-                            <p>{% if LANGUAGE_CODE == 'en' %}
+                            <span class="mrgn-bttm-sm mrgn-lft-sm mrgn-rght-sm mrgn-tp-sm">{% if LANGUAGE_CODE == 'en' %}
                                     {% if 'description_txt_en' in doc %}{{ doc.desc_summary_txt_en | markdown_filter | safe }}
                                     {% elif 'description_xlt_txt_en' in doc %}{{ doc.desc_summary_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
@@ -157,7 +157,7 @@
                                     {% elif 'description_xlt_txt_fr' in doc %}{{ doc.desc_summary_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
-                                {% endif %}</p>
+                                {% endif %}</span>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
                                 {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ doc.owner_org_title_txt_fr | safe }}{% endif %}</p>
                             <p><strong>{% trans 'Formats' %}: </strong>
@@ -244,11 +244,12 @@
                 </div>
                 <div class="list-group">
                 {% if LANGUAGE_CODE == 'fr' %}
-                    <a href="{{ od_fr_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info">{{ od_ds_title_fr }}</a>
+                    <a href="{{ od_fr_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info text-center">{{ od_ds_title_fr }}</a>
                 {% else %}
-                    <a href="{{ od_en_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info">{{ od_ds_title_en }}</a>
+                    <a href="{{ od_en_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info text-center">{{ od_ds_title_en }}</a>
                 {% endif %}
-                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}" class="list-group-item list-group-item-success mrgn-tp-md">
+                    <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}"
+                       class="list-group-item list-group-item-success mrgn-tp-md text-center">
                             {% trans 'Suggest a Dataset'%}</a>
                 </div>
             </aside>
