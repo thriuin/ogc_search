@@ -104,7 +104,7 @@ class NAPSearchView(View):
 
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)
-        context['search_text'] = solr_search_terms
+        context['search_text'] = str(request.GET.get('search_text', ''))
 
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 

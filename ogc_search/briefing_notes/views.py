@@ -80,7 +80,7 @@ class BNSearchView(View):
 
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)
-        context['search_text'] = solr_search_terms
+        context['search_text'] = str(request.GET.get('search_text', ''))
 
         # Retrieve search results and transform facets results to python dict
 
