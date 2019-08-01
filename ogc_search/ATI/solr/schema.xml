@@ -613,6 +613,8 @@
            docValues="true"/>
     <field name="month_i" type="int" indexed="true" stored="true"/>
     <field name="year_i" type="int" indexed="true" stored="true"/>
+    <field name="report_type_en_s" type="string" indexed="true" stored="true"/>
+    <field name="report_type_fr_s" type="string" indexed="true" stored="true"/>
 
     <!-- id field is populated with owner_org_s + request_id_s -->
     <field name="request_no_s" type="string" indexed="true" stored="true" docValues="true"/>
@@ -629,5 +631,6 @@
     <field name="pages_i" type="int" indexed="true" stored="true"/>
     <field name="umd_i" type="int" indexed="true" stored="true"/>
     <field name="nil_report_b" type="boolean" indexed="true" stored="true"/>
+    <field name="ati_email" type="string" indexed="false" stored="true"/>
 
 </schema>

@@ -245,7 +245,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'bn-search-orgs')" value="{{ k }}"
+                                          onclick='select_facet("{{ k }}", "bn-search-orgs")' value="{{ k }}"
                                     style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
                             </li>
                             {% endif %}
@@ -268,7 +268,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                              {% if k in year_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'bn-search-year')"
+                                             onclick='select_facet("{{ k }}", "bn-search-year")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
                                     > {{ k }} ({{ v }})</label></div>
                             </li>
@@ -291,7 +291,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                              {% if k in month_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'bn-search-month')"
+                                             onclick='select_facet("{{ k }}", "bn-search-month")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
                                     > {{ k | ToMonth }} ({{ v }})</label></div>
                             </li>
@@ -315,7 +315,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                              {% if k in actions_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'bn-search-action')"
+                                             onclick='select_facet("{{ k }}", "bn-search-action")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
                                     > {{ k  }} ({{ v }})</label></div>
                             </li>
@@ -328,7 +328,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                              {% if k in actions_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'bn-search-action')"
+                                             onclick='select_facet("{{ k }}", "bn-search-action")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
                                     > {{ k }} ({{ v }})</label></div>
                             </li>
@@ -353,7 +353,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                              {% if k in addressee_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'bn-search-addressee')"
+                                             onclick='select_facet("{{ k }}", "bn-search-addressee")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
                                     > {{ k  }} ({{ v }})</label></div>
                             </li>
@@ -366,7 +366,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                              {% if k in addressee_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'bn-search-addressee')"
+                                             onclick='select_facet("{{ k }}", "bn-search-addressee")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
                                     > {{ k }} ({{ v }})</label></div>
                             </li>

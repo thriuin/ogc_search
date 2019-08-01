@@ -2,70 +2,19 @@ from django.conf import settings
 from django.shortcuts import render
 from django.views.generic import View
 import csv
+import logging
 from math import ceil
 import os
 import pysolr
 import re
+import search_util
 
+logger = logging.getLogger('ogc_search')
 
-def _convert_facet_list_to_dict(facet_list: list, reverse: bool = False) -> dict:
-    """
-    Solr returns search facet results in the form of an alternating list. Convert the list into a dictionary key
-    on the facet
-    :param facet_list: facet list returned by Solr
-    :param reverse: boolean flag indicating if the search results should be returned in reverse order
-    :return: A dictonary of the facet values and counts
-    """
-    facet_dict = {}
-    for i in range(0, len(facet_list)):
-        if i % 2 == 0:
-            facet_dict[facet_list[i]] = facet_list[i + 1]
-    if reverse:
-        rkeys = sorted(facet_dict,  reverse=True)
-        facet_dict_r = {}
-        for k in rkeys:
-            facet_dict_r[k] = facet_dict[k]
-        return facet_dict_r
-    else:
-        return facet_dict
-
-
-def _calc_pagination_range(results, pagesize, current_page):
-    pages = int(ceil(results.hits / pagesize))
-    delta = 2
-    if current_page > pages:
-        current_page = pages
-    elif current_page < 1:
-        current_page = 1
-    left = current_page - delta
-    right = current_page + delta + 1
-    pagination = []
-    spaced_pagination = []
-
-    for p in range(1, pages + 1):
-        if (p == 1) or (p == pages) or (left <= p < right):
-            pagination.append(p)
-
-    last = None
-    for p in pagination:
-        if last:
-            if p - last == 2:
-                spaced_pagination.append(last + 1)
-            elif p - last != 1:
-                spaced_pagination.append(0)
-        spaced_pagination.append(p)
-        last = p
-
-    return spaced_pagination
 
 # Create your views here.
 
 class ATISearchView(View):
-
-    @staticmethod
-    def split_with_quotes(csv_string):
-        # As per https://stackoverflow.com/a/23155180
-        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
     def __init__(self):
         super().__init__()
@@ -73,24 +22,28 @@ class ATISearchView(View):
         self.solr_fields_fr = ("id,hashed_id,request_no_s,request_no_txt_ws,"
                                "summary_text_fr,summary_fr_s,"
                                "owner_org_fr_s,disposition_fr_s,"
-                               "month_i,year_i, pages_i,umd_i,nil_report_b,"
+                               "month_i,year_i, pages_i,umd_i,"
+                               "report_type_fr_s,nil_report_b,"
                                "owner_org_title_txt_fr")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'request_no_txt_ws', 'summary_fr_s^3', '_text_fr_^0.5']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_month_i}month_i',
-                                     '{!ex=tag_year_i}year_i']
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_report_type_fr_s}report_type_fr_s']
         self.solr_hl_fields_fr = ['summary_text_fr', 'request_no_txt_ws', 'owner_org_title_txt_fr']
 
         # English search fields
         self.solr_fields_en = ("id,hashed_id,request_no_s,request_no_txt_ws,"
                                "summary_text_en,summary_en_s,"
                                "owner_org_en_s,disposition_en_s,"
-                               "month_i,year_i, pages_i,umd_i,nil_report_b,"
+                               "month_i,year_i, pages_i,umd_i,"
+                               "report_type_en_s,nil_report_b,"
                                "owner_org_title_txt_en")
         self.solr_query_fields_en = ['owner_org_en_s^2', 'request_no_txt_ws', 'summary_en_s^3', '_text_en_^0.5']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_month_i}month_i',
-                                     '{!ex=tag_year_i}year_i']
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_report_type_en_s}report_type_en_s']
         self.solr_hl_fields_en = ['summary_text_en', 'request_no_txt_ws', 'owner_org_title_txt_en']
 
         self.phrase_xtras_fr = {
@@ -197,20 +150,13 @@ class ATISearchView(View):
         context['ati_request_form_url_fr'] = settings.ATI_REQUEST_URL_FR
 
         # Get any search terms
+        solr_search_terms = search_util.get_search_terms(request)
+        context['search_text'] = str(request.GET.get('search_text', ''))
 
-        search_text = str(request.GET.get('search_text', '')).strip().replace('"', "'")
-        # Respect quoted strings
-        context['search_text'] = search_text
-        search_terms = self.split_with_quotes(search_text)
-        if len(search_terms) == 0:
-            solr_search_terms = "*"
-        elif len(search_terms) == 1:
-            solr_search_terms = search_terms
-        else:
-            solr_search_terms = ' '.join(search_terms)
-
+        # Get "Include Nothing To Report" flag, if available
         # Retrieve search results and transform facets results to python dict
 
+        solr_search_rtype: str = request.GET.get('ati-report-type', '')
         solr_search_orgs: str = request.GET.get('ati-search-orgs', '')
         solr_search_year: str = request.GET.get('ati-search-year', '')
         solr_search_month: str = request.GET.get('ati-search-month', '')
@@ -221,18 +167,12 @@ class ATISearchView(View):
         context["year_selected_list"] = solr_search_year.split('|')
         context["month_selected"] = solr_search_month
         context["month_selected_list"] = solr_search_month.split('|')
+        context["report_types_selected"] = solr_search_rtype
+        context["report_types_selected_list"] = solr_search_rtype.split('|')
 
         # Calculate a starting row for the Solr search results. We only retrieve one page at a time
 
-        try:
-            page = int(request.GET.get('page', 1))
-        except ValueError:
-            page = 1
-        if page < 1:
-            page = 1
-        elif page > 10000:  # @magic_number: arbitrary upper range
-            page = 10000
-        start_row = 10 * (page - 1)
+        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1))
 
         # Retrieve search sort order
 
@@ -244,11 +184,13 @@ class ATISearchView(View):
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=context['organizations_selected'],
                                year_i=context['year_selected'],
-                               month_i=context['month_selected'])
+                               month_i=context['month_selected'],
+                               report_type_fr_s=context['report_types_selected'])
         else:
             facets_dict = dict(owner_org_en_s=context['organizations_selected'],
                                year_i=context['year_selected'],
-                               month_i=context['month_selected'])
+                               month_i=context['month_selected'],
+                               report_type_en_s=context['report_types_selected'])
 
         search_results = self.solr_query(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
                                          language=request.LANGUAGE_CODE,
@@ -256,7 +198,7 @@ class ATISearchView(View):
 
         context['results'] = search_results        # Set up previous and next page numbers
 
-        pagination = _calc_pagination_range(context['results'], 10, page)
+        pagination = search_util.calc_pagination_range(context['results'], 10, page)
         context['pagination'] = pagination
         context['previous_page'] = (1 if page == 1 else page - 1)
         last_page = (pagination[len(pagination) - 1] if len(pagination) > 0 else 1)
@@ -271,15 +213,18 @@ class ATISearchView(View):
         context['export_url'] = export_url
 
         if request.LANGUAGE_CODE == 'fr':
-            context['org_facets_fr'] = _convert_facet_list_to_dict(
+            context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_fr_s'])
+            context['report_type_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['report_type_fr_s'])
         else:
-            context['org_facets_en'] = _convert_facet_list_to_dict(
+            context['org_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_en_s'])
-
-        context['month_i'] = _convert_facet_list_to_dict(
+            context['report_type_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['report_type_en_s'])
+        context['month_i'] = search_util.convert_facet_list_to_dict(
             search_results.facets['facet_fields']['month_i'])
-        context['year_i'] = _convert_facet_list_to_dict(
+        context['year_i'] = search_util.convert_facet_list_to_dict(
             search_results.facets['facet_fields']['year_i'])
 
         return render(request, "ati_search.html", context)
@@ -317,25 +262,6 @@ class ATIExportView(View):
         self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
         if not os.path.exists(self.cache_dir):
             os.mkdir(self.cache_dir)
-
-    def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results, header_fields: str):
-
-        if not os.path.exists(cached_filename):
-            with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
-                cache_writer = csv.writer(csvfile, dialect='excel')
-                headers = header_fields.split(',')
-                headers[0] = u'\N{BOM}' + headers[0]
-                cache_writer.writerow(headers)
-                for i in sr.docs:
-                    try:
-                        cache_writer.writerow(i.values())
-                    except UnicodeEncodeError:
-                        pass
-        return True
-
-    @staticmethod
-    def split_with_quotes(csv_string):
-        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
 
     def solr_query(self, q, facets={}, language='en', sort_order='score asc'):
         solr = pysolr.Solr(settings.SOLR_ATI, search_handler='/export')

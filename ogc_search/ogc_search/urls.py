@@ -20,7 +20,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import path
 from django.views.decorators.cache import cache_page
-from ATI.views import ATISearchView
+from ATI.views import ATISearchView, ATIExportView
 from briefing_notes.views import BNSearchView, BNExportView
 from national_action_plan.views import NAPSearchView, NAPExportView
 from open_data import views
@@ -39,7 +39,7 @@ urlpatterns += i18n_patterns(
 if settings.ATI_ENABLED:
     urlpatterns += i18n_patterns(
         path('ati/', ATISearchView.as_view(), name='ATIQuery'),
-        path('ati/export/', BNExportView.as_view(), name='BNExport')
+        path('ati/export/', ATIExportView.as_view(), name='ATIExport')
     )
 
 if settings.BN_ENABLED:
