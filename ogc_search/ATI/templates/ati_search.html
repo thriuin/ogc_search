@@ -44,6 +44,39 @@
         {% endif %}
     </p>
     <div class="row">
+        <section class="alert alert-info"><h3>{% trans 'Transitional Period' %}</h3>
+            {% blocktrans trimmed %}
+  Federal departments are moving their web content to
+  <a href="http://www.canada.ca">Canada.ca</a>. As a part of that
+  process, proactive disclosure reports will become available through
+  the <a href="http://open.canada.ca">Open Government portal</a>.&nbsp;
+  During this transition, if a proactive disclosure report from a
+  specific department is not yet available on the Open Government
+  portal please refer to <a href="http://www.tbs-sct.gc.ca/hgw-cgf/finances/rgs-erdg/pd-dp/index-eng.asp">
+  Proactive disclosure by department or agency</a> where a copy can be found.&nbsp;
+  For any questions on this issue, please contact us at
+  <a href="mailto:open-ouvert@tbs-sct.gc.ca">open-ouvert@tbs-sct.gc.ca</a>.
+            {% endblocktrans %}
+        </section>
+    </div>
+    <div class="row">
+        <details>
+            <summary>{% trans 'About this information' %}</summary>
+            {% blocktrans trimmed %}
+  <p>Search the summaries of completed Access to Information (ATI) requests to find information about
+  ATI requests previously made to the Government of Canada. If you find a summary of interest,
+  you can request a copy of the records at no cost. For additional information, please see the
+  “<a href="/en/content/about-access-information-requests">About Access to Information Requests</a>” webpage.</p>
+  <p>If you don’t find what you are looking for you can request additional government records under an
+  institution’s control by contacting the institution’s
+  <a href="http://www.tbs-sct.gc.ca/atip-aiprp/apps/coords/index-eng.ASP"> Access to Information and Privacy Coordinator</a>.
+  </p><p><strong>Enter keywords (e.g. institution, topic, field of interest, etc.)</strong><br>
+  *All information provided will incorporate the necessary exemptions and exclusions as per the
+  <em>Access to Information Act</em> and the <em>Privacy Act</em>.</p>
+            {% endblocktrans %}
+</details>
+    </div>
+    <div class="row">
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
             <section>
