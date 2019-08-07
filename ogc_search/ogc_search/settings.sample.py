@@ -271,6 +271,10 @@ SI_DATAVIZ_PATH_FR = "/chart/si/index-fr.html?"
 
 SI_ITEMS_PER_PAGE = 25
 
+SI_NOTE_INFO_EN = ''
+
+SI_NOTE_INFO_FR = ''
+
 SERVICES_YAML_FILE = os.path.join(BASE_DIR, "ckan", "service.yaml")
 
 EXPORT_FILE_CACHE_DIR = "/tmp"

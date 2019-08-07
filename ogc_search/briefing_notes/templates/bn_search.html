@@ -44,14 +44,13 @@
         Logged in as {{ request.user.username }}
         {% endif %}
     </p>
-                {% if info_msg|length > 0 %}
-                <div class="row">
-                    <section class="alert alert-info"><h3>{% trans 'About this information' %}</h3>
-                        {{ info_msg | markdown_filter | safe }}
-                    </section>
-                </div>
-                </div>
-                {% endif %}
+    {% if info_msg|length > 0 %}
+    <div class="row">
+        <section class="alert alert-info"><h3>{% trans 'About this information' %}</h3>
+            {{ info_msg | markdown_filter | safe }}
+        </section>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}

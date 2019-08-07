@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
+{% load markdown_filter %}
 {% load search_extras %}
 
 {% block canada_ca_search %} {% endblock canada_ca_search %}
@@ -39,10 +40,28 @@
 <h1 property="name" id="wb-cont">{% trans "Search Service Inventory" %}</h1>
 {% endblock %}
 <section>
-    <p class="gc-byline">{% if request.user.is_authenticated %}
-        Logged in as {{ request.user.username }}
-        {% endif %}
-    </p>
+    {% if info_msg|length > 0 %}
+    <div class="row">
+     <div class="col-md-12">
+        <section class="alert alert-info"><h3>{% trans 'About this information' %}</h3>
+            {{ info_msg | markdown_filter | safe }}
+        </section>
+     </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        <details>
+            <summary>{% trans 'About this information' %}</summary>
+            {% blocktrans trimmed %}
+                <p>In June 2016, as part of the <a href="https://open.canada.ca/en/content/canadas-2018-2020-national-action-plan-open-government#toc7">2018-20 National Action Plan on Open Government</a>] the Treasury Board of Canada Secretariat (TBS) made a series of commitments to improve the transparency, accountability, and accessibility of new and evolving government digital technologies and services.</p>
+                <p>TBS committed to creating service performance dashboards, so that Canadians could track service performance. These dashboards include information on service standards and performance, volumetric data on applications for these services, and service fee information. These dashboards take information directly from the <a href="https://open.canada.ca/data/en/dataset/3ac0d080-6149-499a-8b06-7ce5f00ec56c">GC Service Inventory</a>, which is available on the open data portal.</p>
+                <p>The GC Service Inventory currently contains service data from 11 departments and agencies, covering results from April 2016 to March 2018. These departments and agencies represent the major service providers. Service data for the winter release of the GC Service Inventory has expanded to 85 departments and agencies, covering the time between April 2018 and March 2019.</p>
+                <p>Please provide us with any feedback on the service inventory by submitting a <a href="https://open.canada.ca/en/forms/contact-us">feedback form</a>.</p>
+            {% endblocktrans %}
+        </details>
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}

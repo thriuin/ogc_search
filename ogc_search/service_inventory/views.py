@@ -289,6 +289,7 @@ class SISearchView(View):
                 search_results.facets['facet_fields']['e_issuance_fr_s'])
             context['e_feedback_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['e_feedback_fr_s'])
+            context['info_msg'] = settings.SI_NOTE_INFO_FR
         else:
             context['org_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_en_s'])
@@ -314,6 +315,7 @@ class SISearchView(View):
                 search_results.facets['facet_fields']['e_issuance_en_s'])
             context['e_feedback_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['e_feedback_en_s'])
+            context['info_msg'] = settings.SI_NOTE_INFO_EN
 
         context['fiscal_year'] = search_util.convert_facet_list_to_dict(
             search_results.facets['facet_fields']['fiscal_year_s'])
