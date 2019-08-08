@@ -37,7 +37,7 @@ def get_cs_choices(field_name, lang = 'en'):
                         choices_fr[choice] = setting['choices'][choice]['fr']
                         if field_name in ('commitments', 'milestones'):
                             nap_url_en[choice] = setting['choices'][choice]['NAP_url']['en']
-                            nap_url_fr[choice] = setting['choices'][choice]['NAP_url']['en']
+                            nap_url_fr[choice] = setting['choices'][choice]['NAP_url']['fr']
                         if field_name == 'indicators':
                             cmt_url_en[choice] = setting['choices'][choice]['cmt_url']['en']
                             cmt_url_fr[choice] = setting['choices'][choice]['cmt_url']['fr']

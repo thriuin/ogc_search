@@ -234,13 +234,16 @@
                                    class="btn btn-default mrgn-bttm-md btn-block"><span
                                         class="glyphicon glyphicon-refresh"></span> {% trans 'Clear all choices' %}</a>
                             </div>
-                            {% if export_terms != "" %}
-                            <div>
-                                <a onclick="" href="{{ export_url }}"
-                                   class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}">
-                                    <span class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Results' %}</a>
-                            </div>
-                            {% endif %}
+
+                            {#% if export_terms != "" %#}
+                            {# <div> #}
+                            {#     <a onclick="" href="{{ export_url }}" #}
+                            {#        class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"> #}
+                            {#         <span class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Results' %}</a> #}
+                            {# </div> #}
+                            {#% endif %#}
+
+
                         </div>
                         <div class="list-group">
                             {% if LANGUAGE_CODE == 'fr' %}
