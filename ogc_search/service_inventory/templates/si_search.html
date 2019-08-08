@@ -132,12 +132,11 @@
             </section>
             <section>
             {% for doc in results.docs %}
-            <div class="panel panel-default mrg-tp-sm">
+            <div class="panel panel-default mrg-tp-sm mrgn-bttm-sm">
                  <div class="panel-body">
-
-                    <div class="row">
+                    <div class="row mrgn-bttm-0">
                         <div class="col-sm-8">
-                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">
+                            <h4 class="mrgn-tp-0 mrg-bttm-sm">
                                 {% if LANGUAGE_CODE == 'en' %}
                                     <a href="{{ si_dv_path_en }}{{ doc.new_service_id_s }}">
                                     {{ doc.service_name_txt_en | safe }}</a>
@@ -151,9 +150,9 @@
                             <a href="{% if LANGUAGE_CODE == 'fr' %}{{ si_dv_path_fr }}{% else %}{{ si_dv_path_en }}{% endif %}{{ doc.new_service_id_s }}" class="btn btn-success btn-xs" role="button">{% trans 'Performance Dashboard' %}</a>
                         </div>
 
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 mrgn-bttm-0">
                         {% if LANGUAGE_CODE == 'fr' %}
-                            <p>{% if doc.service_description_txt_fr %}
+                            {% if doc.service_description_txt_fr %}
                             {{ doc.service_description_txt_fr | safe }}<br>
                             {% endif %}
                             <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_title_txt_fr }}<br>
@@ -170,10 +169,10 @@
                                         <li>{{ tg }}</li>
                                         {% endfor %}
                                     </ul>
-                            </details></p>
+                            </details>
 
                         {% else %}
-                            <p>{% if doc.service_description_txt_en %}
+                            {% if doc.service_description_txt_en %}
                             {{ doc.service_description_txt_en | safe }}<br>
                             {% endif %}
                             <strong>Organization</strong>: {{ doc.owner_org_title_txt_en | safe }}<br>
@@ -189,7 +188,7 @@
                                         <li>{{ tg }}</li>
                                         {% endfor %}
                                     </ul>
-                            </details></p>
+                            </details>
                         {% endif %}
                         </div>
                      </div>
