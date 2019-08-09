@@ -1,5 +1,6 @@
 import csv
-from django.http import HttpRequest, HttpResponseRedirect, FileResponse
+from django.http import HttpRequest
+import json
 import logging
 from math import ceil
 from nltk.tokenize.regexp import RegexpTokenizer
@@ -199,3 +200,30 @@ def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fie
                 except UnicodeEncodeError:
                     pass
     return True
+
+
+def get_choices(field_name: str, schema: dict):
+    choices_en = {}
+    choices_fr = {}
+
+    if 'resources' in schema:
+        for setting in schema['resources'][0]['fields']:
+            if field_name == setting['datastore_id']:
+                if 'choices' in setting:
+                    for choice in setting['choices'].keys():
+                        choices_en[choice] = setting['choices'][choice]['en']
+                        choices_fr[choice] = setting['choices'][choice]['fr']
+                break
+    return {'en': choices_en, 'fr': choices_fr}
+
+
+def get_choices_json(file_name: str):
+    choices_en = {}
+    choices_fr = {}
+    with open (file_name, 'r') as fp:
+        choices = json.load(fp)
+        for choice in choices.keys():
+            choices_en[choice] = choices[choice]['en']
+            choices_fr[choice] = choices[choice]['fr']
+    return {'en': choices_en, 'fr': choices_fr}
+
