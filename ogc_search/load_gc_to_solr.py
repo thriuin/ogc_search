@@ -1,3 +1,4 @@
+from babel.numbers import parse_decimal, format_decimal, format_currency
 import csv
 from datetime import datetime
 from django.conf import settings
@@ -12,6 +13,44 @@ try:
 except ImportError:
     from yaml import Loader
 
+
+def get_field(grants, field_key):
+    if field_key not in grants:
+        return ''
+    else:
+        if len(grants[field_key]) == 0:
+            return ''
+        else:
+            return grants[field_key]
+
+
+def get_choice_field(choices, grants, field_key, lang):
+    if field_key not in choices:
+        return ''
+    elif field_key not in grants:
+        return ''
+    elif grants[field_key] not in choices[field_key][lang]:
+        return ''
+    else:
+        return choices[field_key][lang][grants[field_key]]
+
+
+def get_bilingual_field(grants, field_key: str, lang: str):
+    if field_key not in grants:
+        return ""
+    elif len(grants[field_key]) == 0:
+        return ""
+    else:
+        values = grants[field_key].split('|')
+        if len(values) == 1:
+            return values[0]
+        else:
+            if lang == 'fr':
+                return values[1]
+            else:
+                return values[0]
+
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
 gc_schema = {}
@@ -21,8 +60,8 @@ with open(settings.GRANTS_YAML_FILE, mode='r', encoding='utf8', errors="ignore")
 controlled_lists = {'agreement_type': get_choices('agreement_type', gc_schema),
                     'recipient_type': get_choices('recipient_type', gc_schema),
                     'recipient_province': get_choices('recipient_province', gc_schema),
-                    'country': get_choices_json(settings.COUNTRY_JSON_FILE),
-                    'currency': get_choices_json(settings.CURRENCY_JSON_FILE),
+                    'recipient_country': get_choices_json(settings.COUNTRY_JSON_FILE),
+                    'foreign_currency_type': get_choices_json(settings.CURRENCY_JSON_FILE),
                     }
 
 solr = pysolr.Solr(settings.SOLR_GC)
@@ -41,10 +80,41 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'id': "{0}-{1}-{2}".format(gc['owner_org'], gc['ref_number'], gc['amendment_number']),
                 'ref_number_s': gc['ref_number'],
                 'amendment_number_s': gc['amendment_number'],
-                'amendment_date_s': gc['amendment_date'] if 'amendment_date' in gc else '',
-                'agreement_type_en_s': controlled_lists['agreement_type']['en'][gc['agreement_type']],
-                'agreement_type_fr_s': controlled_lists['agreement_type']['fr'][gc['agreement_type']]
+                'amendment_date_s': get_field(gc, 'amendment_date'),
+                'agreement_type_en_s': get_choice_field(controlled_lists, gc, 'agreement_type', 'en'),
+                'agreement_type_fr_s': get_choice_field(controlled_lists, gc, 'agreement_type', 'fr'),
+                'recipient_type_en_s': get_choice_field(controlled_lists, gc, 'recipient_type', 'en'),
+                'recipient_type_fr_s': get_choice_field(controlled_lists, gc, 'recipient_type', 'fr'),
+                'recipient_business_number_s': get_field(gc, 'recipient_business_number'),
+                'recipient_legal_name_txt_en': get_bilingual_field(gc, 'recipient_legal_name', 'en'),
+                'recipient_legal_name_txt_fr': get_bilingual_field(gc, 'recipient_legal_name', 'fr'),
+                'recipient_operating_name_txt_en': get_bilingual_field(gc, 'recipient_operating_name', 'en'),
+                'recipient_operating_name_txt_fr': get_bilingual_field(gc, 'recipient_operating_name', 'fr'),
+                'research_organization_name_txt_en': get_bilingual_field(gc, 'research_organization_name', 'en'),
+                'research_organization_name_txt_fr': get_bilingual_field(gc, 'research_organization_name', 'fr'),
+                'recipient_country_en_s': get_choice_field(controlled_lists, gc, 'recipient_country', 'en'),
+                'recipient_country_fr_s': get_choice_field(controlled_lists, gc, 'recipient_country', 'fr'),
+                'recipient_province_en_s': get_choice_field(controlled_lists, gc, 'recipient_province', 'en'),
+                'recipient_province_fr_s': get_choice_field(controlled_lists, gc, 'recipient_province', 'fr'),
+                'recipient_city_en_s': get_bilingual_field(gc, 'recipient_city', 'en'),
+                'recipient_city_fr_s': get_bilingual_field(gc, 'recipient_city', 'fr'),
+                'recipient_postal_code_txt': get_field(gc, 'recipient_postal_code'),
+                'federal_riding_name_txt_en': get_field(gc, 'federal_riding_name_en'),
+                'federal_riding_name_txt_fr': get_field(gc, 'federal_riding_name_fr'),
+                'federal_riding_number_s': get_field(gc, 'federal_riding_number'),
+                'program_name_txt_en': get_field(gc, 'prog_name_en'),
+                'program_name_txt_fr': get_field(gc, 'prog_name_fr'),
+                'program_purpose_txt_en': get_field(gc, 'prog_purpose_en'),
+                'program_purpose_txt_fr': get_field(gc, 'prog_purpose_fr'),
+                'agreement_title_txt_en': get_field(gc, 'agreement_title_en'),
+                'agreement_title_txt_fr': get_field(gc, 'agreement_title_fr'),
+                'agreement_number_s': get_field(gc, 'agreement_number'),
+                'agreement_value_en_s': get_field(gc, 'agreement_value'),
             }
+            agreement_value = parse_decimal(od_obj['agreement_value_en_s'].strip('$').replace(',', ''), locale='en')
+            od_obj['agreement_value_fs'] = agreement_value
+            od_obj['agreement_value_en_s'] = format_currency(agreement_value, 'CAD', locale='en_CA')
+            od_obj['agreement_value_fr_s'] = format_currency(agreement_value, 'CAD', locale='fr_CA')
             gc_list.append(od_obj)
             i += 1
             total += 1

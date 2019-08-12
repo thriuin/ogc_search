@@ -587,8 +587,12 @@
     <field name="naics_identifier_txt" type="text_en" indexed="true" stored="false"/>
     <field name="recipient_legal_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="recipient_legal_name_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="research_organization_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="research_organization_name_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="federal_riding_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="federal_riding_name_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="program_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="program_name_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="program_purpose_en_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="program_purpose_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="agreement_title_en_s" type="string" indexed="false" stored="false" docValues="true"/>
@@ -613,10 +617,14 @@
     <copyField source="naics_identifier_s" dest="naics_identifier_txt"/>
     <copyField source="recipient_legal_name_txt_en" dest="recipient_legal_name_en_s"/>
     <copyField source="recipient_legal_name_txt_fr" dest="recipient_legal_name_fr_s"/>
+    <copyField source="research_organization_name_txt_en" dest="research_organization_name_en_s"/>
+    <copyField source="research_organization_name_txt_fr" dest="research_organization_name_fr_s"/>
     <copyField source="recipient_operating_name_txt_en" dest="recipient_operating_name_en_s"/>
     <copyField source="recipient_operating_name_txt_fr" dest="recipient_operating_name_fr_s"/>
     <copyField source="federal_riding_name_txt_en" dest="federal_riding_name_en_s"/>
     <copyField source="federal_riding_name_txt_fr" dest="federal_riding_name_fr_s"/>
+    <copyField source="program_name_txt_en" dest="program_name_en_s"/>
+    <copyField source="program_name_txt_fr" dest="program_name_fr_s"/>
     <copyField source="program_purpose_txt_en" dest="program_purpose_en_s"/>
     <copyField source="program_purpose_txt_fr" dest="program_purpose_fr_s"/>
     <copyField source="agreement_title_txt_en" dest="agreement_title_en_s"/>
@@ -635,8 +643,7 @@
     <!-- facets -->
     <field name="agreement_type_en_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="agreement_type_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
-    <field name="recipient_type_en_s" type="string" indexed="false" stored="true" docValues="true"/>
-    <field name="recipient_type_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
+
     <field name="recipient_country_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="recipient_country_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_range_en_s" type="string" indexed="true" stored="false"/>
@@ -652,8 +659,12 @@
     <field name="recipient_business_number_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="recipient_legal_name_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="recipient_legal_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="recipient_type_en_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="recipient_type_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="recipient_operating_name_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="recipient_operating_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="research_organization_name_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="research_organization_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="recipient_province_en_s" type="string" indexed="true" stored="true"/>
     <field name="recipient_province_fr_s" type="string" indexed="true" stored="true"/>
     <field name="recipient_city_en_s" type="string" indexed="true" stored="true" docValues="true"/>
@@ -662,10 +673,13 @@
     <field name="federal_riding_name_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="federal_riding_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="federal_riding_number_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="program_name_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="program_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="program_purpose_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="program_purpose_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="agreement_title_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="agreement_title_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="agreement_number_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="agreement_value_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fs" type="float" indexed="true" stored="true" />
@@ -712,6 +726,8 @@
     <copyField source="federal_riding_number_s" dest="_text_en_"/>
     <copyField source="agreement_value_fr_s" dest="_text_fr_"/>
     <copyField source="agreement_value_en_s" dest="_text_en_"/>
+    <copyField source="agreement_number_s" dest="_text_fr_"/>
+    <copyField source="agreement_number_s" dest="_text_en_"/>
     <copyField source="foreign_currency_type_fr_s" dest="_text_fr_"/>
     <copyField source="foreign_currency_type_en_s" dest="_text_en_"/>
     <copyField source="foreign_currency_value_s" dest="_text_fr_"/>
