@@ -492,10 +492,6 @@
     <dynamicField name="*_phon_en" type="phonetic_en" indexed="true" stored="true"/>
     <dynamicField name="*_s_lower" type="lowercase" indexed="true" stored="true"/>
     <dynamicField name="*_txt_cjk" type="text_cjk" indexed="true" stored="true"/>
-    <field name="month_fr_s" type="text_fr" indexed="true" stored="true"/>
-    <field name="month_fr_s" type="text_fr" indexed="true" stored="true"/>
-    <field name="month_fr_s" type="text_fr" indexed="true" stored="true"/>
-    <field name="month_fr_s" type="text_fr" indexed="true" stored="true"/>
     <dynamicField name="random_*" type="random"/>
     <dynamicField name="*_txt_en" type="text_en" indexed="true" stored="true"/>
     <dynamicField name="*_txt_ar" type="text_ar" indexed="true" stored="true"/>
@@ -580,14 +576,31 @@
     <!--    Grants and Contributions      -->
 
     <!-- Added for Highlighting or Export -->
-    <field name="amendment_date_txt" type="text_general" indexed="true" stored="false"/>
-    <field name="recipient_business_number_txt" type="text_general" indexed="true" stored="false"/>
+    <field name="amendment_date_txt" type="text_en" indexed="true" stored="false"/>
+    <field name="recipient_business_number_txt" type="text_en" indexed="true" stored="false"/>
     <field name="recipient_province_txt_en" type="text_en" indexed="true" stored="false"/>
     <field name="recipient_province_txt_fr" type="text_fr" indexed="true" stored="false"/>
     <field name="recipient_city_txt_en" type="text_en" indexed="true" stored="false"/>
     <field name="recipient_city_txt_fr" type="text_fr" indexed="true" stored="false"/>
-    <field name="federal_riding_number_txt" type="text_general" indexed="true" stored="false"/>
-    <field name="naics_identifier_txt" type="text_general" indexed="true" stored="false"/>
+    <field name="recipient_postal_code_s" type="string" indexed="true" stored="false"/>
+    <field name="federal_riding_number_txt" type="text_en" indexed="true" stored="false"/>
+    <field name="naics_identifier_txt" type="text_en" indexed="true" stored="false"/>
+    <field name="recipient_legal_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="recipient_legal_name_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="federal_riding_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="federal_riding_name_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="program_purpose_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="program_purpose_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="agreement_title_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="agreement_title_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="coverage_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="coverage_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="description_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="description_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="expected_results_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="expected_results_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="additional_information_en_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="additional_information_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
 
     <copyField source="amendment_date_s" dest="amendment_date_txt"/>
     <copyField source="recipient_business_number_s" dest="recipient_business_number_txt"/>
@@ -595,8 +608,27 @@
     <copyField source="recipient_province_fr_s" dest="recipient_province_txt_fr"/>
     <copyField source="recipient_city_en_s" dest="recipient_city_txt_en"/>
     <copyField source="recipient_city_fr_s" dest="recipient_city_txt_fr"/>
+    <copyField source="recipient_postal_code_txt" dest="recipient_postal_code_s"/>
     <copyField source="federal_riding_number_s" dest="federal_riding_number_txt"/>
     <copyField source="naics_identifier_s" dest="naics_identifier_txt"/>
+    <copyField source="recipient_legal_name_txt_en" dest="recipient_legal_name_en_s"/>
+    <copyField source="recipient_legal_name_txt_fr" dest="recipient_legal_name_fr_s"/>
+    <copyField source="recipient_operating_name_txt_en" dest="recipient_operating_name_en_s"/>
+    <copyField source="recipient_operating_name_txt_fr" dest="recipient_operating_name_fr_s"/>
+    <copyField source="federal_riding_name_txt_en" dest="federal_riding_name_en_s"/>
+    <copyField source="federal_riding_name_txt_fr" dest="federal_riding_name_fr_s"/>
+    <copyField source="program_purpose_txt_en" dest="program_purpose_en_s"/>
+    <copyField source="program_purpose_txt_fr" dest="program_purpose_fr_s"/>
+    <copyField source="agreement_title_txt_en" dest="agreement_title_en_s"/>
+    <copyField source="agreement_title_txt_fr" dest="agreement_title_fr_s"/>
+    <copyField source="coverage_txt_en" dest="coverage_en_s"/>
+    <copyField source="coverage_txt_fr" dest="coverage_fr_s"/>
+    <copyField source="description_txt_en" dest="description_en_s"/>
+    <copyField source="description_txt_fr" dest="description_fr_s"/>
+    <copyField source="expected_results_txt_en" dest="expected_results_en_s"/>
+    <copyField source="expected_results_txt_fr" dest="expected_results_fr_s"/>
+    <copyField source="additional_information_txt_en" dest="additional_information_en_s"/>
+    <copyField source="additional_information_txt_fr" dest="additional_information_fr_s"/>
 
     <!-- id field is populated with org-code + reference_num + amendment_number-->
     <field name="ref_number_s" type="string" indexed="true" stored="true" docValues="true"/>
@@ -618,22 +650,22 @@
     <field name="amendment_number_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="amendment_date_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="recipient_business_number_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_legal_name_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_legal_name_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_operating_name_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_operating_name_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_province_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_province_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="recipient_legal_name_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="recipient_legal_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="recipient_operating_name_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="recipient_operating_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="recipient_province_en_s" type="string" indexed="true" stored="true"/>
+    <field name="recipient_province_fr_s" type="string" indexed="true" stored="true"/>
     <field name="recipient_city_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="recipient_city_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_postal_code_txt" type="text_general" indexed="true" stored="true" docValues="true"/>
-    <field name="federal_riding_name_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="federal_riding_name_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
+    <field name="recipient_postal_code_txt" type="text_en" indexed="true" stored="true"/>
+    <field name="federal_riding_name_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="federal_riding_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="federal_riding_number_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="program_purpose_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="program_purpose_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
-    <field name="agreement_title_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="agreement_title_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
+    <field name="program_purpose_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="program_purpose_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="agreement_title_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="agreement_title_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="agreement_value_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fs" type="float" indexed="true" stored="true" />
@@ -641,15 +673,15 @@
     <field name="foreign_currency_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="foreign_currency_value_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="agreement_start_date_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="coverage_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="coverage_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
-    <field name="description_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="description_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
+    <field name="coverage_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="coverage_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="description_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="description_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="naics_identifier_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="expected_results_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="expected_results_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
-    <field name="additional_information_txt_en" type="text_en" indexed="true" stored="true" docValues="true"/>
-    <field name="additional_information_txt_fr" type="text_fr" indexed="true" stored="true" docValues="true"/>
+    <field name="expected_results_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="expected_results_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <field name="additional_information_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="additional_information_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <!-- Nothing To Report Fields -->
     <field name="report_type_en_s" type="string" indexed="true" stored="true"/>
     <field name="report_type_fr_s" type="string" indexed="true" stored="true"/>
