@@ -687,6 +687,7 @@
     <field name="foreign_currency_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="foreign_currency_value_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="agreement_start_date_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="agreement_end_date_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="coverage_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="coverage_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="description_txt_en" type="text_en" indexed="true" stored="true"/>
@@ -700,8 +701,8 @@
     <field name="report_type_en_s" type="string" indexed="true" stored="true"/>
     <field name="report_type_fr_s" type="string" indexed="true" stored="true"/>
     <field name="nil_report_b" type="boolean" indexed="true" stored="true"/>
-    <field name="quarter_en_s" type="string" indexed="false" stored="true" docValues="true"/>
-    <field name="quarter_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="quarter_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="fiscal_year_s" type="string" indexed="false" stored="true" docValues="true"/>
 
         <!-- Populate the general search fields -->
     <copyField source="owner_org_fr_s" dest="_text_fr_"/>
@@ -734,6 +735,8 @@
     <copyField source="foreign_currency_value_s" dest="_text_en_"/>
     <copyField source="agreement_start_date_s" dest="_text_fr_"/>
     <copyField source="agreement_start_date_s" dest="_text_en_"/>
+    <copyField source="agreement_end_date_s" dest="_text_en_"/>
+    <copyField source="agreement_end_date_s" dest="_text_fr_"/>
     <copyField source="naics_identifier_s" dest="_text_fr_"/>
     <copyField source="naics_identifier_s" dest="_text_en_"/>
 </schema>

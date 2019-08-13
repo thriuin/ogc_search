@@ -1,9 +1,7 @@
 from django.conf import settings
 from django.shortcuts import render
 from django.views.generic import View
-import csv
 import logging
-from math import ceil
 import os
 import pysolr
 import re

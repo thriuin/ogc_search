@@ -198,7 +198,7 @@ STATICFILES_DIRS = [
 ADMIN_ENABLED = False
 ATI_ENABLED = False
 BN_ENABLED = False
-GC_ENABLE = False
+GC_ENABLED = False
 NAP_ENABLED = False
 SI_ENABLED = False
 
@@ -247,6 +247,12 @@ SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
 # Grants and Contributions App Settings
 
 SOLR_GC = 'http://127.0.0.1:8983/solr/core_gc_search'
+GC_DATASET_TITLE_EN = 'Grants and Contributions Dataset'
+GC_DATASET_TITLE_FR = 'Subventions et contributions gouvernementales jeu de données'
+GC_DATASET_ID = "432527ab-7aac-45b5-81d6-7597107a7013"
+GC_ITEMS_PER_PAGE = 25
+GC_INFO_FR = ''
+GC_INFO_EN = ''
 
 # National Action Plan App Settings
 

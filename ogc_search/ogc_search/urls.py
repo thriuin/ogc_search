@@ -22,6 +22,7 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 from ATI.views import ATISearchView, ATIExportView
 from briefing_notes.views import BNSearchView, BNExportView
+from grants.views import GCSearchView, GCExportView
 from national_action_plan.views import NAPSearchView, NAPExportView
 from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
@@ -46,6 +47,12 @@ if settings.BN_ENABLED:
     urlpatterns += i18n_patterns(
         path('bn/', BNSearchView.as_view(), name='BNQuery'),
         path('bn/export/', BNExportView.as_view(), name='BNExport')
+    )
+
+if settings.GC_ENABLED:
+    urlpatterns += i18n_patterns(
+        path('gc/', GCSearchView.as_view(), name='GCQuery'),
+        path('gc/export/', GCExportView.as_view(), name='GCExport')
     )
 
 if settings.SI_ENABLED:
