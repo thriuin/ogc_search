@@ -1,0 +1,458 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load markdown_filter %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
+
+{% block custom_page_javascript %}
+    <script src="{% static 'gc/facets.js' %}"></script>
+    <script src="{% static 'open_data/od_search.js' %}"></script>
+{% endblock custom_page_javascript %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/gc",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'Open Information' %}",
+        "href": "{% trans 'https://open.canada.ca/en/open-information' %}",
+    },{
+        "title": "{% trans 'Proactive Disclosure' %}",
+        "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
+    }]
+{% endblock %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Search Grants and Contributions" %}</h1>
+{% endblock %}
+<section>
+    <p class="gc-byline">{% if request.user.is_authenticated %}
+        Logged in as {{ request.user.username }}
+        {% endif %}
+    </p>
+    {% if info_msg|length > 0 %}
+    <div class="row">
+        <section class="alert alert-info"><h3>{% trans 'About this information' %}</h3>
+            {{ info_msg | markdown_filter | safe }}
+        </section>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-8 col-md-push-4">
+            {% block main-content-content %}
+            <section>
+            {% if alerts|length > 0 %}
+                <div class="row">
+                {% autoescape off %}
+                {% for alert in alerts %}
+                    <div class="alert alert-info">{% trans alert %}</div>
+                {% endfor %}
+                {% endautoescape %}
+                </div>
+            {% endif %}
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
+                    </div>
+                </div>
+                <form action="{% url 'GCQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <div class="input-group">
+                                <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                                <input type="text" name="od-search-input" class="form-control" id="od-search-input"
+                                       value="{{ search_text }}" placeholder="{% trans 'Search' %}"
+                                       onkeypress="submitFormOnEnter(event)" size="60"/>
+
+                                <span class="input-group-btn">
+                                     <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                                     <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                            onclick="submitForm()">{% trans 'Search' %}
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="form-group">
+                                <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
+                                <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
+                                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
+                                    >{% trans 'Best match' %}</option>
+                                <option value="agreement_start_date_s desc" {% if sortby == "agreement_start_date_s desc" %}selected="selected"{% endif %}
+                                    >{% trans 'Newest' %}</option>
+                                <option value="agreement_value_fs desc" {% if sortby == "agreement_value_fs desc" or sortby == "agreement_value_fs desc" %}selected="selected"{% endif %}
+                                    >{% trans 'Value' %}</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="input-group hidden">
+                            <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
+                        </div>
+                    </div>
+                </form>
+                <div class="row mrgn-tp-md mrgn-bttm-md">
+                    <div class="col-md-12" id="search_terms"></div>
+                </div>
+            </section>
+            <section>
+            {% for doc in results.docs %}
+            <div class="panel panel-default mrg-tp-sm">
+                 <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4 class="mrgn-tp-0 mrgn-bttm-sm">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                    {% if doc.agreement_title_txt_en|length > 0 %}
+                                    {{ doc.agreement_title_txt_en | markdown_filter | safe }}{% else %}{{ doc.agreement_type_en_s }}
+                                    {% endif %}
+                                {% else %}
+                                    {% if doc.agreement_title_txt_fr|length > 0 %}
+                                    {{ doc.agreement_title_txt_fr | markdown_filter | safe }}{% else %}{{ doc.agreement_type_fr_s }}
+                                    {% endif %}
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            {% if LANGUAGE_CODE == 'en' %}
+                                <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.agreement_start_date_s | friendly_date_en }}</h4>
+                                <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.agreement_value_en_s }}</h4>
+                            {% else %}
+                                <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.agreement_start_date_s | friendly_date_fr }}</h4>
+                                <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.agreement_value_fr_s }}</h4>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-sm-12">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            <p>{% if doc.description_fr_s %}
+                            {{ doc.description_fr_s | markdown_filter | safe }}</p><p>
+                            {% endif %}{% if doc.additional_information_txt_fr %}
+                            {{ doc.additional_information_fr_s | markdown_filter | safe }}</p><p>
+                            {% endif %}
+                            <strong>{% trans 'Ref #' %}</strong> {{ doc.ref_number_s | safe }} ({{ doc.agreement_type_fr_s }})<br>
+                            <strong>{% trans 'Recipient' %}</strong>: {{ doc.recipient_legal_name_txt_fr  | safe}}<br>
+                            <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_fr_s }}<br>
+                            <strong>Location</strong>: {% if doc.recipient_city_fr_s %}{{ doc.recipient_city_fr_s }}, {% endif %}
+                                {% if doc.recipient_province_fr_s %}{{ doc.recipient_province_fr_s }}, {% endif %}
+                                {% if doc.recipient_country_fr_s %}{{ doc.recipient_country_fr_s }} {% endif %}
+                                {% if doc.recipient_postal_code_txt %} - {{ doc.recipient_postal_code_txt | safe }}{% endif %}
+                                <br>
+                            {% if doc.recipient_type_fr_s %}<strong>{% trans 'Recipient Type' %}</strong>: {{ doc.recipient_type_fr_s }}{% endif %}</p>
+                        {% else %}
+                            <p>{% if doc.description_txt_en %}
+                            {{ doc.description_txt_en | markdown_filter | safe}}</p><p>
+                            {% endif %}{% if doc.additional_information_en_s %}
+                            {{ doc.additional_information_txt_en | markdown_filter | safe }}</p><p>
+                            {% endif %}
+                            <strong>{% trans 'Ref #' %}</strong> {{ doc.ref_number_s | safe }} ({{ doc.agreement_type_en_s }})<br>
+                            <strong>Recipient</strong>: {{ doc.recipient_legal_name_txt_en  | safe}}<br>
+                            {% if doc.recipient_type_en_s %}<strong>{% trans 'Recipient Type' %}</strong>: {{ doc.recipient_type_en_s }}<br>{% endif %}                            <strong>Organization</strong>: {{ doc.owner_org_en_s }}<br>
+                            <strong>Location</strong>: {% if doc.recipient_city_en_s %}{{ doc.recipient_city_en_s }}, {% endif %}
+                                {% if doc.recipient_province_en_s %}{{ doc.recipient_province_en_s }}, {% endif %}
+                                {% if doc.recipient_country_en_s %}{{ doc.recipient_country_en_s }} {% endif %}
+                                {% if doc.recipient_postal_code_txt %} - {{ doc.recipient_postal_code_txt | safe }}{% endif %}
+                                <br></p>
+                        {% endif %}
+                        </div>
+                     </div>
+
+                </div>
+            </div>
+            {% endfor %}
+                </section>
+            {% block main-content-pagination %}
+            <section>
+                <ul class="pagination">
+                    {% for pg in pagination %}
+                        {% if pg == 1 %}
+                            {% if currentpage == 1 %}
+                            <li class="previous disabled"><a href="#" rel="prev">{% trans 'Previous' %}</a></li>
+                            {% else %}
+                            <li class="previous"><a href="#" onclick="gotoPage('{{ previous_page }}')">
+                            {% trans 'Previous' %} <span class="wb-inv">Go to page {{ previous_page }}</span></a></li>
+                            {% endif %}
+                            <li{% if currentpage == 1 %} class="active" {% endif %}><a href="#" onclick="gotoPage('1')">
+                                1<span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                            {% elif pg == last_page %}
+                            <li{% if currentpage == last_page %} class="active" {% endif %}><a
+                                    href="#" onclick="gotoPage('{{ last_page }}')">{{ pg }}
+                                <span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                            {% if currentpage == last_page %}
+                            <li class="next disabled"><a href="#" rel="next">{% trans 'Next' %}</a></li>
+                            {% else %}
+                            <li class="next"><a href="#" onclick="gotoPage('{{ next_page }}')">
+                                {% trans 'Next' %} <span
+                                        class="wb-inv">Go to page {{ next_page }}</span></a></li>
+                            {% endif %}
+                        {% elif pg == 0 %}
+                        <li><a href="#" onclick="">...<span class="wb-inv"></span></a></li>
+                        {% else %}
+                        <li {% if currentpage == pg %}class="active" {% endif %}>
+                            <a href="#" onclick="gotoPage('{{ pg }}')">
+                                {{ pg }} <span
+                                        class="wb-inv">Go to page {{pg}}</span></a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endblock %}
+        {% endblock %}
+        </div>
+        <div class="col-md-4 col-md-pull-8">
+            {% block main-content-sidebar %}
+            <aside class="mrgn-tp-lg">
+                <div class="btn-block">
+                    <div>
+                        <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md btn-block"><span
+                            class="glyphicon glyphicon-refresh"></span> {% trans 'Clear all choices' %}</a>
+                    </div>
+                    {% if export_terms != "" %}
+                    <div>
+                        <a onclick="" href="{{ export_url }}"
+                           class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
+                                class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Results' %}</a>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="list-group">
+                {% if LANGUAGE_CODE == 'fr' %}
+                    <a href="{{ od_fr_url }}/{{ gc_ds_id }}" class="list-group-item list-group-item-info text-center">{{ gc_ds_title_fr }}</a>
+                {% else %}
+                    <a href="{{ od_en_url }}/{{ gc_ds_id }}" class="list-group-item list-group-item-info text-center">{{ gc_ds_title_en }}</a>
+                {% endif %}
+                </div>
+            </aside>
+            <aside>
+                <div>
+                {# Report Type Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if type_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Report Type' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in report_type_fr_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in type_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "gc-search-report-type")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in report_type_en_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in type_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "gc-search-report-type")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ report_type_fr_s | EmptyFacetMessage }}{% else %}{{ report_type_en_s | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                {# Organizations Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Organization' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+
+                            {% for k, v in org_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "gc-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in org_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "gc-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ org_facets_fr | EmptyFacetMessage }}{% else %}{{ org_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                {# Year Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if year_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Year' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                            {% for k, v in year_i.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in year_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in year_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "gc-search-year")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            {{ year_i | EmptyFacetMessage }}
+                        </ul>
+                    </details>
+
+                {# Agreement Type #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if agreement_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Agreement Type' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in agreement_type_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in agreement_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in agreement_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "gc-search-agreement-type")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in agreement_type_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in agreement_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in agreement_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "gc-search-agreement-type")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ agreement_type_facets_fr | EmptyFacetMessage }}{% else %}{{ agreement_type_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                {# Agreement Value Range #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if range_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Agreement Value' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in agreement_value_range_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in range_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in range_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "gc-search-agreement-range")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in agreement_value_range_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in range_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in range_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "gc-search-agreement-range")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ agreement_value_range_facets_fr | EmptyFacetMessage }}{% else %}{{ agreement_value_range_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                </div>
+            </aside>
+            {% endblock %}
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}
+
+{% block footer-settings %}
+"footerSections": [{
+    "href": "{% trans '/en/forms/contact-us' %}",
+    "text": "{% trans 'Open Government Contact' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/dept.html' %}",
+    "text": "{% trans 'Departments and agencies' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/publicservice.html' %}",
+    "text": "{% trans 'Public service and military' %}"
+},{
+    "href": "{% trans 'http://news.gc.ca/' %}",
+    "text": "{% trans 'News' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system/laws.html' %}",
+    "text": "{% trans 'Treaties, laws and regulations' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/transparency/reporting.html' %}",
+    "text": "{% trans 'Government-wide reporting' %}"
+},{
+    "href": "{% trans '/en/user' %}",
+    "text": "{% trans 'Open Government Log In' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system.html' %}",
+    "text": "{% trans 'How government works' %}"
+}],
+"showFeatures": false
+{% endblock %}
+{% block custom-jquery %}
+<script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
+{% endblock %}

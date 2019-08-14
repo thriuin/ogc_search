@@ -1,5 +1,7 @@
 # coding=utf-8
 
+
+from babel.dates import format_date
 from django import template
 from django.utils.translation import gettext
 from dateutil import parser
@@ -101,3 +103,21 @@ def nap_status_alert(value):
         return '<span class="label label-success">{0}</span>'.format(value)
     else:
         return value
+
+
+@register.filter('friendly_date_en')
+def human_friendly_date_en(value: str):
+    if len(value) == 10:
+        my_date = parser.parse(value)
+        return format_date(my_date, 'medium', locale='en_CA')
+    else:
+        return ""
+
+
+@register.filter('friendly_date_fr')
+def human_friendly_date_fr(value: str):
+    if len(value) == 10:
+        my_date = parser.parse(value)
+        return format_date(my_date, 'medium', locale='fr_CA')
+    else:
+        return ""

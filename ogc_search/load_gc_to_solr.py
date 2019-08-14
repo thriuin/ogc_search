@@ -141,26 +141,26 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             od_obj['year_i'] = start_date.year
             # Set a value range
             if agreement_value < 0:
-                od_obj['agreement_value_range_en_s'] = 'Negative'
-                od_obj['agreement_value_range_fr_s'] = 'negatif'
+                od_obj['agreement_value_range_en_s'] = '(a) Negative'
+                od_obj['agreement_value_range_fr_s'] = '(a) negatif'
             elif 0 <= agreement_value < 10000:
-                od_obj['agreement_value_range_en_s'] = 'Less than $10,000'
-                od_obj['agreement_value_range_fr_s'] = 'moins de 10 000 $'
+                od_obj['agreement_value_range_en_s'] = '(b) Less than $10,000'
+                od_obj['agreement_value_range_fr_s'] = '(b) moins de 10 000 $'
             elif 10000 <= agreement_value < 25000:
-                od_obj['agreement_value_range_en_s'] = '$10,000 - $25,000'
-                od_obj['agreement_value_range_fr_s'] = 'de 10 000 $ à 25 000 $'
+                od_obj['agreement_value_range_en_s'] = '(c) $10,000 - $25,000'
+                od_obj['agreement_value_range_fr_s'] = '(c) de 10 000 $ à 25 000 $'
             elif 25000 <= agreement_value < 100000:
-                od_obj['agreement_value_range_en_s'] = '$25,000 - $100,000'
-                od_obj['agreement_value_range_fr_s'] = 'de 25 000 $ à 100 000 $'
+                od_obj['agreement_value_range_en_s'] = '(d) $25,000 - $100,000'
+                od_obj['agreement_value_range_fr_s'] = '(d) de 25 000 $ à 100 000 $'
             elif 100000 <= agreement_value < 1000000:
-                od_obj['agreement_value_range_en_s'] = '$100,000 - $1,000,000'
-                od_obj['agreement_value_range_fr_s'] = 'de 100 000 $ à 1 000 000 $'
+                od_obj['agreement_value_range_en_s'] = '(e) $100,000 - $1,000,000'
+                od_obj['agreement_value_range_fr_s'] = '(e) de 100 000 $ à 1 000 000 $'
             elif 1000000 <= agreement_value < 5000000:
-                od_obj['agreement_value_range_en_s'] = '$1,000,000 - $5,000,000'
-                od_obj['agreement_value_range_fr_s'] = 'de 1 000 000 $ à 5 000 000 $'
+                od_obj['agreement_value_range_en_s'] = '(f) $1,000,000 - $5,000,000'
+                od_obj['agreement_value_range_fr_s'] = '(f) de 1 000 000 $ à 5 000 000 $'
             else:
-                od_obj['agreement_value_range_en_s'] = 'Less than $10,000'
-                od_obj['agreement_value_range_fr_s'] = 'plus de cinq millions $'
+                od_obj['agreement_value_range_en_s'] = '(g) More than $5,000,000'
+                od_obj['agreement_value_range_fr_s'] = '(g) plus de cinq millions $'
 
 
             gc_list.append(od_obj)
