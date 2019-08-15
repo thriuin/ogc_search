@@ -16,7 +16,7 @@ class GCSearchView(View):
     def __init__(self):
         super().__init__()
         # French search fields
-        self.solr_fields_fr = ("id,ref_number_s,"
+        self.solr_fields_fr = ("id,ref_number_s,ref_number_txt_ws"
                                "agreement_type_fr_s,"
                                "recipient_country_fr_s,"
                                "agreement_value_range_fr_s,"
@@ -33,7 +33,7 @@ class GCSearchView(View):
                                "federal_riding_name_txt_fr,"
                                "federal_riding_number_s,federal_riding_number_txt,"
                                "program_name_txt_fr,program_purpose_txt_fr,"
-                               "agreement_title_txt_fr,agreement_value_fr_s,agreement_value_fs,"
+                               "agreement_title_txt_fr,agreement_value_fr_txt_ws,agreement_value_fs,agreement_value_fr_s,"
                                "foreign_currency_type_fr_s,foreign_currency_value_s,"
                                "agreement_start_date_s,agreement_end_date_s,agreement_type_fr_s,"
                                "coverage_txt_fr,description_txt_fr,"
@@ -41,13 +41,13 @@ class GCSearchView(View):
                                "expected_results_txt_fr,additional_information_txt_fr,"
                                "report_type_fr_s,nil_report_b,quarter_s,fiscal_year_s"
                                )
-        self.solr_query_fields_fr = ['owner_org_fr_s^2', 'ref_number_s', 'recipient_country_fr_s',
+        self.solr_query_fields_fr = ['owner_org_fr_s^2',  'ref_number_txt_ws', 'recipient_country_fr_s',
                                      'amendment_date_s', 'recipient_business_number_s', 'recipient_legal_name_txt_fr',
                                      'recipient_operating_name_txt_fr', 'recipient_province_fr_s',
                                      'recipient_city_fr_s', 'recipient_postal_code_txt',
                                      'federal_riding_name_txt_fr',
                                      'program_name_txt_fr', 'program_purpose_txt_fr',
-                                     'agreement_value_fr_s',
+                                     'agreement_value_fr_txt_ws', 'agreement_value_fr_s',
                                      'foreign_currency_type_fr_s', 'foreign_currency_value_s',
                                      'coverage_txt_fr', 'description_txt_fr',
                                      'naics_identifier_s',
@@ -58,7 +58,7 @@ class GCSearchView(View):
                                      '{!ex=tag_year_i}year_i',
                                      '{!ex=tag_report_type_fr_s}report_type_fr_s',
                                      '{!ex=tag_agreement_value_range_fr_s}agreement_value_range_fr_s']
-        self.solr_hl_fields_fr = ['amendment_date_txt', 'recipient_business_number_txt', 
+        self.solr_hl_fields_fr = ['amendment_date_txt', 'recipient_business_number_txt', 'ref_number_txt_ws',
                                   'recipient_business_number_txt', 'recipient_legal_name_txt_fr',
                                   'recipient_operating_name_txt_fr', 'research_organization_name_txt_fr',
                                   'recipient_province_txt_fr', 'recipient_city_txt_fr', 'recipient_postal_code_txt',
@@ -66,10 +66,10 @@ class GCSearchView(View):
                                   'program_name_txt_fr', 'program_purpose_txt_fr',
                                   'agreement_title_txt_fr', 'coverage_txt_fr', 'description_txt_fr',
                                   'naics_identifier_txt', 'expected_results_txt_fr', 'additional_information_txt_fr',
-                                  'owner_org_title_txt_fr']
+                                  'owner_org_title_txt_fr', 'agreement_value_fr_txt_ws']
 
         # English search fields
-        self.solr_fields_en = ("id,ref_number_s,"
+        self.solr_fields_en = ("id,ref_number_s,ref_number_txt_ws,"
                                "agreement_type_en_s,"
                                "recipient_country_en_s,"
                                "agreement_value_range_en_s,"
@@ -86,7 +86,7 @@ class GCSearchView(View):
                                "federal_riding_name_txt_en,"
                                "federal_riding_number_s,federal_riding_number_txt,"
                                "program_name_txt_en,program_purpose_txt_en,"
-                               "agreement_title_txt_en,agreement_value_en_s,agreement_value_fs,"
+                               "agreement_title_txt_en,agreement_value_en_txt_ws,agreement_value_fs,"
                                "foreign_currency_type_en_s,foreign_currency_value_s,"
                                "agreement_start_date_s,agreement_end_date_s,agreement_type_en_s,"
                                "coverage_txt_en,description_txt_en,"
@@ -94,13 +94,13 @@ class GCSearchView(View):
                                "expected_results_txt_en,additional_information_txt_en,"
                                "report_type_en_s,nil_report_b,quarter_s,fiscal_year_s"
                                )
-        self.solr_query_fields_en = ['owner_org_en_s^2', 'ref_number_s', 'recipient_country_en_s',
+        self.solr_query_fields_en = ['owner_org_en_s^2', 'ref_number_txt_ws', 'recipient_country_en_s',
                                      'amendment_date_s', 'recipient_business_number_s', 'recipient_legal_name_txt_en',
                                      'recipient_operating_name_txt_en', 'recipient_province_en_s',
                                      'recipient_city_en_s', 'recipient_postal_code_txt',
                                      'federal_riding_name_txt_en',
                                      'program_name_txt_en', 'program_purpose_txt_en',
-                                     'agreement_value_en_s',
+                                     'agreement_value_en_txt_ws',
                                      'foreign_currency_type_en_s', 'foreign_currency_value_s',
                                      'coverage_txt_en', 'description_txt_en',
                                      'naics_identifier_s',
@@ -111,7 +111,7 @@ class GCSearchView(View):
                                      '{!ex=tag_year_i}year_i',
                                      '{!ex=tag_report_type_en_s}report_type_en_s',
                                      '{!ex=tag_agreement_value_range_en_s}agreement_value_range_en_s']
-        self.solr_hl_fields_en = ['amendment_date_txt', 'recipient_business_number_txt', 
+        self.solr_hl_fields_en = ['amendment_date_txt', 'recipient_business_number_txt', 'ref_number_txt_ws',
                                   'recipient_business_number_txt', 'recipient_legal_name_txt_en',
                                   'recipient_operating_name_txt_en', 'research_organization_name_txt_en',
                                   'recipient_province_txt_en', 'recipient_city_txt_en', 'recipient_postal_code_txt',
@@ -119,7 +119,7 @@ class GCSearchView(View):
                                   'program_name_txt_en', 'program_purpose_txt_en',
                                   'agreement_title_txt_en', 'coverage_txt_en', 'description_txt_en',
                                   'naics_identifier_txt', 'expected_results_txt_en', 'additional_information_txt_en',
-                                  'owner_org_title_txt_en']
+                                  'owner_org_title_txt_en', 'agreement_value_en_txt_ws']
 
         self.phrase_xtras_fr = {
             'hl': 'on',

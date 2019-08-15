@@ -576,6 +576,7 @@
     <!--    Grants and Contributions      -->
 
     <!-- Added for Highlighting or Export -->
+    <field name="ref_number_txt_ws" type="text_ws" indexed="true" stored="true"/>
     <field name="amendment_date_txt" type="text_en" indexed="true" stored="false"/>
     <field name="recipient_business_number_txt" type="text_en" indexed="true" stored="false"/>
     <field name="recipient_province_txt_en" type="text_en" indexed="true" stored="false"/>
@@ -583,8 +584,8 @@
     <field name="recipient_city_txt_en" type="text_en" indexed="true" stored="false"/>
     <field name="recipient_city_txt_fr" type="text_fr" indexed="true" stored="false"/>
     <field name="recipient_postal_code_s" type="string" indexed="true" stored="false"/>
-    <field name="federal_riding_number_txt" type="text_en" indexed="true" stored="false"/>
-    <field name="naics_identifier_txt" type="text_en" indexed="true" stored="false"/>
+    <field name="federal_riding_number_txt" type="text_ws" indexed="true" stored="false"/>
+    <field name="naics_identifier_txt" type="text_ws" indexed="true" stored="false"/>
     <field name="recipient_legal_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="recipient_legal_name_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="research_organization_name_en_s" type="string" indexed="false" stored="false" docValues="true"/>
@@ -597,6 +598,8 @@
     <field name="program_purpose_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="agreement_title_en_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="agreement_title_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
+    <field name="agreement_value_en_txt_ws" type="text_ws" indexed="true" stored="true"/>
+    <field name="agreement_value_fr_txt_ws" type="text_ws" indexed="true" stored="true"/>
     <field name="coverage_en_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="coverage_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="description_en_s" type="string" indexed="false" stored="false" docValues="true"/>
@@ -606,6 +609,7 @@
     <field name="additional_information_en_s" type="string" indexed="false" stored="false" docValues="true"/>
     <field name="additional_information_fr_s" type="string" indexed="false" stored="false" docValues="true"/>
 
+    <copyField source="ref_number_s" dest="ref_number_txt_ws"/>
     <copyField source="amendment_date_s" dest="amendment_date_txt"/>
     <copyField source="recipient_business_number_s" dest="recipient_business_number_txt"/>
     <copyField source="recipient_province_en_s" dest="recipient_province_txt_en"/>
@@ -629,6 +633,8 @@
     <copyField source="program_purpose_txt_fr" dest="program_purpose_fr_s"/>
     <copyField source="agreement_title_txt_en" dest="agreement_title_en_s"/>
     <copyField source="agreement_title_txt_fr" dest="agreement_title_fr_s"/>
+    <copyField source="agreement_value_en_s" dest="agreement_value_en_txt_ws"/>
+    <copyField source="agreement_value_fr_s" dest="agreement_value_fr_txt_ws"/>
     <copyField source="coverage_txt_en" dest="coverage_en_s"/>
     <copyField source="coverage_txt_fr" dest="coverage_fr_s"/>
     <copyField source="description_txt_en" dest="description_en_s"/>
@@ -669,7 +675,7 @@
     <field name="recipient_province_fr_s" type="string" indexed="true" stored="true"/>
     <field name="recipient_city_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="recipient_city_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="recipient_postal_code_txt" type="text_en" indexed="true" stored="true"/>
+    <field name="recipient_postal_code_txt" type="text_ws" indexed="true" stored="true"/>
     <field name="federal_riding_name_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="federal_riding_name_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="federal_riding_number_s" type="string" indexed="true" stored="true" docValues="true"/>

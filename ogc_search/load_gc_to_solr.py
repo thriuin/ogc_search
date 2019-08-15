@@ -1,6 +1,6 @@
 from babel.numbers import parse_decimal, format_currency
 import csv
-from datetime import datetime
+from datetime import datetime, date
 from dateutil import parser
 from django.conf import settings
 import os
@@ -162,7 +162,6 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['agreement_value_range_en_s'] = '(g) More than $5,000,000'
                 od_obj['agreement_value_range_fr_s'] = '(g) plus de cinq millions $'
 
-
             gc_list.append(od_obj)
             i += 1
             total += 1
@@ -193,11 +192,25 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
                 'owner_org_en_s': get_bilingual_field(gc, 'owner_org_title', 'en').strip(),
                 'owner_org_fr_s': get_bilingual_field(gc, 'owner_org_title', 'fr').strip(),
                 'fiscal_year_s': get_field(gc, 'fiscal_year'),
-                'quarter_s': get_field(gc, 'quarter_s'),
+                'quarter_s': get_field(gc, 'quarter'),
                 'nil_report_b': 't',
                 'report_type_en_s': 'Nothing To Report',
                 'report_type_fr_s': 'Rien à signaler',
             }
+            if len(od_obj['fiscal_year_s']) > 4:
+                try:
+                    year = int(od_obj['fiscal_year_s'][0:4])
+                    if od_obj['quarter_s'] == 'Q1':
+                        start_date = date(year, 4, 1)
+                    elif od_obj['quarter_s'] == 'Q2':
+                        start_date = date(year, 7, 1)
+                    elif od_obj['quarter_s'] == 'Q3':
+                        start_date = date(year, 10, 1)
+                    elif od_obj['quarter_s'] == 'Q4':
+                        start_date = date(year + 1, 1, 1)
+                    od_obj['agreement_start_date_s'] = start_date.strftime('%Y-%m-%d')
+                except ValueError:
+                    pass
             gc_list.append(od_obj)
             i += 1
             total += 1
