@@ -16,7 +16,7 @@ class GCSearchView(View):
     def __init__(self):
         super().__init__()
         # French search fields
-        self.solr_fields_fr = ("id,ref_number_s,ref_number_txt_ws"
+        self.solr_fields_fr = ("id,ref_number_s,ref_number_txt_ws,"
                                "agreement_type_fr_s,"
                                "recipient_country_fr_s,"
                                "agreement_value_range_fr_s,"

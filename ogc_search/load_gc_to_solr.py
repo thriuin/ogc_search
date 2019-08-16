@@ -115,7 +115,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'agreement_value_en_s': get_field(gc, 'agreement_value'),
                 'foreign_currency_type_en_s': get_choice_field(controlled_lists, gc, 'foreign_currency_type', 'en'),
                 'foreign_currency_type_fr_s': get_choice_field(controlled_lists, gc, 'foreign_currency_type', 'fr'),
-                'foreign_currency_value_s': get_field(gc, 'foreign_currency_value'),
+                'foreign_currency_value_s': get_field(gc, 'foreign_currency_value').strip("$"),
                 'agreement_start_date_s': get_field(gc, 'agreement_start_date'),
                 'agreement_end_date_s': get_field(gc, 'agreement_end_date'),
                 'coverage_txt_en': get_bilingual_field(gc, 'coverage', 'en'),

@@ -82,8 +82,8 @@ def calc_starting_row(page_num, rows_per_age=10):
         pass
     if page < 1:
         page = 1
-    elif page > 10000:  # @magic_number: arbitrary upper range
-        page = 10000
+    elif page > 100000:  # @magic_number: arbitrary upper range
+        page = 100000
     return rows_per_age * (page - 1), page
 
 

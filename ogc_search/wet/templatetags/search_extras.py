@@ -121,3 +121,11 @@ def human_friendly_date_fr(value: str):
         return format_date(my_date, 'medium', locale='fr_CA')
     else:
         return ""
+
+
+@register.filter('trim_left')
+def trim_left(value: str, arg: int):
+    if len(value) < arg:
+        return value
+    else:
+        return value[arg:]
