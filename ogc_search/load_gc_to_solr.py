@@ -15,32 +15,32 @@ except ImportError:
     from yaml import Loader
 
 
-def get_field(grants, field_key):
+def get_field(grants, field_key, default_value='-'):
     if field_key not in grants:
-        return ''
+        return default_value
     else:
         if len(grants[field_key]) == 0:
-            return ''
+            return default_value
         else:
             return grants[field_key]
 
 
-def get_choice_field(choices, grants, field_key, lang):
+def get_choice_field(choices, grants, field_key, lang, default_value="-"):
     if field_key not in choices:
-        return ''
+        return default_value
     elif field_key not in grants:
-        return ''
+        return default_value
     elif grants[field_key] not in choices[field_key][lang]:
-        return ''
+        return default_value
     else:
         return choices[field_key][lang][grants[field_key]]
 
 
-def get_bilingual_field(grants, field_key: str, lang: str):
+def get_bilingual_field(grants, field_key: str, lang: str, default_value="-"):
     if field_key not in grants:
-        return ""
+        return default_value
     elif len(grants[field_key]) == 0:
-        return ""
+        return default_value
     else:
         values = grants[field_key].split('|')
         if len(values) == 1:
@@ -131,6 +131,11 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'report_type_fr_s': "Subventions et contributions",
                 'nil_report_b': 'f',
             }
+            # do not accept invalid federal riding numbers
+            try:
+                int(od_obj['federal_riding_number_s'])
+            except ValueError:
+                od_obj['federal_riding_number_s'] = "-"
             agreement_value = parse_decimal(od_obj['agreement_value_en_s'].replace('$', '').replace(',', ''), locale='en')
             # Additional formatting for the agreement value
             od_obj['agreement_value_fs'] = agreement_value
