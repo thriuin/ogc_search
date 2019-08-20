@@ -1,18 +1,18 @@
 from django.conf import settings
+from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.views.generic import View
+import hashlib
 import logging
 import os
-import pysolr
-import re
 import search_util
+import time
 
 logger = logging.getLogger('ogc_search')
 
-# Grants and Contributions Search Page
 
 class GCSearchView(View):
-    
+    # Grants and Contributions Search Page
     def __init__(self):
         super().__init__()
         # French search fields
@@ -269,3 +269,152 @@ class GCExportView(View):
 
     def __init__(self):
         super().__init__()
+        self.solr_fields_fr = ("id,ref_number_s,"
+                               "agreement_type_fr_s,"
+                               "recipient_country_fr_s,"
+                               "agreement_value_range_fr_s,"
+                               "year_i,"
+                               "owner_org_fr_s,"
+                               "amendment_number_s,"
+                               "amendment_date_s,"
+                               "recipient_business_number_s,"
+                               "recipient_legal_name_fr_s,recipient_type_fr_s,"
+                               "recipient_operating_name_fr_s,research_organization_name_fr_s,"
+                               "recipient_province_fr_s,"
+                               "recipient_city_fr_s,"
+                               "recipient_postal_code_s,"
+                               "federal_riding_name_fr_s,"
+                               "federal_riding_number_s,"
+                               "program_name_fr_s,program_purpose_fr_s,"
+                               "agreement_title_fr_s,agreement_value_fs,"
+                               "foreign_currency_type_fr_s,foreign_currency_value_s,"
+                               "agreement_start_date_s,agreement_frd_date_s,agreement_type_fr_s,"
+                               "coverage_fr_s,description_fr_s,"
+                               "naics_identifier_s,"
+                               "expected_results_fr_s,additional_information_fr_s,"
+                               "report_type_fr_s,quarter_s,fiscal_year_s"
+                               )
+        self.solr_query_fields_fr = ['owner_org_fr_s^2',  'ref_number_txt_ws', 'recipient_country_fr_s',
+                                     'amendment_date_s', 'recipient_business_number_s', 'recipient_legal_name_txt_fr',
+                                     'recipient_operating_name_txt_fr', 'recipient_province_fr_s',
+                                     'recipient_city_fr_s', 'recipient_postal_code_txt',
+                                     'federal_riding_name_txt_fr',
+                                     'program_name_txt_fr', 'program_purpose_txt_fr',
+                                     'agreement_value_fr_txt_ws', 'agreement_value_fr_s',
+                                     'foreign_currency_type_fr_s', 'foreign_currency_value_s',
+                                     'coverage_txt_fr', 'description_txt_fr',
+                                     'naics_identifier_s',
+                                     'expected_results_txt_fr', 'additional_information_txt_fr,'
+                                     '_text_fr_^0.5']
+        self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
+                                     '{!ex=tag_agreement_type_fr_s}agreement_type_fr_s',
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_report_type_fr_s}report_type_fr_s',
+                                     '{!ex=tag_agreement_value_range_fr_s}agreement_value_range_fr_s']
+
+        # English search fields
+        self.solr_fields_en = ("id,ref_number_s,"
+                               "agreement_type_en_s,"
+                               "recipient_country_en_s,"
+                               "agreement_value_range_en_s,"
+                               "year_i,"
+                               "owner_org_en_s,"
+                               "amendment_number_s,"
+                               "amendment_date_s,"
+                               "recipient_business_number_s,"
+                               "recipient_legal_name_en_s,recipient_type_en_s,"
+                               "recipient_operating_name_en_s,research_organization_name_en_s,"
+                               "recipient_province_en_s,"
+                               "recipient_city_en_s,"
+                               "recipient_postal_code_s,"
+                               "federal_riding_name_en_s,"
+                               "federal_riding_number_s,"
+                               "program_name_en_s,program_purpose_en_s,"
+                               "agreement_title_en_s,agreement_value_fs,"
+                               "foreign_currency_type_en_s,foreign_currency_value_s,"
+                               "agreement_start_date_s,agreement_end_date_s,agreement_type_en_s,"
+                               "coverage_en_s,description_en_s,"
+                               "naics_identifier_s,"
+                               "expected_results_en_s,additional_information_en_s,"
+                               "report_type_en_s,quarter_s,fiscal_year_s"
+                               )
+        self.solr_query_fields_en = ['owner_org_en_s^2', 'ref_number_txt_ws', 'recipient_country_en_s',
+                                     'amendment_date_s', 'recipient_business_number_s', 'recipient_legal_name_txt_en',
+                                     'recipient_operating_name_txt_en', 'recipient_province_en_s',
+                                     'recipient_city_en_s', 'recipient_postal_code_txt',
+                                     'federal_riding_name_txt_en',
+                                     'program_name_txt_en', 'program_purpose_txt_en',
+                                     'agreement_value_en_txt_ws',
+                                     'foreign_currency_type_en_s', 'foreign_currency_value_s',
+                                     'coverage_txt_en', 'description_txt_en',
+                                     'naics_identifier_s',
+                                     'expected_results_txt_en', 'additional_information_txt_en,'
+                                     '_text_en_^0.5']
+        self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
+                                     '{!ex=tag_agreement_type_en_s}agreement_type_en_s',
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_report_type_en_s}report_type_en_s',
+                                     '{!ex=tag_agreement_value_range_en_s}agreement_value_range_en_s']
+
+        self.phrase_xtras = {
+            'mm': '3<70%',
+        }
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
+    def get(self, request: HttpRequest):
+
+        # Check to see if a recent cached results exists and return that instead if it exists
+        hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
+        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_query))
+        if os.path.exists(cached_filename):
+            if time.time() - os.path.getmtime(cached_filename) > 600:
+                os.remove(cached_filename)
+            else:
+                if settings.EXPORT_FILE_CACHE_URL == "":
+                    return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+                else:
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+        # Retrieve search results and transform facets results to python dict
+        solr_search_orgs: str = request.GET.get('gc-search-orgs', '')
+        solr_search_year: str = request.GET.get('gc-search-year', '')
+        solr_search_agreement: str = request.GET.get('gc-search-agreement-type', '')
+        solr_search_type: str = request.GET.get('gc-search-report-type', '')
+        solr_search_range: str = request.GET.get('gc-search-agreement-range', '')
+
+        solr_search_terms = search_util.get_search_terms(request)
+        solr_fields = self.solr_fields_en
+        solr_search_facets = self.solr_facet_fields_en
+        solr_query_fields = self.solr_query_fields_en
+        if request.LANGUAGE_CODE == 'fr':
+            facets_dict = dict(owner_org_fr_s=solr_search_orgs,
+                               year_i=solr_search_year,
+                               agreement_type_fr_s=solr_search_agreement,
+                               report_type_fr_s=solr_search_type,
+                               agreement_value_range_fr_s=solr_search_range)
+            solr_search_facets = self.solr_facet_fields_fr
+            solr_query_fields = self.solr_query_fields_fr
+        else:
+            facets_dict = dict(owner_org_en_s=solr_search_orgs,
+                               year_i=solr_search_year,
+                               agreement_type_en_s=solr_search_agreement,
+                               report_type_en_s=solr_search_type,
+                               agreement_value_range_en_s=solr_search_range)
+
+        search_results = search_util.solr_query_for_export(solr_search_terms,
+                                                           settings.SOLR_GC,
+                                                           solr_fields,
+                                                           solr_query_fields,
+                                                           solr_search_facets,
+                                                           "report_type_en_s asc, agreement_start_date_s desc",
+                                                           facets_dict,
+                                                           self.phrase_xtras)
+
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                                 solr_fields=solr_fields):
+            if settings.EXPORT_FILE_CACHE_URL == "":
+                return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+            else:
+                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))

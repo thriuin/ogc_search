@@ -274,8 +274,8 @@
                     {% if export_terms != "" %}
                     <div>
                         <a onclick="" href="{{ export_url }}"
-                           {# if results.hits < 1 #}
-                           class="btn btn-default mrgn-bttm-md btn-block disabled"><span
+
+                           class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
                                 class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Results' %}</a>
                     </div>
                     {% endif %}
