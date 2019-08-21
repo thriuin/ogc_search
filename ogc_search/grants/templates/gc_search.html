@@ -145,7 +145,7 @@
                             {{ doc.additional_information_txt_fr | markdown_filter | safe }}</p><p>
                             {% endif %}
                             <strong>{% trans 'Ref #' %}</strong> {{ doc.ref_number_txt_ws | safe }} ({{ doc.agreement_type_fr_s }})<br>
-                            <strong>{% trans 'Recipient' %}</strong>: {{ doc.recipient_legal_name_txt_fr  | safe}}{% if doc.recipient_type_fr_s %} ({{ doc.recipient_type_fr_s }}){% endif %}<br>
+                            <strong>{% trans 'Recipient' %}</strong>: {{ doc.recipient_legal_name_txt_fr  | safe}}{% if not doc.recipient_type_fr_s == "-" %} ({{ doc.recipient_type_fr_s }}){% endif %}<br>
                             <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_fr_s }}<br>
                             <strong>Location</strong>: {% if doc.recipient_city_fr_s %}{{ doc.recipient_city_fr_s }}, {% endif %}
                                 {% if not doc.recipient_province_fr_s == "-" %}{{ doc.recipient_province_fr_s }}, {% endif %}
@@ -177,7 +177,7 @@
                             {{ doc.additional_information_txt_en | markdown_filter | safe }}</p><p>
                             {% endif %}
                             <strong>{% trans 'Ref #' %}</strong> {{ doc.ref_number_txt_ws | safe }} ({{ doc.agreement_type_en_s }})<br>
-                            <strong>{% trans 'Recipient' %}</strong>: {{ doc.recipient_legal_name_txt_en  | safe}}{% if doc.recipient_type_en_s %} ({{ doc.recipient_type_en_s }}){% endif %}<br>
+                            <strong>{% trans 'Recipient' %}</strong>: {{ doc.recipient_legal_name_txt_en  | safe}}{% if not doc.recipient_type_en_s == "-" %} ({{ doc.recipient_type_en_s }}){% endif %}<br>
                             <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_en_s }}<br>
                             <strong>Location</strong>: {% if doc.recipient_city_en_s %}{{ doc.recipient_city_en_s }}, {% endif %}
                                 {% if not doc.recipient_province_en_s == "-" %}{{ doc.recipient_province_en_s }}, {% endif %}
@@ -275,7 +275,7 @@
                         <a onclick="" href="{{ export_url }}"
 
                            class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
-                                class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Results' %}</a>
+                                class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}</a>
                     </div>
                     {% endif %}
                 </div>
