@@ -247,6 +247,7 @@ class GCSearchView(View):
             context['agreement_value_range_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['agreement_value_range_fr_s'])
             context['info_msg'] = settings.GC_INFO_FR
+            context['about_msg'] = settings.GC_ABOUT_FR
 
         else:
             context['org_facets_en'] = search_util.convert_facet_list_to_dict(
@@ -258,6 +259,7 @@ class GCSearchView(View):
             context['agreement_value_range_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['agreement_value_range_en_s'])
             context['info_msg'] = settings.GC_INFO_EN
+            context['about_msg'] = settings.GC_ABOUT_EN
 
         context['year_i'] = search_util.convert_facet_list_to_dict(
             search_results.facets['facet_fields']['year_i'])
