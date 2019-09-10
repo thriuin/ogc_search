@@ -1067,6 +1067,7 @@
            docValues="true"/>
     <field name="date_received_tdt" type="pdate" indexed="true" stored="true" multiValued="false"
            sortMissingLast="true" sortMissingFirst="false" docValues="true"/>
+    <field name="date_received_fmt_s" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="action_required_s" type="text_ws" indexed="true" stored="true"/>
     <field name="additional_information_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>

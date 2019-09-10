@@ -66,6 +66,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                 'date_received_tdt': bn['date_received'],
             }
             date_received = datetime.strptime(bn['date_received'], '%Y-%m-%d'),
+            od_obj['date_received_fmt_s'] = bn['date_received']
             od_obj['month_i'] = date_received[0].month
             od_obj['year_i'] = date_received[0].year
             bi_org_title = str(bn['owner_org_title']).split('|')
