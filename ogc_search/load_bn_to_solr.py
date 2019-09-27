@@ -3,6 +3,7 @@ from datetime import datetime
 from django.conf import settings
 import os
 import pysolr
+from search_util import get_choices
 import sys
 from yaml import load
 
@@ -18,23 +19,8 @@ with open(settings.BRIEF_NOTE_YAML_FILE, mode='r', encoding='utf8', errors="igno
     bn_schema = load(ckan_schema_file, Loader=Loader)
 
 
-def get_cs_choices(field_name):
-    choices_en = {}
-    choices_fr = {}
-
-    if 'resources' in bn_schema:
-        for setting in bn_schema['resources'][0]['fields']:
-            if field_name == setting['datastore_id']:
-                if 'choices' in setting:
-                    for choice in setting['choices'].keys():
-                        choices_en[choice] = setting['choices'][choice]['en']
-                        choices_fr[choice] = setting['choices'][choice]['fr']
-                break
-    return {'en': choices_en, 'fr': choices_fr}
-
-
-controlled_lists = {'addressee': get_cs_choices('addressee'),
-                    'action_required': get_cs_choices('action_required')}
+controlled_lists = {'addressee': get_choices('addressee', bn_schema),
+                    'action_required': get_choices('action_required', bn_schema)}
 
 solr = pysolr.Solr(settings.SOLR_BN)
 solr.delete(q='*:*')

@@ -2,6 +2,7 @@ import csv
 from django.conf import settings
 import os
 import pysolr
+from search_util import get_choices
 import sys
 from yaml import load
 
@@ -13,23 +14,8 @@ except ImportError:
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
 si_schema = {}
-with open(settings.SI_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
+with open(settings.SERVICES_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
     si_schema = load(ckan_schema_file, Loader=Loader)
-
-
-def get_cs_choices(field_name):
-    choices_en = {}
-    choices_fr = {}
-
-    if 'resources' in si_schema:
-        for setting in si_schema['resources'][0]['fields']:
-            if field_name == setting['datastore_id']:
-                if 'choices' in setting:
-                    for choice in setting['choices'].keys():
-                        choices_en[choice] = setting['choices'][choice]['en']
-                        choices_fr[choice] = setting['choices'][choice]['fr']
-                break
-    return {'en': choices_en, 'fr': choices_fr}
 
 
 def is_discontinued_id(an_id: str):
@@ -109,20 +95,20 @@ def expand_count_field(field_value, lang):
         return field_value
 
 
-controlled_lists = {'external_internal': get_cs_choices('external_internal'),
-                    'service_type': get_cs_choices('service_type'),
-                    'special_designations': get_cs_choices('special_designations'),
-                    'client_target_groups': get_cs_choices('client_target_groups'),
-                    'service_fee': get_cs_choices('service_fee'),
-                    'cra_business_number': get_cs_choices('cra_business_number'),
-                    'use_of_sin': get_cs_choices('use_of_sin'),
-                    'e_registration': get_cs_choices('e_registration'),
-                    'e_authentication': get_cs_choices('e_authentication'),
-                    'e_application': get_cs_choices('e_application'),
-                    'e_decision': get_cs_choices('e_decision'),
-                    'e_issuance': get_cs_choices('e_issuance'),
-                    'e_feedback': get_cs_choices('e_feedback'),
-                    'client_feedback': get_cs_choices('client_feedback'),
+controlled_lists = {'external_internal': get_choices('external_internal', si_schema),
+                    'service_type': get_choices('service_type', si_schema),
+                    'special_designations': get_choices('special_designations', si_schema),
+                    'client_target_groups': get_choices('client_target_groups', si_schema),
+                    'service_fee': get_choices('service_fee', si_schema),
+                    'cra_business_number': get_choices('cra_business_number', si_schema),
+                    'use_of_sin': get_choices('use_of_sin', si_schema),
+                    'e_registration': get_choices('e_registration', si_schema),
+                    'e_authentication': get_choices('e_authentication', si_schema),
+                    'e_application': get_choices('e_application', si_schema),
+                    'e_decision': get_choices('e_decision', si_schema),
+                    'e_issuance': get_choices('e_issuance', si_schema),
+                    'e_feedback': get_choices('e_feedback', si_schema),
+                    'client_feedback': get_choices('client_feedback', si_schema),
                     }
 
 

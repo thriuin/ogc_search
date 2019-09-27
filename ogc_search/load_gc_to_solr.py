@@ -1,6 +1,6 @@
 from babel.numbers import parse_decimal, format_currency
 import csv
-from datetime import datetime, date
+from datetime import date
 from dateutil import parser
 from django.conf import settings
 import os
@@ -148,7 +148,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             if agreement_value < 0:
                 od_obj['agreement_value_range_en_s'] = '(a) Negative'
                 od_obj['agreement_value_range_fr_s'] = '(a) negatif'
-            elif 0 <= agreement_value < 10000:
+            elif agreement_value < 10000:
                 od_obj['agreement_value_range_en_s'] = '(b) Less than $10,000'
                 od_obj['agreement_value_range_fr_s'] = '(b) moins de 10 000 $'
             elif 10000 <= agreement_value < 25000:
