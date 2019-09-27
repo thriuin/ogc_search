@@ -458,7 +458,7 @@ msgstr "Ref no :"
 
 #: .\briefing_notes\templates\bn_search.html:137
 msgid "Sector"
-msgstr ""
+msgstr "Secteur"
 
 #: .\briefing_notes\templates\bn_search.html:138
 #: .\briefing_notes\templates\bn_search.html:345
