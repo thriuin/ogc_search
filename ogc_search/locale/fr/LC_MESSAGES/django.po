@@ -646,14 +646,6 @@ msgstr "Afficher la carte"
 msgid "Clear List"
 msgstr "Vider la list"
 
-#: .\open_data\templates\od_search.html:67
-#, fuzzy, python-format
-#| msgid "Found %(result_num)s record%(result_s)s"
-msgid ""
-"\n"
-"                                    Found %(result_num)s record%(result_s)s"
-msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
-
 #: .\open_data\templates\od_search.html:140
 #: .\open_data\templates\od_search.html:153
 #: .\open_data\templates\od_search.html:158

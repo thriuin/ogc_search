@@ -64,8 +64,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
-                            <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}
-                                    Found {{ result_num }} record{{ result_s }}{% endblocktrans %}</p>
+                            <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{ result_num }} record{{ result_s }}{% endblocktrans %}</p>
                         </div>
                     </div>
                     <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form"
