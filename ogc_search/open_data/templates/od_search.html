@@ -269,7 +269,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
+                                          onclick="select_facet('{{ k | addslashes }}', 'od-search-orgs')" value="{{ k }}"
                                     style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
                             </li>
                             {% endif %}
@@ -281,7 +281,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k }}', 'od-search-orgs')" value="{{ k }}"
+                                          onclick="select_facet('{{ k | addslashes }}', 'od-search-orgs')" value="{{ k }}"
                                     style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
                             </li>
                             {% endif %}
@@ -378,7 +378,7 @@
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="keyw{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-keywords')"
+                                    onclick="select_facet('{{ k | addslashes }}', 'od-search-keywords')"
                                     {% if k in keyw_selected_list %} checked{% endif %}
                                     style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
                                 </div>
