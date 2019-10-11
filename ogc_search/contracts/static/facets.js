@@ -1,0 +1,1 @@
+var accumulators = ['ct-search-orgs', 'ct-search-year'];
