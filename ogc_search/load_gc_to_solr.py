@@ -1,4 +1,4 @@
-from babel.numbers import parse_decimal, format_currency
+from babel.numbers import parse_decimal, format_currency, NumberFormatError
 import csv
 from datetime import date
 from dateutil import parser
@@ -135,37 +135,46 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             try:
                 int(od_obj['federal_riding_number_s'])
             except ValueError:
+                #  May happen with amendments
                 od_obj['federal_riding_number_s'] = "-"
-            agreement_value = parse_decimal(od_obj['agreement_value_en_s'].replace('$', '').replace(',', ''), locale='en')
-            # Additional formatting for the agreement value
-            od_obj['agreement_value_fs'] = agreement_value
-            od_obj['agreement_value_en_s'] = format_currency(agreement_value, 'CAD', locale='en_CA')
-            od_obj['agreement_value_fr_s'] = format_currency(agreement_value, 'CAD', locale='fr_CA')
+
             # Set a year for the agreement
-            start_date = parser.parse(od_obj['agreement_start_date_s'])
-            od_obj['year_i'] = start_date.year
-            # Set a value range
-            if agreement_value < 0:
-                od_obj['agreement_value_range_en_s'] = '(a) Negative'
-                od_obj['agreement_value_range_fr_s'] = '(a) negatif'
-            elif agreement_value < 10000:
-                od_obj['agreement_value_range_en_s'] = '(b) Less than $10,000'
-                od_obj['agreement_value_range_fr_s'] = '(b) moins de 10 000 $'
-            elif 10000 <= agreement_value < 25000:
-                od_obj['agreement_value_range_en_s'] = '(c) $10,000 - $25,000'
-                od_obj['agreement_value_range_fr_s'] = '(c) de 10 000 $ à 25 000 $'
-            elif 25000 <= agreement_value < 100000:
-                od_obj['agreement_value_range_en_s'] = '(d) $25,000 - $100,000'
-                od_obj['agreement_value_range_fr_s'] = '(d) de 25 000 $ à 100 000 $'
-            elif 100000 <= agreement_value < 1000000:
-                od_obj['agreement_value_range_en_s'] = '(e) $100,000 - $1,000,000'
-                od_obj['agreement_value_range_fr_s'] = '(e) de 100 000 $ à 1 000 000 $'
-            elif 1000000 <= agreement_value < 5000000:
-                od_obj['agreement_value_range_en_s'] = '(f) $1,000,000 - $5,000,000'
-                od_obj['agreement_value_range_fr_s'] = '(f) de 1 000 000 $ à 5 000 000 $'
-            else:
-                od_obj['agreement_value_range_en_s'] = '(g) More than $5,000,000'
-                od_obj['agreement_value_range_fr_s'] = '(g) plus de cinq millions $'
+            try:
+                start_date = parser.parse(od_obj['agreement_start_date_s'])
+                od_obj['year_i'] = start_date.year
+            except ValueError:
+                # May happen with amendments
+                pass
+            try:
+                agreement_value = parse_decimal(od_obj['agreement_value_en_s'].replace('$', '').replace(',', ''), locale='en')
+                # Additional formatting for the agreement value
+                od_obj['agreement_value_fs'] = agreement_value
+                od_obj['agreement_value_en_s'] = format_currency(agreement_value, 'CAD', locale='en_CA')
+                od_obj['agreement_value_fr_s'] = format_currency(agreement_value, 'CAD', locale='fr_CA')
+                # Set a value range
+                if agreement_value < 0:
+                    od_obj['agreement_value_range_en_s'] = '(a) Negative'
+                    od_obj['agreement_value_range_fr_s'] = '(a) negatif'
+                elif agreement_value < 10000:
+                    od_obj['agreement_value_range_en_s'] = '(b) Less than $10,000'
+                    od_obj['agreement_value_range_fr_s'] = '(b) moins de 10 000 $'
+                elif 10000 <= agreement_value < 25000:
+                    od_obj['agreement_value_range_en_s'] = '(c) $10,000 - $25,000'
+                    od_obj['agreement_value_range_fr_s'] = '(c) de 10 000 $ à 25 000 $'
+                elif 25000 <= agreement_value < 100000:
+                    od_obj['agreement_value_range_en_s'] = '(d) $25,000 - $100,000'
+                    od_obj['agreement_value_range_fr_s'] = '(d) de 25 000 $ à 100 000 $'
+                elif 100000 <= agreement_value < 1000000:
+                    od_obj['agreement_value_range_en_s'] = '(e) $100,000 - $1,000,000'
+                    od_obj['agreement_value_range_fr_s'] = '(e) de 100 000 $ à 1 000 000 $'
+                elif 1000000 <= agreement_value < 5000000:
+                    od_obj['agreement_value_range_en_s'] = '(f) $1,000,000 - $5,000,000'
+                    od_obj['agreement_value_range_fr_s'] = '(f) de 1 000 000 $ à 5 000 000 $'
+                else:
+                    od_obj['agreement_value_range_en_s'] = '(g) More than $5,000,000'
+                    od_obj['agreement_value_range_fr_s'] = '(g) plus de cinq millions $'
+            except NumberFormatError:
+                pass
 
             gc_list.append(od_obj)
             i += 1

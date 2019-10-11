@@ -94,7 +94,7 @@ class GCSearchView(View):
                                "expected_results_txt_en,additional_information_txt_en,"
                                "report_type_en_s,nil_report_b,quarter_s,fiscal_year_s"
                                )
-        self.solr_query_fields_en = ['owner_org_en_s^2', 'ref_number_txt_ws', 'recipient_country_en_s',
+        self.solr_query_fields_en = ['owner_org_en_s^2', 'ref_number_txt_ws', 'ref_number_s', 'recipient_country_en_s',
                                      'amendment_date_s', 'recipient_business_number_s', 'recipient_legal_name_txt_en',
                                      'recipient_operating_name_txt_en', 'recipient_province_en_s',
                                      'recipient_city_en_s', 'recipient_postal_code_txt',
@@ -191,13 +191,15 @@ class GCSearchView(View):
                                year_i=context['year_selected'],
                                agreement_type_fr_s=context['agreement_selected'],
                                report_type_fr_s=context['type_selected'],
-                               agreement_value_range_fr_s=context['range_selected'])
+                               agreement_value_range_fr_s=context['range_selected'],
+                               amendment_number_s='current')
         else:
             facets_dict = dict(owner_org_en_s=context['organizations_selected'],
                                year_i=context['year_selected'],
                                agreement_type_en_s=context['agreement_selected'],
                                report_type_en_s=context['type_selected'],
-                               agreement_value_range_en_s=context['range_selected'])
+                               agreement_value_range_en_s=context['range_selected'],
+                               amendment_number_s='current')
 
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
@@ -265,6 +267,42 @@ class GCSearchView(View):
             search_results.facets['facet_fields']['year_i'])
 
         return render(request, "gc_search.html", context)
+
+
+class GCAmendmentView(GCSearchView):
+
+    def __init__(self):
+        super().__init__()
+        self.phrase_xtras_en = {}
+        self.phrase_xtras_fr = {}
+
+    def get(self, request, slug=''):
+        context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
+        context["cdts_version"] = settings.CDTS_VERSION
+        context["slug"] = slug
+        solr_search_terms = 'ref_number_s:"{0}"'.format(slug)
+        if request.LANGUAGE_CODE == 'fr':
+            search_results = search_util.solr_query(solr_search_terms,
+                                                    settings.SOLR_GC,
+                                                    self.solr_fields_fr,
+                                                    self.solr_query_fields_fr,
+                                                    self.solr_facet_fields_fr,
+                                                    self.phrase_xtras_fr,
+                                                    sort_order='amendment_number_s desc')
+        else:
+            search_results = search_util.solr_query(solr_search_terms,
+                                                    settings.SOLR_GC,
+                                                    self.solr_fields_en,
+                                                    self.solr_query_fields_en,
+                                                    self.solr_facet_fields_en,
+                                                    self.phrase_xtras_en,
+                                                    sort_order='amendment_number_s desc')
+        context['results'] = search_results
+        if len(search_results.docs) > 0:
+            context['ref_number_s'] = slug
+            return render(request, "gc_amendment.html", context)
+        else:
+            return render(request, 'no_record_found.html', context, status=404)
 
 
 class GCExportView(View):

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'ATI',
     'briefing_notes',
+    'contracts',
     'grants',
     'national_action_plan',
     'open_data',
@@ -88,6 +89,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'wet', 'templates'),
             os.path.join(BASE_DIR, 'ATI', 'templates'),
             os.path.join(BASE_DIR, 'briefing_notes', 'templates'),
+            os.path.join(BASE_DIR, 'contracts', 'templates'),
             os.path.join(BASE_DIR, 'grants', 'templates'),
             os.path.join(BASE_DIR, 'national_action_plan', 'templates'),
             os.path.join(BASE_DIR, 'open_data', 'templates'),
@@ -188,6 +190,7 @@ STATICFILES_DIRS = [
     ('open_data', os.path.join(BASE_DIR, "open_data", "static")),
     ('ati', os.path.join(BASE_DIR, "ATI", "static")),
     ('bn', os.path.join(BASE_DIR, "briefing_notes", "static")),
+    ('ct', os.path.join(BASE_DIR, "contracts", "static")),
     ('gc', os.path.join(BASE_DIR, "grants", "static")),
     ('nap', os.path.join(BASE_DIR, "national_action_plan", "static")),
     ('si', os.path.join(BASE_DIR, "service_inventory", "static")),
@@ -198,6 +201,7 @@ STATICFILES_DIRS = [
 ADMIN_ENABLED = False
 ATI_ENABLED = False
 BN_ENABLED = False
+CT_ENABLED = False
 GC_ENABLED = False
 NAP_ENABLED = False
 SI_ENABLED = False
@@ -206,6 +210,7 @@ SI_ENABLED = False
 
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
 BRIEF_NOTE_YAML_FILE = os.path.join(BASE_DIR, "ckan", "briefingt.yaml")
+CONTRACTS_YAML_FILE = os.path.join(BASE_DIR, "ckan", "contracts.yaml")
 GRANTS_YAML_FILE = os.path.join(BASE_DIR, "ckan", "grants.yaml")
 NAP_YAML_FILE = os.path.join(BASE_DIR, "ckan", "nap.yaml")
 SERVICES_YAML_FILE = os.path.join(BASE_DIR, "ckan", "service.yaml")
@@ -243,6 +248,13 @@ ATI_DATASET_ID = "0797e893-751e-4695-8229-a5066e4fe43c"
 ATI_REQUEST_URL_EN = "https://open.canada.ca/search/ati/reference/"
 ATI_REQUEST_URL_FR = "https://ouvert.canada.ca/fr/search/ati/reference/"
 SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
+
+# Contracts App Settings
+
+CONTRACT_DATASET_TITLE_EN = "Contracts Dataset"
+CONTRACT_DATASET_TITLE_FR = "Jeux de données de la divulgation des contrats"
+CONTRACTS_DATASET_ID = 'd8f85d91-7dec-4fd1-8055-483b77225d8b'
+SOLR_CT = 'http://127.0.0.1:8983/solr/core_contract_search'
 
 # Grants and Contributions App Settings
 

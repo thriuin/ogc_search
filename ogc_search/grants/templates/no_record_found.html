@@ -1,0 +1,49 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load markdown_filter %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/gc",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'Open Information' %}",
+        "href": "{% trans 'https://open.canada.ca/en/open-information' %}",
+    },{
+        "title": "{% trans 'Proactive Disclosure' %}",
+        "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
+    }]
+{% endblock %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Search Grants and Contributions" %}</h1>
+{% endblock %}
+<section>
+<h1>Sorry, try again</h1>
+</section>
+{% endblock %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}

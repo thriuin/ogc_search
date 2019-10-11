@@ -227,3 +227,51 @@ def get_choices_json(file_name: str):
             choices_fr[choice] = choices[choice]['fr']
     return {'en': choices_en, 'fr': choices_fr}
 
+
+def get_field(fields, field_key, default_value='-'):
+    if field_key not in fields:
+        return default_value
+    else:
+        if len(fields[field_key]) == 0:
+            return default_value
+        else:
+            return fields[field_key]
+
+
+def get_multivalue_choice(choices, lang, field_values: str):
+    results = []
+    for field_value in field_values.split(','):
+        if field_value in choices[lang]:
+            results.append(choices[lang][field_value])
+        else:
+            print("Unknown value {0} for {1}".format(field_value, choices))
+    return results
+
+
+def get_choice_field(choices, fields, field_key, lang, default_value="-"):
+    if field_key not in choices:
+        return default_value
+    elif field_key not in fields:
+        return default_value
+    elif fields[field_key] not in choices[field_key][lang]:
+        return default_value
+    else:
+        return choices[field_key][lang][fields[field_key]]
+
+
+def get_bilingual_field(fields, field_key: str, lang: str, default_value="-"):
+    if field_key not in fields:
+        return default_value
+    elif len(fields[field_key]) == 0:
+        return default_value
+    else:
+        values = fields[field_key].split('|')
+        if len(values) == 1:
+            return values[0]
+        else:
+            if lang == 'fr':
+                return values[1]
+            else:
+                return values[0]
+
+

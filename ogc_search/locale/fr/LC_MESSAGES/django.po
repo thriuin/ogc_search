@@ -81,6 +81,9 @@ msgstr "Demandes d’accès à l’information complétées"
 msgid "Transitional Period"
 msgstr "Période de transition"
 
+msgid "current"
+msgstr "actuel"
+
 #: .\ATI\templates\ati_search.html:48
 msgid ""
 "Federal departments are moving their web content to <a href=\"http://www."
