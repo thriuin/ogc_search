@@ -27,12 +27,15 @@
     },{
         "title": "{% trans 'Proactive Disclosure' %}",
         "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
+    },{
+        "title": "{% trans 'Search Grants and Contributions' %}",
+        "href": "{% trans '/en/gc/' %}",
     }]
 {% endblock %}
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans "Full record for " %}{{ ref_number_s }}</h1>
+<h1 property="name" id="wb-cont">{% trans "Amendments for " %}{{ ref_number_s }}</h1>
 {% endblock %}
     <div class="row">
         <div class="col-sm-12">
@@ -51,6 +54,7 @@
                     <div class="panel-body">
                         {% if LANGUAGE_CODE == 'fr' %}
                             {% spaceless %}
+                            <strong>{% trans 'Agreement Value:' %}</strong> {{ doc.agreement_value_fr_txt_ws | safe }}<br>
                             {% if not doc.agreement_title_txt_fr == "-" %}<strong>{% trans 'Agreement:' %}</strong> {{ doc.agreement_title_txt_fr | safe }}
                                 {% if not doc.agreement_number_s == "-" %} ({{ doc.agreement_number_s }}). {% endif %}
                                 {% if not doc.agreement_end_date_s == "-" %} {{ doc.agreement_start_date_s | friendly_date_fr }} - {{ doc.agreement_end_date_s | friendly_date_fr }}{% endif %}<br>{% endif %}
@@ -74,6 +78,7 @@
                            {% endspaceless %}
                         {% else %}
                             {% spaceless %}
+                            <strong>{% trans 'Agreement Value:' %}</strong> {{ doc.agreement_value_en_txt_ws | safe }}<br>
                             {% if not doc.agreement_title_txt_en == "-" %}<strong>{% trans 'Agreement:' %}</strong> {{ doc.agreement_title_txt_en | safe }}
                                 {% if not doc.agreement_number_s == "-" and doc.agreement_title_txt_en != doc.agreement_number_s %} ({{ doc.agreement_number_s }}) {% endif %}
                                 {% if not doc.agreement_end_date_s == "-" %}({{ doc.agreement_start_date_s | friendly_date_en }} - {{ doc.agreement_end_date_s | friendly_date_en}}){% endif %}<br>{% endif %}

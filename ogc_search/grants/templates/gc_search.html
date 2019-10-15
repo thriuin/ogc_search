@@ -165,6 +165,9 @@
                                 {% if not doc.coverage_txt_fr == "-" %}<strong>{% trans 'Coverage:' %}</strong> {{ doc.coverage_txt_fr | safe }}<br>{% endif %}
                                 {% if not doc.foreign_currency_type_fr_s == "-" and not doc.foreign_currency_value_s  == '$0.00' %}<strong>{% blocktrans with fctype=doc.foreign_currency_type_fr_s %}Value in {{ fctype }}{% endblocktrans %}</strong>: {{ doc.foreign_currency_value_s }}<br>{% endif %}
                                 {% if not doc.naics_identifier_s == "-" %}<strong>{% trans "NAICS Code:" %}</strong> {{ doc.naics_identifier_s }}<br>{% endif %}
+                                {% if doc.amendment_date_s %}{% if not doc.amendment_date_s == "-" %}
+                                    <a href="/{{ LANGUAGE_CODE }}/gc/id/{{ doc.ref_number_txt_ws | striptags | safe }}"><strong>{% trans 'Amendments' %}</strong></a><br>
+                                {% endif %}{% endif %}
                                 {% endspaceless %}
                              </details>
                         {% else %}
@@ -190,9 +193,9 @@
                                 {% if not doc.coverage_txt_en == "-" %}<strong>{% trans 'Coverage:' %}</strong> {{ doc.coverage_txt_en | safe }}<br>{% endif %}
                                 {% if not doc.foreign_currency_type_en_s == "-" and not doc.foreign_currency_value_s  == '$0.00' %}<strong>{% blocktrans with fctype=doc.foreign_currency_type_en_s %}Value in {{ fctype }}{% endblocktrans %}</strong>: {{ doc.foreign_currency_value_s }}<br>{% endif %}
                                 {% if not doc.naics_identifier_s == "-" %}<strong>{% trans "NAICS Code:" %}</strong> {{ doc.naics_identifier_s }}<br>{% endif %}
-
-                            {# @todo if there is an amendment date, add a link here to the gc_amendment page for this record #}
-
+                                {% if doc.amendment_date_s %}{% if not doc.amendment_date_s == "-" %}
+                                    <a href="/{{ LANGUAGE_CODE }}/gc/id/{{ doc.ref_number_txt_ws | striptags | safe }}"><strong>{% trans 'Amendments' %}</strong></a><br>
+                                {% endif %}{% endif %}
                             {% endspaceless %}</details>
                         {% endif %}
                         </div>
