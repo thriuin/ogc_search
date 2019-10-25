@@ -594,6 +594,11 @@ msgstr "Identificateur du SCIAN :"
 
 #: .\grants\templates\gc_amendment.html:91
 #: .\grants\templates\gc_search.html:187
+msgid "Recipient Business Number:"
+msgstr "Numéro d'entreprise du bénéficiaire :"
+
+#: .\grants\templates\gc_amendment.html:91
+#: .\grants\templates\gc_search.html:187
 msgid "Additional Information:"
 msgstr "Informations supplémentaires :"
 
