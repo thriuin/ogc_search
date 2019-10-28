@@ -202,19 +202,64 @@ def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fie
     return True
 
 
-def get_choices(field_name: str, schema: dict):
+def get_choices(field_name: str, schema: dict, is_lookup=False):
     choices_en = {}
     choices_fr = {}
+    alt_choices_en = {}
+    alt_choices_fr = {}
+    condition_field = ''
+    condition_less_than = ''
+    lookup_en = {}
+    lookup_fr = {}
 
     if 'resources' in schema:
         for setting in schema['resources'][0]['fields']:
             if field_name == setting['datastore_id']:
                 if 'choices' in setting:
+                    if 'choices_lookup' in setting:
+                        for choice in setting['choices_lookup'].keys():
+                            lookup_en[choice] = setting['choices_lookup'][choice]['en']
+                            lookup_fr[choice] = setting['choices_lookup'][choice]['fr']
                     for choice in setting['choices'].keys():
-                        choices_en[choice] = setting['choices'][choice]['en']
-                        choices_fr[choice] = setting['choices'][choice]['fr']
+                        if not is_lookup:
+                            choices_en[choice] = setting['choices'][choice]['en']
+                            choices_fr[choice] = setting['choices'][choice]['fr']
+                        else:
+                            if 'lookup' in setting['choices'][choice]:
+                                expanded_choice_en = []
+                                expanded_choice_fr = []
+                                for look in setting['choices'][choice]['lookup']:
+                                    expanded_choice_en.append(lookup_en[look])
+                                    expanded_choice_fr.append(lookup_fr[look])
+                                choices_en[choice] = expanded_choice_en
+                                choices_fr[choice] = expanded_choice_fr
+                            elif 'conditional_lookup' in setting['choices'][choice]:
+                                conditional = setting['choices'][choice]['conditional_lookup']
+                                for c in conditional:
+                                    if 'column' in c:
+                                        expanded_choice_en = []
+                                        expanded_choice_fr = []
+                                        condition_field = c['column']
+                                        if 'less_than' in c:
+                                            condition_less_than = c['less_than']
+                                        if 'lookup' in c:
+                                            for look in c['lookup']:
+                                                expanded_choice_fr.append(lookup_fr[look])
+                                                expanded_choice_en.append(lookup_en[look])
+                                            alt_choices_en[choice] = expanded_choice_en
+                                            alt_choices_fr[choice] = expanded_choice_fr
+                                    elif 'lookup' in c:
+                                        expanded_choice_en = []
+                                        expanded_choice_fr = []
+                                        for look in c['lookup']:
+                                            expanded_choice_fr.append(lookup_fr[look])
+                                            expanded_choice_en.append(lookup_en[look])
+                                        choices_en[choice] = expanded_choice_en
+                                        choices_fr[choice] = expanded_choice_fr
+                                # @TODO Handle the conditional lookup
                 break
-    return {'en': choices_en, 'fr': choices_fr}
+    return {'en': choices_en, 'fr': choices_fr, 'alt_choices_en': alt_choices_en, 'alt_choices_fr': alt_choices_fr,
+            'condition_field': condition_field, 'condition_less_than': condition_less_than}
 
 
 def get_choices_json(file_name: str):
@@ -236,6 +281,23 @@ def get_field(fields, field_key, default_value='-'):
             return default_value
         else:
             return fields[field_key]
+
+
+def get_lookup_field(choices, fields, field_key, lang, default_value=None):
+    if default_value is None:
+        default_value = {}
+    if field_key not in choices:
+        return default_value
+    elif field_key not in fields:
+        return default_value
+    elif (fields[field_key] not in choices[field_key][lang]) and \
+         (fields[field_key] not in choices[field_key]["alt_choices_".format(lang)]):
+        return default_value
+    if fields[field_key] in choices[field_key]["alt_choices_{0}".format(lang)] and \
+            fields[choices[field_key]['condition_field']] < choices[field_key]['condition_less_than']:
+        return choices[field_key]["alt_choices_{0}".format(lang)][fields[field_key]]
+    else:
+        return choices[field_key][lang][fields[field_key]]
 
 
 def get_multivalue_choice(choices, lang, field_values: str):
@@ -273,5 +335,4 @@ def get_bilingual_field(fields, field_key: str, lang: str, default_value="-"):
                 return values[1]
             else:
                 return values[0]
-
 
