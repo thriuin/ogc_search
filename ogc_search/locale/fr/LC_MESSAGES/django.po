@@ -738,6 +738,10 @@ msgstr "Formats"
 msgid "Key Words"
 msgstr "Mots clés"
 
+#: .\open_data\templates\od_search.html:371
+msgid "Keywords"
+msgstr "Mots clés"
+
 #: .\open_data\templates\od_search.html:177
 msgid "Add to Map List"
 msgstr "Ajouter à la liste de cartes"
