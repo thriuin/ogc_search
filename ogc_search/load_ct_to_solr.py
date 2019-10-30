@@ -5,7 +5,7 @@ from django.conf import settings
 import os
 import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
-    get_choice_field
+    get_choice_field, get_bilingual_dollar_range
 import sys
 from yaml import load
 try:
@@ -13,7 +13,7 @@ try:
 except ImportError:
     from yaml import Loader
 
-BULK_SIZE = 500
+BULK_SIZE = 1000
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
 gc_schema = {}
@@ -62,22 +62,33 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'comments_fr_s': gc['comments_fr'],
                 'additional_comments_en_s': gc['additional_comments_en'],
                 'additional_comments_fr_s': gc['additional_comments_fr'],
-                'commodity_type_code_en_s': get_choice_field(controlled_lists, gc, 'commodity_type_code', 'en'),
-                'commodity_type_code_fr_s': get_choice_field(controlled_lists, gc, 'commodity_type_code', 'fr'),
+                'commodity_type_code_en_s': get_choice_field(controlled_lists, gc, 'commodity_type_code', 'en',
+                                                             'Unspecified'),
+                'commodity_type_code_fr_s': get_choice_field(controlled_lists, gc, 'commodity_type_code', 'fr',
+                                                             'type non spécifié'),
                 'commodity_code_s': gc['commodity_code'],
                 'country_of_origin_s': gc['country_of_origin'],
                 'country_of_origin_txt_en': get_choice_field(controlled_lists, gc, 'country_of_origin', 'en'),
                 'country_of_origin_txt_fr': get_choice_field(controlled_lists, gc, 'country_of_origin', 'fr'),
                 'solicitation_procedure_code_en_s': get_choice_field(controlled_lists, gc,
-                                                                     'solicitation_procedure_code', 'en'),
+                                                                     'solicitation_procedure_code', 'en',
+                                                                     'Unspecified'),
                 'solicitation_procedure_code_fr_s': get_choice_field(controlled_lists, gc,
-                                                                     'solicitation_procedure_code', 'fr'),
+                                                                     'solicitation_procedure_code', 'fr',
+                                                                     'type non spécifié'),
+                'limited_tendering_reason_code_en_s': get_choice_field(controlled_lists, gc,
+                                                                       'limited_tendering_reason_code', 'en',
+                                                                       'Unspecified'),
                 'limited_tendering_reason_code_fr_s': get_choice_field(controlled_lists, gc,
-                                                                       'limited_tendering_reason_code', 'fr'),
-                'exemption_code_en_s': get_choice_field(controlled_lists, gc, 'exemption_code', 'en'),
-                'exemption_code_fr_s': get_choice_field(controlled_lists, gc, 'exemption_code', 'fr'),
-                'aboriginal_business_en_s': get_choice_field(controlled_lists, gc, 'aboriginal_business', 'en'),
-                'aboriginal_business_fr_s': get_choice_field(controlled_lists, gc, 'aboriginal_business', 'fr'),
+                                                                       'limited_tendering_reason_code', 'fr',
+                                                                       'type non spécifié'),
+                'exemption_code_en_s': get_choice_field(controlled_lists, gc, 'exemption_code', 'en', 'Unspecified'),
+                'exemption_code_fr_s': get_choice_field(controlled_lists, gc, 'exemption_code', 'fr',
+                                                        'type non spécifié'),
+                'aboriginal_business_en_s': get_choice_field(controlled_lists, gc, 'aboriginal_business', 'en',
+                                                             'Unspecified'),
+                'aboriginal_business_fr_s': get_choice_field(controlled_lists, gc, 'aboriginal_business', 'fr',
+                                                             'type non spécifié'),
                 'intellectual_property_code_en_s': get_choice_field(controlled_lists, gc, 'intellectual_property_code',
                                                                     'en'),
                 'intellectual_property_code_fr_s': get_choice_field(controlled_lists, gc, 'intellectual_property_code',
@@ -126,8 +137,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['original_value_en_s'] = format_currency(original_value, 'CAD', locale='en_CA')
                 od_obj['original_value_fr_s'] = format_currency(original_value, 'CAD', locale='fr_CA')
             else:
-                od_obj['original_value_en_s'] = '-'
-                od_obj['original_value_fr_s'] = '-'
+                od_obj['original_value_en_s'] = 'Unspecified'
+                od_obj['original_value_fr_s'] = 'type non spécifié'
 
             if not gc['amendment_value'] == "":
                 amendment_value = parse_decimal(gc['amendment_value'].replace('$', '').replace(',', ''), locale='en')
@@ -152,18 +163,22 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                     gc['agreement_type_code'] = 'AR'
                 if gc['agreement_type_code'] == 'AIT':
                     gc['agreement_type_code'] = 'I'
-                gc['agreement_type_code'] = str(gc['agreement_type_code']).upper()
-                agreement_types = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'en')
+                gc['agreement_type_code'] = str(gc['agreement_type_code']).upper().strip()
+                agreement_types = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'en', ['Unspecified'])
                 od_obj['agreement_type_code_en_s'] = agreement_types
                 od_obj['agreement_type_code_export_en_s'] = ",".join([str(code) for code in agreement_types])
-                agreement_types = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'fr')
+                agreement_types = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'fr', ['type non spécifié'])
                 od_obj['agreement_type_code_fr_s'] = agreement_types
                 od_obj['agreement_type_code_export_fr_s'] = ",".join([str(code) for code in agreement_types])
             else:
-                od_obj['agreement_type_code_en_s'] = '-'
-                od_obj['agreement_type_code_export_en_s'] = '-'
-                od_obj['agreement_type_code_fr_s'] = '-'
-                od_obj['agreement_type_code_export_fr_s'] = '-'
+                od_obj['agreement_type_code_en_s'] = 'Unspecified'
+                od_obj['agreement_type_code_export_en_s'] = 'Unspecified'
+                od_obj['agreement_type_code_fr_s'] = 'type non spécifié'
+                od_obj['agreement_type_code_export_fr_s'] = 'type non spécifié'
+
+            contract_range = get_bilingual_dollar_range(gc['contract_value'])
+            od_obj['contract_value_range_en_s'] = contract_range['en']['range']
+            od_obj['contract_value_range_fr_s'] = contract_range['fr']['range']
 
             gc_list.append(od_obj)
             i += 1

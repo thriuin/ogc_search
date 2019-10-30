@@ -1,3 +1,4 @@
+from babel.numbers import parse_decimal, format_currency, NumberFormatError
 import csv
 from django.http import HttpRequest
 import json
@@ -336,3 +337,37 @@ def get_bilingual_field(fields, field_key: str, lang: str, default_value="-"):
             else:
                 return values[0]
 
+
+def get_bilingual_dollar_range(dollars: str):
+    dollar_range = {'en': {'value': '$-.--', 'range': 'No Value Declared'}, 'fr': {'value': '-,-- $', 'range': 'Sans valeur déclarée'}}
+    if not dollars == '':
+        try:
+            dollar_amount = parse_decimal(dollars.replace('$', '').replace(',', ''), locale='en')
+            # Additional formatting for the dollar value
+            dollar_range['en']['value'] = format_currency(dollar_amount, 'CAD', locale='en_CA')
+            dollar_range['fr']['value'] = format_currency(dollar_amount, 'CAD', locale='fr_CA')
+            # Set a value range
+            if dollar_amount < 0:
+                dollar_range['en']['range'] = '(a) Negative'
+                dollar_range['fr']['range'] = '(a) negatif'
+            elif dollar_amount < 10000:
+                dollar_range['en']['range'] = '(b) Less than $10,000'
+                dollar_range['fr']['range'] = '(b) moins de 10 000 $'
+            elif 10000 <= dollar_amount < 25000:
+                dollar_range['en']['range'] = '(c) $10,000 - $25,000'
+                dollar_range['fr']['range'] = '(c) de 10 000 $ à 25 000 $'
+            elif 25000 <= dollar_amount < 100000:
+                dollar_range['en']['range'] = '(d) $25,000 - $100,000'
+                dollar_range['fr']['range'] = '(d) de 25 000 $ à 100 000 $'
+            elif 100000 <= dollar_amount < 1000000:
+                dollar_range['en']['range'] = '(e) $100,000 - $1,000,000'
+                dollar_range['fr']['range'] = '(e) de 100 000 $ à 1 000 000 $'
+            elif 1000000 <= dollar_amount < 5000000:
+                dollar_range['en']['range'] = '(f) $1,000,000 - $5,000,000'
+                dollar_range['fr']['range'] = '(f) de 1 000 000 $ à 5 000 000 $'
+            else:
+                dollar_range['en']['range'] = '(g) More than $5,000,000'
+                dollar_range['fr']['range'] = '(g) plus de cinq millions $'
+        except NumberFormatError:
+            pass
+    return dollar_range
