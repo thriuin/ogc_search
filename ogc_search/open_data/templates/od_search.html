@@ -12,7 +12,8 @@
     <script src="{% static 'open_data/facets.js' %}" xmlns="http://www.w3.org/1999/html"></script>
     <script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
-
+{% block custom_page_css %}
+{% endblock custom_page_css %}
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
@@ -162,7 +163,7 @@
                             <p><strong>{% trans 'Formats' %}: </strong>
                                 {% for f in doc.resource_format_s %}<span class="badge">{% trans f %}</span> {% endfor %}
                             </p>
-                            <p><span class="glyphicon glyphicon-tags" aria-hidden="true"></span><span class="wb-inv">{% trans 'Key Words' %}:</span>&nbsp;
+                            <p><span class="glyphicon glyphicon-tags" aria-hidden="true"></span><span class="wb-inv">{% trans 'Keywords' %}:</span>&nbsp;
                                 {% if LANGUAGE_CODE == 'fr' %}
                                     {% for y in doc.keywords_txt_fr %}<span class="text-muted">{{y | safe}} </span> {% endfor %}
                                 {% else %}
@@ -368,7 +369,7 @@
 
                     <details class="panel panel-default mrgn-bttm-0" {% if keyw_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Key Words' %}</h5>
+                            <h5 class="panel-title">{% trans 'Keywords' %}</h5>
                         </summary>
 
                         <ul class="list-group" id="key-list">
@@ -588,5 +589,4 @@ $( document ).ready(function() {
 });
 </script>
 <script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
-
 {% endblock %}
