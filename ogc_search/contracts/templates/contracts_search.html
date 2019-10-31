@@ -117,9 +117,34 @@
                 </section>
                 <section>
                 {% for doc in results.docs %}
-                    <div class="panel panel-default mrg-tp-sm mrgn-bttm-sm">
-                    <div class="panel-body">
-                    </div>
+                    <div class="brdr-tp mrgn-tp-md">
+                        {% if not doc.nil_report_b %} {# Regular Contract Items #}
+                            <div class="row">
+                                 <div class="col-sm-9">
+                                    <strong>{{ doc.vendor_name_txt_en | safe }}</strong>
+                                </div>
+                                <div class="col-sm-3">
+                                    {{ doc.contract_value_en_s }}
+                                </div>
+                                <div class="col-sm-12">
+                                    {{ doc.description_txt_en }}
+                                </div>
+                            </div>
+                        {% else %} {# Nothin to Report Items #}
+                             <div class="row">
+                                 <div class="col-sm-3">
+                                    <strong>{{ doc.reporting_period_s }}</strong>
+                                </div>
+                                 <div class="col-sm-9">
+                                    <div class="mrgn-tp-0 mrgn-bttm-0 text-left">
+                                        {% if LANGUAGE_CODE == 'fr' %}{{ doc.owner_org_fr_s }}{% else %}{{ doc.owner_org_en_s }}{% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 mrgn-tp-sm">
+                                    {% trans 'Nothing to report' %}
+                                </div>
+                             </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
                 {% block main-content-pagination %}
@@ -173,6 +198,81 @@
                 </aside>
                 <aside>
                     <div>
+                        {# Report Type Facet #}
+                        <details class="panel panel-default mrgn-bttm-0" {% if type_selected|length > 0 %}open{% endif %}>
+                            <summary class="panel-heading">
+                                <h5 class="panel-title">{% trans 'Report Type' %}</h5>
+                            </summary>
+                            <ul class="list-group">
+                            {% if LANGUAGE_CODE == 'fr' %}
+                                {% for k, v in report_type_fr_s.items %}
+                                {% if v > 0 %}
+                                <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
+                                    <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                        <label><input type="checkbox"
+                                                 {% if k in type_selected_list %} checked="checked"{% endif %}
+                                                 onclick='select_facet("{{ k }}", "ct-search-report-type")'
+                                                 style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                        > {{ k  }} ({{ v }})</label></div>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% for k, v in report_type_en_s.items %}
+                                {% if v > 0 %}
+                                <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
+                                    <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                        <label><input type="checkbox"
+                                                 {% if k in type_selected_list %} checked="checked"{% endif %}
+                                                 onclick='select_facet("{{ k }}", "ct-search-report-type")'
+                                                 style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                        > {{ k }} ({{ v }})</label></div>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                                {% if LANGUAGE_CODE == 'fr' %}{{ report_type_fr_s | EmptyFacetMessage }}{% else %}{{ report_type_en_s | EmptyFacetMessage }}{% endif %}
+                            </ul>
+                        </details>
+
+                {# Organizations Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Organization' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+
+                            {% for k, v in org_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in org_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ org_facets_fr | EmptyFacetMessage }}{% else %}{{ org_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                    {# End Facets #}
                     </div>
                 </aside>
                 {% endspaceless %}{% endblock main-content-sidebar %}

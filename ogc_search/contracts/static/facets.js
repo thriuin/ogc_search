@@ -1,1 +1,1 @@
-var accumulators = ['ct-search-orgs', 'ct-search-year'];
+let accumulators = ['ct-search-orgs', 'ct-search-year', 'ct-search-report-type'];

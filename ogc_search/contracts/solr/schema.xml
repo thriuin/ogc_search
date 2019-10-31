@@ -1176,6 +1176,13 @@
     <field name="reporting_period_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="owner_org_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="owner_org_title_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="owner_org_title_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="owner_org_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="owner_org_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <!-- Nothing To Report Fields -->
+    <field name="report_type_en_s" type="string" indexed="true" stored="true"/>
+    <field name="report_type_fr_s" type="string" indexed="true" stored="true"/>
+    <field name="nil_report_b" type="boolean" indexed="true" stored="true"/>
+    <!-- NTR shares the reporting_period_s field with regular data -->
+
 </schema>

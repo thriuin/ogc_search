@@ -107,6 +107,9 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'ministers_office_en_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'en'),
                 'ministers_office_fr_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'fr'),
                 'reporting_period_s': gc['reporting_period'],
+                'nil_report_b': 'f',
+                'report_type_en_s': 'Contracts',
+                'report_type_fr_s': "Contrats",
             }
             if not gc['contract_period_start'] == "":
                 contract_start_dt: datetime = datetime.strptime(gc['contract_period_start'], '%Y-%m-%d')
@@ -196,3 +199,39 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
         solr.add(gc_list)
         solr.commit()
         print('{0} Records Processed'.format(total))
+
+# Load the Nothing to Report CSV
+
+gc_list = []
+i = 0
+total = 0
+with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_file:
+    gc_reader = csv.DictReader(gc_nil_file, dialect='excel')
+    for gc in gc_reader:
+        try:
+            #
+            od_obj = {
+                'owner_org_en_s': get_bilingual_field(gc, 'owner_org_title', 'en').strip(),
+                'owner_org_fr_s': get_bilingual_field(gc, 'owner_org_title', 'fr').strip(),
+                'reporting_period_s': get_field(gc, 'reporting_period'),
+                'nil_report_b': 't',
+                'report_type_en_s': 'Nothing To Report',
+                'report_type_fr_s': 'Rien à signaler',
+            }
+
+            gc_list.append(od_obj)
+            i += 1
+            total += 1
+            if i == BULK_SIZE:
+                solr.add(gc_list)
+                solr.commit()
+                gc_list = []
+                print('{0} Nil Records Processed'.format(total))
+                i = 0
+        except Exception as x:
+            print('Error on row {0}: {1}'.format(total, x))
+
+    if len(gc_list) > 0:
+        solr.add(gc_list)
+        solr.commit()
+        print('{0} Nil Records Processed'.format(total))
