@@ -129,3 +129,13 @@ def trim_left(value: str, arg: int):
         return value
     else:
         return value[arg:]
+
+
+@register.filter('friendly_reporting_period')
+def friendly_reporting_period(value: str):
+    if len(value.split('-')) == 3:
+        rp = value.split('-')
+        return "{2} {0}-{1}".format(rp[0], rp[1], rp[2])
+    else:
+        return value
+

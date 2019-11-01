@@ -51,7 +51,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'id': gc['reference_number'],
                 'ref_number_s': get_field(gc, 'reference_number'),
                 'procurement_id_s': get_field(gc, 'procurement_id'),
-                'vendor_name_s': get_field(gc, 'vendor_name'),
+                'vendor_name_s': get_field(gc, 'vendor_name').title(),
                 'economic_object_code_s': get_field(gc, 'economic_object_code'),
                 'description_en_s': get_field(gc, 'description_en'),
                 'description_fr_s': get_field(gc, 'description_fr'),

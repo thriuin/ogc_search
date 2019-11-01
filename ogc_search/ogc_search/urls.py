@@ -22,7 +22,7 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 from ATI.views import ATISearchView, ATIExportView
 from briefing_notes.views import BNSearchView, BNExportView
-from contracts.views import CTSearchView, CTExportView
+from contracts.views import CTSearchView, CTExportView, CTContractView
 from grants.views import GCSearchView, GCExportView, GCAmendmentView
 from national_action_plan.views import NAPSearchView, NAPExportView
 from open_data import views
@@ -60,7 +60,8 @@ if settings.GC_ENABLED:
 if settings.CT_ENABLED:
     urlpatterns += i18n_patterns(
         path('ct/', CTSearchView.as_view(), name='CTQuery'),
-        path('ct/export/', CTExportView.as_view(), name='CTExport')
+        path('ct/export/', CTExportView.as_view(), name='CTExport'),
+        path('ct/id/<slug:slug>', CTContractView.as_view(), name='CTContract')
     )
 
 if settings.SI_ENABLED:
