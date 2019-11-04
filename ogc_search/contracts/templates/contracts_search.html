@@ -16,7 +16,7 @@
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
-        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/gc",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/ct",
         "text": "{{ LANGUAGE_CODE | SwapLangName }}"
     }],
     search: false,
@@ -37,7 +37,7 @@
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans "Search Contracts" %}</h1>
+<h1 property="name" id="wb-cont">{% trans "Search Contracts over 10K (Quarterly)" %}</h1>
 {% endblock %}
 
     <section>
@@ -130,10 +130,14 @@
                                 </div>
                                 <div class="col-sm-3 text-right small">{{ doc.contract_delivery_s | friendly_date_en }}</div>
                             </div><div class="row">
-                            <div class="col-sm-8"> <span class="text-info">{{ doc.owner_org_en_s }}</span></div>
+                                <div class="col-sm-8"> <span class="text-info">{{ doc.owner_org_en_s }}</span></div>
                                 <div class="col-sm-4 text-right">
+                                    {% if not doc.commodity_type_code_en_s == 'Unspecified' %}
                                     <span class="label label-info">{{ doc.commodity_type_code_en_s }}</span>
+                                    {% endif %}
+                                    {% if not doc.country_of_origin_txt_en == '-' %}
                                     <span class="label label-default">{{ doc.country_of_origin_txt_en }}</span>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% else %} {# Nothin to Report Items #}

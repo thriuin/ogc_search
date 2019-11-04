@@ -35,9 +35,176 @@
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans "Contract " %}{{ ref_number_s }}</h1>
-{% endblock main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Contract Details" %} ({{ ref_number_s }})</h1>
+{% endblock %}
+
 {% for doc in results.docs %}
-{{ doc.id }}
+    <div class="panel panel-info">
+        <header class="panel-heading">
+            <h5 class="panel-title">{{ doc.vendor_name_txt_en }} ({{ doc.procurement_id_s }})</h5>
+        </header>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Description: ' %}</div>
+                <div class="col-sm-8">{{ doc.description_txt_en }}</div>
+            </div>
+            {% if doc.comments_txt_en|length > 0 %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Comments: ' %}</div>
+                <div class="col-sm-8">{{ doc.comments_txt_en }}</div>
+            </div>
+            {% endif %}
+            {% if doc.additional_comments_txt_en|length > 0 %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Additional Comments: ' %}</div>
+                <div class="col-sm-8">{{ doc.additional_comments_txt_en }}</div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Commodity Type: ' %}</div>
+                <div class="col-sm-8">{{ doc.commodity_type_code_en_s }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Organization: ' %}</div>
+                <div class="col-sm-8">{{ doc.owner_org_en_s }}</div>
+            </div>
+            {% if not doc.country_of_origin_txt_en == '-' %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Country of Origin: ' %}</div>
+                <div class="col-sm-8">{{ doc.country_of_origin_txt_en }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <header class="panel-heading">
+            <h5 class="panel-title">{% trans 'Reporting Period: ' %} {{ doc.reporting_period_s }}</h5>
+        </header>
+        <div class="panel-body">
+            {% if doc.contract_year_s|length > 0 %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Contract Date: ' %}</div>
+                <div class="col-sm-8">{{ doc.contract_year_s }}</div>
+            </div>
+            {% endif %}
+            {% if not doc.contract_start_s == '-' %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Start Date: ' %}</div>
+                <div class="col-sm-8">{{ doc.contract_start_s | friendly_date_en }}</div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Delivery Date: ' %}</div>
+                <div class="col-sm-8">{{ doc.contract_delivery_s | friendly_date_en }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Value: ' %}</div>
+                <div class="col-sm-8">{{ doc.contract_value_en_s }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Original Value: ' %}</div>
+                <div class="col-sm-8">{{ doc.original_value_en_s }}</div>
+            </div>
+
+            {% if not doc.amendment_value_en_s == '-' %}
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Amendment Value: ' %}</div>
+                <div class="col-sm-8">{{ doc.amendment_value_en_s }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel panel-info">
+        <header class="panel-heading">
+            <h5 class="panel-title">{% trans 'Applicable Trade Agreements' %}</h5>
+        </header>
+        <table class="table">
+                {% for agreement in doc.agreement_type_code_txt_en %}
+                    <tr style="background-color: {% cycle '#ffffff' '#f5f5f5' %};"><td>{{ agreement }}</td></tr>{% endfor %}
+        </table>
+    </div>
+
+    <div class="panel panel-info">
+        <header class="panel-heading">
+            <h5 class="panel-title">{% trans 'Additional Details' %}</h5>
+        </header>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">{% trans 'Procurement Identification Number: ' %}</div>
+                <div class="col-sm-8">{{ doc.procurement_id_s }}</div>
+            </div>
+            {% if not doc.standing_offer_en_s == '-' %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Standing Offer: ' %}</div>
+                <div class="col-sm-8">{{ doc.standing_offer_en_s }}</div>
+            </div>
+            {% endif %}
+            {% if doc.standing_offer_number_s|length > 0 %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Standing Offer Number: ' %}</div>
+                <div class="col-sm-8">{{ doc.standing_offer_number_s }}</div>
+            </div>
+            {% endif %}
+            {% if not doc.document_type_code_en_s == '-' %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Document Type: ' %}</div>
+                <div class="col-sm-8">{{ doc.document_type_code_en_s }}</div>
+            </div>
+            {% endif %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Solicitation Procedure: ' %}</div>
+                <div class="col-sm-8">{{ doc.solicitation_procedure_code_en_s }}</div>
+            </div>
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Reason for Limited Tendering: ' %}</div>
+                <div class="col-sm-8">{{ doc.limited_tendering_reason_code_en_s }}</div>
+            </div>
+            {% if not doc.economic_object_code_s == '-' %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Economic Object Code: ' %}</div>
+                <div class="col-sm-8">{{ doc.economic_object_code_s }}</div>
+            </div>
+            {% endif %}
+            {% if doc.commodity_code_s|length > 0 %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Commodity Code: ' %}</div>
+                <div class="col-sm-8">{{ doc.commodity_code_s }}</div>
+            </div>
+            {% endif %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Exemption Code: ' %}</div>
+                <div class="col-sm-8">{{ doc.exemption_code_en_s }}</div>
+            </div>
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Aboriginal Business: ' %}</div>
+                <div class="col-sm-8">{{ doc.aboriginal_business_en_s }}</div>
+            </div>
+            {% if not doc.intellectual_property_code_en_s == '-' %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Intellectual Property: ' %}</div>
+                <div class="col-sm-8">{{ doc.intellectual_property_code_en_s }}</div>
+            </div>
+            {% endif %}
+            {% if not doc.potential_commercial_exploitation_en_s == '-' %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Potential Commercial Explotation: ' %}</div>
+                <div class="col-sm-8">{{ doc.potential_commercial_exploitation_en_s }}</div>
+            </div>
+            {% endif %}
+            {% if not doc.former_public_servant_en_s == '-' %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Former Public Servant: ' %}</div>
+                <div class="col-sm-8">{{ doc.former_public_servant_en_s }}</div>
+            </div>
+            {% endif %}
+            {% if not doc.ministers_office_en_s == '-' %}
+            <div class="row brdr-tp">
+                <div class="col-sm-4">{% trans 'Ministers Office: ' %}</div>
+                <div class="col-sm-8">{{ doc.ministers_office_en_s }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 {% endfor %}
 {% endblock main-content %}
