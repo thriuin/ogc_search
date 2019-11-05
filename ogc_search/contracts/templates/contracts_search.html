@@ -119,27 +119,51 @@
                 {% for doc in results.docs %}
                     <div class="mrgn-tp-lg">
                         {% if not doc.nil_report_b %} {# Regular Contract Items #}
-                            <div class="row">
-                                 <div class="col-sm-9 text-capitalize">
-                                     <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id | striptags | safe }}"><strong>{{ doc.vendor_name_txt_en | safe }}</strong></a>
+                            {% if LANGUAGE_CODE == 'fr' %}
+                                <div class="row">
+                                     <div class="col-sm-9 text-capitalize">
+                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt_fr | safe }}</strong></a>
+                                    </div>
+                                    <div class="col-sm-3 text-right"> <strong>{{ doc.contract_value_fr_s }}</strong></div>
+                                </div><div class="row">
+                                    <div class="col-sm-9">
+                                         {{ doc.description_txt_fr | safe }}.{% if doc.comments_fr_s %}<br><span class="small">{{ doc.comments_fr_s }}</span>{% endif %}
+                                    </div>
+                                    <div class="col-sm-3 text-right small">{{ doc.contract_delivery_s | friendly_date_fr }}</div>
+                                </div><div class="row">
+                                    <div class="col-sm-8"> <span class="text-info">{{ doc.owner_org_fr_s }}</span></div>
+                                    <div class="col-sm-4 text-right">
+                                        {% if not doc.commodity_type_code_fr_s == 'Unspecified' %}
+                                        <span class="label label-info">{{ doc.commodity_type_code_fr_s }}</span>
+                                        {% endif %}
+                                        {% if not doc.country_of_origin_txt_fr == '-' %}
+                                        <span class="label label-default">{{ doc.country_of_origin_txt_fr }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>                                
+                            {% else %}
+                                <div class="row">
+                                     <div class="col-sm-9 text-capitalize">
+                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt_en | safe }}</strong></a>
+                                    </div>
+                                    <div class="col-sm-3 text-right"> <strong>{{ doc.contract_value_en_s }}</strong></div>
+                                </div><div class="row">
+                                    <div class="col-sm-9">
+                                         {{ doc.description_txt_en | safe }}.{% if doc.comments_en_s %}<br><span class="small">{{ doc.comments_en_s }}</span>{% endif %}
+                                    </div>
+                                    <div class="col-sm-3 text-right small">{{ doc.contract_delivery_s | friendly_date_en }}</div>
+                                </div><div class="row">
+                                    <div class="col-sm-8"> <span class="text-info">{{ doc.owner_org_en_s }}</span></div>
+                                    <div class="col-sm-4 text-right">
+                                        {% if not doc.commodity_type_code_en_s == 'Unspecified' %}
+                                        <span class="label label-info">{{ doc.commodity_type_code_en_s }}</span>
+                                        {% endif %}
+                                        {% if not doc.country_of_origin_txt_en == '-' %}
+                                        <span class="label label-default">{{ doc.country_of_origin_txt_en }}</span>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div class="col-sm-3 text-right"> <strong>{{ doc.contract_value_en_s }}</strong></div>
-                            </div><div class="row">
-                                <div class="col-sm-9">
-                                     {{ doc.description_txt_en | safe }}.{% if doc.comments_en_s %}<br><span class="small">{{ doc.comments_en_s }}</span>{% endif %}
-                                </div>
-                                <div class="col-sm-3 text-right small">{{ doc.contract_delivery_s | friendly_date_en }}</div>
-                            </div><div class="row">
-                                <div class="col-sm-8"> <span class="text-info">{{ doc.owner_org_en_s }}</span></div>
-                                <div class="col-sm-4 text-right">
-                                    {% if not doc.commodity_type_code_en_s == 'Unspecified' %}
-                                    <span class="label label-info">{{ doc.commodity_type_code_en_s }}</span>
-                                    {% endif %}
-                                    {% if not doc.country_of_origin_txt_en == '-' %}
-                                    <span class="label label-default">{{ doc.country_of_origin_txt_en }}</span>
-                                    {% endif %}
-                                </div>
-                            </div>
+                            {% endif %}
                         {% else %} {# Nothin to Report Items #}
                              <div class="row">
                                  <div class="col-sm-3">
@@ -208,44 +232,98 @@
                 </aside>
                 <aside>
                     <div>
-                        {# Report Type Facet #}
-                        <details class="panel panel-default mrgn-bttm-0" {% if type_selected|length > 0 %}open{% endif %}>
-                            <summary class="panel-heading">
-                                <h5 class="panel-title">{% trans 'Report Type' %}</h5>
-                            </summary>
-                            <ul class="list-group">
-                            {% if LANGUAGE_CODE == 'fr' %}
-                                {% for k, v in report_type_fr_s.items %}
-                                {% if v > 0 %}
-                                <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
-                                    <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-                                        <label><input type="checkbox"
-                                                 {% if k in type_selected_list %} checked="checked"{% endif %}
-                                                 onclick='select_facet("{{ k }}", "ct-search-report-type")'
-                                                 style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                        > {{ k  }} ({{ v }})</label></div>
-                                </li>
-                                {% endif %}
-                                {% endfor %}
-                            {% else %}
-                                {% for k, v in report_type_en_s.items %}
-                                {% if v > 0 %}
-                                <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
-                                    <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-                                        <label><input type="checkbox"
-                                                 {% if k in type_selected_list %} checked="checked"{% endif %}
-                                                 onclick='select_facet("{{ k }}", "ct-search-report-type")'
-                                                 style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                        > {{ k }} ({{ v }})</label></div>
-                                </li>
-                                {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                                {% if LANGUAGE_CODE == 'fr' %}{{ report_type_fr_s | EmptyFacetMessage }}{% else %}{{ report_type_en_s | EmptyFacetMessage }}{% endif %}
-                            </ul>
-                        </details>
 
-                {# Organizations Facet #}
+                    {# Commodity Type Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if commodity_type_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Commodity' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="commodity-list">
+                        {% if LANGUAGE_CODE == 'fr' %}
+
+                            {% for k, v in commodity_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in commodity_type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in commodity_type_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-commodity-type")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in commodity_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in commodity_type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in commodity_type_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-commodity-type")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </details>
+
+                    {# Contract Value Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if range_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Contract Value' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="value-list">
+                        {% if LANGUAGE_CODE == 'fr' %}
+
+                            {% for k, v in value_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in range_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in range_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-dollar-range")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in value_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in range_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in range_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-dollar-range")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </details>
+
+                    {# Year Facet #}
+                     <details class="panel panel-default mrgn-bttm-0" {% if year_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Year' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="year-list">
+                            {% for k, v in year_facets.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k|capfirst in year_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in country_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k|capfirst }}", "ct-search-year")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k|capfirst }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </details>
+
+                    {# Organizations Facet #}
                     <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
                             <h5 class="panel-title">{% trans 'Organization' %}</h5>
@@ -282,6 +360,178 @@
                         </ul>
                     </details>
 
+                    {# Country Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if country_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Country of Origin' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="country-list">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in country_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k|capfirst in country_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in country_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k|capfirst }}", "ct-search-country")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k|capfirst }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in country_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k|capfirst in country_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in country_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k|capfirst }}", "ct-search-country")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k|capfirst }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </details>
+
+                    {# Trade Agreement Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if agreement_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Trade Agreements' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="agreement-list">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in agreement_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in agreement_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in agreement_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-agreement")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in agreement_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in agreement_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in agreement_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-agreement")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </details>
+
+                    {# Solicitation Procedure Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if solicitation_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Solicitation Procedure' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="agreement-list">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in solicitation_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in solicitation_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in solicitation_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-solicitation")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in solicitation_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in solicitation_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in solicitation_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-solicitation")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </details>
+
+                    {# Instrument Type Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if doc_type_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Instrument Type' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="agreement-list">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in doc_type_facets_fr.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in doc_type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in doc_type_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-doc")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in doc_type_facets_en.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in doc_type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in doc_type_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ct-search-doc")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </details>
+
+                    {# Report Type Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if type_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Report Type' %}</h5>
+                        </summary>
+                        <ul class="list-group">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in report_type_fr_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in type_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "ct-search-report-type")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k  }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in report_type_en_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                                    <label><input type="checkbox"
+                                             {% if k in type_selected_list %} checked="checked"{% endif %}
+                                             onclick='select_facet("{{ k }}", "ct-search-report-type")'
+                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
+                                    > {{ k }} ({{ v }})</label></div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ report_type_fr_s | EmptyFacetMessage }}{% else %}{{ report_type_en_s | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
                     {# End Facets #}
                     </div>
                 </aside>

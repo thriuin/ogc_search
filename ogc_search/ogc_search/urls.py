@@ -61,7 +61,7 @@ if settings.CT_ENABLED:
     urlpatterns += i18n_patterns(
         path('ct/', CTSearchView.as_view(), name='CTQuery'),
         path('ct/export/', CTExportView.as_view(), name='CTExport'),
-        path('ct/id/<slug:slug>', CTContractView.as_view(), name='CTContract')
+        path('ct/id/<path:slug>', CTContractView.as_view(), name='CTContract')
     )
 
 if settings.SI_ENABLED:

@@ -1072,7 +1072,9 @@
 
     <field name="vendor_name_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="vendor_name_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="vendor_name_txt_fr" type="text_en" indexed="true" stored="true"/>
     <copyField source="vendor_name_s" dest="vendor_name_txt_en"/>
+    <copyField source="vendor_name_s" dest="vendor_name_txt_fr"/>
 
     <field name="contract_date_dt" type="date" indexed="true" stored="true" docValues="true"/>
     <field name="contract_year_s" type="string" indexed="true" stored="true" docValues="true"/>

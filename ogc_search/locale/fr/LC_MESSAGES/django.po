@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-15 14:48-0400\n"
+"POT-Creation-Date: 2019-11-05 16:33-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,22 +19,24 @@ msgstr ""
 
 #: .\ATI\templates\ati_search.html:23
 #: .\briefing_notes\templates\bn_search.html:24
+#: .\contracts\templates\contract.html:19
 #: .\contracts\templates\contracts_search.html:24
 #: .\grants\templates\gc_amendment.html:19 .\grants\templates\gc_search.html:24
-#: .\grants\templates\no_record_found.html:22
+#: .\grants\templates\no_record_found.html:19
 #: .\national_action_plan\templates\nap_search.html:23
-#: .\open_data\templates\od_search.html:24
+#: .\open_data\templates\od_search.html:25
 #: .\service_inventory\templates\si_search.html:24 .\wet\templates\404.html:17
 msgid "Home"
 msgstr "Accueil"
 
 #: .\ATI\templates\ati_search.html:26
 #: .\briefing_notes\templates\bn_search.html:27
+#: .\contracts\templates\contract.html:22
 #: .\contracts\templates\contracts_search.html:27
 #: .\grants\templates\gc_amendment.html:22 .\grants\templates\gc_search.html:27
-#: .\grants\templates\no_record_found.html:25
+#: .\grants\templates\no_record_found.html:22
 #: .\national_action_plan\templates\nap_search.html:26
-#: .\open_data\templates\od_search.html:27
+#: .\open_data\templates\od_search.html:28
 #: .\service_inventory\templates\si_search.html:27 .\wet\templates\404.html:20
 #: .\wet\templates\base-cdts.html:13 .\wet\templates\base.html:13
 msgid "Open Government"
@@ -42,47 +44,52 @@ msgstr "Gouvernement ouvert"
 
 #: .\ATI\templates\ati_search.html:27
 #: .\briefing_notes\templates\bn_search.html:28
+#: .\contracts\templates\contract.html:23
 #: .\contracts\templates\contracts_search.html:28
 #: .\grants\templates\gc_amendment.html:23 .\grants\templates\gc_search.html:28
-#: .\grants\templates\no_record_found.html:26
+#: .\grants\templates\no_record_found.html:23
 #: .\national_action_plan\templates\nap_search.html:27
-#: .\open_data\templates\od_search.html:28
+#: .\open_data\templates\od_search.html:29
 #: .\service_inventory\templates\si_search.html:28 .\wet\templates\404.html:21
 msgid "https://open.canada.ca"
 msgstr "https://ouvert.canada.ca"
 
 #: .\ATI\templates\ati_search.html:29
 #: .\briefing_notes\templates\bn_search.html:30
+#: .\contracts\templates\contract.html:25
 #: .\contracts\templates\contracts_search.html:30
 #: .\grants\templates\gc_amendment.html:25 .\grants\templates\gc_search.html:30
-#: .\grants\templates\no_record_found.html:28
+#: .\grants\templates\no_record_found.html:25
 #: .\service_inventory\templates\si_search.html:30
 msgid "Open Information"
 msgstr "Information ouverte"
 
 #: .\ATI\templates\ati_search.html:30
 #: .\briefing_notes\templates\bn_search.html:31
+#: .\contracts\templates\contract.html:26
 #: .\contracts\templates\contracts_search.html:31
 #: .\grants\templates\gc_amendment.html:26 .\grants\templates\gc_search.html:31
-#: .\grants\templates\no_record_found.html:29
+#: .\grants\templates\no_record_found.html:26
 #: .\service_inventory\templates\si_search.html:31
 msgid "https://open.canada.ca/en/open-information"
 msgstr "https://ouvert.canada.ca/fr/information-ouverte"
 
 #: .\ATI\templates\ati_search.html:32
 #: .\briefing_notes\templates\bn_search.html:33
+#: .\contracts\templates\contract.html:28
 #: .\contracts\templates\contracts_search.html:33
 #: .\grants\templates\gc_amendment.html:28 .\grants\templates\gc_search.html:33
-#: .\grants\templates\no_record_found.html:31
+#: .\grants\templates\no_record_found.html:28
 #: .\service_inventory\templates\si_search.html:33
 msgid "Proactive Disclosure"
 msgstr "Divulgation proactive"
 
 #: .\ATI\templates\ati_search.html:33
 #: .\briefing_notes\templates\bn_search.html:34
+#: .\contracts\templates\contract.html:29
 #: .\contracts\templates\contracts_search.html:34
 #: .\grants\templates\gc_amendment.html:29 .\grants\templates\gc_search.html:34
-#: .\grants\templates\no_record_found.html:32
+#: .\grants\templates\no_record_found.html:29
 #: .\service_inventory\templates\si_search.html:34
 msgid "https://open.canada.ca/en/proactive-disclosure"
 msgstr "https://ouvert.canada.ca/fr/divulgation-proactive"
@@ -91,7 +98,9 @@ msgstr "https://ouvert.canada.ca/fr/divulgation-proactive"
 msgid "Completed Access to Information Requests"
 msgstr "Demandes d’accès à l’information complétées"
 
-#: .\ATI\templates\ati_search.html:47 .\grants\templates\gc_search.html:46
+#: .\ATI\templates\ati_search.html:47
+#: .\contracts\templates\contracts_search.html:47
+#: .\grants\templates\gc_search.html:46
 msgid "Transitional Period"
 msgstr "Période de transition"
 
@@ -123,6 +132,7 @@ msgstr ""
 
 #: .\ATI\templates\ati_search.html:64
 #: .\briefing_notes\templates\bn_search.html:49
+#: .\contracts\templates\contracts_search.html:54
 #: .\grants\templates\gc_search.html:53
 #: .\service_inventory\templates\si_search.html:46
 #: .\service_inventory\templates\si_search.html:55
@@ -167,9 +177,10 @@ msgstr ""
 
 #: .\ATI\templates\ati_search.html:93
 #: .\briefing_notes\templates\bn_search.html:69
+#: .\contracts\templates\contracts_search.html:75
 #: .\grants\templates\gc_search.html:74
 #: .\national_action_plan\templates\nap_search.html:57
-#: .\open_data\templates\od_search.html:67
+#: .\open_data\templates\od_search.html:68
 #: .\service_inventory\templates\si_search.html:79
 #, python-format
 msgid "Found %(result_num)s record%(result_s)s"
@@ -181,16 +192,20 @@ msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
 #: .\briefing_notes\templates\bn_search.html:78
 #: .\briefing_notes\templates\bn_search.html:82
 #: .\briefing_notes\templates\bn_search.html:84
+#: .\contracts\templates\contracts_search.html:83
+#: .\contracts\templates\contracts_search.html:85
+#: .\contracts\templates\contracts_search.html:89
+#: .\contracts\templates\contracts_search.html:91
 #: .\grants\templates\gc_search.html:81 .\grants\templates\gc_search.html:83
 #: .\grants\templates\gc_search.html:87 .\grants\templates\gc_search.html:89
 #: .\national_action_plan\templates\nap_search.html:65
 #: .\national_action_plan\templates\nap_search.html:68
 #: .\national_action_plan\templates\nap_search.html:72
 #: .\national_action_plan\templates\nap_search.html:75
-#: .\open_data\templates\od_search.html:75
-#: .\open_data\templates\od_search.html:78
-#: .\open_data\templates\od_search.html:82
-#: .\open_data\templates\od_search.html:85
+#: .\open_data\templates\od_search.html:76
+#: .\open_data\templates\od_search.html:79
+#: .\open_data\templates\od_search.html:83
+#: .\open_data\templates\od_search.html:86
 #: .\service_inventory\templates\si_search.html:86
 #: .\service_inventory\templates\si_search.html:88
 #: .\service_inventory\templates\si_search.html:92
@@ -201,17 +216,19 @@ msgstr "Recherche"
 
 #: .\ATI\templates\ati_search.html:114
 #: .\briefing_notes\templates\bn_search.html:94
+#: .\contracts\templates\contracts_search.html:101
 #: .\grants\templates\gc_search.html:99
 #: .\national_action_plan\templates\nap_search.html:88
-#: .\open_data\templates\od_search.html:100
+#: .\open_data\templates\od_search.html:101
 #: .\service_inventory\templates\si_search.html:105
 msgid "Best match"
 msgstr "Pertinence"
 
 #: .\ATI\templates\ati_search.html:116
 #: .\briefing_notes\templates\bn_search.html:96
+#: .\contracts\templates\contracts_search.html:103
 #: .\grants\templates\gc_search.html:101
-#: .\open_data\templates\od_search.html:97
+#: .\open_data\templates\od_search.html:98
 msgid "Newest"
 msgstr "Date de modification"
 
@@ -221,25 +238,30 @@ msgstr ""
 
 #: .\ATI\templates\ati_search.html:123
 #: .\briefing_notes\templates\bn_search.html:91
+#: .\contracts\templates\contracts_search.html:98
 #: .\grants\templates\gc_search.html:96
 #: .\national_action_plan\templates\nap_search.html:82
-#: .\open_data\templates\od_search.html:92
+#: .\open_data\templates\od_search.html:93
 #: .\service_inventory\templates\si_search.html:101
 msgid "Order By"
 msgstr "Trier par"
 
-#: .\ATI\templates\ati_search.html:181 .\grants\templates\gc_search.html:214
+#: .\ATI\templates\ati_search.html:181
+#: .\contracts\templates\contracts_search.html:154
+#: .\grants\templates\gc_search.html:216
 msgid "Nothing to report"
 msgstr "Rien à signaler"
 
 #: .\ATI\templates\ati_search.html:195 .\ATI\templates\ati_search.html:198
 #: .\briefing_notes\templates\bn_search.html:162
 #: .\briefing_notes\templates\bn_search.html:165
-#: .\grants\templates\gc_search.html:228 .\grants\templates\gc_search.html:231
+#: .\contracts\templates\contracts_search.html:166
+#: .\contracts\templates\contracts_search.html:169
+#: .\grants\templates\gc_search.html:230 .\grants\templates\gc_search.html:233
 #: .\national_action_plan\templates\nap_search.html:191
 #: .\national_action_plan\templates\nap_search.html:194
-#: .\open_data\templates\od_search.html:197
-#: .\open_data\templates\od_search.html:200
+#: .\open_data\templates\od_search.html:198
+#: .\open_data\templates\od_search.html:201
 #: .\service_inventory\templates\si_search.html:206
 #: .\service_inventory\templates\si_search.html:209
 msgid "Previous"
@@ -248,11 +270,13 @@ msgstr "Précédent"
 #: .\ATI\templates\ati_search.html:201 .\ATI\templates\ati_search.html:205
 #: .\briefing_notes\templates\bn_search.html:168
 #: .\briefing_notes\templates\bn_search.html:172
-#: .\grants\templates\gc_search.html:234 .\grants\templates\gc_search.html:238
+#: .\contracts\templates\contracts_search.html:172
+#: .\contracts\templates\contracts_search.html:176
+#: .\grants\templates\gc_search.html:236 .\grants\templates\gc_search.html:240
 #: .\national_action_plan\templates\nap_search.html:199
 #: .\national_action_plan\templates\nap_search.html:203
-#: .\open_data\templates\od_search.html:203
-#: .\open_data\templates\od_search.html:207
+#: .\open_data\templates\od_search.html:204
+#: .\open_data\templates\od_search.html:208
 #: .\service_inventory\templates\si_search.html:212
 #: .\service_inventory\templates\si_search.html:216
 msgid "Go to"
@@ -261,11 +285,13 @@ msgstr "Aller à la page"
 #: .\ATI\templates\ati_search.html:207 .\ATI\templates\ati_search.html:210
 #: .\briefing_notes\templates\bn_search.html:174
 #: .\briefing_notes\templates\bn_search.html:177
-#: .\grants\templates\gc_search.html:240 .\grants\templates\gc_search.html:243
+#: .\contracts\templates\contracts_search.html:178
+#: .\contracts\templates\contracts_search.html:181
+#: .\grants\templates\gc_search.html:242 .\grants\templates\gc_search.html:245
 #: .\national_action_plan\templates\nap_search.html:205
 #: .\national_action_plan\templates\nap_search.html:208
-#: .\open_data\templates\od_search.html:209
-#: .\open_data\templates\od_search.html:212
+#: .\open_data\templates\od_search.html:210
+#: .\open_data\templates\od_search.html:213
 #: .\service_inventory\templates\si_search.html:218
 #: .\service_inventory\templates\si_search.html:221
 msgid "Next"
@@ -273,31 +299,35 @@ msgstr "Suivant"
 
 #: .\ATI\templates\ati_search.html:233
 #: .\briefing_notes\templates\bn_search.html:200
-#: .\grants\templates\gc_search.html:266
+#: .\contracts\templates\contracts_search.html:205
+#: .\grants\templates\gc_search.html:268
 #: .\national_action_plan\templates\nap_search.html:232
-#: .\open_data\templates\od_search.html:235
+#: .\open_data\templates\od_search.html:236
 #: .\service_inventory\templates\si_search.html:244
 msgid "Clear all choices"
 msgstr "Effacer tout"
 
 #: .\ATI\templates\ati_search.html:238
 #: .\briefing_notes\templates\bn_search.html:206
-#: .\open_data\templates\od_search.html:240
+#: .\open_data\templates\od_search.html:241
 msgid "Download Results"
 msgstr "Télécharger les résultats de recherche"
 
-#: .\ATI\templates\ati_search.html:256 .\grants\templates\gc_search.html:290
+#: .\ATI\templates\ati_search.html:256
+#: .\contracts\templates\contracts_search.html:478
+#: .\grants\templates\gc_search.html:292
 msgid "Report Type"
 msgstr "Genre de rapport"
 
 #: .\ATI\templates\ati_search.html:294
 #: .\briefing_notes\templates\bn_search.html:136
 #: .\briefing_notes\templates\bn_search.html:223
+#: .\contracts\templates\contracts_search.html:305
 #: .\grants\templates\gc_amendment.html:87
-#: .\grants\templates\gc_search.html:180 .\grants\templates\gc_search.html:327
+#: .\grants\templates\gc_search.html:181 .\grants\templates\gc_search.html:329
 #: .\national_action_plan\templates\nap_search.html:425
-#: .\open_data\templates\od_search.html:160
-#: .\open_data\templates\od_search.html:260
+#: .\open_data\templates\od_search.html:161
+#: .\open_data\templates\od_search.html:261
 #: .\service_inventory\templates\si_search.html:158
 #: .\service_inventory\templates\si_search.html:268
 msgid "Organization"
@@ -305,6 +335,7 @@ msgstr "Organisation"
 
 #: .\ATI\templates\ati_search.html:332
 #: .\briefing_notes\templates\bn_search.html:261
+#: .\contracts\templates\contracts_search.html:285
 #: .\service_inventory\templates\si_search.html:306
 msgid "Year"
 msgstr "Année"
@@ -316,10 +347,10 @@ msgstr "Mois"
 
 #: .\ATI\templates\ati_search.html:393
 #: .\briefing_notes\templates\bn_search.html:397
-#: .\contracts\templates\contracts_search.html:54
-#: .\grants\templates\gc_search.html:475
+#: .\contracts\templates\contracts_search.html:528
+#: .\grants\templates\gc_search.html:477
 #: .\national_action_plan\templates\nap_search.html:509
-#: .\open_data\templates\od_search.html:509
+#: .\open_data\templates\od_search.html:510
 #: .\service_inventory\templates\si_search.html:761 .\wet\templates\404.html:47
 msgid "https://open.canada.ca/en/forms/contact-us"
 msgstr ""
@@ -327,130 +358,130 @@ msgstr ""
 
 #: .\ATI\templates\ati_search.html:394
 #: .\briefing_notes\templates\bn_search.html:398
-#: .\contracts\templates\contracts_search.html:55
-#: .\grants\templates\gc_search.html:476
+#: .\contracts\templates\contracts_search.html:529
+#: .\grants\templates\gc_search.html:478
 #: .\national_action_plan\templates\nap_search.html:510
-#: .\open_data\templates\od_search.html:510
+#: .\open_data\templates\od_search.html:511
 #: .\service_inventory\templates\si_search.html:762 .\wet\templates\404.html:48
 msgid "Open Government Contact"
 msgstr "Contactez-nous du gouvernement ouvert"
 
 #: .\ATI\templates\ati_search.html:396
 #: .\briefing_notes\templates\bn_search.html:400
-#: .\contracts\templates\contracts_search.html:57
-#: .\grants\templates\gc_search.html:478
+#: .\contracts\templates\contracts_search.html:531
+#: .\grants\templates\gc_search.html:480
 #: .\national_action_plan\templates\nap_search.html:512
-#: .\open_data\templates\od_search.html:512
+#: .\open_data\templates\od_search.html:513
 #: .\service_inventory\templates\si_search.html:764 .\wet\templates\404.html:50
 msgid "https://www.canada.ca/en/government/dept.html"
 msgstr "https://www.canada.ca/fr/gouvernement/min.html"
 
 #: .\ATI\templates\ati_search.html:397
 #: .\briefing_notes\templates\bn_search.html:401
-#: .\contracts\templates\contracts_search.html:58
-#: .\grants\templates\gc_search.html:479
+#: .\contracts\templates\contracts_search.html:532
+#: .\grants\templates\gc_search.html:481
 #: .\national_action_plan\templates\nap_search.html:513
-#: .\open_data\templates\od_search.html:513
+#: .\open_data\templates\od_search.html:514
 #: .\service_inventory\templates\si_search.html:765 .\wet\templates\404.html:51
 msgid "Departments and agencies"
 msgstr "Ministères et organismes"
 
 #: .\ATI\templates\ati_search.html:399
 #: .\briefing_notes\templates\bn_search.html:403
-#: .\contracts\templates\contracts_search.html:60
-#: .\grants\templates\gc_search.html:481
+#: .\contracts\templates\contracts_search.html:534
+#: .\grants\templates\gc_search.html:483
 #: .\national_action_plan\templates\nap_search.html:515
-#: .\open_data\templates\od_search.html:515
+#: .\open_data\templates\od_search.html:516
 #: .\service_inventory\templates\si_search.html:767 .\wet\templates\404.html:53
 msgid "https://www.canada.ca/en/government/publicservice.html"
 msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
 
 #: .\ATI\templates\ati_search.html:400
 #: .\briefing_notes\templates\bn_search.html:404
-#: .\contracts\templates\contracts_search.html:61
-#: .\grants\templates\gc_search.html:482
+#: .\contracts\templates\contracts_search.html:535
+#: .\grants\templates\gc_search.html:484
 #: .\national_action_plan\templates\nap_search.html:516
-#: .\open_data\templates\od_search.html:516
+#: .\open_data\templates\od_search.html:517
 #: .\service_inventory\templates\si_search.html:768 .\wet\templates\404.html:54
 msgid "Public service and military"
 msgstr "Fonction publique et force militaire"
 
 #: .\ATI\templates\ati_search.html:402
 #: .\briefing_notes\templates\bn_search.html:406
-#: .\contracts\templates\contracts_search.html:63
-#: .\grants\templates\gc_search.html:484
+#: .\contracts\templates\contracts_search.html:537
+#: .\grants\templates\gc_search.html:486
 #: .\national_action_plan\templates\nap_search.html:518
-#: .\open_data\templates\od_search.html:518
+#: .\open_data\templates\od_search.html:519
 #: .\service_inventory\templates\si_search.html:770 .\wet\templates\404.html:56
 msgid "http://news.gc.ca/"
 msgstr "http://nouvelles.gc.ca"
 
 #: .\ATI\templates\ati_search.html:403
 #: .\briefing_notes\templates\bn_search.html:407
-#: .\contracts\templates\contracts_search.html:64
-#: .\grants\templates\gc_search.html:485
+#: .\contracts\templates\contracts_search.html:538
+#: .\grants\templates\gc_search.html:487
 #: .\national_action_plan\templates\nap_search.html:519
-#: .\open_data\templates\od_search.html:519
+#: .\open_data\templates\od_search.html:520
 #: .\service_inventory\templates\si_search.html:771 .\wet\templates\404.html:57
 msgid "News"
 msgstr "Nouvelles"
 
 #: .\ATI\templates\ati_search.html:405
 #: .\briefing_notes\templates\bn_search.html:409
-#: .\contracts\templates\contracts_search.html:66
-#: .\grants\templates\gc_search.html:487
+#: .\contracts\templates\contracts_search.html:540
+#: .\grants\templates\gc_search.html:489
 #: .\national_action_plan\templates\nap_search.html:521
-#: .\open_data\templates\od_search.html:521
+#: .\open_data\templates\od_search.html:522
 #: .\service_inventory\templates\si_search.html:773 .\wet\templates\404.html:59
 msgid "https://www.canada.ca/en/government/system/laws.html"
 msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
 
 #: .\ATI\templates\ati_search.html:406
 #: .\briefing_notes\templates\bn_search.html:410
-#: .\contracts\templates\contracts_search.html:67
-#: .\grants\templates\gc_search.html:488
+#: .\contracts\templates\contracts_search.html:541
+#: .\grants\templates\gc_search.html:490
 #: .\national_action_plan\templates\nap_search.html:522
-#: .\open_data\templates\od_search.html:522
+#: .\open_data\templates\od_search.html:523
 #: .\service_inventory\templates\si_search.html:774 .\wet\templates\404.html:60
 msgid "Treaties, laws and regulations"
 msgstr "Traités, lois et règlements"
 
 #: .\ATI\templates\ati_search.html:408
 #: .\briefing_notes\templates\bn_search.html:412
-#: .\contracts\templates\contracts_search.html:69
-#: .\grants\templates\gc_search.html:490
+#: .\contracts\templates\contracts_search.html:543
+#: .\grants\templates\gc_search.html:492
 #: .\national_action_plan\templates\nap_search.html:524
-#: .\open_data\templates\od_search.html:524
+#: .\open_data\templates\od_search.html:525
 #: .\service_inventory\templates\si_search.html:776 .\wet\templates\404.html:62
 msgid "https://www.canada.ca/en/transparency/reporting.html"
 msgstr "https://www.canada.ca/fr/transparence/rapports.html"
 
 #: .\ATI\templates\ati_search.html:409
 #: .\briefing_notes\templates\bn_search.html:413
-#: .\contracts\templates\contracts_search.html:70
-#: .\grants\templates\gc_search.html:491
+#: .\contracts\templates\contracts_search.html:544
+#: .\grants\templates\gc_search.html:493
 #: .\national_action_plan\templates\nap_search.html:525
-#: .\open_data\templates\od_search.html:525
+#: .\open_data\templates\od_search.html:526
 #: .\service_inventory\templates\si_search.html:777 .\wet\templates\404.html:63
 msgid "Government-wide reporting"
 msgstr "Rapports à l'échelle du gouvernement"
 
 #: .\ATI\templates\ati_search.html:411
 #: .\briefing_notes\templates\bn_search.html:415
-#: .\contracts\templates\contracts_search.html:72
-#: .\grants\templates\gc_search.html:493
+#: .\contracts\templates\contracts_search.html:546
+#: .\grants\templates\gc_search.html:495
 #: .\national_action_plan\templates\nap_search.html:527
-#: .\open_data\templates\od_search.html:527
+#: .\open_data\templates\od_search.html:528
 #: .\service_inventory\templates\si_search.html:779 .\wet\templates\404.html:65
 msgid "https://www.canada.ca/en/government/system.html"
 msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
 
 #: .\ATI\templates\ati_search.html:412
 #: .\briefing_notes\templates\bn_search.html:416
-#: .\contracts\templates\contracts_search.html:73
-#: .\grants\templates\gc_search.html:494
+#: .\contracts\templates\contracts_search.html:547
+#: .\grants\templates\gc_search.html:496
 #: .\national_action_plan\templates\nap_search.html:528
-#: .\open_data\templates\od_search.html:528
+#: .\open_data\templates\od_search.html:529
 #: .\service_inventory\templates\si_search.html:780 .\wet\templates\404.html:66
 msgid "How government works"
 msgstr "Comment le gouvernement fonctionne"
@@ -460,12 +491,12 @@ msgid "Search Briefing Note Titles and Numbers"
 msgstr "Rechercher les titres et les numéros des notes d'information"
 
 #: .\briefing_notes\templates\bn_search.html:98
-#: .\open_data\templates\od_search.html:103
+#: .\open_data\templates\od_search.html:104
 msgid "Title"
 msgstr "Titre"
 
 #: .\briefing_notes\templates\bn_search.html:128
-#: .\grants\templates\gc_search.html:156 .\grants\templates\gc_search.html:186
+#: .\grants\templates\gc_search.html:156 .\grants\templates\gc_search.html:187
 msgid "Ref #"
 msgstr "Ref no :"
 
@@ -483,9 +514,193 @@ msgstr "Destinataire"
 msgid "Action Required"
 msgstr "Mesure requise"
 
-#: .\contracts\templates\contracts_search.html:41
+#: .\contracts\templates\contract.html:31
+msgid "Search Government Contracts"
+msgstr "Rechercher des contrats gouvernementaux"
+
+#: .\contracts\templates\contract.html:32
+#| msgid "/en/gc/"
+msgid "/en/ct/"
+msgstr "/fr/ct/"
+
+#: .\contracts\templates\contract.html:38
+#| msgid "Details"
+msgid "Contract Details"
+msgstr "Détails"
+
+#: .\contracts\templates\contract.html:48
+#| msgid "Description:"
+msgid "Description: "
+msgstr "Description :"
+
+#: .\contracts\templates\contract.html:53
+#| msgid "Comment"
+msgid "Comments: "
+msgstr "Commentaires :"
+
+#: .\contracts\templates\contract.html:59
+#| msgid "Additional Information:"
+msgid "Additional Comments: "
+msgstr "Commentaires supplémentaires :"
+
+#: .\contracts\templates\contract.html:64
+msgid "Commodity Type: "
+msgstr "Type de produit"
+
+#: .\contracts\templates\contract.html:68
+#| msgid "Organization:"
+msgid "Organization: "
+msgstr "Organisation :"
+
+#: .\contracts\templates\contract.html:73
+msgid "Country of Origin: "
+msgstr "Pays d’origine"
+
+#: .\contracts\templates\contract.html:81
+msgid "Contract"
+msgstr "Contrats"
+
+#: .\contracts\templates\contract.html:85
+#| msgid "Reporting Period"
+msgid "Reporting Period: "
+msgstr "Période de déclaration :"
+
+#: .\contracts\templates\contract.html:90
+msgid "Contract Date: "
+msgstr "Date du contrat :"
+
+#: .\contracts\templates\contract.html:96
+msgid "Start Date: "
+msgstr "Date de début :"
+
+#: .\contracts\templates\contract.html:101
+#| msgid "Due Date"
+msgid "Delivery Date: "
+msgstr "Date de livraison :"
+
+#: .\contracts\templates\contract.html:105
+#| msgid "Value"
+msgid "Value: "
+msgstr "Valeur :"
+
+#: .\contracts\templates\contract.html:109
+msgid "Original Value: "
+msgstr "Valeur d'origine du contrat :"
+
+#: .\contracts\templates\contract.html:115
+#| msgid "Agreement Value:"
+msgid "Amendment Value: "
+msgstr "Valeur de modification :"
+
+#: .\contracts\templates\contract.html:124
+msgid "Applicable Trade Agreements"
+msgstr ""
+
+#: .\contracts\templates\contract.html:134
+#, fuzzy
+#| msgid "Additional Information:"
+msgid "Additional Details"
+msgstr "Informations supplémentaires :"
+
+#: .\contracts\templates\contract.html:138
+msgid "Procurement Identification Number: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:143
+msgid "Standing Offer: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:149
+msgid "Standing Offer Number: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:155
+#, fuzzy
+#| msgid "Agreement Type"
+msgid "Document Type: "
+msgstr "Type d'entente"
+
+#: .\contracts\templates\contract.html:160
+msgid "Solicitation Procedure: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:164
+msgid "Reason for Limited Tendering: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:169
+msgid "Economic Object Code: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:175
+msgid "Commodity Code: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:180
+msgid "Exemption Code: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:184
+msgid "Aboriginal Business: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:189
+msgid "Intellectual Property: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:195
+msgid "Potential Commercial Explotation: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:201
+msgid "Former Public Servant: "
+msgstr ""
+
+#: .\contracts\templates\contract.html:207
+msgid "Ministers Office: "
+msgstr ""
+
+#: .\contracts\templates\contracts_search.html:40
+msgid "Search Contracts over 10K (Quarterly)"
+msgstr ""
+
+#: .\contracts\templates\contracts_search.html:105
+#: .\grants\templates\gc_search.html:103
+msgid "Value"
+msgstr "Valeur"
+
+#: .\contracts\templates\contracts_search.html:215
+#, fuzzy
+#| msgid "Commitment"
+msgid "Commodity"
+msgstr "Engagement"
+
+#: .\contracts\templates\contracts_search.html:250
+msgid "Contract Value"
+msgstr ""
+
+#: .\contracts\templates\contracts_search.html:342
+msgid "Country of Origin"
+msgstr ""
+
+#: .\contracts\templates\contracts_search.html:376
+#, fuzzy
+#| msgid "Agreement:"
+msgid "Trade Agreements"
+msgstr "Entente :"
+
+#: .\contracts\templates\contracts_search.html:410
+msgid "Solicitation Procedure"
+msgstr ""
+
+#: .\contracts\templates\contracts_search.html:444
+#, fuzzy
+#| msgid "Agreement Type"
+msgid "Instrument Type"
+msgstr "Type d'entente"
+
 #: .\grants\templates\gc_amendment.html:31 .\grants\templates\gc_search.html:40
-#: .\grants\templates\no_record_found.html:38
+#: .\grants\templates\no_record_found.html:35
 msgid "Search Grants and Contributions"
 msgstr "Rechercher les subventions et des contributions"
 
@@ -498,7 +713,7 @@ msgid "Amendments for "
 msgstr "Modifications à "
 
 #: .\grants\templates\gc_amendment.html:47
-#: .\grants\templates\gc_search.html:158 .\grants\templates\gc_search.html:188
+#: .\grants\templates\gc_search.html:159 .\grants\templates\gc_search.html:190
 msgid "Amendment #"
 msgstr "Modification no."
 
@@ -508,25 +723,24 @@ msgstr "actuel"
 
 #: .\grants\templates\gc_amendment.html:57
 #: .\grants\templates\gc_amendment.html:81
-#| msgid "Agreement Value"
 msgid "Agreement Value:"
 msgstr "Valeur d'entente :"
 
 #: .\grants\templates\gc_amendment.html:58
 #: .\grants\templates\gc_amendment.html:82
-#: .\grants\templates\gc_search.html:144 .\grants\templates\gc_search.html:175
+#: .\grants\templates\gc_search.html:144 .\grants\templates\gc_search.html:176
 msgid "Agreement:"
 msgstr "Entente :"
 
 #: .\grants\templates\gc_amendment.html:61
 #: .\grants\templates\gc_amendment.html:85
-#: .\grants\templates\gc_search.html:147 .\grants\templates\gc_search.html:178
+#: .\grants\templates\gc_search.html:147 .\grants\templates\gc_search.html:179
 msgid "Description:"
 msgstr "Description :"
 
 #: .\grants\templates\gc_amendment.html:62
 #: .\grants\templates\gc_amendment.html:86
-#: .\grants\templates\gc_search.html:148 .\grants\templates\gc_search.html:179
+#: .\grants\templates\gc_search.html:148 .\grants\templates\gc_search.html:180
 msgid "Expected Results:"
 msgstr "Résultats prévus :"
 
@@ -552,87 +766,82 @@ msgstr ""
 
 #: .\grants\templates\gc_amendment.html:69
 #: .\grants\templates\gc_amendment.html:92
-#: .\grants\templates\gc_search.html:159 .\grants\templates\gc_search.html:189
+#: .\grants\templates\gc_search.html:160 .\grants\templates\gc_search.html:191
 msgid "Recipient's Operating Name:"
 msgstr "Nom commercial du récipient :"
 
 #: .\grants\templates\gc_amendment.html:70
 #: .\grants\templates\gc_amendment.html:93
-#: .\grants\templates\gc_search.html:160 .\grants\templates\gc_search.html:190
+#: .\grants\templates\gc_search.html:161 .\grants\templates\gc_search.html:192
 msgid "Research Organization:"
 msgstr "Organisme de recherche :"
 
 #: .\grants\templates\gc_amendment.html:71
 #: .\grants\templates\gc_amendment.html:94
-#: .\grants\templates\gc_search.html:161 .\grants\templates\gc_search.html:191
+#: .\grants\templates\gc_search.html:162 .\grants\templates\gc_search.html:193
 msgid "Federal Riding Name:"
 msgstr "Circonscription fédérale :"
 
 #: .\grants\templates\gc_amendment.html:73
-#: .\grants\templates\gc_search.html:163
+#: .\grants\templates\gc_search.html:164
 msgid "Program Name:"
 msgstr "Nom du programme :"
 
 #: .\grants\templates\gc_amendment.html:75
 #: .\grants\templates\gc_amendment.html:96
-#: .\grants\templates\gc_search.html:165 .\grants\templates\gc_search.html:193
+#: .\grants\templates\gc_search.html:166 .\grants\templates\gc_search.html:195
 msgid "Coverage:"
 msgstr "Domaine :"
 
 #: .\grants\templates\gc_amendment.html:76
 #: .\grants\templates\gc_amendment.html:97
-#: .\grants\templates\gc_search.html:166 .\grants\templates\gc_search.html:194
+#: .\grants\templates\gc_search.html:167 .\grants\templates\gc_search.html:196
 #, python-format
 msgid "Value in %(fctype)s"
 msgstr "Valeur de l'entente en %(fctype)s"
 
 #: .\grants\templates\gc_amendment.html:77
 #: .\grants\templates\gc_amendment.html:98
-#: .\grants\templates\gc_search.html:167 .\grants\templates\gc_search.html:195
+#: .\grants\templates\gc_search.html:168 .\grants\templates\gc_search.html:197
 msgid "NAICS Code:"
 msgstr "Identificateur du SCIAN :"
 
 #: .\grants\templates\gc_amendment.html:91
-#: .\grants\templates\gc_search.html:187
-msgid "Recipient Business Number:"
-msgstr "Numéro d'entreprise du bénéficiaire :"
-
-#: .\grants\templates\gc_amendment.html:91
-#: .\grants\templates\gc_search.html:187
+#: .\grants\templates\gc_search.html:189
 msgid "Additional Information:"
 msgstr "Informations supplémentaires :"
 
 #: .\grants\templates\gc_amendment.html:95
-#: .\grants\templates\gc_search.html:192
+#: .\grants\templates\gc_search.html:194
 msgid "Program:"
 msgstr "Programme :"
 
-#: .\grants\templates\gc_search.html:103
-msgid "Value"
-msgstr "Valeur"
-
-#: .\grants\templates\gc_search.html:155 .\grants\templates\gc_search.html:185
+#: .\grants\templates\gc_search.html:155 .\grants\templates\gc_search.html:186
 #: .\service_inventory\templates\si_search.html:160
 msgid "Details"
 msgstr "Détails"
 
-#: .\grants\templates\gc_search.html:169 .\grants\templates\gc_search.html:197
+#: .\grants\templates\gc_search.html:157 .\grants\templates\gc_search.html:188
+msgid "Recipient Business Number:"
+msgstr "Numéro d'entreprise du bénéficiaire :"
+
+#: .\grants\templates\gc_search.html:170 .\grants\templates\gc_search.html:199
 msgid "Amendments"
 msgstr "Modifications"
 
-#: .\grants\templates\gc_search.html:273
+#: .\grants\templates\gc_search.html:275
 msgid "Download Search Results"
 msgstr "Télécharger les résultats de recherche"
 
-#: .\grants\templates\gc_search.html:364
+#: .\grants\templates\gc_search.html:366
 msgid "Calendar Year"
 msgstr "Année civile"
 
-#: .\grants\templates\gc_search.html:386
+#: .\grants\templates\gc_search.html:388
 msgid "Agreement Type"
 msgstr "Type d'entente"
 
-#: .\grants\templates\gc_search.html:423
+#: .\grants\templates\gc_search.html:425
 msgid "Agreement Value"
 msgstr "Valeur d'entente"
 
@@ -696,29 +905,29 @@ msgstr "Jalons"
 msgid "Due Date"
 msgstr "Date limite"
 
-#: .\open_data\templates\od_search.html:34
+#: .\open_data\templates\od_search.html:35
 msgid "Open Government Portal"
 msgstr "Portail du gouvernement ouvert"
 
-#: .\open_data\templates\od_search.html:57
+#: .\open_data\templates\od_search.html:58
 msgid "Tally of Items"
 msgstr "Compte des articels"
 
-#: .\open_data\templates\od_search.html:59
+#: .\open_data\templates\od_search.html:60
 msgid "List Items"
 msgstr "Liste des articles"
 
-#: .\open_data\templates\od_search.html:61
+#: .\open_data\templates\od_search.html:62
 msgid "View on Map"
 msgstr "Afficher la carte"
 
-#: .\open_data\templates\od_search.html:63
+#: .\open_data\templates\od_search.html:64
 msgid "Clear List"
 msgstr "Vider la list"
 
-#: .\open_data\templates\od_search.html:139
-#: .\open_data\templates\od_search.html:152
-#: .\open_data\templates\od_search.html:157
+#: .\open_data\templates\od_search.html:140
+#: .\open_data\templates\od_search.html:153
+#: .\open_data\templates\od_search.html:158
 msgid ""
 "This third party metadata element has been translated using an automated "
 "translation tool (DeepL).  To report any discrepancies please contact open-"
@@ -728,57 +937,53 @@ msgstr ""
 "l'aide d'un outil de traduction automatisée (DeepL). Pour signaler toute "
 "anomalie, veuillez communiquer avec nous à open-ouvert@tbs-sct.gc.ca"
 
-#: .\open_data\templates\od_search.html:162
-#: .\open_data\templates\od_search.html:421
+#: .\open_data\templates\od_search.html:163
+#: .\open_data\templates\od_search.html:422
 msgid "Formats"
 msgstr "Formats"
 
-#: .\open_data\templates\od_search.html:165
-#: .\open_data\templates\od_search.html:371
-msgid "Key Words"
-msgstr "Mots clés"
-
-#: .\open_data\templates\od_search.html:371
+#: .\open_data\templates\od_search.html:166
+#: .\open_data\templates\od_search.html:372
 msgid "Keywords"
 msgstr "Mots clés"
 
-#: .\open_data\templates\od_search.html:177
+#: .\open_data\templates\od_search.html:178
 msgid "Add to Map List"
 msgstr "Ajouter à la liste de cartes"
 
-#: .\open_data\templates\od_search.html:181
+#: .\open_data\templates\od_search.html:182
 msgid "Remove from Map List"
 msgstr "Supprimer de la liste de cartes"
 
-#: .\open_data\templates\od_search.html:250
+#: .\open_data\templates\od_search.html:251
 msgid "https://open.canada.ca/en/suggested-datasets"
 msgstr "https://ouvert.canada.ca/fr/jeux-de-donnees-suggeres"
 
-#: .\open_data\templates\od_search.html:252
+#: .\open_data\templates\od_search.html:253
 msgid "Suggest a Dataset"
 msgstr "Proposez un jeu de données"
 
-#: .\open_data\templates\od_search.html:298
+#: .\open_data\templates\od_search.html:299
 msgid "Portal Type"
 msgstr "Type de portail"
 
-#: .\open_data\templates\od_search.html:321
+#: .\open_data\templates\od_search.html:322
 msgid "Collection Type"
 msgstr "Type de collection"
 
-#: .\open_data\templates\od_search.html:346
+#: .\open_data\templates\od_search.html:347
 msgid "Jurisdiction"
 msgstr "Juridiction"
 
-#: .\open_data\templates\od_search.html:396
+#: .\open_data\templates\od_search.html:397
 msgid "Subjects"
 msgstr "Sujets"
 
-#: .\open_data\templates\od_search.html:446
+#: .\open_data\templates\od_search.html:447
 msgid "Resource Types"
 msgstr "Type de ressource"
 
-#: .\open_data\templates\od_search.html:471
+#: .\open_data\templates\od_search.html:472
 msgid "Update Frequency"
 msgstr "Fréquence de mise à jour"
 
@@ -1062,6 +1267,9 @@ msgstr ""
 #: .\wet\templatetags\search_extras.py:41
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
+
+#~ msgid "Key Words"
+#~ msgstr "Mots clés"
 
 #~ msgid "/en/user"
 #~ msgstr "/fr/user"

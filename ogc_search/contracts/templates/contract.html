@@ -28,7 +28,7 @@
         "title": "{% trans 'Proactive Disclosure' %}",
         "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
     },{
-        "title": "{% trans 'Search Contracts' %}",
+        "title": "{% trans 'Search Government Contracts' %}",
         "href": "{% trans '/en/ct/' %}",
     }]
 {% endblock %}
@@ -78,9 +78,13 @@
     </div>
     <div class="panel panel-info">
         <header class="panel-heading">
-            <h5 class="panel-title">{% trans 'Reporting Period: ' %} {{ doc.reporting_period_s }}</h5>
+            <h5 class="panel-title">{% trans 'Contract' %}</h5>
         </header>
         <div class="panel-body">
+            {% if doc.reporting_period_s|length > 0 %}
+                <div class="col-sm-4">{% trans 'Reporting Period: ' %}</div>
+                <div class="col-sm-8">{{ doc.reporting_period_s }}</div>
+            {% endif %}
             {% if doc.contract_year_s|length > 0 %}
             <div class="row">
                 <div class="col-sm-4">{% trans 'Contract Date: ' %}</div>

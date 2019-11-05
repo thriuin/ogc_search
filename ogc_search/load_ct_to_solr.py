@@ -55,9 +55,6 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'economic_object_code_s': get_field(gc, 'economic_object_code'),
                 'description_en_s': get_field(gc, 'description_en'),
                 'description_fr_s': get_field(gc, 'description_fr'),
-                'economic_object_code_s': get_field(gc, 'economic_object_code'),
-                'description_en_s': get_field(gc, 'description_en'),
-                'description_fr_s': get_field(gc, 'description_fr'),
                 'comments_en_s': gc['comments_en'],
                 'comments_fr_s': gc['comments_fr'],
                 'additional_comments_en_s': str(gc['additional_comments_en']).strip(),
@@ -102,8 +99,10 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'standing_offer_en_s': get_choice_field(controlled_lists, gc, 'standing_offer', 'en'),
                 'standing_offer_fr_s': get_choice_field(controlled_lists, gc, 'standing_offer', 'fr'),
                 'standing_offer_number_s': gc['standing_offer_number'],
-                'document_type_code_en_s': get_choice_field(controlled_lists, gc, 'document_type_code', 'en'),
-                'document_type_code_fr_s': get_choice_field(controlled_lists, gc, 'document_type_code', 'fr'),
+                'document_type_code_en_s': get_choice_field(controlled_lists, gc, 'document_type_code', 'en',
+                                                            'Unspecified'),
+                'document_type_code_fr_s': get_choice_field(controlled_lists, gc, 'document_type_code', 'fr',
+                                                            'type non spécifié'),
                 'ministers_office_en_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'en'),
                 'ministers_office_fr_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'fr'),
                 'reporting_period_s': gc['reporting_period'],
@@ -115,8 +114,12 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 contract_start_dt: datetime = datetime.strptime(gc['contract_period_start'], '%Y-%m-%d')
                 od_obj['contract_start_dt'] = contract_start_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_start_s'] = gc['contract_period_start']
+                od_obj['contract_year_s'] = str(contract_start_dt.year)
+                od_obj['contract_month_s'] = str(contract_start_dt.month)
             else:
                 od_obj['contract_start_s'] = "-"
+                od_obj['contract_year_s'] = ""
+                od_obj['contract_month_s'] = ""
 
             if not gc['delivery_date'] == "":
                 delivery_dt: datetime = datetime.strptime(gc['delivery_date'], '%Y-%m-%d')
@@ -179,7 +182,10 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['agreement_type_code_fr_s'] = 'type non spécifié'
                 od_obj['agreement_type_code_export_fr_s'] = 'type non spécifié'
 
-            contract_range = get_bilingual_dollar_range(gc['contract_value'])
+            if gc['contract_value']:
+                contract_range = get_bilingual_dollar_range(gc['contract_value'])
+            else:
+                contract_range = get_bilingual_dollar_range(gc['amendment_value'])
             od_obj['contract_value_range_en_s'] = contract_range['en']['range']
             od_obj['contract_value_range_fr_s'] = contract_range['fr']['range']
 
