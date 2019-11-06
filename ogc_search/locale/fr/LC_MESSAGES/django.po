@@ -594,75 +594,73 @@ msgstr "Valeur de modification :"
 
 #: .\contracts\templates\contract.html:124
 msgid "Applicable Trade Agreements"
-msgstr ""
+msgstr "Accord commercial applicable"
 
 #: .\contracts\templates\contract.html:134
-#, fuzzy
 #| msgid "Additional Information:"
 msgid "Additional Details"
-msgstr "Informations supplémentaires :"
+msgstr "Informations supplémentaires"
 
 #: .\contracts\templates\contract.html:138
 msgid "Procurement Identification Number: "
-msgstr ""
+msgstr "Numéro d’identification d’approvisionnement :"
 
 #: .\contracts\templates\contract.html:143
 msgid "Standing Offer: "
-msgstr ""
+msgstr "Offre à commandes :"
 
 #: .\contracts\templates\contract.html:149
 msgid "Standing Offer Number: "
-msgstr ""
+msgstr "Numéro d’offre à commandes :"
 
 #: .\contracts\templates\contract.html:155
-#, fuzzy
 #| msgid "Agreement Type"
 msgid "Document Type: "
-msgstr "Type d'entente"
+msgstr "Type d'document :"
 
 #: .\contracts\templates\contract.html:160
 msgid "Solicitation Procedure: "
-msgstr ""
+msgstr "Méthode d’invitation à soumissionner :"
 
 #: .\contracts\templates\contract.html:164
 msgid "Reason for Limited Tendering: "
-msgstr ""
+msgstr "Raisons justifiant le recours à l’appel d’offres limité :"
 
 #: .\contracts\templates\contract.html:169
 msgid "Economic Object Code: "
-msgstr ""
+msgstr "Code d’article économique :"
 
 #: .\contracts\templates\contract.html:175
 msgid "Commodity Code: "
-msgstr ""
+msgstr "ode de produit :"
 
 #: .\contracts\templates\contract.html:180
-msgid "Exemption Code: "
-msgstr ""
+msgid "Exemption: "
+msgstr "Exemption :"
 
 #: .\contracts\templates\contract.html:184
 msgid "Aboriginal Business: "
-msgstr ""
+msgstr "Entreprise autochtone :"
 
 #: .\contracts\templates\contract.html:189
 msgid "Intellectual Property: "
-msgstr ""
+msgstr "propriété intellectuelle :"
 
 #: .\contracts\templates\contract.html:195
-msgid "Potential Commercial Explotation: "
-msgstr ""
+msgid "Potential Commercial Exploitation: "
+msgstr "Potentiel d'exploitation commerciale :"
 
 #: .\contracts\templates\contract.html:201
 msgid "Former Public Servant: "
-msgstr ""
+msgstr "Ancien fonctionnaire :"
 
 #: .\contracts\templates\contract.html:207
-msgid "Ministers Office: "
-msgstr ""
+msgid "Ministers Office Contracts: "
+msgstr "Marchés du cabinet du ministre :"
 
 #: .\contracts\templates\contracts_search.html:40
-msgid "Search Contracts over 10K (Quarterly)"
-msgstr ""
+msgid "Search Government Contracts over $10,000"
+msgstr "Rechercher des contrats gouvernementaux dont la valeur est supérieure à 10 000 $"
 
 #: .\contracts\templates\contracts_search.html:105
 #: .\grants\templates\gc_search.html:103
@@ -670,34 +668,31 @@ msgid "Value"
 msgstr "Valeur"
 
 #: .\contracts\templates\contracts_search.html:215
-#, fuzzy
 #| msgid "Commitment"
 msgid "Commodity"
-msgstr "Engagement"
+msgstr "Produit"
 
 #: .\contracts\templates\contracts_search.html:250
 msgid "Contract Value"
-msgstr ""
+msgstr "Valeur du contrat"
 
 #: .\contracts\templates\contracts_search.html:342
 msgid "Country of Origin"
-msgstr ""
+msgstr "Pays d’origine"
 
 #: .\contracts\templates\contracts_search.html:376
-#, fuzzy
 #| msgid "Agreement:"
 msgid "Trade Agreements"
-msgstr "Entente :"
+msgstr "Accord commercial"
 
 #: .\contracts\templates\contracts_search.html:410
 msgid "Solicitation Procedure"
-msgstr ""
+msgstr "Méthode d’invitation à soumissionner"
 
 #: .\contracts\templates\contracts_search.html:444
-#, fuzzy
 #| msgid "Agreement Type"
 msgid "Instrument Type"
-msgstr "Type d'entente"
+msgstr "Type d’instrument"
 
 #: .\grants\templates\gc_amendment.html:31 .\grants\templates\gc_search.html:40
 #: .\grants\templates\no_record_found.html:35

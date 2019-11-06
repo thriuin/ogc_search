@@ -1140,8 +1140,8 @@
     <field name="commodity_code_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="country_of_origin_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="country_of_origin_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="country_of_origin_txt_fr" type="text_en" indexed="true" stored="true"/>
+    <field name="country_of_origin_en_s" type="string" indexed="true" stored="true"/>
+    <field name="country_of_origin_fr_s" type="string" indexed="true" stored="true"/>
 
     <field name="solicitation_procedure_code_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="solicitation_procedure_code_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
