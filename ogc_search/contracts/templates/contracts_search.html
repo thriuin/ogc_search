@@ -228,6 +228,21 @@
                             <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md btn-block"><span
                                 class="glyphicon glyphicon-refresh"></span> {% trans 'Clear all choices' %}</a>
                         </div>
+                        {% if export_terms != "" %}
+                        <div>
+                            <a onclick="" href="{{ export_url }}"
+                               class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
+                                    class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}</a>
+                        </div>
+                    {% endif %}
+                    </div>
+                    {#  #}
+                    <div class="list-group">
+                    {% if LANGUAGE_CODE == 'fr' %}
+                        <a href="{{ od_fr_url }}/{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_fr }}</a>
+                    {% else %}
+                        <a href="{{ od_en_url }}/{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_en }}</a>
+                    {% endif %}
                     </div>
                 </aside>
                 <aside>

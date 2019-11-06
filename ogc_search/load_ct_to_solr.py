@@ -48,7 +48,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
         total += 1
         try:
             od_obj = {
-                'id': gc['reference_number'],
+                'id': "{0}_{1}".format(gc['reference_number'], gc['owner_org']),
                 'ref_number_s': get_field(gc, 'reference_number'),
                 'procurement_id_s': get_field(gc, 'procurement_id'),
                 'vendor_name_s': get_field(gc, 'vendor_name').title(),

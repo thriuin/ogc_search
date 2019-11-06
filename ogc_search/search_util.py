@@ -89,7 +89,7 @@ def calc_starting_row(page_num, rows_per_age=10):
 
 
 def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, phrases_extra,
-               start_row='0', pagesize='10', facets={}, sort_order='score asc'):
+               start_row='0', pagesize='10', facets={}, sort_order='score asc', facet_limit=''):
     solr = pysolr.Solr(solr_url)
     solr_facets = []
     extras = {
@@ -104,6 +104,8 @@ def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, p
             'qf': solr_query_fields,
             'sort': sort_order,
         }
+    if facet_limit:
+        extras.update({'facet.limit': facet_limit})
 
     for facet in facets.keys():
         if facets[facet] != '':
