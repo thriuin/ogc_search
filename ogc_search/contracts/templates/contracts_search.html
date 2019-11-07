@@ -99,7 +99,7 @@
                                 <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
-                                <option value="contract_date_dt desc" {% if sortby == "contract_date_dt desc" %}selected="selected"{% endif %}
+                                <option value="contract_delivery_s desc" {% if sortby == "contract_delivery_s desc" %}selected="selected"{% endif %}
                                     >{% trans 'Newest' %}</option>
                                 <option value="contract_value_f desc" {% if sortby == "contract_value_f desc" or sortby == "contract_value_f desc" %}selected="selected"{% endif %}
                                     >{% trans 'Value' %}</option>

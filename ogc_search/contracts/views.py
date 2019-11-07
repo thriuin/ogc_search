@@ -281,7 +281,7 @@ class CTSearchView(View):
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')
-        if solr_search_sort not in ['score desc', 'agreement_start_date_s desc', 'contract_value_f desc']:
+        if solr_search_sort not in ['score desc', 'contract_delivery_s desc', 'contract_value_f desc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 
@@ -585,6 +585,7 @@ class CTExportView(View):
                                solicitation_procedure_code_fr_s=params['solr_search_solicitation'],
                                document_type_code_fr_s=params['solr_search_doc_type']
                                )
+            solr_fields = self.solr_fields_fr
             solr_search_facets = self.solr_facet_fields_fr
             solr_query_fields = self.solr_query_fields_fr
         else:
