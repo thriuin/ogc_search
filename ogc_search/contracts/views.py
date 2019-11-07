@@ -258,7 +258,7 @@ class CTSearchView(View):
 
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=context['organizations_selected'],
-                               report_type_en_s=context['type_selected'],
+                               report_type_fr_s=context['type_selected'],
                                contract_year_s=context['year_selected'],
                                commodity_type_code_fr_s=context['commodity_type_selected'],
                                country_of_origin_fr_s=context['country_selected'],
