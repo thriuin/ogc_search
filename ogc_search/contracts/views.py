@@ -11,6 +11,25 @@ import time
 logger = logging.getLogger('ogc_search')
 
 
+def get_user_facet_parameters(request: HttpRequest):
+    """
+    Retrieve any selected search facets from the HTTP GET request
+    :param request:
+    :return: dictionary of strings of the accumulated search parameters
+    """
+    return {
+        'solr_report_type': request.GET.get('ct-search-report-type', ''),
+        'solr_search_orgs': request.GET.get('ct-search-orgs', ''),
+        'solr_search_year': request.GET.get('ct-search-year', ''),
+        'solr_search_commodity_type': request.GET.get('ct-search-commodity-type', ''),
+        'solr_search_country': request.GET.get('ct-search-country', ''),
+        'solr_search_range': request.GET.get('ct-search-dollar-range', ''),
+        'solr_search_agreements': request.GET.get('ct-search-agreement', ''),
+        'solr_search_solicitation': request.GET.get('ct-solicitation', ''),
+        'solr_search_doc_type': request.GET.get('ct-search-doc', ''),
+    }
+
+
 class CTSearchView(View):
     # Contracts Search Page
     def __init__(self):
@@ -394,7 +413,7 @@ class CTExportView(View):
                                "vendor_name_s,"
                                "contract_date_dt,"
                                "economic_object_code_s,"
-                               "description_en_s,description_txt_en,"
+                               "description_en_s,"
                                "contract_start_s,"
                                "contract_delivery_s,"
                                "contract_value_en_s,"
@@ -419,15 +438,14 @@ class CTExportView(View):
                                "ministers_office_en_s,"
                                "reporting_period_s,"
                                "owner_org_en_s,"
-                               "report_type_en_s,"
-                               "nil_report_b"
+                               "report_type_en_s"
                                )
         self.solr_fields_fr = ("ref_number_s,"
                                "procurement_id_s,"
                                "vendor_name_s,"
                                "contract_date_dt,"
                                "economic_object_code_s,"
-                               "description_fr_s,description_txt_fr,"
+                               "description_fr_s,"
                                "contract_start_s,"
                                "contract_delivery_s,"
                                "contract_value_fr_s,"
@@ -452,8 +470,7 @@ class CTExportView(View):
                                "ministers_office_fr_s,"
                                "reporting_period_s,"
                                "owner_org_fr_s,"
-                               "report_type_fr_s,"
-                               "nil_report_b"
+                               "report_type_fr_s"
                                )
 
         # Fields to be searched in the Solr query. Fields can be weighted to indicate which are more relevant for
@@ -550,15 +567,7 @@ class CTExportView(View):
                     return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
         # Retrieve any selected search facets
-        solr_report_type: str = request.GET.get('ct-search-report-type', '')
-        solr_search_orgs: str = request.GET.get('ct-search-orgs', '')
-        solr_search_year: str = request.GET.get('ct-search-year', '')
-        solr_search_commodity_type: str = request.GET.get('ct-search-commodity-type', '')
-        solr_search_country: str = request.GET.get('ct-search-country', '')
-        solr_search_range: str = request.GET.get('ct-search-dollar-range', '')
-        solr_search_agreements: str = request.GET.get('ct-search-agreement', '')
-        solr_search_solicitation: str = request.GET.get('ct-solicitation', '')
-        solr_search_doc_type: str = request.GET.get('ct-search-doc', '')
+        params = get_user_facet_parameters(request)
 
         solr_search_terms = search_util.get_search_terms(request)
         solr_fields = self.solr_fields_en
@@ -566,36 +575,36 @@ class CTExportView(View):
         solr_query_fields = self.solr_query_fields_en
 
         if request.LANGUAGE_CODE == 'fr':
-            facets_dict = dict(owner_org_fr_s=solr_search_orgs,
-                               report_type_en_s=solr_report_type,
-                               contract_year_s=solr_search_year,
-                               commodity_type_code_fr_s=solr_search_commodity_type,
-                               country_of_origin_fr_s=solr_search_country,
-                               contract_value_range_fr_s=solr_search_range,
-                               agreement_type_code_fr_s=solr_search_agreements,
-                               solicitation_procedure_code_fr_s=solr_search_solicitation,
-                               document_type_code_fr_s=solr_search_doc_type
+            facets_dict = dict(owner_org_fr_s=params['solr_search_orgs'],
+                               report_type_fr_s=params['solr_report_type'],
+                               contract_year_s=params['solr_search_year'],
+                               commodity_type_code_fr_s=params['solr_search_commodity_type'],
+                               country_of_origin_fr_s=params['solr_search_country'],
+                               contract_value_range_fr_s=params['solr_search_range'],
+                               agreement_type_code_fr_s=params['solr_search_agreements'],
+                               solicitation_procedure_code_fr_s=params['solr_search_solicitation'],
+                               document_type_code_fr_s=params['solr_search_doc_type']
                                )
             solr_search_facets = self.solr_facet_fields_fr
             solr_query_fields = self.solr_query_fields_fr
         else:
-            facets_dict = dict(owner_orgen_s=solr_search_orgs,
-                               report_type_en_s=solr_report_type,
-                               contract_year_s=solr_search_year,
-                               commodity_type_codeen_s=solr_search_commodity_type,
-                               country_of_originen_s=solr_search_country,
-                               contract_value_rangeen_s=solr_search_range,
-                               agreement_type_codeen_s=solr_search_agreements,
-                               solicitation_procedure_codeen_s=solr_search_solicitation,
-                               document_type_codeen_s=solr_search_doc_type
+            facets_dict = dict(owner_orgen_s=params['solr_search_orgs'],
+                               report_type_en_s=params['solr_report_type'],
+                               contract_year_s=params['solr_search_year'],
+                               commodity_type_code_en_s=params['solr_search_commodity_type'],
+                               country_of_origin_en_s=params['solr_search_country'],
+                               contract_value_range_en_s=params['solr_search_range'],
+                               agreement_type_code_en_s=params['solr_search_agreements'],
+                               solicitation_procedure_code_en_s=params['solr_search_solicitation'],
+                               document_type_code_en_s=params['solr_search_doc_type']
                                )
 
         search_results = search_util.solr_query_for_export(solr_search_terms,
-                                                           settings.SOLR_GC,
+                                                           settings.SOLR_CT,
                                                            solr_fields,
                                                            solr_query_fields,
                                                            solr_search_facets,
-                                                           "score desc",
+                                                           "id asc",
                                                            facets_dict,
                                                            self.phrase_xtras)
 
