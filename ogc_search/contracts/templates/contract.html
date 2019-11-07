@@ -48,13 +48,13 @@
                 <div class="col-sm-4">{% trans 'Description: ' %}</div>
                 <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ doc.description_txt_fr }}{% else %}{{ doc.description_txt_en }}{% endif %}</div>
             </div>
-            {% if doc.comments_txt_en|length > 0 %}
+            {% if doc.comments_txt_en|length > 0 or doc.comments_txt_fr|length > 0 %}
             <div class="row">
                 <div class="col-sm-4">{% trans 'Comments: ' %}</div>
                 <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ doc.comments_txt_fr }}{% else %}{{ doc.comments_txt_en }}{% endif %}</div>
             </div>
             {% endif %}
-            {% if doc.additional_comments_txt_en|length > 0 %}
+            {% if doc.additional_comments_txt_en|length > 0 or doc.additional_comments_txt_fr|length > 0%}
             <div class="row">
                 <div class="col-sm-4">{% trans 'Additional Comments: ' %}</div>
                 <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ doc.additional_comments_txt_fr }}{% else %}{{ doc.additional_comments_txt_en }}{% endif %}</div>
