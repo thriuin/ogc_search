@@ -625,6 +625,10 @@
     <copyField source="description_xlt_txt_en" dest="description_en_s"/>
     <copyField source="description_txt_fr" dest="description_fr_s"/>
     <copyField source="description_xlt_txt_fr" dest="description_fr_s"/>
+    <copyField source="keywords_xlt_en_s" dest="keywords_xlt_txt_en"/>
+    <copyField source="keywords_xlt_fr_s" dest="keywords_xlt_txt_fr"/>
+    <copyField source="keywords_xlt_en_s" dest="keywords_en_s"/>
+    <copyField source="keywords_xlt_fr_s" dest="keywords_fr_s"/>
     <field name="ogp_link_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="ogp_link_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
@@ -632,10 +636,12 @@
     <field name="owner_org_title_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="title_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="keywords_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <field name="keywords_xlt_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
     <field name="resource_title_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
     <field name="owner_org_title_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="title_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="keywords_txt_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
+    <field name="keywords_xlt_txt_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
     <field name="resource_title_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
     <field name="desc_summary_txt_en" type="text_en" indexed="true" stored="true" />
     <field name="desc_summary_txt_fr" type="text_fr" indexed="true" stored="true" />
@@ -652,7 +658,9 @@
     <field name="owner_org_title_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="owner_org_title_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="keywords_en_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="keywords_xlt_en_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
     <field name="keywords_fr_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+    <field name="keywords_xlt_fr_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
     <field name="subject_en_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
     <field name="subject_fr_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
     <field name="resource_format_s" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
