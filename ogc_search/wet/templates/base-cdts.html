@@ -28,8 +28,10 @@
     <meta name="dcterms:service" content="OG-GO" />
     <meta name="dcterms:accessRights" content="2" />
     <!-- Meta data-->
+        {% block adobe_analytics_js %}
         <!-- Load Adobe Analytics js file -->
         <script src="{{ adobe_analytics_url }}"></script>
+        {% endblock %}
         <!-- Load closure template scripts -->
          {% analytical_head_top %}
         <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/{{ cdts_version }}/cdts/compiled/soyutils.js"></script>
@@ -130,8 +132,10 @@
 {% endblock %}
 {% block custom-jquery %}{% endblock %}
 {% analytical_body_bottom %}
-<!-- Adobe analytics footer code -->
-<script type="text/javascript">_satellite.pageBottom();</script>
+{% block adobe_analytics_footer %}
+    <!-- Adobe analytics footer code -->
+    <script type="text/javascript">_satellite.pageBottom();</script>
+{% enblock %}
 </body>
 </html>
 
