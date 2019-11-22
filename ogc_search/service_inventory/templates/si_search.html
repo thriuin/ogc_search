@@ -8,6 +8,10 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/si{% endblock language_switch_url %}
 
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Search Service Inventory' %}" />
+{% endblock %}
+
 {% block custom_page_javascript %}
     <script src="{% static 'si/facets.js' %}"></script>
     <script src="{% static 'open_data/od_search.js' %}"></script>

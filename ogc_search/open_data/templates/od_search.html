@@ -8,6 +8,10 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/od{% endblock language_switch_url %}
 
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Open Government Portal' %}" />
+{% endblock %}
+
 {% block custom_page_javascript %}
     <script src="{% static 'open_data/facets.js' %}" xmlns="http://www.w3.org/1999/html"></script>
     <script src="{% static 'open_data/od_search.js' %}"></script>

@@ -8,6 +8,10 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/ct{% endblock language_switch_url %}
 
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Search Government Contracts over $10,000' %}" />
+{% endblock %}
+
 {% block custom_page_javascript %}
     <script src="{% static 'ct/facets.js' %}"></script>
     <script src="{% static 'open_data/od_search.js' %}"></script>

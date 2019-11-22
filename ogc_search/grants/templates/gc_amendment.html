@@ -8,6 +8,10 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
 
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Amendments for ' %}{{ ref_number_s }}" />
+{% endblock %}
+
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",

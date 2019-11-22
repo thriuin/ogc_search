@@ -214,6 +214,7 @@ class CTSearchView(View):
         context["ct_ds_id"] = settings.CT_DATASET_ID
         context["ct_ds_title_en"] = settings.CT_DATASET_TITLE_EN
         context["ct_ds_title_fr"] = settings.CT_DATASET_TITLE_FR
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         items_per_page = int(settings.GC_ITEMS_PER_PAGE)
         if request.LANGUAGE_CODE == 'fr':
             context['info_msg'] = settings.CT_INFO_FR
@@ -378,6 +379,7 @@ class CTContractView(CTSearchView):
     def get(self, request, slug=''):
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["slug"] = slug
         solr_search_terms = 'id:"{0}"'.format(slug)
         if request.LANGUAGE_CODE == 'fr':

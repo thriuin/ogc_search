@@ -80,6 +80,7 @@ class BNSearchView(View):
         context["bn_ds_id"] = settings.BRIEFING_NOTE_DATASET_ID
         context["bn_ds_title_en"] = settings.BRIEFING_NOTE_DATASET_TITLE_EN
         context["bn_ds_title_fr"] = settings.BRIEFING_NOTE_DATASET_TITLE_FR
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 
         # Get any search terms

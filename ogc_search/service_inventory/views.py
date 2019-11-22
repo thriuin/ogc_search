@@ -133,6 +133,7 @@ class SISearchView(View):
         context["si_ds_title_fr"] = settings.SI_DATASET_TITLE_FR
         context["si_dv_path_en"] = settings.SI_DATAVIZ_PATH_EN
         context["si_dv_path_fr"] = settings.SI_DATAVIZ_PATH_FR
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
 
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)

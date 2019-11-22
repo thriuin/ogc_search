@@ -15,9 +15,21 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
     <!-- Meta data -->
-    <meta name="description"
-          content="">
-        <!-- Meta data-->
+    <meta name="description" content="">
+    {% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Open Government' %}" />
+    {% endblock %}
+    {% if LANGUAGE_CODE == 'fr' %}
+    <meta name="dcterms:language" content="fra" />
+    {% else %}
+    <meta name="dcterms:language" content="eng" />
+    {% endif %}
+    <meta name="dcterms:creator" content="{% trans 'Treasury Board of Canada Secretariat' %}" />
+    <meta name="dcterms:service" content="OG-GO" />
+    <meta name="dcterms:accessRights" content="2" />
+    <!-- Meta data-->
+        <!-- Load Adobe Analytics js file -->
+        <script src="{{ adobe_analytics_url }}"></script>
         <!-- Load closure template scripts -->
          {% analytical_head_top %}
         <script src="https://www.canada.ca/etc/designs/canada/cdts/gcweb/{{ cdts_version }}/cdts/compiled/soyutils.js"></script>
@@ -118,6 +130,8 @@
 {% endblock %}
 {% block custom-jquery %}{% endblock %}
 {% analytical_body_bottom %}
+<!-- Adobe analytics footer code -->
+<script type="text/javascript">_satellite.pageBottom();</script>
 </body>
 </html>
 
