@@ -153,6 +153,7 @@ class GCSearchView(View):
         context["gc_ds_id"] = settings.GC_DATASET_ID
         context["gc_ds_title_en"] = settings.GC_DATASET_TITLE_EN
         context["gc_ds_title_fr"] = settings.GC_DATASET_TITLE_FR
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         items_per_page = int(settings.GC_ITEMS_PER_PAGE)
 
         # Get any search terms
@@ -279,6 +280,7 @@ class GCAmendmentView(GCSearchView):
     def get(self, request, slug=''):
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["slug"] = slug
         solr_search_terms = 'ref_number_s:"{0}"'.format(slug)
         if request.LANGUAGE_CODE == 'fr':

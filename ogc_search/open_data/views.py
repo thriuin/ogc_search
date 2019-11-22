@@ -87,6 +87,7 @@ def default_search(request):
 def handle_404_error(request, exception=None):
     context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE,)
     context["cdts_version"] = settings.CDTS_VERSION
+    context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
     return render(request, '404.html', context, status=404)
 
 
@@ -452,6 +453,9 @@ class ODSearchView(View):
         context["cdts_version"] = settings.CDTS_VERSION
         context['od_en_fgp_root'] = settings.OPEN_DATA_EN_FGP_BASE
         context['od_fr_fgp_root'] = settings.OPEN_DATA_FR_FGP_BASE
+
+        # Adobe Analytics URL
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
 
         return render(request, "od_search.html", context)
 

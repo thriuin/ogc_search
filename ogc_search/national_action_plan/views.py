@@ -101,6 +101,7 @@ class NAPSearchView(View):
         context["nap_ds_id"] = settings.NAP_DATASET_ID
         context["nap_ds_title_en"] = settings.NAP_DATASET_TITLE_EN
         context["nap_ds_title_fr"] = settings.NAP_DATASET_TITLE_FR
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
 
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)

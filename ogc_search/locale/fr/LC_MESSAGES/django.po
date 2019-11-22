@@ -1263,6 +1263,9 @@ msgstr ""
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
 
+msgid "Treasury Board of Canada Secretariat"
+msgstr "Secrétariat du Conseil du Trésor du Canada"
+
 #~ msgid "Key Words"
 #~ msgstr "Mots clés"
 
