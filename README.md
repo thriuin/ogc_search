@@ -21,7 +21,12 @@ which is compatible with the very of Solr currently in use with Open Canada.
  
  Clone the GitHub OGC Search project: https://github.com/open-data/ogc_search. Create a new 
  python 3.7 virtual environment for the project. OGC Search is built using [Django 2.1](https://www.djangoproject.com/).
- Familiarity with Django is prerequisite to developing with the OGC Search.
+ Familiarity with Django is prerequisite to developing with the OGC Search. 
+ * **NLTK Data** OGC Search uses the NLTK python library and requires the Punkt tokenizers which are 
+   available from https://www.nltk.org/nltk_data/. These datafiles must be accessible
+   to the Python virtual environment. It is not necessary to download the
+   entire NLTK corpus.
+  
  
  #### CKAN YAML and JSON Files
   OGC Search reads information that describes the CKAN datasets and proactive disclosure data
