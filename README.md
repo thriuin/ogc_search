@@ -17,17 +17,62 @@ loaded into custom Solr cores that customized specifically to support Canada's t
 OGC Search is a Django 2.1 application that runs on Python 3.6 or higher. It also requires Solr 6.6.2,
 which is compatible with the very of Solr currently in use with Open Canada.
 
- #### CKAN YAML Files ####
+ #### ogc_search
+ 
+ Clone the GitHub OGC Search project: https://github.com/open-data/ogc_search. Create a new 
+ python 3.7 virtual environment for the project. OGC Search is built using [Django 2.1](https://www.djangoproject.com/).
+ Familiarity with Django is prerequisite to developing with the OGC Search.
+ 
+ #### CKAN YAML and JSON Files
   OGC Search reads information that describes the CKAN datasets and proactive disclosure data
-  types from the ckanext-scheming YAML files. These are available on GitHub (https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables/)
+  types from the ckanext-scheming YAML files. The proactive disclosure files are available on [GitHub](https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables/)
+  as are the [CKAN dataset files](https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/schemas).
+  It also requires two JSON files for international [currency](https://github.com/open-data/ckanext-canada/blob/master/bin/download_currency.py) and 
+  [country](https://github.com/open-data/ckanext-canada/blob/master/bin/download_country.py) codes. These files
+  are often copied to the /ckan folder, but the location can be configured
   
-Download https://raw.githubusercontent.com/open-data/ckanext-canada/master/ckanext/canada/schemas/presets.yaml
-to the ckan older 
-Download a copy of the WET GCWEB theme files (available at 
-http://wet-boew.github.io/wet-boew/docs/versions/dwnld-en.html) to the themes-dist-GCWeb folder
+ #### WET-BOEW Template Files 
+  Download and extract a copy of the [WET GCWEB theme files](http://wet-boew.github.io/wet-boew/docs/versions/dwnld-en.html) 
+  to a new local folder, for example /themes-dist-GCWeb located in the project root.
 
-## Installing Solr
-- Create a new core using `solr -c <core_name> create`
-- In the conf folder remove the managed-schema file and copy the schema-7.6.xml file to schema. Rename it to schema.xml.
-- Copy the elevate.xml, synonyms_en.txt, and synonyms_fr.xml to the conf folder 
-- Copy the solrconfig-7.6.xml file to conf/solrconfig.xml
+ #### Setting up Solr
+  Download and install Apache Solr 6.6.x from the [Apache repo](https://archive.apache.org/dist/lucene/solr/6.6.6/)
+  After installing, create at least one new Solr core for the default search. Once the core
+  has been created, customize it for OGC Search.
+- As the `solr` user create a new core: `solr -c <core_name> create`
+- In the /conf folder of the new Solr core, remove the file `managed-schema` and copy the new
+  `schema.xml`  and `solrconfig.xml` from the corresponding search application project solr folder. 
+- Copy the `/lang` folder and the `synonyms_en.txt` and `synonyms_fr.txt` files from the project to the new Solr core /conf folder 
+- Verify the new core is working using the Solr admin interface
+
+ #### Static Files
+  
+  OGC Search has a large number of static files. As per Django, these files are 
+  collected from each project and in development mode can be served up
+  by the Django server. These files go into a /static folder that often is 
+  created in the root of the project file for development, but this can be configured
+  as desired.
+  
+ #### Settings.py 
+  
+  As is usual in Django, application settings are stored in a settings.py
+  file that is saved to the project folder /ogc_search/ogc_search/settings.py.
+  An example settings files is provided: `/ogc_search/ogc_search/settings.sample.py`.
+  
+ ## Loading Data
+ 
+ The open data Solr search core is populated by CKAN, however for all the
+ proactive disclosure searches, 'contracts' for example, the Solr core is populated
+ by a script that reads the CKAN recombinant CSV output file for the 
+ corresponding proactive disclosure type and saves the data to the
+ search optimized core.
+ 
+ Controlled list values for the proactive disclosure data is read from the
+ corresponding YAML table definition file.
+ 
+ ## Exporting Data
+  
+  OGC Search uses the binary data export feature of Solr to perform fast and
+  efficient export or search results to a CSV file.
+
+

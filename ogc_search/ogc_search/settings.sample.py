@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'grants',
     'national_action_plan',
     'open_data',
+    'qp_notes',
     'wet'
 ]
 
@@ -93,6 +94,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'grants', 'templates'),
             os.path.join(BASE_DIR, 'national_action_plan', 'templates'),
             os.path.join(BASE_DIR, 'open_data', 'templates'),
+            os.path.join(BASE_DIR, 'qp_notes', 'templates'),
             os.path.join(BASE_DIR, 'service_inventory', 'templates'),
         ],
         'APP_DIRS': True,
@@ -193,10 +195,12 @@ STATICFILES_DIRS = [
     ('ct', os.path.join(BASE_DIR, "contracts", "static")),
     ('gc', os.path.join(BASE_DIR, "grants", "static")),
     ('nap', os.path.join(BASE_DIR, "national_action_plan", "static")),
+    ('qp', os.path.join(BASE_DIR, "qp_notes", "static")),
     ('si', os.path.join(BASE_DIR, "service_inventory", "static")),
 ]
 
 # Search App Feature Flags
+# Note: Open Data is the default search and is not optional
 
 ADMIN_ENABLED = False
 ATI_ENABLED = False
@@ -204,6 +208,7 @@ BN_ENABLED = False
 CT_ENABLED = False
 GC_ENABLED = False
 NAP_ENABLED = False
+QP_ENABLED = False
 SI_ENABLED = False
 
 # CKAN YAML files from https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables
@@ -348,6 +353,6 @@ SOLR_SI = 'http://127.0.0.1:8983/solr/core_sv_search'
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""
 
-CDTS_VERSION = 'v4_0_28'
+CDTS_VERSION = 'v4_0_30'
 
 ADOBE_ANALYTICS_URL = 'changeme'
