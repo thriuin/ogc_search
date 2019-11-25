@@ -147,7 +147,11 @@
                                 </a></h4>
                         </div>
                         <div class="col-sm-2 text-right">
-                            <span class="{% if doc.jurisdiction_en_s == 'Provincial' or doc.jurisdiction_fr_s == 'Provinciale' %}label label-success{% else %}label label-primary{% endif %}">{% if LANGUAGE_CODE == 'fr' %}
+                            <span class="{% if doc.jurisdiction_en_s == 'Provincial' or doc.jurisdiction_fr_s == 'Provinciale' %}label label-success
+                                         {% elif doc.jurisdiction_en_s == 'User' or doc.jurisdiction_fr_s == 'Utilisateur' %}label label-warning
+                                         {% elif doc.jurisdiction_en_s == 'Municipal' or doc.jurisdiction_fr_s == 'Municipal' %}label label-danger
+                                         {% else %}label label-primary{% endif %}">
+                                {% if LANGUAGE_CODE == 'fr' %}
                                 {{ doc.jurisdiction_fr_s }}{% else %}{{doc.jurisdiction_en_s}}{% endif %}</span>
                         </div>
                         <div class="col-sm-12">
