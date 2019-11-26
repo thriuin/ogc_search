@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'ATI',
     'briefing_notes',
     'contracts',
+    'experimental_inventory',
     'grants',
     'national_action_plan',
     'open_data',
@@ -91,6 +92,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'ATI', 'templates'),
             os.path.join(BASE_DIR, 'briefing_notes', 'templates'),
             os.path.join(BASE_DIR, 'contracts', 'templates'),
+            os.path.join(BASE_DIR, 'experimental_inventory', 'templates'),
             os.path.join(BASE_DIR, 'grants', 'templates'),
             os.path.join(BASE_DIR, 'national_action_plan', 'templates'),
             os.path.join(BASE_DIR, 'open_data', 'templates'),
@@ -193,6 +195,7 @@ STATICFILES_DIRS = [
     ('ati', os.path.join(BASE_DIR, "ATI", "static")),
     ('bn', os.path.join(BASE_DIR, "briefing_notes", "static")),
     ('ct', os.path.join(BASE_DIR, "contracts", "static")),
+    ('ei', os.path.join(BASE_DIR, "experimental_inventory", "static")),
     ('gc', os.path.join(BASE_DIR, "grants", "static")),
     ('nap', os.path.join(BASE_DIR, "national_action_plan", "static")),
     ('qp', os.path.join(BASE_DIR, "qp_notes", "static")),
@@ -206,6 +209,7 @@ ADMIN_ENABLED = False
 ATI_ENABLED = False
 BN_ENABLED = False
 CT_ENABLED = False
+EI_ENABLED = False
 GC_ENABLED = False
 NAP_ENABLED = False
 QP_ENABLED = False
@@ -253,6 +257,17 @@ ATI_DATASET_ID = "0797e893-751e-4695-8229-a5066e4fe43c"
 ATI_REQUEST_URL_EN = "https://open.canada.ca/search/ati/reference/"
 ATI_REQUEST_URL_FR = "https://ouvert.canada.ca/fr/search/ati/reference/"
 SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
+
+# Experimentation Inventory App Settings
+
+SOLR_EI = 'http://127.0.0.1:8983/solr/core_ei_search'
+EI_DATASET_TITLE_EN = "Experimentation Inventory"
+EI_DATASET_TITLE_FR = "Répertoire d'expérimentation"
+EI_DATASET_ID = "39954bc7-ff7a-4180-8b6e-b02bee35078a"
+EI_INFO_EN = "Experimentation Inventory"
+EI_INFO_FR = "Répertoire d'expérimentation"
+EI_ABOUT_EN = "Experimentation Inventory..."
+EI_ABOUT_FR = "Répertoire d'expérimentation..."
 
 # Contracts App Settings
 
@@ -353,6 +368,6 @@ SOLR_SI = 'http://127.0.0.1:8983/solr/core_sv_search'
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""
 
-CDTS_VERSION = 'v4_0_30'
+CDTS_VERSION = 'v4_0_31'
 
 ADOBE_ANALYTICS_URL = 'changeme'
