@@ -262,12 +262,22 @@ SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
 
 SOLR_EI = 'http://127.0.0.1:8983/solr/core_ei_search'
 EI_DATASET_TITLE_EN = "Experimentation Inventory"
-EI_DATASET_TITLE_FR = "Répertoire d'expérimentation"
+EI_DATASET_TITLE_FR = "Répertoire d'expériences"
 EI_DATASET_ID = "39954bc7-ff7a-4180-8b6e-b02bee35078a"
 EI_INFO_EN = "Experimentation Inventory"
 EI_INFO_FR = "Répertoire d'expérimentation"
-EI_ABOUT_EN = "Experimentation Inventory..."
-EI_ABOUT_FR = "Répertoire d'expérimentation..."
+EI_ABOUT_EN = """As part of the Government of Canada’s commitment to experimentation, TBS is supporting an inventory of 
+experiments implemented as part of  Government of Canada’s programs and services. The main purpose of the inventory is 
+to publicly describe planned and ongoing experiments so as to foster learning and minimize duplication. The 
+preregistration of experiments is also recognized as a good practice that favors transparency and prevents bias 
+and data dredging.
+"""
+EI_ABOUT_FR = """En relation avec l’engagement du Gouvernement du Canada d’encourager l’expérimentation, le SCT 
+supporte un répertoire d’expériences mises en œuvre dans le cadre de programmes et services du Gouvernement du Canada. 
+L’objective principal de ce répertoire est de décrire publiquement les expériences planifiées et en cours de façon à 
+favoriser l’apprentissage et minimiser la duplication. Le préenregistrement d’expériences est également reconnue 
+comme une pratique exemplaire favorisant la transparence et prévenant les biais et la manipulation indue de données.
+"""
 
 # Contracts App Settings
 

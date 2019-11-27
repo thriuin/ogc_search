@@ -583,29 +583,29 @@
     <!-- Experiment Title -->
     <field name="titre_du_projet_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="titre_du_projet_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="titre_du_projet_en_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="titre_du_projet_fr_txt_fr" type="text_fr" indexed="true" stored="true"/>
-    <copyField source="titre_du_projet_en_s" dest="titre_du_projet_en_txt_en"/>
-    <copyField source="titre_du_projet_fr_s" dest="titre_du_projet_fr_txt_fr"/>
+    <field name="titre_du_projet_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="titre_du_projet_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="titre_du_projet_en_s" dest="titre_du_projet_txt_en"/>
+    <copyField source="titre_du_projet_fr_s" dest="titre_du_projet_txt_fr"/>
 
     <!-- Experiment Question -->
     <field name="question_de_recherche_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="question_de_recherche_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="question_de_recherche_en_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="question_de_recherche_fr_txt_fr" type="text_fr" indexed="true" stored="true"/>
-    <copyField source="question_de_recherche_en_s" dest="question_de_recherche_en_txt_en"/>
-    <copyField source="question_de_recherche_fr_s" dest="question_de_recherche_fr_txt_fr"/>
+    <field name="question_de_recherche_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="question_de_recherche_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="question_de_recherche_en_s" dest="question_de_recherche_txt_en"/>
+    <copyField source="question_de_recherche_fr_s" dest="question_de_recherche_txt_fr"/>
 
     <!-- Project Summary -->
     <field name="project_summary_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="project_summary_fr_S" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="project_summary_en_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="project_summary_fr_txt_fr" type="text_fr" indexed="true" stored="true"/>
-    <copyField source="project_summary_en_s" dest="project_summary_en_txt_en"/>
-    <copyField source="project_summary_fr_S" dest="project_summary_fr_txt_fr"/>
+    <field name="project_summary_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="project_summary_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="project_summary_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="project_summary_en_s" dest="project_summary_txt_en"/>
+    <copyField source="project_summary_fr_s" dest="project_summary_txt_fr"/>
 
     <!-- Last Updated field -->
-    <field name="last_updated" type="date" indexed="true" stored="true" docValues="true"/>
+    <field name="last_updated_dt" type="date" indexed="true" stored="true" docValues="true"/>
     <field name="last_updated_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="last_updated_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
@@ -624,17 +624,23 @@
     <!-- Reporting To Optional Field -->
     <field name="report_to_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="report_to_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="report_to_en_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="report_to_fr_txt_fr" type="text_fr" indexed="true" stored="true"/>
-    <copyField source="report_to_en_s" dest="report_to_en_txt_en"/>
-    <copyField source="report_to_fr_s" dest="report_to_fr_txt_fr"/>
+    <field name="report_to_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="report_to_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="report_to_en_s" dest="report_to_txt_en"/>
+    <copyField source="report_to_fr_s" dest="report_to_txt_fr"/>
 
     <!-- Supplementary Information Field -->
     <field name="info_supplementaire_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="info_supplementaire_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="info_supplementaire_en_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="info_supplementaire_fr_txt_fr" type="text_fr" indexed="true" stored="true"/>
-    <copyField source="info_supplementaire_en_s" dest="info_supplementaire_en_txt_en"/>
-    <copyField source="info_supplementaire_fr_s" dest="info_supplementaire_fr_txt_fr"/>
-    
+    <field name="info_supplementaire_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="info_supplementaire_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="info_supplementaire_en_s" dest="info_supplementaire_txt_en"/>
+    <copyField source="info_supplementaire_fr_s" dest="info_supplementaire_txt_fr"/>
+
+    <!-- Organization -->
+    <field name="owner_org_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
+           docValues="true"/>
+    <field name="owner_org_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
+           docValues="true"/>
+
 </schema>
