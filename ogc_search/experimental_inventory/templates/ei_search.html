@@ -20,7 +20,7 @@
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
-        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/ei/id/{{ ref_number_s }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/ei/",
         "text": "{{ LANGUAGE_CODE | SwapLangName }}"
     }],
     search: false,
@@ -38,22 +38,26 @@
         "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
     },{
         "title": "{% trans 'Search Experimentation Inventory' %}",
-        "href": "{% trans '/en/ei/' %}",
+        "href": "/{{ LANGUAGE_CODE }}/ei/",
     }]
 {% endblock %}
 
 {% block main-content %}
+
 {% block main-content-title %}
 <h1 property="name" id="wb-cont">{% trans "Experimentation Inventory" %}</h1>
 {% endblock %}
 
 <section>
+
     {% if info_msg|length > 0 %}
     <div class="row">
         <section class="alert alert-info"><h3>{% trans 'Transitional Period' %}</h3>
             <div class="small">{{ info_msg | markdown_filter | safe }}</div>
         </section>
-    </div>{% endif %}
+    </div>
+    {% endif %}
+
     {% if about_msg|length > 0 %}
     <div class="row">
         <div class="col-md-12">
@@ -66,104 +70,340 @@
         </div>
     </div>
     {% endif %}
+
+    {# Search form, results and left sidebar #}
+
     <div class="row">
+
+        {# Search form and results #}
         <div class="col-md-8 col-md-push-4">
             <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <form action="{% url 'EIQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
-    <div class="row">
-        <div class="col-md-7 col-sm-12">
-            <div class="input-group">
-                <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
-                <input type="text" name="od-search-input" class="form-control" id="od-search-input"
-                       value="{{ search_text }}" placeholder="{% trans 'Search Experimentation Inventory' %}"
-                       onkeypress="submitFormOnEnter(event)" size="60"/>
-
-                <span class="input-group-btn">
-                     <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                     <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
-                            onclick="submitForm()">{% trans 'Search' %}
-                    </button>
-                </span>
+            <div class="row mrgn-tp-md mrgn-bttm-md">
+                <div class="col-md-12" id="search_terms"></div>
             </div>
-        </div>
-        <div class="col-md-5 col-sm-12">
-            <div class="form-group">
-                <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
-                <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
-                <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
-                    >{% trans 'Best match' %}</option>
-                <option value="last_updated_dt desc" {% if sortby == "last_updated_dt desc" %}selected="selected"{% endif %}
-                    >{% trans 'Last Updated' %}</option>
-            </select>
-            </div>
-        </div>
-        <div class="input-group hidden">
-            <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
-        </div>
-    </div>
-</form>
-<div class="row mrgn-tp-md mrgn-bttm-md">
-    <div class="col-md-12" id="search_terms"></div>
-</div>
-</section>
 
-<section>
-{% block search-result-items %}
-{% for doc in results.docs %}
-    <div class="mrgn-tp-lg mrgn-bttm-md row">
-        <div class="row">
-             <div class="col-sm-9 text-capitalize">
-                 <a href="/{{ LANGUAGE_CODE }}/ei/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.titre_du_projet_txt_en | safe }}</strong></a>
-            </div>
-            <div class="col-sm-3 text-right"> <strong>{{ doc.last_updated_en_s }}</strong></div>
-        </div>
-    </div>
-{% endfor %}
-{% endblock search-result-items %}
+            <div class="row">
+                <form action="{% url 'EIQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
+                <div class="row">
+                    <div class="col-md-7 col-sm-12">
+                        <div class="input-group">
+                            <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                            <input type="text" name="od-search-input" class="form-control" id="od-search-input"
+                                   value="{{ search_text }}" placeholder="{% trans 'Search Experimentation Inventory' %}"
+                                   onkeypress="submitFormOnEnter(event)" size="60"/>
 
-{% block main-content-pagination %}
-    <section class="brdr-tp mrgn-tp-md">
-        <ul class="pagination">
-            {% for pg in pagination %}
-                {% if pg == 1 %}
-                    {% if currentpage == 1 %}
-                    <li class="previous disabled"><a href="#" rel="prev">{% trans 'Previous' %}</a></li>
-                    {% else %}
-                    <li class="previous"><a href="#" onclick="gotoPage('{{ previous_page }}')">
-                    {% trans 'Previous' %} <span class="wb-inv">Go to page {{ previous_page }}</span></a></li>
-                    {% endif %}
-                    <li{% if currentpage == 1 %} class="active" {% endif %}><a href="#" onclick="gotoPage('1')">
-                        1<span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
-                    {% elif pg == last_page %}
-                    <li{% if currentpage == last_page %} class="active" {% endif %}><a
-                            href="#" onclick="gotoPage('{{ last_page }}')">{{ pg }}
-                        <span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
-                    {% if currentpage == last_page %}
-                    <li class="next disabled"><a href="#" rel="next">{% trans 'Next' %}</a></li>
-                    {% else %}
-                    <li class="next"><a href="#" onclick="gotoPage('{{ next_page }}')">
-                        {% trans 'Next' %} <span
-                                class="wb-inv">Go to page {{ next_page }}</span></a></li>
-                    {% endif %}
-                {% elif pg == 0 %}
-                <li><a href="#" onclick="">...<span class="wb-inv"></span></a></li>
+                            <span class="input-group-btn">
+                                 <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                                 <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                        onclick="submitForm()">{% trans 'Search' %}
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
+                            <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
+                            <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
+                                >{% trans 'Best match' %}</option>
+                            <option value="last_updated_dt desc" {% if sortby == "last_updated_dt desc" %}selected="selected"{% endif %}
+                                >{% trans 'Last Updated' %}</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="input-group hidden">
+                        <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
+                    </div>
+                </div>
+                </form>
+            </div>
+
+
+
+            <section>
+            {% block search-result-items %}
+            {% for doc in results.docs %}
+                <div class="mrgn-tp-lg mrgn-bttm-md row">
+                {% if LANGUAGE_CODE == 'fr' %}
+                    <div class="row">
+                         <div class="col-sm-9 text-capitalize">
+                             <a href="/{{ LANGUAGE_CODE }}/ei/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.titre_du_projet_txt_fr | safe }}</strong></a>
+                        </div>
+                        <div class="col-sm-3 text-right"> <strong>{{ doc.last_updated_fr_s }}</strong></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 text-left"> <span class="text-info">{{ doc.owner_org_fr_s }}</span></div>
+                        <div class="col-sm-5 text-right">{{ doc.status_fr_s }}</div>
+                    </div>
+                    <div class="row"><div class="col-sm-12">{{ doc.question_de_recherche_txt_fr | markdown_filter | safe }}</div></div>
                 {% else %}
-                <li {% if currentpage == pg %}class="active" {% endif %}>
-                    <a href="#" onclick="gotoPage('{{ pg }}')">
-                        {{ pg }} <span
-                                class="wb-inv">Go to page {{pg}}</span></a></li>
+                    <div class="row">
+                         <div class="col-sm-9 text-capitalize">
+                             <a href="/{{ LANGUAGE_CODE }}/ei/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.titre_du_projet_txt_en | safe }}</strong></a>
+                        </div>
+                        <div class="col-sm-3 text-right"> <strong>{{ doc.last_updated_en_s }}</strong></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-7 text-left"> <span class="text-info">{{ doc.owner_org_en_s }}</span></div>
+                        <div class="col-sm-5 text-right">{{ doc.status_en_s }}</div>
+                    </div>
+                    <div class="row"><div class="col-sm-12">{{ doc.question_de_recherche_txt_en | markdown_filter | safe }}</div></div>
                 {% endif %}
+                </div>
             {% endfor %}
-        </ul>
-    </section>
-{% endblock main-content-pagination %}
+            </section>
+            {% endblock search-result-items %}
+
+            {% block main-content-pagination %}
+                <section class="brdr-tp mrgn-tp-md">
+                    <ul class="pagination">
+                        {% for pg in pagination %}
+                            {% if pg == 1 %}
+                                {% if currentpage == 1 %}
+                                <li class="previous disabled"><a href="#" rel="prev">{% trans 'Previous' %}</a></li>
+                                {% else %}
+                                <li class="previous"><a href="#" onclick="gotoPage('{{ previous_page }}')">
+                                {% trans 'Previous' %} <span class="wb-inv">Go to page {{ previous_page }}</span></a></li>
+                                {% endif %}
+                                <li{% if currentpage == 1 %} class="active" {% endif %}><a href="#" onclick="gotoPage('1')">
+                                    1<span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                                {% elif pg == last_page %}
+                                <li{% if currentpage == last_page %} class="active" {% endif %}><a
+                                        href="#" onclick="gotoPage('{{ last_page }}')">{{ pg }}
+                                    <span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                                {% if currentpage == last_page %}
+                                <li class="next disabled"><a href="#" rel="next">{% trans 'Next' %}</a></li>
+                                {% else %}
+                                <li class="next"><a href="#" onclick="gotoPage('{{ next_page }}')">
+                                    {% trans 'Next' %} <span
+                                            class="wb-inv">Go to page {{ next_page }}</span></a></li>
+                                {% endif %}
+                            {% elif pg == 0 %}
+                            <li><a href="#" onclick="">...<span class="wb-inv"></span></a></li>
+                            {% else %}
+                            <li {% if currentpage == pg %}class="active" {% endif %}>
+                                <a href="#" onclick="gotoPage('{{ pg }}')">
+                                    {{ pg }} <span
+                                            class="wb-inv">Go to page {{pg}}</span></a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endblock main-content-pagination %}
+        </div>
+
+        {# Left-hand Sidebar #}
+        <div class="col-md-4 col-md-pull-8">
+        <section>
+            {% spaceless %}
+
+            {# Links Block #}
+            <aside class="mrgn-tp-lg">
+                <div class="btn-block">
+                    <div>
+                        <a onclick="clear_facets();" href="#" class="btn btn-default mrgn-bttm-md btn-block"><span
+                            class="glyphicon glyphicon-refresh"></span> {% trans 'Clear all choices' %}</a>
+                    </div>
+                    {% if export_terms != "" %}
+                    <div>
+                        <a onclick="" href="{{ export_url }}"
+                           class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
+                                class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}</a>
+                    </div>
+                {% endif %}
+                </div>
+                <div class="list-group">
+                {% if LANGUAGE_CODE == 'fr' %}
+                    <a href="{{ od_fr_url }}/{{ ei_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ei_ds_title_fr }}</a>
+                {% else %}
+                    <a href="{{ od_en_url }}/{{ ei_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ei_ds_title_en }}</a>
+                {% endif %}
+                </div>
+            </aside>
+
+            {# Facets #}
+           <aside>
+                <div>
+                   {# Experiment area Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if area_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Experimental Area' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in experimental_area_fr_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in area_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in area_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-area")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in experimental_area_en_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in area_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in area_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-area")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ experimental_area_fr_s | EmptyFacetMessage }}{% else %}{{ experimental_area_en_s | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                   {# Research Method Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if method_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Research Method' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in research_method_fr_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in method_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in method_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-method")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in research_method_en_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in method_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in method_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-method")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ research_method_fr_s | EmptyFacetMessage }}{% else %}{{ research_method_en_s | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                   {# Experiment Status Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if status_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Status' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in status_fr_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in status_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in status_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-status")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in status_en_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in status_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in status_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-status")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ status_fr_s | EmptyFacetMessage }}{% else %}{{ status_en_s | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+
+                   {# Organizations Facet #}
+                    <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
+                        <summary class="panel-heading">
+                            <h5 class="panel-title">{% trans 'Organization' %}</h5>
+                        </summary>
+                        <ul class="list-group" id="org-list">
+
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {% for k, v in owner_org_fr_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {% for k, v in owner_org_en_s.items %}
+                            {% if v > 0 %}
+                            <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                    <label><input type="checkbox"
+                                    {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                          onclick='select_facet("{{ k }}", "ei-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% if LANGUAGE_CODE == 'fr' %}{{ org_facets_fr | EmptyFacetMessage }}{% else %}{{ org_facets_en | EmptyFacetMessage }}{% endif %}
+                        </ul>
+                    </details>
+                </div>
+                </aside>
+
+            {% endspaceless %}
+        </section>
+        </div>
+
+    </div>
 </section>
 
 {% endblock main-content %}

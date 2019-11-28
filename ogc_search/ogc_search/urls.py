@@ -23,7 +23,7 @@ from django.views.decorators.cache import cache_page
 from ATI.views import ATISearchView, ATIExportView
 from briefing_notes.views import BNSearchView, BNExportView
 from contracts.views import CTSearchView, CTExportView, CTContractView
-from experimental_inventory.views import EISearchView, EIExportView
+from experimental_inventory.views import EISearchView, EIExperimentView, EIExportView
 from grants.views import GCSearchView, GCExportView, GCAmendmentView
 from national_action_plan.views import NAPSearchView, NAPExportView
 from open_data import views
@@ -55,7 +55,8 @@ if settings.BN_ENABLED:
 if settings.EI_ENABLED:
     urlpatterns += i18n_patterns(
         path('ei/', EISearchView.as_view(), name='EIQuery'),
-        path('ei/export/', EIExportView.as_view(), name='EIExport')
+        path('ei/export/', EIExportView.as_view(), name='EIExport'),
+        path('ei/id/<path:slug>', EIExperimentView.as_view(), name="EIExperiment")
     )
 
 if settings.GC_ENABLED:
