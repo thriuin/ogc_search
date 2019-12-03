@@ -1,0 +1,124 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load markdown_filter %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/ei/id/{{ ref_number_s }}{% endblock language_switch_url %}
+
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Experiment' %} ({{ ref_number_s }})" />
+{% endblock %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/ei/id/{{ ref_number_s }}",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'Open Information' %}",
+        "href": "{% trans 'https://open.canada.ca/en/open-information' %}",
+    },{
+        "title": "{% trans 'Search Experimentation Inventory' %}",
+        "href": "{% trans '/en/ei/' %}",
+    }]
+{% endblock %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Experiment" %} {{ ref_number_s }}</h1>
+{% endblock %}
+
+{% for doc in results.docs %}
+    <div class="panel panel-info">
+        <header class="panel-heading">
+            <h3 class="panel-title">{{ doc.titre_du_projet_txt_en }}</h3>
+        </header>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Experimental Area: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.experimental_area_fr_s }}{% else %}{{ doc.experimental_area_en_s }}{% endif %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Research Method: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.research_method_fr_s }}{% else %}{{ doc.research_method_en_s }}{% endif %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Status: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.status_fr_s }}{% else %}{{ doc.status_en_s }}{% endif %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Last Updated: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.last_updated_fr_s }}{% else %}{{ doc.last_updated_en_s }}{% endif %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Question: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.question_de_recherche_txt_fr }}{% else %}{{ doc.question_de_recherche_txt_en }}{% endif %}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Summary: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.project_summary_txt_fr }}{% else %}{{ doc.project_summary_txt_en }}{% endif %}</div>
+            </div>
+            {% if not doc.info_supplementaire_txt_fr == '-' and not doc.info_supplementaire_txt_en == '-' %}
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Supplementary Information: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.info_supplementaire_txt_fr }}{% else %}{{ doc.info_supplementaire_txt_en }}{% endif %}</div>
+            </div>
+            {% endif %}
+            {% if not doc.report_to_txt_fr == '-' and not doc.report_to_txt_en == '-' %}
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Reporting To: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.report_to_txt_fr }}{% else %}{{ doc.report_to_txt_en }}{% endif %}</div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Organization: ' %}</strong></div>
+                <div class="col-sm-9">{% if LANGUAGE_CODE == 'fr' %}{{ doc.owner_org_fr_s }}{% else %}{{ doc.owner_org_en_s }}{% endif %}</div>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}
+{% endblock main-content %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}
+
+{% block footer-settings %}
+"footerSections": [{
+    "href": "{% trans 'https://open.canada.ca/en/forms/contact-us' %}",
+    "text": "{% trans 'Open Government Contact' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/dept.html' %}",
+    "text": "{% trans 'Departments and agencies' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/publicservice.html' %}",
+    "text": "{% trans 'Public service and military' %}"
+},{
+    "href": "{% trans 'http://news.gc.ca/' %}",
+    "text": "{% trans 'News' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system/laws.html' %}",
+    "text": "{% trans 'Treaties, laws and regulations' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/transparency/reporting.html' %}",
+    "text": "{% trans 'Government-wide reporting' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system.html' %}",
+    "text": "{% trans 'How government works' %}"
+}],
+"showFeatures": false
+{% endblock %}
