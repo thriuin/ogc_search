@@ -198,6 +198,8 @@ class EISearchView(View):
                                                     facet_limit=200)
 
         context['results'] = search_results
+        export_url = "/{0}/ei/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
+        context['export_url'] = export_url
 
         # Set pagination values for the page
         pagination = search_util.calc_pagination_range(context['results'], items_per_page, page)
@@ -269,10 +271,91 @@ class EIExperimentView(EISearchView):
             return render(request, 'no_record_found.html', context, status=404)
 
 
-class EIExportView(View):
+class EIExportView(EISearchView):
     """
     A view for downloading a simple CSV containing a subset of the fields from the Search View.
     """
 
     def __init__(self):
         super().__init__()
+        self.solr_fields_en = ("ref_number_s,"
+                               "titre_du_projet_en_s,"
+                               "question_de_recherche_en_s,"
+                               "project_summary_en_s,"
+                               "last_updated_en_s,"
+                               "experimental_area_en_s,"
+                               "research_method_en_s,"
+                               "status_en_s,"
+                               "report_to_en_s,"
+                               "info_supplementaire_en_s,"
+                               "owner_org_en_s")
+        self.solr_fields_fr = ("ref_number_s,"
+                               "titre_du_projet_fr_s,"
+                               "question_de_recherche_fr_s,"
+                               "project_summary_fr_s,"
+                               "last_updated_fr_s,"
+                               "experimental_area_fr_s,"
+                               "research_method_fr_s,"
+                               "status_fr_s,"
+                               "report_to_fr_s,"
+                               "info_supplementaire_fr_s,"
+                               "owner_org_fr_s")
+        self.phrase_xtras = {
+            'mm': '3<70%',
+        }
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+            
+    def get(self, request: HttpRequest):
+
+        # Check to see if a recent cached results exists and return that instead if it exists
+        hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
+        cached_filename = os.path.join(self.cache_dir, "{}_{}.csv".format(hashed_query, request.LANGUAGE_CODE))
+        if os.path.exists(cached_filename):
+            if time.time() - os.path.getmtime(cached_filename) > 600:
+                os.remove(cached_filename)
+            else:
+                if settings.EXPORT_FILE_CACHE_URL == "":
+                    return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+                else:
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+        # Retrieve any selected search facets
+        params = get_user_facet_parameters(request)
+
+        solr_search_terms = search_util.get_search_terms(request)
+
+        if request.LANGUAGE_CODE == 'fr':
+            facets_dict = dict(owner_org_fr_s=params['solr_search_orgs'],
+                               experimental_area_fr_s=params['solr_search_area'],
+                               research_method_fr_s=params['solr_search_method'],
+                               status_fr_s=params['solr_search_status'])
+            solr_fields = self.solr_fields_fr
+            solr_search_facets = self.solr_facet_fields_fr
+            solr_query_fields = self.solr_query_fields_fr
+        else:
+            facets_dict = dict(owner_org_en_s=params['solr_search_orgs'],
+                               experimental_area_en_s=params['solr_search_area'],
+                               research_method_en_s=params['solr_search_method'],
+                               status_en_s=params['solr_search_status'])
+
+            solr_fields = self.solr_fields_en
+            solr_search_facets = self.solr_facet_fields_en
+            solr_query_fields = self.solr_query_fields_en
+
+        search_results = search_util.solr_query_for_export(solr_search_terms,
+                                                           settings.SOLR_EI,
+                                                           solr_fields,
+                                                           solr_query_fields,
+                                                           solr_search_facets,
+                                                           "id asc",
+                                                           facets_dict,
+                                                           self.phrase_xtras)
+
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                                 solr_fields=solr_fields):
+            if settings.EXPORT_FILE_CACHE_URL == "":
+                return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+            else:
+                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
