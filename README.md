@@ -31,6 +31,10 @@ which is compatible with the very of Solr currently in use with Open Canada.
    available from https://www.nltk.org/nltk_data/. These datafiles must be accessible
    to the Python virtual environment. It is not necessary to download the
    entire NLTK corpus.
+ * OGC Search is a bilingual application that uses the standard gettext library
+   to support localisation. On Windows, it will be necessary to install the [**gettext**
+   library](https://mlocati.github.io/articles/gettext-iconv-windows.html).
+   
   
  
  #### CKAN YAML and JSON Files
