@@ -1,0 +1,148 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load markdown_filter %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
+
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Question Period Note Details' %} ({{ reference_number_s }})" />
+{% endblock %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/qp/id/{{ reference_number_s }}",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'Open Information' %}",
+        "href": "{% trans 'https://open.canada.ca/en/open-information' %}",
+    },{
+        "title": "{% trans 'Proactive Disclosure' %}",
+        "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
+    },{
+        "title": "{% trans 'Search Question Period Notes' %}",
+        "href": "/{{ LANGUAGE_CODE }}/qp/",
+    }]
+{% endblock %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Question Period Note Details" %}</h1>
+{% endblock %}
+
+    <section class="panel panel-info mrgn-tp-lg">
+      <header class="panel-heading">
+          <h5 class="panel-title">{% trans 'About' %}</h5>
+      </header>
+      <div class="panel-body">
+          <div class="row">
+              <div class="col-sm-3"><strong>{% trans 'Reference number: ' %}</strong></div>
+              <div class="col-sm-9">{{ results.docs.0.reference_number_s | safe }}</div>
+          </div>
+          <div class="row brdr-tp">
+              <div class="col-sm-3"><strong>{% trans 'Date received: ' %}</strong></div>
+              <div class="col-sm-9">{{ results.docs.0.date_received_dt|slice:"0:10" | safe }}</div>
+          </div>
+          <div class="row brdr-tp">
+              <div class="col-sm-3"><strong>{% trans 'Name of Minister: ' %}</strong></div>
+              <div class="col-sm-9">
+                  {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.minister_fr_txt }}
+                      {% for position in results.docs.0.minister_position_fr_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
+                  {% else %}{{ results.docs.0.minister_en_txt }}
+                      {% for position in results.docs.0.minister_position_en_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+    </section>
+
+    <p class="mrgn-tp-lg">
+        <div><strong>{% trans 'Title: ' %}</strong></div>
+        <div>
+            {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.title_fr_txt | safe }}
+            {% else %}{{ results.docs.0.title_en_txt | safe }}
+            {% endif %}
+        </div>
+    </p>
+    {% if results.docs.0.question_fr_txt or results.docs.0.question_en_txt %}
+        <p class="mrgn-tp-lg">
+            <div><strong>{% trans 'Issue/Question: ' %}</strong></div>
+            <div>
+                {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.question_fr_txt | linebreaks | markdown_filter | safe }}
+                {% else %}{{ results.docs.0.question_en_txt | linebreaks | markdown_filter | safe }}
+                {% endif %}
+            </div>
+        </p>
+    {% endif %}
+    <p class="mrgn-tp-lg">
+        <div><strong>{% trans 'Suggested Response: ' %}</strong></div>
+        <div>
+            {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.response_fr_txt  | linebreaks | markdown_filter | safe }}
+            {% else %}{{ results.docs.0.response_en_txt | linebreaks | markdown_filter | safe }}
+            {% endif %}
+        </div>
+    </p>
+    <p class="mrgn-tp-lg">
+        <div><strong>{% trans 'Background: ' %}</strong></div>
+        <div>
+            {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.background_fr_txt | linebreaks | markdown_filter | safe }}
+            {% else %}{{ results.docs.0.background_en_txt | linebreaks | markdown_filter | safe }}
+            {% endif %}
+        </div>
+    </p>
+    <p class="mrgn-tp-lg">
+        <div><strong>{% trans 'Additional Information: ' %}</strong></div>
+        <div>
+            {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.additional_information_fr_txt | linebreaks | markdown_filter | safe }}
+            {% else %}{{ results.docs.0.additional_information_en_txt | linebreaks | markdown_filter | safe }}
+            {% endif %}
+        </div>
+    </p>
+
+    <p class="mrgn-tp-lg mrgn-bttm-xl"><a class="btn btn-primary" href="/{{ LANGUAGE_CODE }}/qp/"><span class="glyphicon glyphicon-circle-arrow-left mrgn-rght-md"></span>{% trans 'Back to Search' %}</a></p>
+
+{% endblock main-content %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}
+
+{% block footer-settings %}
+"footerSections": [{
+    "href": "{% trans 'https://open.canada.ca/en/forms/contact-us' %}",
+    "text": "{% trans 'Open Government Contact' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/dept.html' %}",
+    "text": "{% trans 'Departments and agencies' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/publicservice.html' %}",
+    "text": "{% trans 'Public service and military' %}"
+},{
+    "href": "{% trans 'http://news.gc.ca/' %}",
+    "text": "{% trans 'News' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system/laws.html' %}",
+    "text": "{% trans 'Treaties, laws and regulations' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/transparency/reporting.html' %}",
+    "text": "{% trans 'Government-wide reporting' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system.html' %}",
+    "text": "{% trans 'How government works' %}"
+}],
+"showFeatures": false
+{% endblock %}

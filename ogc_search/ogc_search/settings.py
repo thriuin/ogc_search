@@ -208,7 +208,7 @@ BN_ENABLED = False
 CT_ENABLED = False
 GC_ENABLED = False
 NAP_ENABLED = False
-QP_ENABLED = False
+QP_ENABLED = True
 SI_ENABLED = False
 
 # CKAN YAML files from https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables
@@ -235,7 +235,7 @@ OPEN_DATA_FR_FGP_BASE = "https://ouvert.canada.ca/data/fr/fgpv_vpgf/"
 OPEN_DATA_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
 OPEN_DATA_DATASET_TITLE_EN = "Open Data Portal Catalogue Dataset"
 OPEN_DATA_DATASET_TITLE_FR = "Catalogue du portail de données ouvertes ensemble de données"
-SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
+SOLR_URL = 'http://127.0.0.1:8984/solr/core_od_search'
 
 # Briefing Note Title App Settings
 
@@ -245,7 +245,7 @@ BRIEFING_NOTE_DATASET_ID = "ee9bd7e8-90a5-45db-9287-85c8cf3589b6"
 BRIEF_NOTE_INFO_EN = 'A list of briefing note titles prepared for deputy ministers and ministers'
 BRIEF_NOTE_INFO_FR = "Listes des notes d'information préparées à l'intention " \
                      "des sous-ministres et ministres"
-SOLR_BN = 'http://127.0.0.1:8983/solr/core_bn_search'
+SOLR_BN = 'http://127.0.0.1:8984/solr/core_bn_search'
 
 # ATI App Settings
 
@@ -254,32 +254,32 @@ ATI_DATASET_TITLE_FR = "Accès à l'information"
 ATI_DATASET_ID = "0797e893-751e-4695-8229-a5066e4fe43c"
 ATI_REQUEST_URL_EN = "https://open.canada.ca/search/ati/reference/"
 ATI_REQUEST_URL_FR = "https://ouvert.canada.ca/fr/search/ati/reference/"
-SOLR_ATI = 'http://127.0.0.1:8983/solr/core_ati_search'
+SOLR_ATI = 'http://127.0.0.1:8984/solr/core_ati_search'
 
 # Contracts App Settings
 
 CONTRACT_DATASET_TITLE_EN = "Contracts Dataset"
 CONTRACT_DATASET_TITLE_FR = "Jeux de données de la divulgation des contrats"
 CONTRACTS_DATASET_ID = 'd8f85d91-7dec-4fd1-8055-483b77225d8b'
-SOLR_CT = 'http://127.0.0.1:8983/solr/core_contract_search'
+SOLR_CT = 'http://127.0.0.1:8984/solr/core_contract_search'
 CT_DATASET_TITLE_EN = 'Proactive Disclosure - Contracts Dataset'
 CT_DATASET_TITLE_FR = 'Divulgation des contrats jeu de données'
 CT_DATASET_ID = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
 
 # Grants and Contributions App Settings
 
-SOLR_GC = 'http://127.0.0.1:8983/solr/core_gc_search'
+SOLR_GC = 'http://127.0.0.1:8984/solr/core_gc_search'
 GC_DATASET_TITLE_EN = 'Grants and Contributions Dataset'
 GC_DATASET_TITLE_FR = 'Subventions et contributions gouvernementales jeu de données'
 GC_DATASET_ID = "432527ab-7aac-45b5-81d6-7597107a7013"
 GC_ITEMS_PER_PAGE = 25
 GC_INFO_FR = ''
 GC_INFO_EN = ''
-SOLR_CT = 'http://127.0.0.1:8983/solr/core_ct_search'
+SOLR_CT = 'http://127.0.0.1:8984/solr/core_ct_search'
 
 # Grants and Contributions App Settings
 
-SOLR_GC = 'http://127.0.0.1:8983/solr/core_gc_search'
+SOLR_GC = 'http://127.0.0.1:8984/solr/core_gc_search'
 GC_DATASET_TITLE_EN = 'Grants and Contributions Dataset'
 GC_DATASET_TITLE_FR = 'Subventions et contributions gouvernementales jeu de données'
 GC_DATASET_ID = "432527ab-7aac-45b5-81d6-7597107a7013"
@@ -338,7 +338,7 @@ CT_ABOUT_FR = """<p>Dans le cadre du deuxième plan d’action du Canada sur le 
 NAP_DATASET_TITLE_EN = 'National Action Plan Dataset'
 NAP_DATASET_TITLE_FR = 'Plan d’action national jeu de données'
 NAP_DATASET_ID = 'd2d72709-e4bf-412d-a1bd-8c726d19393e'
-SOLR_NAP = 'http://127.0.0.1:8983/solr/core_ap_search'
+SOLR_NAP = 'http://127.0.0.1:8984/solr/core_ap_search'
 
 # Service Inventory App Settings
 
@@ -350,7 +350,7 @@ SI_DATAVIZ_PATH_FR = "/chart/si/index-fr.html?"
 SI_ITEMS_PER_PAGE = 25
 SI_NOTE_INFO_EN = ''
 SI_NOTE_INFO_FR = ''
-SOLR_SI = 'http://127.0.0.1:8983/solr/core_sv_search'
+SOLR_SI = 'http://127.0.0.1:8984/solr/core_sv_search'
 
 # Question Period Settings
 
@@ -365,7 +365,7 @@ QP_INFO_FR = """<p>En vertu de la Loi sur l’accès à l’information, le gouv
 QP_DATASET_ID = "ba1284e5-db5f-43e1-854f-2beb7fe8f04b"
 QP_DATASET_TITLE_EN = "Question Period Notes"
 QP_DATASET_TITLE_FR = "Notes pour la période de questions"
-SOLR_QP = 'http://127.0.0.1:8983/solr/core_qp_search'
+SOLR_QP = 'http://127.0.0.1:8984/solr/core_qp_search'
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""

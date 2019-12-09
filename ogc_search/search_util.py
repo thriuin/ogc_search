@@ -1,6 +1,7 @@
 from babel.numbers import parse_decimal, format_currency, NumberFormatError
 import csv
 from django.http import HttpRequest
+from django.conf import settings
 import json
 import logging
 from math import ceil
@@ -268,7 +269,7 @@ def get_choices(field_name: str, schema: dict, is_lookup=False):
 def get_choices_json(file_name: str):
     choices_en = {}
     choices_fr = {}
-    with open (file_name, 'r') as fp:
+    with open (file_name, 'r', encoding='utf8') as fp:
         choices = json.load(fp)
         for choice in choices.keys():
             choices_en[choice] = choices[choice]['en']
