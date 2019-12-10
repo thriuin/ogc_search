@@ -3,8 +3,26 @@ from django.shortcuts import render
 from django.views.generic import View
 import logging
 import search_util
+import os
+from django.http import HttpRequest, HttpResponseRedirect, FileResponse
+import hashlib
+import time
 
 logger = logging.getLogger('ogc_search')
+
+def get_user_facet_parameters(request: HttpRequest):
+    """
+    Retrieve any selected search facets from the HTTP GET request
+    :param request:
+    :return: dictionary of strings of the accumulated search parameters
+    """
+    return {
+        'solr_search_minister': request.GET.get('qp-search-minister', ''),
+        'solr_search_minister_position': request.GET.get('qp-search-minister-positions', ''),
+        'solr_search_minister_status': request.GET.get('qp-search-minister-status', ''),
+        'solr_search_year': request.GET.get('qp-search-year', ''),
+        'solr_search_month': request.GET.get('qp-search-month', ''),
+    }
 
 
 class QPSearchView(View):
@@ -194,6 +212,9 @@ class QPSearchView(View):
         context['minister_s'] = search_util.convert_facet_list_to_dict(
             search_results.facets['facet_fields']['minister_s'])
 
+        # export url
+        export_url = "/{0}/qp/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
+        context['export_url'] = export_url
         return render(request, "qp_notes_search.html", context)
 
 
@@ -239,3 +260,97 @@ class QPExportView(View):
 
     def __init__(self):
         super().__init__()
+
+        # Fields to be returned by the Solr query, English and French Versions
+        self.solr_fields_en = ("id,reference_number_s,title_en_s,"
+                               "minister_s,minister_position_en_s,"
+                               "question_en_s,background_en_s,response_en_s,additional_information_en_s,"
+                               "date_received_dt,month_i,year_i,owner_org_en_s,")
+        self.solr_fields_fr = ("id,reference_number_s,title_fr_s,"
+                               "minister_s,minister_position_fr_s,"
+                               "question_fr_s,background_fr_s,response_fr_s,additional_information_fr_s,"
+                               "date_received_dt,month_i,year_i,owner_org_fr_s,")
+
+        # Fields to be searched in the Solr query. Fields can be weighted to indicate which are more relevant for
+        # searching.
+        self.solr_query_fields_en = ['reference_number_s^5', 'title_en_txt^5',
+                                     'minister_en_txt^4', 'question_en_txt^4', 'owner_org_title_txt_en^4',
+                                     'background_en_txt^3', 'response_en_txt^3', 'additional_information_en_txt^3', ]
+        self.solr_query_fields_fr = ['reference_number_s^5', 'title_fr_txt^5',
+                                     'minister_fr_txt^4', 'question_fr_txt^4', 'owner_org_title_txt_fr^4',
+                                     'background_fr_txt^3', 'response_fr_txt^3', 'additional_information_fr_txt^3', ]
+
+        # These fields are search facets
+        self.solr_facet_fields_en = ['{!ex=tag_minister_position_en_s}minister_position_en_s',
+                                     '{!ex=tag_month_i}month_i',
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_minister_s}minister_s',
+                                     '{!ex=tag_minister_status_en_s}minister_status_en_s', ]
+        self.solr_facet_fields_fr = ['{!ex=tag_minister_position_fr_s}minister_position_fr_s',
+                                     '{!ex=tag_month_i}month_i',
+                                     '{!ex=tag_year_i}year_i',
+                                     '{!ex=tag_minister_s}minister_s',
+                                     '{!ex=tag_minister_status_fr_s}minister_status_fr_s', ]
+        self.phrase_xtras = {
+            'mm': '3<70%',
+        }
+        self.cache_dir = settings.EXPORT_FILE_CACHE_DIR
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
+    def get(self, request: HttpRequest):
+
+        # Check to see if a recent cached results exists and return that instead if it exists
+        hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
+        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_query))
+        if os.path.exists(cached_filename):
+            if time.time() - os.path.getmtime(cached_filename) > 600:
+                os.remove(cached_filename)
+            else:
+                if settings.EXPORT_FILE_CACHE_URL == "":
+                    return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+                else:
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+        # Retrieve any selected search facets
+        params = get_user_facet_parameters(request)
+
+        solr_search_terms = search_util.get_search_terms(request)
+        solr_fields = self.solr_fields_en
+        solr_search_facets = self.solr_facet_fields_en
+        solr_query_fields = self.solr_query_fields_en
+
+        if request.LANGUAGE_CODE == 'fr':
+            facets_dict = dict(minister_fr_txt=params['solr_search_minister'],
+                               minister_position_fr_s=params['solr_search_minister_position'],
+                               minister_status_fr_s=params['solr_search_minister_status'],
+                               year_i=params['solr_search_year'],
+                               month_i=params['solr_search_month'],
+                               )
+
+            solr_fields = self.solr_fields_fr
+            solr_search_facets = self.solr_facet_fields_fr
+            solr_query_fields = self.solr_query_fields_fr
+        else:
+            facets_dict = dict(minister_en_txt=params['solr_search_minister'],
+                               minister_position_en_s=params['solr_search_minister_position'],
+                               minister_status_en_s=params['solr_search_minister_status'],
+                               year_i=params['solr_search_year'],
+                               month_i=params['solr_search_month'],
+                               )
+
+        search_results = search_util.solr_query_for_export(solr_search_terms,
+                                                           settings.SOLR_QP,
+                                                           solr_fields,
+                                                           solr_query_fields,
+                                                           solr_search_facets,
+                                                           "id asc",
+                                                           facets_dict,
+                                                           self.phrase_xtras)
+
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                                 solr_fields=solr_fields):
+            if settings.EXPORT_FILE_CACHE_URL == "":
+                return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+            else:
+                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
