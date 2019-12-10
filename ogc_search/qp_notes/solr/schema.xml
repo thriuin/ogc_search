@@ -575,28 +575,98 @@
 
     <!-- Question Period Nodes Proactive Disclosure Fields -->
 
-    <!-- ### Replace these with your values ### -->
+    <!-- 3.1 -->
+    <field name="reference_number_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <!-- Example ID fields -->
-    <field name="ref_number_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="procurement_id_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <!-- 3.2 -->
+    <field name="title_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="title_en_txt" type="text_en" indexed="true" stored="true"/>
+    <copyField source="title_en_s" dest="title_en_txt"/>
 
-    <!-- Example of a freely searchable field that can be high-lighted and exported -->
-    <field name="vendor_name_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="vendor_name_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="vendor_name_txt_fr" type="text_en" indexed="true" stored="true"/>
-    <copyField source="vendor_name_s" dest="vendor_name_txt_en"/>
-    <copyField source="vendor_name_s" dest="vendor_name_txt_fr"/>
+    <!-- 3.3 -->
+    <field name="title_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="title_fr_txt" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="title_fr_s" dest="title_fr_txt"/>
 
-    <!-- Example of a date searchable field that is  exported -->
-    <field name="contract_date_dt" type="date" indexed="true" stored="true" docValues="true"/>
-    <!-- Example of a fixed string searchable field that is exported -->
-    <field name="contract_year_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="contract_month_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <!-- 3.4 -->
+    <field name="minister_s" type="string" indexed="true" stored="true" sortMissingLast="true"
+           sortMissingFirst="false" docValues="true"/>
+    <field name="minister_en_txt" type="text_en" indexed="true" stored="true"/>
+    <field name="minister_fr_txt" type="text_fr" indexed="true" stored="true"/>
 
-    <!-- Nothing To Report Fields -->
-    <field name="report_type_en_s" type="string" indexed="true" stored="true"/>
-    <field name="report_type_fr_s" type="string" indexed="true" stored="true"/>
-    <field name="nil_report_b" type="boolean" indexed="true" stored="true"/>
+    <!-- additional fields for minister position -->
+    <field name="minister_position_en_s" type="string" indexed="true" stored="true" sortMissingLast="true"
+           sortMissingFirst="false" multiValued="true" docValues="true"/>
+    <field name="minister_position_en_txt" type="text_en" indexed="true" sortMissingLast="true"
+           sortMissingFirst="false" multiValued="true" stored="true"/>
+
+    <field name="minister_position_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true"
+           sortMissingFirst="false" multiValued="true" docValues="true"/>
+    <field name="minister_position_fr_txt" type="text_fr" indexed="true" sortMissingLast="true"
+           sortMissingFirst="false" multiValued="true" stored="true"/>
+
+    <!-- additional fields for minister status (current/former) -->
+    <field name="minister_status_en_s" type="string" indexed="true" stored="true" sortMissingLast="true"
+           sortMissingFirst="false" multiValued="true" docValues="true"/>
+    <field name="minister_status_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true"
+           sortMissingFirst="false" multiValued="true" docValues="true"/>
+
+    <!-- 3.5 -->
+    <field name="question_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="question_en_txt" type="text_en" indexed="true" stored="true"/>
+    <copyField source="question_en_s" dest="question_en_txt"/>
+
+    <!-- 3.6 -->
+    <field name="question_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="question_fr_txt" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="question_fr_s" dest="question_fr_txt"/>
+
+    <!-- 3.7 -->
+    <field name="date_received_dt" type="date" indexed="true" stored="true" multiValued="false"
+           sortMissingLast="true" sortMissingFirst="false" docValues="true"/>
+    <field name="month_i" type="int" indexed="true" stored="true"/>
+    <field name="year_i" type="int" indexed="true" stored="true"/>
+
+    <!-- 3.8 -->
+    <field name="background_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="background_en_txt" type="text_en" indexed="true" stored="true"/>
+    <copyField source="background_en_s" dest="background_en_txt"/>
+
+    <!-- 3.9 -->
+    <field name="background_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="background_fr_txt" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="background_fr_s" dest="background_fr_txt"/>
+
+    <!-- 3.10 -->
+    <field name="response_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="response_en_txt" type="text_en" indexed="true" stored="true"/>
+    <copyField source="response_en_s" dest="response_en_txt"/>
+
+    <!-- 3.11 -->
+    <field name="response_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="response_fr_txt" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="response_fr_s" dest="response_fr_txt"/>
+
+    <!-- 3.12 -->
+    <field name="additional_information_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="additional_information_en_txt" type="text_en" indexed="true" stored="true"/>
+    <copyField source="additional_information_en_s" dest="additional_information_en_txt"/>
+
+    <!-- 3.13 -->
+    <field name="additional_information_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="additional_information_fr_txt" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="additional_information_fr_s" dest="additional_information_fr_txt"/>
+
+    <!-- organization -->
+    <field name="owner_org_s" type="text_ws" indexed="true" stored="true"/>
+    <field name="owner_org_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
+           docValues="true"/>
+    <field name="owner_org_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
+           docValues="true"/>
+
+    <field name="owner_org_title_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="owner_org_title_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="owner_org_en_s" dest="owner_org_title_txt_en"/>
+    <copyField source="owner_org_fr_s" dest="owner_org_title_txt_fr"/>
 
 </schema>

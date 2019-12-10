@@ -222,9 +222,11 @@ BRIEF_NOTE_YAML_FILE = os.path.join(BASE_DIR, "ckan", "briefingt.yaml")
 CONTRACTS_YAML_FILE = os.path.join(BASE_DIR, "ckan", "contracts.yaml")
 GRANTS_YAML_FILE = os.path.join(BASE_DIR, "ckan", "grants.yaml")
 NAP_YAML_FILE = os.path.join(BASE_DIR, "ckan", "nap.yaml")
+QP_YAML_FILE = os.path.join(BASE_DIR, "ckan", "qpnotes.yaml")
 SERVICES_YAML_FILE = os.path.join(BASE_DIR, "ckan", "service.yaml")
 COUNTRY_JSON_FILE = os.path.join(BASE_DIR, "ckan", "country.json")
 CURRENCY_JSON_FILE = os.path.join(BASE_DIR, "ckan", "currency.json")
+MINISTER_JSON_FILE = os.path.join(BASE_DIR, "ckan", "minister.json")
 
 # Open Data App Settings
 
@@ -374,6 +376,21 @@ SI_ITEMS_PER_PAGE = 25
 SI_NOTE_INFO_EN = ''
 SI_NOTE_INFO_FR = ''
 SOLR_SI = 'http://127.0.0.1:8983/solr/core_sv_search'
+
+# Question Period Settings
+
+QP_INFO_EN = """<p>In accordance with the Access to Information Act, the government proactively publishes the package of question period notes that were prepared by a government institution for the minister and that were in use on the last sitting day in June and December.</p>
+<p>The question period notes may be partially or fully redacted in accordance with the legislation; for example, if the notes contain information related to national security or personal information. (Learn more about <a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-338">exemptions</a> and <a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-955">exclusions</a>.)</p> 
+<p>If you find a question period note of interest, you may make an <a href="https://www.tbs-sct.gc.ca/tbsf-fsct/350-57-eng.asp">access to information request</a> in order to obtain it.</p>"""
+QP_INFO_FR = """<p>En vertu de la Loi sur l’accès à l’information, le gouvernement publie de façon proactive les notes pour la période des questions préparées par l’institution et en usage lors du dernier jour de séance de juin et de décembre.</p>
+<p>Les notes pour la période des questions peuvent être partiellement ou entièrement caviardées en vertu de la Loi; par exemple, si les titres contiennent des renseignements liés à la sécurité nationale ou des renseignements personnels. (Renseignez-vous sur les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-336">exceptions</a> et les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-944">exclusions</a>.)</p> 
+<p>Si vous trouvez une note qui vous intéresse, vous pouvez présenter une <a href="https://www.tbs-sct.gc.ca/tbsf-fsct/350-57-fra.asp">demande d’accès à l’information</a> afin d’obtenir les documents.</p>"""
+# TODO: change dataset id when available
+# could be "ef5c222d-abaf-4793-b49b-31d894273184"?
+QP_DATASET_ID = "ba1284e5-db5f-43e1-854f-2beb7fe8f04b"
+QP_DATASET_TITLE_EN = "Question Period Notes"
+QP_DATASET_TITLE_FR = "Notes pour la période de questions"
+SOLR_QP = 'http://127.0.0.1:8983/solr/core_qp_search'
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""

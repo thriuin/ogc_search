@@ -28,7 +28,7 @@ from grants.views import GCSearchView, GCExportView, GCAmendmentView
 from national_action_plan.views import NAPSearchView, NAPExportView
 from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
-from qp_notes.views import QPSearchView, QPExportView
+from qp_notes.views import QPSearchView, QPExportView, QPCardView
 from service_inventory.views import SISearchView, SIExportView
 
 urlpatterns = [
@@ -88,7 +88,8 @@ if settings.NAP_ENABLED:
 if settings.QP_ENABLED:
     urlpatterns += i18n_patterns(
         path('qp/', QPSearchView.as_view(), name='QPQuery'),
-        path('qp/export/', QPExportView.as_view(), name='QPExport')
+        path('qp/export/', QPExportView.as_view(), name='QPExport'),
+        path('qp/id/<path:slug>', QPCardView.as_view(), name='QPCard')
     )
 
 # Use a friendly rendered page for Page Not Found errors
