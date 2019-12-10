@@ -312,7 +312,6 @@ class CTSearchView(View):
                                                     sort_order=solr_search_sort,
                                                     facet_limit=200)
 
-
         context['results'] = search_results
         export_url = "/{0}/ct/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
         context['export_url'] = export_url

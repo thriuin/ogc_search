@@ -109,7 +109,6 @@ venv.bak/
 .idea/
 ocsenv/
 cdts/
-bin/
 /ogc_search/ckan/presets.yaml
 /ogc_search/themes-dist-GCWeb
 /ogc_search/static/
