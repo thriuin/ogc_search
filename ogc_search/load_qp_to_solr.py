@@ -27,7 +27,7 @@ def get_ministers():
     return {'en': choices_ministers, 'fr': choices_ministers}
 
 
-def get_minister_positions(minister, date_received, lang_code, status):
+def get_minister_positions(minister, lang_code, status):
     file_name = settings.MINISTER_JSON_FILE
     minister_positions = []
     with open(file_name, 'r', encoding='utf8') as fp:
@@ -35,20 +35,13 @@ def get_minister_positions(minister, date_received, lang_code, status):
         for choice in choices.keys():
             if choice == minister:
                 for position in choices[choice]['positions_' + lang_code]:
-                    start_date = datetime.strptime(position['start_date'], '%Y-%m-%dT%H:%M:%S')
-                    date_rec = datetime.strptime(date_received, '%Y-%m-%d')
-                    if position['end_date']:
-                        end_date = datetime.strptime(position['end_date'], '%Y-%m-%dT%H:%M:%S')
-                    else:
-                        end_date = datetime.now()
-                    if start_date <= date_rec <= end_date:
-                        if status and position['end_date']:
-                            if lang_code == 'fr':
-                                minister_positions.append('Précédent ' + position['title_' + lang_code])
-                            else:
-                                minister_positions.append('Former ' + position['title_' + lang_code])
+                    if status and position['end_date']:
+                        if lang_code == 'fr':
+                            minister_positions.append('Précédent ' + position['title_' + lang_code])
                         else:
-                            minister_positions.insert(0, position['title_' + lang_code])
+                            minister_positions.append('Former ' + position['title_' + lang_code])
+                    else:
+                        minister_positions.insert(0, position['title_' + lang_code])
     return minister_positions
 
 
@@ -97,10 +90,10 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as file:
                 'minister_s': get_choice_field(controlled_list_minister, csvRow, 'minister', 'en', 'Unspecified'),
                 'minister_en_txt': get_choice_field(controlled_lists, csvRow, 'minister', 'en', 'Unspecified'),
                 'minister_fr_txt': get_choice_field(controlled_lists, csvRow, 'minister', 'fr', 'Unspecified'),
-                'minister_position_en_s': get_minister_positions(csvRow['minister'], csvRow['date_received'], 'en', False),
-                'minister_position_fr_s': get_minister_positions(csvRow['minister'], csvRow['date_received'], 'fr', False),
-                'minister_position_en_txt': get_minister_positions(csvRow['minister'], csvRow['date_received'], 'en', True),
-                'minister_position_fr_txt': get_minister_positions(csvRow['minister'], csvRow['date_received'], 'fr', True),
+                'minister_position_en_s': get_minister_positions(csvRow['minister'], 'en', False),
+                'minister_position_fr_s': get_minister_positions(csvRow['minister'], 'fr', False),
+                'minister_position_en_txt': get_minister_positions(csvRow['minister'], 'en', True),
+                'minister_position_fr_txt': get_minister_positions(csvRow['minister'], 'fr', True),
                 'minister_status_en_s': get_minister_status(csvRow['minister'], 'en'),
                 'minister_status_fr_s': get_minister_status(csvRow['minister'], 'fr'),
                 'question_en_s': str(get_field(csvRow, 'question_en')).strip(),
