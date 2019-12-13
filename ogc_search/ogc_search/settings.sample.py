@@ -239,6 +239,36 @@ OPEN_DATA_FR_FGP_BASE = "https://ouvert.canada.ca/data/fr/fgpv_vpgf/"
 OPEN_DATA_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
 OPEN_DATA_DATASET_TITLE_EN = "Open Data Portal Catalogue Dataset"
 OPEN_DATA_DATASET_TITLE_FR = "Catalogue du portail de données ouvertes ensemble de données"
+
+# conditional banners on Open Data App
+OPEN_MAPS_INFO_EN = """<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to select multiple 
+  datasets to plot on a single map. Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial 
+  viewer"""
+OPEN_MAPS_INFO_FR = """<h3>Cartes ouvertes</h3> Rechercher des données géospatiales ou cliquer sur
+  <b>Ajouter au panier</b> pour sélectionner de multiples jeux de données à
+  tracer sur une seule carte. Cliquez <b>Afficher la carte</b> pour visualiser
+  et superposer les jeux de données à l'aide d'une visualisateur géospatiale."""
+OPEN_INFORMATION_INFO_EN = """<div>Please note that the Open Information Portal contains a sample of government of Canada 
+  publications and information resources. For more resources, please visit <a href="http://publications.gc.ca/">
+  Government of Canada Publications</a> and <a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.</div>"""
+OPEN_INFORMATION_INFO_FR = """<div>Veuillez noter que le Portail d’information ouverte contient un échantillon de 
+  publications et de ressources d’information du gouvernement du Canada. Pour consulter d’autres ressources, 
+  veuillez visiter <a href="http://publications.gc.ca/">Publications du gouvernement du Canada</a> et
+  <a href="http://www.bac-lac.gc.ca/Pages/default.aspx">Bibliothèque et Archives Canada</a>.</div>"""
+OPEN_DATA_EXTERNAL_INFO_EN = """<div>The applications created by the public have been developed, and are operated and owned 
+  by third parties. The Government of Canada does not endorse, approve, or certify the applications or the developers, 
+  nor does it make any representation or warranty that the information based on which the applications have been 
+  developed, including information licensed under the Open Government Licence, is accurate, complete, or correct. 
+  Your use of the applications and the information contained therein, including information licensed under the 
+  Open Government Licence, is at your sole risk.</div>"""
+OPEN_DATA_EXTERNAL_INFO_FR = """<div>Les applications créées par le public ont été développées et sont exploitées par
+  des tiers, qui en sont les propriétaires. Le gouvernement du Canada n’appuie pas, n’approuve pas et ne certifie 
+  pas les applications ou les développeurs, et ne fait aucune assertion ni ne donne aucune garantie que 
+  l’information utilisée lors du développement de l’application, y compris l’information sous licence en vertu 
+  de la Licence du gouvernement ouvert, est exacte, complète ou correcte. Vous utilisez donc les applications et 
+  l’information qu’elles comportent, y compris l’information sous licence en vertu de la Licence du gouvernement
+  ouvert, à vos propres risques.</div>"""
+
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
 
 # Briefing Note Title App Settings

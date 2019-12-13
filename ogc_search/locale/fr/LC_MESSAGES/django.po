@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-10 14:24-0500\n"
+"POT-Creation-Date: 2019-12-11 17:22-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1215,32 +1215,6 @@ msgstr "Type de ressource"
 msgid "Update Frequency"
 msgstr "Fréquence de mise à jour"
 
-#: .\open_data\views.py:344
-msgid ""
-"<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to "
-"select multiple datasets to plot on a single map. Click <b>View on Map</b> "
-"to visualize and overlay the datasets using a geospatial viewer"
-msgstr ""
-"<h3>Cartes ouvertes</h3> Rechercher des données géospatiales ou cliquer sur "
-"<b>Ajouter au panier</b> pour sélectionner de multiples jeux de données à "
-"tracer sur une seule carte. Cliquez <b>Afficher la carte</b> pour visualiser "
-"et superposer les jeux de données à l'aide d'une visualisateur géospatiale."
-
-#: .\open_data\views.py:346
-msgid ""
-"<b></b>Please note that the Open Information Portal contains a sample of "
-"government of Canada publications and information resources. For more "
-"resources, please visit <a href=\"http://publications.gc.ca/\">Government of "
-"Canada Publications</a> and <a href=\"http://www.bac-lac.gc.ca/\">Library "
-"and Archives Canada</a>."
-msgstr ""
-"<b></b>Veuillez noter que le Portail d’information ouverte contient un "
-"échantillon de publications et de ressources d’information du gouvernement "
-"du Canada. Pour consulter d’autres ressources, veuillez visiter <a href="
-"\"http://publications.gc.ca/\">Publications du gouvernement du Canada</a> et "
-"<a href=\"http://www.bac-lac.gc.ca/Pages/default.aspx\">Bibliothèque et "
-"Archives Canada</a>."
-
 #: .\qp_notes\templates\qp_notes.html:12 .\qp_notes\templates\qp_notes.html:42
 msgid "Question Period Note Details"
 msgstr "Détails des note pour la période de questions"
@@ -1553,11 +1527,6 @@ msgstr ""
 #: .\wet\templatetags\search_extras.py:41
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
-
-#, fuzzy
-#~| msgid "Search Question Period Notes"
-#~ msgid "Search Quesiton Period Notes"
-#~ msgstr "Rechercher des notes pour la période de questions"
 
 #~ msgid "Key Words"
 #~ msgstr "Mots clés"

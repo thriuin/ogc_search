@@ -340,11 +340,20 @@ class ODSearchView(View):
         start_row = 10 * (page - 1)
 
         alerts = []
-        if 'Open Maps'in context['col_selected_list'] or 'Cartes Ouvertes' in context['col_selected_list']:
-            alerts.append(_('<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to select multiple datasets to plot on a single map. Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial viewer'))
-        if 'Open Information' in context['portal_selected_list'] or  'Information ouverte' in context['portal_selected_list']:
-            alerts.append(_('<b></b>Please note that the Open Information Portal contains a sample of government of Canada publications and information resources. For more resources, please visit <a href="http://publications.gc.ca/">Government of Canada Publications</a> and <a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.'))
+        if 'Open Maps'in context['col_selected_list']:
+            alerts.append(_(settings.OPEN_MAPS_INFO_EN))
+        elif 'Cartes Ouvertes' in context['col_selected_list']:
+            alerts.append(_(settings.OPEN_MAPS_INFO_FR))
+        if 'Open Information' in context['portal_selected_list']:
+            alerts.append(_(settings.OPEN_INFORMATION_INFO_EN))
+        elif 'Information ouverte' in context['portal_selected_list']:
+            alerts.append(_(settings.OPEN_INFORMATION_INFO_FR))
+        if 'User' in context['jur_selected_list']:
+            alerts.append(_(settings.OPEN_DATA_EXTERNAL_INFO_EN))
+        elif 'Utilisateur' in context['jur_selected_list']:
+            alerts.append(_(settings.OPEN_DATA_EXTERNAL_INFO_FR))
         context['alerts'] = alerts
+
         # Set Sort order
 
         solr_search_sort = request.GET.get('sort', 'score desc')
