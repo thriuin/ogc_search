@@ -17,41 +17,64 @@ BULK_SIZE = 1000
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
 
-def get_ministers():
-    choices_ministers = {}
+def get_minister_from_position(position, date_received, lang_code, flag):
+    """
+    Return current minister for the position on date received
+    """
     file_name = settings.MINISTER_JSON_FILE
     with open(file_name, 'r', encoding='utf8') as fp:
         choices = json.load(fp)
-        for choice in choices.keys():
-            choices_ministers[choice] = choice
-    return {'en': choices_ministers, 'fr': choices_ministers}
-
-
-def get_minister_positions(minister, lang_code, status):
-    file_name = settings.MINISTER_JSON_FILE
-    minister_positions = []
-    with open(file_name, 'r', encoding='utf8') as fp:
-        choices = json.load(fp)
-        for choice in choices.keys():
-            if choice == minister:
-                for position in choices[choice]['positions_' + lang_code]:
-                    if status and position['end_date']:
-                        if lang_code == 'fr':
-                            minister_positions.append('Précédent ' + position['title_' + lang_code])
-                        else:
-                            minister_positions.append('Former ' + position['title_' + lang_code])
+        for choice in choices[position]['ministers']:
+            start_date = datetime.strptime(choice['start_date'], '%Y-%m-%dT%H:%M:%S')
+            date_rec = datetime.strptime(date_received, '%Y-%m-%d')
+            if choice['end_date']:
+                end_date = datetime.strptime(choice['end_date'], '%Y-%m-%dT%H:%M:%S')
+                if start_date <= date_rec <= end_date:
+                    if flag:
+                        return choice['name_' + lang_code]
                     else:
-                        minister_positions.insert(0, position['title_' + lang_code])
-    return minister_positions
+                        return choice['name']
+            else:
+                if start_date <= date_rec:
+                    if flag:
+                        return choice['name_' + lang_code]
+                    else:
+                        return choice['name']
 
 
-def get_minister_status(minister, lang_code):
+def get_minister_positions(minister, lang_code):
+    """
+    Return all positions for the minister
+    """
     file_name = settings.MINISTER_JSON_FILE
+    if lang_code == 'fr':
+        status_prefix = 'Précédent '
+    else:
+        status_prefix = 'Former '
+    positions = []
+
     with open(file_name, 'r', encoding='utf8') as fp:
         choices = json.load(fp)
         for choice in choices.keys():
-            if choice == minister:
-                if choices[choice]['status']:
+            for m in choices[choice]['ministers']:
+                if m['name'] == minister:
+                    if not m['end_date']:
+                        positions.insert(0, choices[choice][lang_code])
+                    else:
+                        positions.append(status_prefix + choices[choice][lang_code])
+    return positions
+
+
+def get_minister_status(position, minister, lang_code):
+    """
+    Return status of a minister in a position
+    """
+    file_name = settings.MINISTER_JSON_FILE
+    with open(file_name, 'r', encoding='utf8') as fp:
+        choices = json.load(fp)
+        for m in choices[position]['ministers']:
+            if m['name'] == minister:
+                if not m['end_date']:
                     if lang_code == 'fr':
                         return 'Présent'
                     else:
@@ -67,7 +90,6 @@ with open(settings.QP_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as 
     schema = load(ckan_schema_file, Loader=Loader)
 
 controlled_lists = {'minister': get_choices_json(settings.MINISTER_JSON_FILE)}
-controlled_list_minister = {'minister': get_ministers()}
 
 solr = pysolr.Solr(settings.SOLR_QP)
 solr.delete(q='*:*')
@@ -80,6 +102,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as file:
     reader = csv.DictReader(file, dialect='excel')
     for csvRow in reader:
         total += 1
+        minister_name = get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'en', False)
         try:
             solrDoc = {
                 'id': "{0}_{1}".format(csvRow['reference_number'], csvRow['owner_org']),
@@ -87,15 +110,17 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as file:
                 'reference_number_s': get_field(csvRow, 'reference_number'),
                 'title_en_s': get_field(csvRow, 'title_en'),
                 'title_fr_s': get_field(csvRow, 'title_fr').title(),
-                'minister_s': get_choice_field(controlled_list_minister, csvRow, 'minister', 'en', 'Unspecified'),
-                'minister_en_txt': get_choice_field(controlled_lists, csvRow, 'minister', 'en', 'Unspecified'),
-                'minister_fr_txt': get_choice_field(controlled_lists, csvRow, 'minister', 'fr', 'Unspecified'),
-                'minister_position_en_s': get_minister_positions(csvRow['minister'], 'en', False),
-                'minister_position_fr_s': get_minister_positions(csvRow['minister'], 'fr', False),
-                'minister_position_en_txt': get_minister_positions(csvRow['minister'], 'en', True),
-                'minister_position_fr_txt': get_minister_positions(csvRow['minister'], 'fr', True),
-                'minister_status_en_s': get_minister_status(csvRow['minister'], 'en'),
-                'minister_status_fr_s': get_minister_status(csvRow['minister'], 'fr'),
+
+                'minister_position_en_s': get_choice_field(controlled_lists, csvRow, 'minister', 'en', 'Unspecified'),
+                'minister_position_fr_s': get_choice_field(controlled_lists, csvRow, 'minister', 'fr', 'Indéterminé'),
+                'minister_position_en_txt': get_minister_positions(minister_name, 'en'),
+                'minister_position_fr_txt': get_minister_positions(minister_name, 'fr'),
+                'minister_s': minister_name,
+                'minister_en_txt': get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'en', True),
+                'minister_fr_txt': get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'fr', True),
+                'minister_status_en_s': get_minister_status(csvRow['minister'], minister_name, 'en'),
+                'minister_status_fr_s': get_minister_status(csvRow['minister'], minister_name, 'fr'),
+
                 'question_en_s': str(get_field(csvRow, 'question_en')).strip(),
                 'question_fr_s': str(get_field(csvRow, 'question_fr')).strip(),
                 'background_en_s': str(get_field(csvRow, 'background_en')).strip(),

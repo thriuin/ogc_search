@@ -1,7 +1,6 @@
 from babel.numbers import parse_decimal, format_currency, NumberFormatError
 import csv
 from django.http import HttpRequest
-from django.conf import settings
 import json
 import logging
 from math import ceil

@@ -43,29 +43,52 @@
 {% endblock %}
 
     <section class="panel panel-info mrgn-tp-lg">
-      <header class="panel-heading">
-          <h5 class="panel-title">{% trans 'About' %}</h5>
-      </header>
-      <div class="panel-body">
-          <div class="row">
-              <div class="col-sm-3"><strong>{% trans 'Reference number: ' %}</strong></div>
-              <div class="col-sm-9">{{ results.docs.0.reference_number_s | safe }}</div>
-          </div>
-          <div class="row brdr-tp">
-              <div class="col-sm-3"><strong>{% trans 'Date received: ' %}</strong></div>
-              <div class="col-sm-9">{{ results.docs.0.date_received_dt|slice:"0:10" | safe }}</div>
-          </div>
-          <div class="row brdr-tp">
-              <div class="col-sm-3"><strong>{% trans 'Name of Minister: ' %}</strong></div>
-              <div class="col-sm-9">
-                  {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.minister_fr_txt }}
-                      {% for position in results.docs.0.minister_position_fr_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
-                  {% else %}{{ results.docs.0.minister_en_txt }}
-                      {% for position in results.docs.0.minister_position_en_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
-                  {% endif %}
-              </div>
-          </div>
-      </div>
+        <header class="panel-heading">
+            <h5 class="panel-title">{% trans 'About' %}</h5>
+        </header>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-3"><strong>{% trans 'Reference number: ' %}</strong></div>
+                <div class="col-sm-9">{{ results.docs.0.reference_number_s | safe }}</div>
+            </div>
+            <div class="row brdr-tp">
+                <div class="col-sm-3"><strong>{% trans 'Date received: ' %}</strong></div>
+                <div class="col-sm-9">{{ results.docs.0.date_received_dt|slice:"0:10" | safe }}</div>
+            </div>
+            <div class="row brdr-tp">
+                <div class="col-sm-3"><strong>{% trans 'Organization: ' %}</strong></div>
+                <div class="col-sm-9">
+                    {% if LANGUAGE_CODE == 'fr' %}
+                        {{ results.docs.0.owner_org_title_txt_fr | safe }}
+                    {% else %}
+                        {{ results.docs.0.owner_org_title_txt_en | safe }}
+                    {% endif %}
+                </div>
+            </div>
+            {% if results.docs.0.minister_s %}
+                <div class="row brdr-tp">
+                    <div class="col-sm-3"><strong>{% trans 'Name of Minister: ' %}</strong></div>
+                    <div class="col-sm-9">
+                        {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.minister_fr_txt }}
+                            {% for position in results.docs.0.minister_position_fr_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
+                        {% else %}{{ results.docs.0.minister_en_txt }}
+                            {% for position in results.docs.0.minister_position_en_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="row brdr-tp">
+                    <div class="col-sm-3"><strong>{% trans 'Ministry: ' %}</strong></div>
+                    <div class="col-sm-9">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {{ results.docs.0.minister_position_fr_s.0 | safe }}
+                        {% else %}
+                            {{ results.docs.0.minister_position_en_s.0 | safe }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </section>
 
     <p class="mrgn-tp-lg">
@@ -76,16 +99,14 @@
             {% endif %}
         </div>
     </p>
-    {% if results.docs.0.question_fr_txt or results.docs.0.question_en_txt %}
-        <p class="mrgn-tp-lg">
-            <div><strong>{% trans 'Issue/Question: ' %}</strong></div>
-            <div>
-                {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.question_fr_txt | linebreaks | markdown_filter | safe }}
-                {% else %}{{ results.docs.0.question_en_txt | linebreaks | markdown_filter | safe }}
-                {% endif %}
-            </div>
-        </p>
-    {% endif %}
+    <p class="mrgn-tp-lg">
+        <div><strong>{% trans 'Issue/Question: ' %}</strong></div>
+        <div>
+            {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.question_fr_txt | linebreaks | markdown_filter | safe }}
+            {% else %}{{ results.docs.0.question_en_txt | linebreaks | markdown_filter | safe }}
+            {% endif %}
+        </div>
+    </p>
     <p class="mrgn-tp-lg">
         <div><strong>{% trans 'Suggested Response: ' %}</strong></div>
         <div>
