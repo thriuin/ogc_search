@@ -607,9 +607,9 @@
 
     <!-- additional fields for minister status (current/former) -->
     <field name="minister_status_en_s" type="string" indexed="true" stored="true" sortMissingLast="true"
-           sortMissingFirst="false" multiValued="true" docValues="true"/>
+           sortMissingFirst="false" docValues="true"/>
     <field name="minister_status_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true"
-           sortMissingFirst="false" multiValued="true" docValues="true"/>
+           sortMissingFirst="false" docValues="true"/>
 
     <!-- 3.5 -->
     <field name="question_en_s" type="string" indexed="true" stored="true" docValues="true"/>

@@ -43,7 +43,6 @@
 {% block main-content-title %}
 <h1 property="name" id="wb-cont">{% trans 'Question Period Notes' %}</h1>
 {% endblock %}
-
     <section>
         {% if info_msg|length > 0 %}
         <div class="row mrgn-tp-lg">
@@ -87,7 +86,7 @@
                                     <select class="form-control" name="sort-by" id="sort-by" value="{{ sortby }}" onchange="submitForm();">
                                     <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                         >{% trans 'Best match' %}</option>
-                                    <option value="date_received_tdt desc" {% if sortby == "date_received_tdt desc" %}selected="selected"{% endif %}
+                                    <option value="date_received_dt desc" {% if sortby == "date_received_dt desc" %}selected="selected"{% endif %}
                                         >{% trans 'Newest' %}</option>
                                     <option value="title_en_s asc" {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
                                         >{% trans 'Title' %}</option>
@@ -128,17 +127,26 @@
 
                             <div class="col-sm-12">
                             {% if LANGUAGE_CODE == 'fr' %}
+                                {% if doc.question_fr_txt != '-' %}
+                                    <p class="mrgn-tp-md">{{ doc.question_fr_txt | safe }}</p>
+                                {% endif %}
                                 <p class="mrgn-tp-md">
-                                    <strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_title_txt_fr | safe }}<br/>
-                                    <strong>{% trans 'Minister' %}</strong>: {{ doc.minister_fr_txt | safe }}<br/>
+                                    <div><strong>{% trans 'Organization: ' %}</strong> {{ doc.owner_org_title_txt_fr | safe }}</div>
+                                    {% if doc.minister_fr_txt %}
+                                        <div><strong>{% trans 'Minister: ' %}</strong> {{ doc.minister_fr_txt | safe }}</div>
+                                    {% endif %}
+                                    <div><strong>{% trans 'Ministry: ' %}</strong> {{ doc.minister_position_fr_s.0 | safe }}</div>
                                 </p>
-                                <p class="mrgn-tp-md">{{ doc.question_fr_txt | safe }}</p>
                             {% else %}
+                                {% if doc.question_en_txt != '-' %}
+                                    <p class="mrgn-tp-md">{{ doc.question_en_txt | safe }}</p>
+                                {% endif %}
                                 <p class="mrgn-tp-md">
-                                    <strong>Organization</strong>: {{ doc.owner_org_title_txt_en | safe }}<br/>
-                                    <strong>Minister</strong>: {{ doc.minister_en_txt | safe }}<br/>
-                                </p>
-                                <p class="mrgn-tp-md">{{ doc.question_en_txt | safe }}</p>
+                                    <div><strong>{% trans 'Organization: ' %}</strong> {{ doc.owner_org_title_txt_en | safe }}</div>
+                                    {% if doc.minister_en_txt %}
+                                        <div><strong>{% trans 'Minister: ' %}</strong> {{ doc.minister_en_txt | safe }}</div>
+                                    {% endif %}
+                                    <div><strong>{% trans 'Ministry: ' %}</strong> {{ doc.minister_position_en_s.0 | safe }}</div>                                </p>
                             {% endif %}
                             </div>
                          </div>
@@ -204,24 +212,24 @@
                     </div>
                     {# Link to Dataset #}
                     <div class="list-group">
-                    {% if LANGUAGE_CODE == 'fr' %}
-                        <a href="{{ od_fr_url }}{{ ds_id }}" class="list-group-item list-group-item-info text-center">{{ ds_title_fr }}</a>
-                    {% else %}
-                        <a href="{{ od_en_url }}{{ ds_id }}" class="list-group-item list-group-item-info text-center">{{ ds_title_en }}</a>
-                    {% endif %}
+                        <a href="{% if LANGUAGE_CODE == 'fr' %}{{ od_fr_url }}{% else %}{{ od_en_url }}{% endif %}{{ ds_id }}"
+                           class="list-group-item list-group-item-info text-center">
+                            {% trans 'Download dataset of the Question Period Notes' %}
+                        </a>
                     </div>
                 </aside>
                 <aside>
 
+                    {# OPEN-356: business requested to hide facet for now #}
                     {# Minister Status Facet #}
-
+                    <!-- {#
                         <details class="panel panel-default mrgn-bttm-0" {% if minister_status_selected|length > 0 %}open{% endif %}>
                             <summary class="panel-heading">
                                 <h5 class="panel-title">{% trans 'Status' %}</h5>
                             </summary>
                             <ul class="list-group">
                                 {% if LANGUAGE_CODE == 'fr' %}
-                                    {% for k, v in minister_status_fr_s.items %}
+                                    {% for k, v in minister_status_facets_fr_s.items %}
                                     {% if v > 0 %}
                                     <li class="list-group-item{% if k in minister_status_selected_list %} active{% endif %}">
                                         <div class="row">
@@ -235,7 +243,7 @@
                                     {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    {% for k, v in minister_status_en_s.items %}
+                                    {% for k, v in minister_status_facets_en_s.items %}
                                     {% if v > 0 %}
                                     <li class="list-group-item{% if k in minister_status_selected_list %} active{% endif %}">
                                         <div class="row">
@@ -252,6 +260,7 @@
                                 {% if LANGUAGE_CODE == 'fr' %}{{ minister_status_en_s | EmptyFacetMessage }}{% else %}{{ minister_status_fr_s | EmptyFacetMessage }}{% endif %}
                             </ul>
                         </details>
+                        #} -->
 
                     {# Minister Facet #}
 
@@ -278,7 +287,6 @@
                         </details>
 
                     {# Minister Position Facet #}
-                    <div>
                         <details class="panel panel-default mrgn-bttm-0" {% if minister_position_selected|length > 0 %}open{% endif %}>
                             <summary class="panel-heading">
                                 <h5 class="panel-title">{% trans 'Ministry' %}</h5>
@@ -321,11 +329,52 @@
                             </ul>
                         </details>
 
-                    {# Year Facet #}
+                    {# Organizations Facet #}
+                        <details class="panel panel-default mrgn-bttm-0" {% if organizations_selected|length > 0 %}open{% endif %}>
+                            <summary class="panel-heading">
+                                <h5 class="panel-title">{% trans 'Organization' %}</h5>
+                            </summary>
+                            <ul class="list-group" id="org-list">
 
+                            {% if LANGUAGE_CODE == 'fr' %}
+                                {% for k, v in org_facets_fr.items %}
+                                {% if v > 0 %}
+                                <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="row">
+                                    <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                        <label><input type="checkbox"
+                                        {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                              onclick='select_facet("{{ k }}", "qp-search-orgs")' value="{{ k }}"
+                                        style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                    <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                                </div>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% for k, v in org_facets_en.items %}
+                                {% if v > 0 %}
+                                <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
+                                <div class="row">
+                                    <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
+                                        <label><input type="checkbox"
+                                        {% if k in organizations_selected_list %} checked="checked"{% endif %}
+                                              onclick='select_facet("{{ k }}", "qp-search-orgs")' value="{{ k }}"
+                                        style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                    <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                                </div>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if LANGUAGE_CODE == 'fr' %}{{ org_facets_fr | EmptyFacetMessage }}{% else %}{{ org_facets_en | EmptyFacetMessage }}{% endif %}
+                            </ul>
+                        </details>
+
+                    {# Year Facet #}
                         <details class="panel panel-default mrgn-bttm-0" {% if year_selected|length > 0 %}open{% endif %}>
                             <summary class="panel-heading">
-                                <h5 class="panel-title">{% trans 'Year' %}</h5>
+                                <h5 class="panel-title">{% trans 'Year the note was provided' %}</h5>
                             </summary>
                             <ul class="list-group">
                                 {% for k, v in year_i.items %}
@@ -350,7 +399,7 @@
 
                         <details class="panel panel-default mrgn-bttm-0" {% if month_selected|length > 0 %}open{% endif %}>
                             <summary class="panel-heading">
-                                <h5 class="panel-title">{% trans 'Month' %}</h5>
+                                <h5 class="panel-title">{% trans 'Month the note was provided' %}</h5>
                             </summary>
                             <ul class="list-group">
                                 {% for k, v in month_i.items %}

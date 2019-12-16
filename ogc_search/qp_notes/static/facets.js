@@ -4,4 +4,5 @@ let accumulators = [
     'qp-search-minister-status',
     'qp-search-year',
     'qp-search-month',
+    'qp-search-orgs',
 ];

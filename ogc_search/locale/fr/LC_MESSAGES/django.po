@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-11 17:22-0500\n"
+"POT-Creation-Date: 2019-12-16 16:06-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -220,7 +220,7 @@ msgstr ""
 #: .\grants\templates\gc_search.html:78
 #: .\national_action_plan\templates\nap_search.html:61
 #: .\open_data\templates\od_search.html:72
-#: .\qp_notes\templates\qp_notes_search.html:64
+#: .\qp_notes\templates\qp_notes_search.html:63
 #: .\service_inventory\templates\si_search.html:83
 #, python-format
 msgid "Found %(result_num)s record%(result_s)s"
@@ -249,10 +249,10 @@ msgstr "%(result_num)s dossier%(result_s)s trouvé%(result_s)s"
 #: .\open_data\templates\od_search.html:83
 #: .\open_data\templates\od_search.html:87
 #: .\open_data\templates\od_search.html:90
-#: .\qp_notes\templates\qp_notes_search.html:71
-#: .\qp_notes\templates\qp_notes_search.html:73
-#: .\qp_notes\templates\qp_notes_search.html:77
-#: .\qp_notes\templates\qp_notes_search.html:79
+#: .\qp_notes\templates\qp_notes_search.html:70
+#: .\qp_notes\templates\qp_notes_search.html:72
+#: .\qp_notes\templates\qp_notes_search.html:76
+#: .\qp_notes\templates\qp_notes_search.html:78
 #: .\service_inventory\templates\si_search.html:90
 #: .\service_inventory\templates\si_search.html:92
 #: .\service_inventory\templates\si_search.html:96
@@ -268,7 +268,7 @@ msgstr "Recherche"
 #: .\grants\templates\gc_search.html:103
 #: .\national_action_plan\templates\nap_search.html:92
 #: .\open_data\templates\od_search.html:105
-#: .\qp_notes\templates\qp_notes_search.html:89
+#: .\qp_notes\templates\qp_notes_search.html:88
 #: .\service_inventory\templates\si_search.html:109
 msgid "Best match"
 msgstr "Pertinence"
@@ -278,7 +278,7 @@ msgstr "Pertinence"
 #: .\contracts\templates\contracts_search.html:107
 #: .\grants\templates\gc_search.html:105
 #: .\open_data\templates\od_search.html:102
-#: .\qp_notes\templates\qp_notes_search.html:91
+#: .\qp_notes\templates\qp_notes_search.html:90
 msgid "Newest"
 msgstr "Date de modification"
 
@@ -293,7 +293,7 @@ msgstr ""
 #: .\grants\templates\gc_search.html:100
 #: .\national_action_plan\templates\nap_search.html:86
 #: .\open_data\templates\od_search.html:97
-#: .\qp_notes\templates\qp_notes_search.html:86
+#: .\qp_notes\templates\qp_notes_search.html:85
 #: .\service_inventory\templates\si_search.html:105
 msgid "Order By"
 msgstr "Trier par"
@@ -316,8 +316,8 @@ msgstr "Rien à signaler"
 #: .\national_action_plan\templates\nap_search.html:198
 #: .\open_data\templates\od_search.html:212
 #: .\open_data\templates\od_search.html:215
-#: .\qp_notes\templates\qp_notes_search.html:155
-#: .\qp_notes\templates\qp_notes_search.html:158
+#: .\qp_notes\templates\qp_notes_search.html:163
+#: .\qp_notes\templates\qp_notes_search.html:166
 #: .\service_inventory\templates\si_search.html:210
 #: .\service_inventory\templates\si_search.html:213
 msgid "Previous"
@@ -335,8 +335,8 @@ msgstr "Précédent"
 #: .\national_action_plan\templates\nap_search.html:207
 #: .\open_data\templates\od_search.html:218
 #: .\open_data\templates\od_search.html:222
-#: .\qp_notes\templates\qp_notes_search.html:161
-#: .\qp_notes\templates\qp_notes_search.html:165
+#: .\qp_notes\templates\qp_notes_search.html:169
+#: .\qp_notes\templates\qp_notes_search.html:173
 #: .\service_inventory\templates\si_search.html:216
 #: .\service_inventory\templates\si_search.html:220
 msgid "Go to"
@@ -354,8 +354,8 @@ msgstr "Aller à la page"
 #: .\national_action_plan\templates\nap_search.html:212
 #: .\open_data\templates\od_search.html:224
 #: .\open_data\templates\od_search.html:227
-#: .\qp_notes\templates\qp_notes_search.html:167
-#: .\qp_notes\templates\qp_notes_search.html:170
+#: .\qp_notes\templates\qp_notes_search.html:175
+#: .\qp_notes\templates\qp_notes_search.html:178
 #: .\service_inventory\templates\si_search.html:222
 #: .\service_inventory\templates\si_search.html:225
 msgid "Next"
@@ -368,7 +368,7 @@ msgstr "Suivant"
 #: .\grants\templates\gc_search.html:272
 #: .\national_action_plan\templates\nap_search.html:236
 #: .\open_data\templates\od_search.html:250
-#: .\qp_notes\templates\qp_notes_search.html:194
+#: .\qp_notes\templates\qp_notes_search.html:202
 #: .\service_inventory\templates\si_search.html:248
 msgid "Clear all choices"
 msgstr "Effacer tout"
@@ -376,7 +376,7 @@ msgstr "Effacer tout"
 #: .\ATI\templates\ati_search.html:238
 #: .\briefing_notes\templates\bn_search.html:210
 #: .\open_data\templates\od_search.html:255
-#: .\qp_notes\templates\qp_notes_search.html:201
+#: .\qp_notes\templates\qp_notes_search.html:209
 msgid "Download Results"
 msgstr "Télécharger les résultats de recherche"
 
@@ -396,7 +396,7 @@ msgstr "Genre de rapport"
 #: .\national_action_plan\templates\nap_search.html:429
 #: .\open_data\templates\od_search.html:169
 #: .\open_data\templates\od_search.html:275
-#: .\qp_notes\templates\qp_notes_search.html:132
+#: .\qp_notes\templates\qp_notes_search.html:335
 #: .\service_inventory\templates\si_search.html:162
 #: .\service_inventory\templates\si_search.html:272
 msgid "Organization"
@@ -405,14 +405,12 @@ msgstr "Organisation"
 #: .\ATI\templates\ati_search.html:332
 #: .\briefing_notes\templates\bn_search.html:265
 #: .\contracts\templates\contracts_search.html:340
-#: .\qp_notes\templates\qp_notes_search.html:328
 #: .\service_inventory\templates\si_search.html:310
 msgid "Year"
 msgstr "Année"
 
 #: .\ATI\templates\ati_search.html:355
 #: .\briefing_notes\templates\bn_search.html:288
-#: .\qp_notes\templates\qp_notes_search.html:353
 msgid "Month"
 msgstr "Mois"
 
@@ -426,8 +424,8 @@ msgstr "Mois"
 #: .\grants\templates\gc_search.html:481
 #: .\national_action_plan\templates\nap_search.html:513
 #: .\open_data\templates\od_search.html:524
-#: .\qp_notes\templates\qp_notes.html:126
-#: .\qp_notes\templates\qp_notes_search.html:393
+#: .\qp_notes\templates\qp_notes.html:147
+#: .\qp_notes\templates\qp_notes_search.html:442
 #: .\service_inventory\templates\si_search.html:765 .\wet\templates\404.html:47
 msgid "https://open.canada.ca/en/forms/contact-us"
 msgstr ""
@@ -443,8 +441,8 @@ msgstr ""
 #: .\grants\templates\gc_search.html:482
 #: .\national_action_plan\templates\nap_search.html:514
 #: .\open_data\templates\od_search.html:525
-#: .\qp_notes\templates\qp_notes.html:127
-#: .\qp_notes\templates\qp_notes_search.html:394
+#: .\qp_notes\templates\qp_notes.html:148
+#: .\qp_notes\templates\qp_notes_search.html:443
 #: .\service_inventory\templates\si_search.html:766 .\wet\templates\404.html:48
 msgid "Open Government Contact"
 msgstr "Contactez-nous du gouvernement ouvert"
@@ -459,8 +457,8 @@ msgstr "Contactez-nous du gouvernement ouvert"
 #: .\grants\templates\gc_search.html:484
 #: .\national_action_plan\templates\nap_search.html:516
 #: .\open_data\templates\od_search.html:527
-#: .\qp_notes\templates\qp_notes.html:129
-#: .\qp_notes\templates\qp_notes_search.html:396
+#: .\qp_notes\templates\qp_notes.html:150
+#: .\qp_notes\templates\qp_notes_search.html:445
 #: .\service_inventory\templates\si_search.html:768 .\wet\templates\404.html:50
 msgid "https://www.canada.ca/en/government/dept.html"
 msgstr "https://www.canada.ca/fr/gouvernement/min.html"
@@ -475,8 +473,8 @@ msgstr "https://www.canada.ca/fr/gouvernement/min.html"
 #: .\grants\templates\gc_search.html:485
 #: .\national_action_plan\templates\nap_search.html:517
 #: .\open_data\templates\od_search.html:528
-#: .\qp_notes\templates\qp_notes.html:130
-#: .\qp_notes\templates\qp_notes_search.html:397
+#: .\qp_notes\templates\qp_notes.html:151
+#: .\qp_notes\templates\qp_notes_search.html:446
 #: .\service_inventory\templates\si_search.html:769 .\wet\templates\404.html:51
 msgid "Departments and agencies"
 msgstr "Ministères et organismes"
@@ -491,8 +489,8 @@ msgstr "Ministères et organismes"
 #: .\grants\templates\gc_search.html:487
 #: .\national_action_plan\templates\nap_search.html:519
 #: .\open_data\templates\od_search.html:530
-#: .\qp_notes\templates\qp_notes.html:132
-#: .\qp_notes\templates\qp_notes_search.html:399
+#: .\qp_notes\templates\qp_notes.html:153
+#: .\qp_notes\templates\qp_notes_search.html:448
 #: .\service_inventory\templates\si_search.html:771 .\wet\templates\404.html:53
 msgid "https://www.canada.ca/en/government/publicservice.html"
 msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
@@ -507,8 +505,8 @@ msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
 #: .\grants\templates\gc_search.html:488
 #: .\national_action_plan\templates\nap_search.html:520
 #: .\open_data\templates\od_search.html:531
-#: .\qp_notes\templates\qp_notes.html:133
-#: .\qp_notes\templates\qp_notes_search.html:400
+#: .\qp_notes\templates\qp_notes.html:154
+#: .\qp_notes\templates\qp_notes_search.html:449
 #: .\service_inventory\templates\si_search.html:772 .\wet\templates\404.html:54
 msgid "Public service and military"
 msgstr "Fonction publique et force militaire"
@@ -523,8 +521,8 @@ msgstr "Fonction publique et force militaire"
 #: .\grants\templates\gc_search.html:490
 #: .\national_action_plan\templates\nap_search.html:522
 #: .\open_data\templates\od_search.html:533
-#: .\qp_notes\templates\qp_notes.html:135
-#: .\qp_notes\templates\qp_notes_search.html:402
+#: .\qp_notes\templates\qp_notes.html:156
+#: .\qp_notes\templates\qp_notes_search.html:451
 #: .\service_inventory\templates\si_search.html:774 .\wet\templates\404.html:56
 msgid "http://news.gc.ca/"
 msgstr "http://nouvelles.gc.ca"
@@ -539,8 +537,8 @@ msgstr "http://nouvelles.gc.ca"
 #: .\grants\templates\gc_search.html:491
 #: .\national_action_plan\templates\nap_search.html:523
 #: .\open_data\templates\od_search.html:534
-#: .\qp_notes\templates\qp_notes.html:136
-#: .\qp_notes\templates\qp_notes_search.html:403
+#: .\qp_notes\templates\qp_notes.html:157
+#: .\qp_notes\templates\qp_notes_search.html:452
 #: .\service_inventory\templates\si_search.html:775 .\wet\templates\404.html:57
 msgid "News"
 msgstr "Nouvelles"
@@ -555,8 +553,8 @@ msgstr "Nouvelles"
 #: .\grants\templates\gc_search.html:493
 #: .\national_action_plan\templates\nap_search.html:525
 #: .\open_data\templates\od_search.html:536
-#: .\qp_notes\templates\qp_notes.html:138
-#: .\qp_notes\templates\qp_notes_search.html:405
+#: .\qp_notes\templates\qp_notes.html:159
+#: .\qp_notes\templates\qp_notes_search.html:454
 #: .\service_inventory\templates\si_search.html:777 .\wet\templates\404.html:59
 msgid "https://www.canada.ca/en/government/system/laws.html"
 msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
@@ -571,8 +569,8 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
 #: .\grants\templates\gc_search.html:494
 #: .\national_action_plan\templates\nap_search.html:526
 #: .\open_data\templates\od_search.html:537
-#: .\qp_notes\templates\qp_notes.html:139
-#: .\qp_notes\templates\qp_notes_search.html:406
+#: .\qp_notes\templates\qp_notes.html:160
+#: .\qp_notes\templates\qp_notes_search.html:455
 #: .\service_inventory\templates\si_search.html:778 .\wet\templates\404.html:60
 msgid "Treaties, laws and regulations"
 msgstr "Traités, lois et règlements"
@@ -587,8 +585,8 @@ msgstr "Traités, lois et règlements"
 #: .\grants\templates\gc_search.html:496
 #: .\national_action_plan\templates\nap_search.html:528
 #: .\open_data\templates\od_search.html:539
-#: .\qp_notes\templates\qp_notes.html:141
-#: .\qp_notes\templates\qp_notes_search.html:408
+#: .\qp_notes\templates\qp_notes.html:162
+#: .\qp_notes\templates\qp_notes_search.html:457
 #: .\service_inventory\templates\si_search.html:780 .\wet\templates\404.html:62
 msgid "https://www.canada.ca/en/transparency/reporting.html"
 msgstr "https://www.canada.ca/fr/transparence/rapports.html"
@@ -603,8 +601,8 @@ msgstr "https://www.canada.ca/fr/transparence/rapports.html"
 #: .\grants\templates\gc_search.html:497
 #: .\national_action_plan\templates\nap_search.html:529
 #: .\open_data\templates\od_search.html:540
-#: .\qp_notes\templates\qp_notes.html:142
-#: .\qp_notes\templates\qp_notes_search.html:409
+#: .\qp_notes\templates\qp_notes.html:163
+#: .\qp_notes\templates\qp_notes_search.html:458
 #: .\service_inventory\templates\si_search.html:781 .\wet\templates\404.html:63
 msgid "Government-wide reporting"
 msgstr "Rapports à l'échelle du gouvernement"
@@ -619,8 +617,8 @@ msgstr "Rapports à l'échelle du gouvernement"
 #: .\grants\templates\gc_search.html:499
 #: .\national_action_plan\templates\nap_search.html:531
 #: .\open_data\templates\od_search.html:542
-#: .\qp_notes\templates\qp_notes.html:144
-#: .\qp_notes\templates\qp_notes_search.html:411
+#: .\qp_notes\templates\qp_notes.html:165
+#: .\qp_notes\templates\qp_notes_search.html:460
 #: .\service_inventory\templates\si_search.html:783 .\wet\templates\404.html:65
 msgid "https://www.canada.ca/en/government/system.html"
 msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
@@ -635,8 +633,8 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
 #: .\grants\templates\gc_search.html:500
 #: .\national_action_plan\templates\nap_search.html:532
 #: .\open_data\templates\od_search.html:543
-#: .\qp_notes\templates\qp_notes.html:145
-#: .\qp_notes\templates\qp_notes_search.html:412
+#: .\qp_notes\templates\qp_notes.html:166
+#: .\qp_notes\templates\qp_notes_search.html:461
 #: .\service_inventory\templates\si_search.html:784 .\wet\templates\404.html:66
 msgid "How government works"
 msgstr "Comment le gouvernement fonctionne"
@@ -648,7 +646,7 @@ msgstr "Rechercher les titres et les numéros des notes d'information"
 
 #: .\briefing_notes\templates\bn_search.html:102
 #: .\open_data\templates\od_search.html:108
-#: .\qp_notes\templates\qp_notes_search.html:93
+#: .\qp_notes\templates\qp_notes_search.html:92
 msgid "Title"
 msgstr "Titre"
 
@@ -703,6 +701,9 @@ msgstr "Type de produit"
 
 #: .\contracts\templates\contract.html:72
 #: .\experimental_inventory\templates\experiment.html:85
+#: .\qp_notes\templates\qp_notes.html:59
+#: .\qp_notes\templates\qp_notes_search.html:134
+#: .\qp_notes\templates\qp_notes_search.html:145
 msgid "Organization: "
 msgstr "Organisation :"
 
@@ -885,7 +886,7 @@ msgstr "Méthode de recherche"
 #: .\experimental_inventory\templates\ei_search.html:319
 #: .\national_action_plan\templates\nap_search.html:146
 #: .\national_action_plan\templates\nap_search.html:358
-#: .\qp_notes\templates\qp_notes_search.html:220
+#: .\qp_notes\templates\qp_notes_search.html:228
 msgid "Status"
 msgstr "État"
 
@@ -1231,42 +1232,64 @@ msgstr "Numéro de référence : "
 msgid "Date received: "
 msgstr "Date fournie : "
 
-#: .\qp_notes\templates\qp_notes.html:59
+#: .\qp_notes\templates\qp_notes.html:70
 msgid "Name of Minister: "
 msgstr "Nom du ministre : "
 
-#: .\qp_notes\templates\qp_notes.html:72
+#: .\qp_notes\templates\qp_notes.html:81
+#: .\qp_notes\templates\qp_notes_search.html:138
+#: .\qp_notes\templates\qp_notes_search.html:149
+msgid "Ministry: "
+msgstr "Ministère :"
+
+#: .\qp_notes\templates\qp_notes.html:95
 msgid "Title: "
 msgstr "Titre : "
 
-#: .\qp_notes\templates\qp_notes.html:81
+#: .\qp_notes\templates\qp_notes.html:103
 msgid "Issue/Question: "
 msgstr "Enjeu ou question : "
 
-#: .\qp_notes\templates\qp_notes.html:90
+#: .\qp_notes\templates\qp_notes.html:111
 msgid "Suggested Response: "
 msgstr "Réponse suggérée : "
 
-#: .\qp_notes\templates\qp_notes.html:98
+#: .\qp_notes\templates\qp_notes.html:119
 msgid "Background: "
 msgstr "Contexte : "
 
-#: .\qp_notes\templates\qp_notes.html:106
+#: .\qp_notes\templates\qp_notes.html:127
 msgid "Additional Information: "
 msgstr "Renseignements supplémentaires : "
 
-#: .\qp_notes\templates\qp_notes.html:114
+#: .\qp_notes\templates\qp_notes.html:135
 msgid "Back to Search"
 msgstr "Retour à la recherche "
 
-#: .\qp_notes\templates\qp_notes_search.html:133
-#: .\qp_notes\templates\qp_notes_search.html:260
+#: .\qp_notes\templates\qp_notes_search.html:136
+#: .\qp_notes\templates\qp_notes_search.html:147
+msgid "Minister: "
+msgstr "Ministre :"
+
+#: .\qp_notes\templates\qp_notes_search.html:217
+msgid "Download dataset of the Question Period Notes"
+msgstr "Téléchargez le jeu de données des notes pour la période des questions"
+
+#: .\qp_notes\templates\qp_notes_search.html:269
 msgid "Minister"
 msgstr "Ministre"
 
-#: .\qp_notes\templates\qp_notes_search.html:284
+#: .\qp_notes\templates\qp_notes_search.html:292
 msgid "Ministry"
 msgstr "Ministère"
+
+#: .\qp_notes\templates\qp_notes_search.html:377
+msgid "Year the note was provided"
+msgstr "Année la note a été fournie"
+
+#: .\qp_notes\templates\qp_notes_search.html:402
+msgid "Month the note was provided"
+msgstr "Mois la note a été fournie"
 
 #: .\service_inventory\templates\si_search.html:12
 #: .\service_inventory\templates\si_search.html:44
