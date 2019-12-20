@@ -311,30 +311,30 @@ class GCExportView(View):
 
     def __init__(self):
         super().__init__()
-        self.solr_fields_fr = ("id,ref_number_s,"
-                               "agreement_type_fr_s,"
-                               "recipient_country_fr_s,"
-                               "agreement_value_range_fr_s,"
-                               "year_i,"
-                               "owner_org_fr_s,"
+        self.solr_fields_fr = ("ref_number_s,"
                                "amendment_number_s,"
                                "amendment_date_s,"
+                               "agreement_type_fr_s,"
+                               "recipient_type_fr_s,"
                                "recipient_business_number_s,"
-                               "recipient_legal_name_fr_s,recipient_type_fr_s,"
+                               "recipient_legal_name_fr_s,"
                                "recipient_operating_name_fr_s,research_organization_name_fr_s,"
+                               "recipient_country_fr_s,"
                                "recipient_province_fr_s,"
                                "recipient_city_fr_s,"
                                "recipient_postal_code_s,"
                                "federal_riding_name_fr_s,"
                                "federal_riding_number_s,"
                                "program_name_fr_s,program_purpose_fr_s,"
-                               "agreement_title_fr_s,agreement_value_fs,"
+                               "agreement_title_fr_s,"
+                               "agreement_number_s,"
+                               "agreement_value_fr_s,"
                                "foreign_currency_type_fr_s,foreign_currency_value_s,"
-                               "agreement_start_date_s,agreement_frd_date_s,agreement_type_fr_s,"
+                               "agreement_start_date_s,agreement_end_date_s,"
                                "coverage_fr_s,description_fr_s,"
                                "naics_identifier_s,"
                                "expected_results_fr_s,additional_information_fr_s,"
-                               "report_type_fr_s,quarter_s,fiscal_year_s"
+                               "owner_org_fr_s,"
                                )
         self.solr_query_fields_fr = ['owner_org_fr_s^2',  'ref_number_txt_ws', 'recipient_country_fr_s',
                                      'amendment_date_s', 'recipient_business_number_s', 'recipient_legal_name_txt_fr',
@@ -355,30 +355,30 @@ class GCExportView(View):
                                      '{!ex=tag_agreement_value_range_fr_s}agreement_value_range_fr_s']
 
         # English search fields
-        self.solr_fields_en = ("id,ref_number_s,"
-                               "agreement_type_en_s,"
-                               "recipient_country_en_s,"
-                               "agreement_value_range_en_s,"
-                               "year_i,"
-                               "owner_org_en_s,"
+        self.solr_fields_en = ("ref_number_s,"
                                "amendment_number_s,"
                                "amendment_date_s,"
+                               "agreement_type_en_s,"
+                               "recipient_type_en_s,"
                                "recipient_business_number_s,"
-                               "recipient_legal_name_en_s,recipient_type_en_s,"
+                               "recipient_legal_name_en_s,"
                                "recipient_operating_name_en_s,research_organization_name_en_s,"
+                               "recipient_country_en_s,"
                                "recipient_province_en_s,"
                                "recipient_city_en_s,"
                                "recipient_postal_code_s,"
                                "federal_riding_name_en_s,"
                                "federal_riding_number_s,"
                                "program_name_en_s,program_purpose_en_s,"
-                               "agreement_title_en_s,agreement_value_fs,"
+                               "agreement_title_en_s,"
+                               "agreement_number_s,"
+                               "agreement_value_en_s,"
                                "foreign_currency_type_en_s,foreign_currency_value_s,"
-                               "agreement_start_date_s,agreement_end_date_s,agreement_type_en_s,"
+                               "agreement_start_date_s,agreement_end_date_s,"
                                "coverage_en_s,description_en_s,"
                                "naics_identifier_s,"
                                "expected_results_en_s,additional_information_en_s,"
-                               "report_type_en_s,quarter_s,fiscal_year_s"
+                               "owner_org_en_s,"
                                )
         self.solr_query_fields_en = ['owner_org_en_s^2', 'ref_number_txt_ws', 'recipient_country_en_s',
                                      'amendment_date_s', 'recipient_business_number_s', 'recipient_legal_name_txt_en',
@@ -438,6 +438,7 @@ class GCExportView(View):
                                agreement_value_range_fr_s=solr_search_range)
             solr_search_facets = self.solr_facet_fields_fr
             solr_query_fields = self.solr_query_fields_fr
+            solr_fields = self.solr_fields_fr
         else:
             facets_dict = dict(owner_org_en_s=solr_search_orgs,
                                year_i=solr_search_year,
