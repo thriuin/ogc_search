@@ -15,7 +15,7 @@ loaded into custom Solr cores that customized specifically to support Canada's t
 ## Setup
 
 OGC Search is a Django 2.1 application that runs on Python 3.6 or higher. It also requires Solr 6.6.2,
-which is compatible with the very of Solr currently in use with Open Canada.
+which is compatible with the version of Solr currently in use with Open Canada.
 
  #### ogc_search
  

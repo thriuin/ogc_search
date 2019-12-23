@@ -279,6 +279,7 @@ BRIEFING_NOTE_DATASET_ID = "ee9bd7e8-90a5-45db-9287-85c8cf3589b6"
 BRIEF_NOTE_INFO_EN = 'A list of briefing note titles prepared for deputy ministers and ministers'
 BRIEF_NOTE_INFO_FR = "Listes des notes d'information préparées à l'intention " \
                      "des sous-ministres et ministres"
+BN_ITEMS_PER_PAGE = 20
 SOLR_BN = 'http://127.0.0.1:8983/solr/core_bn_search'
 
 # ATI App Settings
