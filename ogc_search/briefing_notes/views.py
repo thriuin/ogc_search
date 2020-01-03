@@ -199,10 +199,11 @@ class BNExportView(View):
         self.solr_fields = ("id,tracking_id_s,"
                             "title_en_s,title_fr_s,"
                             "org_sector_en_s,org_sector_fr_s,"
+                            "addressee_en_s,addressee_fr_s,"
                             "date_received_tdt,"
                             "action_required_en_s,action_required_fr_s,"
-                            "addressee_en_s,addressee_fr_s,"
-                            "additional_information_en_s,additional_information_fr_s")
+                            "additional_information_en_s,additional_information_fr_s,"
+                            "owner_org_en_s,owner_org_fr_s")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
                                      'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5',
                                      'tracking_number_s^5']

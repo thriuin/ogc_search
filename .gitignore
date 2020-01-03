@@ -113,6 +113,7 @@ cdts/
 /ogc_search/ckan/minister.json
 /ogc_search/ckan/grants.yaml
 /ogc_search/ckan/qpnotes.yaml
+/ogc_search/ckan/briefingt.yaml
 /ogc_search/themes-dist-GCWeb
 /ogc_search/static/
 !*/ogc_search/static/readme.txt
