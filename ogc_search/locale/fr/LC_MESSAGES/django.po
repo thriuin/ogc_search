@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-16 16:06-0500\n"
+"POT-Creation-Date: 2019-12-20 14:45-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -854,11 +854,11 @@ msgstr "Type d’instrument"
 #: .\qp_notes\templates\qp_notes_search.html:12
 #: .\qp_notes\templates\qp_notes_search.html:44
 msgid "Question Period Notes"
-msgstr "Notes pour la période de questions"
+msgstr "Notes pour la période des questions"
 
 #: .\dev\templates\example_search.html:40 .\qp_notes\templates\qp_notes.html:35
 msgid "Search Question Period Notes"
-msgstr "Rechercher des notes pour la période de questions"
+msgstr "Rechercher des notes pour la période des questions"
 
 #: .\experimental_inventory\templates\ei_search.html:12
 #: .\experimental_inventory\templates\ei_search.html:48
@@ -1218,7 +1218,7 @@ msgstr "Fréquence de mise à jour"
 
 #: .\qp_notes\templates\qp_notes.html:12 .\qp_notes\templates\qp_notes.html:42
 msgid "Question Period Note Details"
-msgstr "Détails des note pour la période de questions"
+msgstr "Détails des note pour la période des questions"
 
 #: .\qp_notes\templates\qp_notes.html:47
 msgid "About"

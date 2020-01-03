@@ -413,9 +413,7 @@ QP_INFO_EN = """<p>In accordance with the Access to Information Act, the governm
 <p>The question period notes may be partially or fully redacted in accordance with the legislation; for example, if the notes contain information related to national security or personal information. (Learn more about <a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-338">exemptions</a> and <a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-955">exclusions</a>.)</p>"""
 QP_INFO_FR = """<p>En vertu de la Loi sur l’accès à l’information, le gouvernement publie de façon proactive les notes pour la période des questions préparées par l’institution et en usage lors du dernier jour de séance de juin et de décembre.</p>
 <p>Les notes pour la période des questions peuvent être partiellement ou entièrement caviardées en vertu de la Loi; par exemple, si les notes contiennent des renseignements liés à la sécurité nationale ou des renseignements personnels. (Renseignez-vous sur les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-336">exceptions</a> et les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-944">exclusions</a>.)</p>"""
-# TODO: change dataset id when available
-# could be "ef5c222d-abaf-4793-b49b-31d894273184"?
-QP_DATASET_ID = "ba1284e5-db5f-43e1-854f-2beb7fe8f04b"
+QP_DATASET_ID = "ecd1a913-47da-47fc-8f96-2432be420986"
 QP_DATASET_TITLE_EN = "Question Period Notes"
 QP_DATASET_TITLE_FR = "Notes pour la période des questions"
 SOLR_QP = 'http://127.0.0.1:8983/solr/core_qp_search'
