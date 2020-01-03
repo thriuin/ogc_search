@@ -81,7 +81,7 @@ class BNSearchView(View):
         context["bn_ds_title_en"] = settings.BRIEFING_NOTE_DATASET_TITLE_EN
         context["bn_ds_title_fr"] = settings.BRIEFING_NOTE_DATASET_TITLE_FR
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
-        items_per_page = int(settings.SI_ITEMS_PER_PAGE)
+        items_per_page = int(settings.BN_ITEMS_PER_PAGE)
 
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)
@@ -106,7 +106,7 @@ class BNSearchView(View):
         context["addressee_selected"] = solr_search_addrs
         context["addressee_selected_list"] = solr_search_addrs.split('|')
 
-        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1))
+        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1), items_per_page)
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')
@@ -154,7 +154,7 @@ class BNSearchView(View):
 
         # Set pagination values for the page
 
-        pagination = search_util.calc_pagination_range(context['results'], 10, page)
+        pagination = search_util.calc_pagination_range(context['results'], items_per_page, page)
         context['pagination'] = pagination
         context['previous_page'] = (1 if page == 1 else page - 1)
         last_page = (pagination[len(pagination) - 1] if len(pagination) > 0 else 1)
