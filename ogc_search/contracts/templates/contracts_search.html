@@ -243,9 +243,9 @@
                     {#  #}
                     <div class="list-group">
                     {% if LANGUAGE_CODE == 'fr' %}
-                        <a href="{{ od_fr_url }}/{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_fr }}</a>
+                        <a href="{{ od_fr_url }}{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_fr }}</a>
                     {% else %}
-                        <a href="{{ od_en_url }}/{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_en }}</a>
+                        <a href="{{ od_en_url }}{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_en }}</a>
                     {% endif %}
                     </div>
                 </aside>
