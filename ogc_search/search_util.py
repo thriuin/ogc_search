@@ -330,7 +330,7 @@ def get_bilingual_field(fields, field_key: str, lang: str, default_value="-"):
     elif len(fields[field_key]) == 0:
         return default_value
     else:
-        values = fields[field_key].split('|')
+        values = [str(x).strip() for x in fields[field_key].split('|')]
         if len(values) == 1:
             return values[0]
         else:
