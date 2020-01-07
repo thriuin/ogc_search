@@ -79,6 +79,7 @@ MARKDOWN_FILTER_WHITELIST_TAGS = [
     'ol',
     'li',
     'br',
+    'strong',
 ]
 
 ROOT_URLCONF = 'ogc_search.urls'
