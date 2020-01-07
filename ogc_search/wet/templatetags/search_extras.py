@@ -139,3 +139,21 @@ def friendly_reporting_period(value: str):
     else:
         return value
 
+
+@register.filter('normalize_headings')
+def normalize_headings(value: str):
+    headings = {
+        '</h4>': '</h6>',
+        '<h4>': '<h6>',
+        '</h3>': '</h5>',
+        '<h3>': '<h5>',
+        '</h2>': '</h4>',
+        '<h2>': '<h4>',
+        '</h1>': '</h3>',
+        '<h1>': '<h3>',
+    }
+    for key in headings:
+        if value.find(key) >= 0:
+            value = value.replace(key, headings[key])
+    return value
+
