@@ -164,7 +164,7 @@
         <analyzer type="index">
             <charFilter class="solr.HTMLStripCharFilterFactory"/>
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"/>
+            <filter class="solr.WordDelimiterGraphFilterFactory" splitOnCaseChange="0"/>
             <filter class="solr.FlattenGraphFilterFactory"/>
             <filter class="solr.StopFilterFactory" words="lang/stopwords_en.txt" ignoreCase="true"/>
             <filter class="solr.StopFilterFactory" words="lang/profanities_en.txt" ignoreCase="true"/>
@@ -176,7 +176,7 @@
         <analyzer type="query">
             <charFilter class="solr.HTMLStripCharFilterFactory"/>
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"/>
+            <filter class="solr.WordDelimiterGraphFilterFactory" splitOnCaseChange="0"/>
             <filter class="solr.StopFilterFactory" words="lang/stopwords_en.txt" ignoreCase="true"/>
             <filter class="solr.StopFilterFactory" words="lang/profanities_en.txt" ignoreCase="true"/>
             <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms_en.txt"/>
