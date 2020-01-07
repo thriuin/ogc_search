@@ -415,16 +415,13 @@ class CTExportView(View):
                                "contract_date_dt,"
                                "economic_object_code_s,"
                                "description_en_s,"
-                               "description_fr_s,"
                                "contract_start_s,"
                                "contract_delivery_s,"
                                "contract_value_en_s,"
                                "original_value_en_s,"
                                "amendment_value_en_s,"
                                "comments_en_s,"
-                               "comments_fr_s,"
                                "additional_comments_en_s,"
-                               "additional_comments_fr_s,"
                                "agreement_type_code_export_en_s,"
                                "commodity_type_code_en_s,"
                                "commodity_code_s,"
@@ -593,7 +590,7 @@ class CTExportView(View):
             solr_search_facets = self.solr_facet_fields_fr
             solr_query_fields = self.solr_query_fields_fr
         else:
-            facets_dict = dict(owner_orgen_s=params['solr_search_orgs'],
+            facets_dict = dict(owner_org_en_s=params['solr_search_orgs'],
                                report_type_en_s=params['solr_report_type'],
                                contract_year_s=params['solr_search_year'],
                                commodity_type_code_en_s=params['solr_search_commodity_type'],
