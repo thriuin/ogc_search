@@ -128,7 +128,7 @@
                             <div class="col-sm-12">
                             {% if LANGUAGE_CODE == 'fr' %}
                                 {% if doc.question_fr_txt != '-' %}
-                                    <p class="mrgn-tp-md">{{ doc.question_fr_txt | safe }}</p>
+                                    <p class="mrgn-tp-md">{{ doc.question_fr_txt | markdown_filter | normalize_headings | safe }}</p>
                                 {% endif %}
                                 <p class="mrgn-tp-md">
                                     <div><strong>{% trans 'Organization: ' %}</strong> {{ doc.owner_org_title_txt_fr | safe }}</div>
@@ -139,7 +139,7 @@
                                 </p>
                             {% else %}
                                 {% if doc.question_en_txt != '-' %}
-                                    <p class="mrgn-tp-md">{{ doc.question_en_txt | safe }}</p>
+                                    <p class="mrgn-tp-md">{{ doc.question_en_txt | markdown_filter | normalize_headings | safe }}</p>
                                 {% endif %}
                                 <p class="mrgn-tp-md">
                                     <div><strong>{% trans 'Organization: ' %}</strong> {{ doc.owner_org_title_txt_en | safe }}</div>
