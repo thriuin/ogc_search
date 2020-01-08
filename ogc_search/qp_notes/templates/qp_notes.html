@@ -103,48 +103,48 @@
     {% if LANGUAGE_CODE == 'fr' %}
         {% if results.docs.0.question_fr_txt != '-' %}
             <h2>{% trans 'Issue/Question: ' %}</h2>
-            <div>{{ results.docs.0.question_fr_txt | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.question_fr_txt | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {% endif %}
     {% else %}
         {% if results.docs.0.question_en_txt != '-' %}
             <h2>{% trans 'Issue/Question: ' %}</h2>
-            <div>{{ results.docs.0.question_en_txt | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.question_en_txt | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {% endif %}
     {% endif %}
 
     {% if LANGUAGE_CODE == 'fr' %}
         {% if results.docs.0.response_fr_txt != '-' %}
             <h2>{% trans 'Suggested Response: ' %}</h2>
-            <div>{{ results.docs.0.response_fr_txt  | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.response_fr_txt  | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {% endif %}
     {% else %}
         {% if results.docs.0.response_en_txt != '-' %}
             <h2>{% trans 'Suggested Response: ' %}</h2>
-            <div>{{ results.docs.0.response_en_txt | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.response_en_txt | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {% endif %}
     {% endif %}
 
     {% if LANGUAGE_CODE == 'fr' %}
         {% if results.docs.0.background_fr_txt != '-' %}
             <h2>{% trans 'Background: ' %}</h2>
-            <div>{{ results.docs.0.background_fr_txt | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.background_fr_txt | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {% endif %}
     {% else %}
         {% if results.docs.0.background_en_txt != '-' %}
             <h2>{% trans 'Background: ' %}</h2>
-            <div>{{ results.docs.0.background_en_txt | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.background_en_txt | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {% endif %}
     {% endif %}
 
     {% if LANGUAGE_CODE == 'fr' %}
         {% if results.docs.0.additional_information_fr_txt != '-' %}
             <h2>{% trans 'Additional Information: ' %}</h2>
-            <div>{{ results.docs.0.additional_information_fr_txt | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.additional_information_fr_txt | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {%  endif %}
     {% else %}
         {% if results.docs.0.additional_information_en_txt != '-' %}
             <h2>{% trans 'Additional Information: ' %}</h2>
-            <div>{{ results.docs.0.additional_information_en_txt | markdown_filter | normalize_headings | safe }}</div>
+            <div>{{ results.docs.0.additional_information_en_txt | markdown_filter | change_nl2br | normalize_headings | safe }}</div>
         {%  endif %}
     {% endif %}
 
