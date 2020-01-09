@@ -157,9 +157,3 @@ def normalize_headings(value: str):
             value = value.replace(key, headings[key])
     return value
 
-
-@register.filter('change_nl2br')
-def change_nl2br(value: str):
-    if value.find('\\n') >= 0:
-        value = value.replace('\\n', '<br>')
-    return value
