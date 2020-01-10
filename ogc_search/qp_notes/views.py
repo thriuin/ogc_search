@@ -7,6 +7,7 @@ import os
 from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 import hashlib
 import time
+import re
 
 logger = logging.getLogger('ogc_search')
 
@@ -247,6 +248,14 @@ class QPCardView(QPSearchView):
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["slug"] = slug
+
+        if 'HTTP_REFERER' in request.META \
+                and request.META['HTTP_REFERER'] is not None \
+                and request.META['HTTP_REFERER'].find('/qp/id/') == -1:
+            context["back_url"] = request.META['HTTP_REFERER']
+        else:
+            context["back_url"] = '/' + request.LANGUAGE_CODE + '/qp/'
+
         solr_search_terms = 'id:"{0}"'.format(slug)
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
