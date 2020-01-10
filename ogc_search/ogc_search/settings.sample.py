@@ -418,6 +418,7 @@ QP_INFO_FR = """<p>En vertu de la Loi sur l’accès à l’information, le gouv
 QP_DATASET_ID = "ecd1a913-47da-47fc-8f96-2432be420986"
 QP_DATASET_TITLE_EN = "Question Period Notes"
 QP_DATASET_TITLE_FR = "Notes pour la période des questions"
+QP_ITEMS_PER_PAGE = 25
 SOLR_QP = 'http://127.0.0.1:8983/solr/core_qp_search'
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
