@@ -104,7 +104,7 @@ class QPSearchView(View):
         context['adobe_analytics_url'] = settings.ADOBE_ANALYTICS_URL
 
         items_per_page = int(settings.QP_ITEMS_PER_PAGE)
-        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1))
+        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1), items_per_page)
 
         if request.LANGUAGE_CODE == 'fr':
             context['info_msg'] = settings.QP_INFO_FR
