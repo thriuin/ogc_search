@@ -39,7 +39,10 @@
 
 {% block main-content %}
 {% block main-content-title %}
-<h1 property="name" id="wb-cont">{% trans "Question Period Note Details" %}</h1>
+<h1 property="name" id="wb-cont">{% trans "Question Period Note Details" %} - {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.title_fr_txt | safe }}
+        {% else %}{{ results.docs.0.title_en_txt | safe }}
+        {% endif %}
+</h1>
 {% endblock %}
 
     <section class="panel panel-info mrgn-tp-lg">
