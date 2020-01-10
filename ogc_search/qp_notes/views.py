@@ -103,7 +103,7 @@ class QPSearchView(View):
         context['ds_title_fr'] = settings.QP_DATASET_TITLE_FR
         context['adobe_analytics_url'] = settings.ADOBE_ANALYTICS_URL
 
-        items_per_page = int(settings.SI_ITEMS_PER_PAGE)
+        items_per_page = int(settings.QP_ITEMS_PER_PAGE)
         start_row, page = search_util.calc_starting_row(request.GET.get('page', 1))
 
         if request.LANGUAGE_CODE == 'fr':
@@ -195,7 +195,7 @@ class QPSearchView(View):
         context['results'] = search_results
 
         # Set pagination values for the page
-        pagination = search_util.calc_pagination_range(context['results'], 10, page)
+        pagination = search_util.calc_pagination_range(context['results'], items_per_page, page)
         context['pagination'] = pagination
         context['previous_page'] = (1 if page == 1 else page - 1)
         last_page = (pagination[len(pagination) - 1] if len(pagination) > 0 else 1)
