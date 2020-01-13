@@ -3,10 +3,12 @@
 
 from babel.dates import format_date
 from django import template
+from django.conf import settings
 from django.utils.translation import gettext
 from dateutil import parser
 import json
-
+import markdown2
+import bleach
 
 register = template.Library()
 
@@ -157,3 +159,9 @@ def normalize_headings(value: str):
             value = value.replace(key, headings[key])
     return value
 
+
+@register.filter('markdown_filter')
+def markdown_filter(text):
+    text = markdown2.markdown(text, extras=settings.MARKDOWN_FILTER_EXTRAS)
+    html = bleach.clean(text, tags=settings.MARKDOWN_FILTER_WHITELIST_TAGS)
+    return bleach.linkify(html)
