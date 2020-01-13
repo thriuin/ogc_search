@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'analytical',
-    'markdown_filter',
     'debug_toolbar',
     'ATI',
     'briefing_notes',
@@ -80,7 +79,9 @@ MARKDOWN_FILTER_WHITELIST_TAGS = [
     'li',
     'br',
     'strong',
+    'table', 'thead', 'th', 'tr', 'tbody', 'td'
 ]
+MARKDOWN_FILTER_EXTRAS = ["tables", "break-on-newline"]
 
 ROOT_URLCONF = 'ogc_search.urls'
 
@@ -242,33 +243,39 @@ OPEN_DATA_DATASET_TITLE_EN = "Open Data Portal Catalogue Dataset"
 OPEN_DATA_DATASET_TITLE_FR = "Catalogue du portail de données ouvertes ensemble de données"
 
 # conditional banners on Open Data App
-OPEN_MAPS_INFO_EN = """<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to select multiple 
-  datasets to plot on a single map. Click <b>View on Map</b> to visualize and overlay the datasets using a geospatial 
-  viewer"""
-OPEN_MAPS_INFO_FR = """<h3>Cartes ouvertes</h3> Rechercher des données géospatiales ou cliquer sur
-  <b>Ajouter au panier</b> pour sélectionner de multiples jeux de données à
-  tracer sur une seule carte. Cliquez <b>Afficher la carte</b> pour visualiser
-  et superposer les jeux de données à l'aide d'une visualisateur géospatiale."""
-OPEN_INFORMATION_INFO_EN = """<div>Please note that the Open Information Portal contains a sample of government of Canada 
-  publications and information resources. For more resources, please visit <a href="http://publications.gc.ca/">
-  Government of Canada Publications</a> and <a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.</div>"""
-OPEN_INFORMATION_INFO_FR = """<div>Veuillez noter que le Portail d’information ouverte contient un échantillon de 
-  publications et de ressources d’information du gouvernement du Canada. Pour consulter d’autres ressources, 
-  veuillez visiter <a href="http://publications.gc.ca/">Publications du gouvernement du Canada</a> et
-  <a href="http://www.bac-lac.gc.ca/Pages/default.aspx">Bibliothèque et Archives Canada</a>.</div>"""
-OPEN_DATA_EXTERNAL_INFO_EN = """<div>The applications created by the public have been developed, and are operated and owned 
-  by third parties. The Government of Canada does not endorse, approve, or certify the applications or the developers, 
-  nor does it make any representation or warranty that the information based on which the applications have been 
-  developed, including information licensed under the Open Government Licence, is accurate, complete, or correct. 
-  Your use of the applications and the information contained therein, including information licensed under the 
-  Open Government Licence, is at your sole risk.</div>"""
-OPEN_DATA_EXTERNAL_INFO_FR = """<div>Les applications créées par le public ont été développées et sont exploitées par
-  des tiers, qui en sont les propriétaires. Le gouvernement du Canada n’appuie pas, n’approuve pas et ne certifie 
-  pas les applications ou les développeurs, et ne fait aucune assertion ni ne donne aucune garantie que 
-  l’information utilisée lors du développement de l’application, y compris l’information sous licence en vertu 
-  de la Licence du gouvernement ouvert, est exacte, complète ou correcte. Vous utilisez donc les applications et 
-  l’information qu’elles comportent, y compris l’information sous licence en vertu de la Licence du gouvernement
-  ouvert, à vos propres risques.</div>"""
+OPEN_MAPS_INFO_EN = "<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to select multiple " \
+                    "datasets to plot on a single map. Click <b>View on Map</b> to visualize and overlay the " \
+                    "datasets using a geospatial viewer"
+OPEN_MAPS_INFO_FR = "<h3>Cartes ouvertes</h3> Rechercher des données géospatiales ou cliquer sur <b>Ajouter au " \
+                    "panier</b> pour sélectionner de multiples jeux de données à tracer sur une seule carte. " \
+                    "Cliquez <b>Afficher la carte</b> pour visualiser et superposer les jeux de données à l'aide " \
+                    "d'une visualisateur géospatiale."
+OPEN_INFORMATION_INFO_EN = '<div>Please note that the Open Information Portal contains a sample of government of ' \
+                           'Canada publications and information resources. For more resources, please visit ' \
+                           '<a href="http://publications.gc.ca/"> Government of Canada Publications</a> and ' \
+                           '<a href="http://www.bac-lac.gc.ca/">Library and Archives Canada</a>.</div>'
+OPEN_INFORMATION_INFO_FR = '<div>Veuillez noter que le Portail d’information ouverte contient un échantillon de ' \
+                           'publications et de ressources d’information du gouvernement du Canada. Pour consulter ' \
+                           'd’autres ressources, veuillez visiter <a href="http://publications.gc.ca/">' \
+                           'Publications du gouvernement du Canada</a> et ' \
+                           '<a href="http://www.bac-lac.gc.ca/Pages/default.aspx">Bibliothèque et Archives ' \
+                           'Canada</a>.</div>'
+OPEN_DATA_EXTERNAL_INFO_EN = '<div>The applications created by the public have been developed, and are operated and ' \
+                             'owned by third parties. The Government of Canada does not endorse, approve, or certify ' \
+                             'the applications or the developers, nor does it make any representation or warranty ' \
+                             'that the information based on which the applications have been developed, including ' \
+                             'information licensed under the Open Government Licence, is accurate, complete, or ' \
+                             'correct. Your use of the applications and the information contained therein, ' \
+                             'including information licensed under the Open Government Licence, is at your sole ' \
+                             'risk.</div>'
+OPEN_DATA_EXTERNAL_INFO_FR = '<div>Les applications créées par le public ont été développées et sont exploitées par ' \
+                             'des tiers, qui en sont les propriétaires. Le gouvernement du Canada n’appuie pas, ' \
+                             'n’approuve pas et ne certifie pas les applications ou les développeurs, et ne fait ' \
+                             'aucune assertion ni ne donne aucune garantie que l’information utilisée lors du ' \
+                             'développement de l’application, y compris l’information sous licence en vertu de la ' \
+                             'Licence du gouvernement ouvert, est exacte, complète ou correcte. Vous utilisez donc ' \
+                             'les applications et l’information qu’elles comportent, y compris l’information sous ' \
+                             'licence en vertu de la Licence du gouvernement ouvert, à vos propres risques.</div>'
 
 SOLR_URL = 'http://127.0.0.1:8983/solr/core_od_search'
 
@@ -300,18 +307,16 @@ EI_DATASET_TITLE_FR = "Répertoire d'expériences"
 EI_DATASET_ID = "39954bc7-ff7a-4180-8b6e-b02bee35078a"
 EI_INFO_EN = "Experimentation Inventory"
 EI_INFO_FR = "Répertoire d'expérimentation"
-EI_ABOUT_EN = """As part of the Government of Canada’s commitment to experimentation, TBS is supporting an inventory of 
-experiments implemented as part of  Government of Canada’s programs and services. The main purpose of the inventory is 
-to publicly describe planned and ongoing experiments so as to foster learning and minimize duplication. The 
-preregistration of experiments is also recognized as a good practice that favors transparency and prevents bias 
-and data dredging.
-"""
-EI_ABOUT_FR = """En relation avec l’engagement du Gouvernement du Canada d’encourager l’expérimentation, le SCT 
-supporte un répertoire d’expériences mises en œuvre dans le cadre de programmes et services du Gouvernement du Canada. 
-L’objective principal de ce répertoire est de décrire publiquement les expériences planifiées et en cours de façon à 
-favoriser l’apprentissage et minimiser la duplication. Le préenregistrement d’expériences est également reconnue 
-comme une pratique exemplaire favorisant la transparence et prévenant les biais et la manipulation indue de données.
-"""
+EI_ABOUT_EN = "As part of the Government of Canada’s commitment to experimentation, TBS is supporting an " \
+              "inventory of experiments implemented as part of  Government of Canada’s programs and services. " \
+              "The main purpose of the inventory is to publicly describe planned and ongoing experiments so as to " \
+              "foster learning and minimize duplication. The preregistration of experiments is also recognized as a " \
+              "good practice that favors transparency and prevents bias and data dredging."
+EI_ABOUT_FR = "En relation avec l’engagement du Gouvernement du Canada d’encourager l’expérimentation, le SCT " \
+              "supporte un répertoire d’expériences mises en œuvre dans le cadre de programmes et services du " \
+              "Gouvernement du Canada. L’objective principal de ce répertoire est de décrire publiquement les " \
+              "expériences planifiées et en cours de façon à favoriser l’apprentissage et minimiser la duplication. " \
+              "Le préenregistrement d’expériences est également reconnue comme une prat."
 
 # Contracts App Settings
 
@@ -341,54 +346,106 @@ GC_DATASET_TITLE_EN = 'Grants and Contributions Dataset'
 GC_DATASET_TITLE_FR = 'Subventions et contributions gouvernementales jeu de données'
 GC_DATASET_ID = "432527ab-7aac-45b5-81d6-7597107a7013"
 GC_ITEMS_PER_PAGE = 25
-GC_INFO_EN = """Federal departments are moving their web content to
-  <a href="http://www.canada.ca">Canada.ca</a>. As a part of that
-  process, proactive disclosure reports will become available through
-  the <a href="http://open.canada.ca">Open Government portal</a>. 
-  During this transition, if a proactive disclosure report from a
-  specific department is not yet available on the Open Government
-  portal please refer to <a href="http://www.tbs-sct.gc.ca/hgw-cgf/finances/rgs-erdg/pd-dp/index-eng.asp">
-  Proactive disclosure by department or agency</a> where a copy can be found. 
-  For any questions on this issue, please contact us at
-  <a href="mailto:open-ouvert@tbs-sct.gc.ca">open-ouvert@tbs-sct.gc.ca</a>
-"""
-GC_INFO_FR = """Les ministères fédéraux déplacent leur contenu Web vers
-le site <a href="http://www.canada.ca">canada.ca</a>. Dans le cadre de
-ce processus, des rapports sur la divulgation proactive seront
-accessibles par l’entremise du <a href="http://ouvert.canada.ca">
-Portail du gouvernement ouvert</a>. Dans le cadre de cette transition,
-advenant qu’un rapport sur la divulgation proactive d’un ministère en
-particulier ne soit pas encore accessible par l’entremise du Portail du
-gouvernement ouvert, veuillez consulter la
-<a href="http://www.tbs-sct.gc.ca/hgw-cgf/finances/rgs-erdg/pd-dp/index-fra.asp">
-Divulgation proactive par ordre de ministères ou d’organismes</a>,
-où vous pourrez en trouver copie. Pour toute question à ce sujet,
-veuillez nous joindre à l’adresse suivante :
-<a href="mailto:open-ouvert@tbs-sct.gc.ca">open-ouvert@tbs-sct.gc.ca</a>.
-"""
-GC_ABOUT_FR = """En juin 2016, dans le cadre du Plan d’action pour un gouvernement ouvert, le Secrétariat du Conseil du Trésor du Canada (SCT) s’est engagé à accroître la transparence et l’utilité des données sur les subventions et contributions et a par la suite lancé les <a href="https://www.tbs-sct.gc.ca/pol/doc-fra.aspx?id=32563">Lignes directrices sur la divulgation des octrois de subventions et de contributions</a>, en vigueur le 1er avril 2018.
-
-Les règles et principes qui régissent les subventions et les contributions gouvernementales sont décrits dans <a href="http://www.tbs-sct.gc.ca/pol/doc-fra.aspx?id=13525">la Politique du Conseil du Trésor sur les paiements de transfert</a>. Les paiements de transfert sont des transferts, imputables sur un crédit, d'argent, de biens, de services ou d'actifs à des personnes ou à des organisations ou à d'autres ordres de gouvernement, sans que le gouvernement fédéral reçoive directement des biens ou des services en échange, mais qui peuvent obliger les bénéficiaires à produire un rapport ou d'autres renseignements après avoir reçu le paiement de transfert. Ces dépenses sont signalées dans les <!--<a href="http://www.tpsgc-pwgsc.gc.ca/recgen/txt/72-fra.html">-->Comptes publics du Canada<!--</a>-->. Les principaux types de paiements de transfert sont les subventions, les contributions et « autres paiements de transfert ».
-
-Sont inclus dans cette catégorie, mais non assujettis à la divulgation proactive (1), les transferts à d'autres ordres de gouvernement, par exemple les paiements de péréquation ainsi que les paiements effectués dans le cadre du Transfert canadien en matière de santé et du Transfert canadien en matière de programmes sociaux; (2) les subventions ou les contributions réaffectées ou par ailleurs redistribuées par un bénéficiaire à des tiers; et (3) l'information qui ne serait normalement pas divulguée en vertu de <a href="http://laws-lois.justice.gc.ca/fra/lois/A-1/index.html">la Loi sur l'accès à l'information</a> de <a href="http://laws-lois.justice.gc.ca/fra/lois/P-21/index.html">la Loi sur la protection des renseignements personnels</a> ne figure pas sur le site Web.
-"""
-GC_ABOUT_EN = """In June 2016, as part of the Open Government Action Plan, the Treasury Board of Canada Secretariat (TBS) committed to increasing the transparency and usefulness of grants and contribution data and subsequently launched the <a href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=32563">Guidelines on the Reporting of Grants and Contributions Awards</a>, effective April 1, 2018.
-
-The rules and principles governing government grants and contributions are outlined in the Treasury Board <a href="http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=13525">Policy on Transfer Payments</a>. Transfer payments are transfers of money, goods, services or assets made from an appropriation to individuals, organizations or other levels of government, without the federal government directly receiving goods or services in return, but which may require the recipient to provide a report or other information subsequent to receiving payment. These expenditures are reported in the <!--<a href="http://www.tpsgc-pwgsc.gc.ca/recgen/txt/72-eng.html">-->Public Accounts of Canada<!--</a>-->. The major types of transfer payments are grants, contributions and 'other transfer payments'.
-
-Included in this category, but not to be reported under proactive disclosure of awards, are (1) transfers to other levels of government such as Equalization payments as well as Canada Health and Social Transfer payments. (2) Grants and contributions reallocated or otherwise redistributed by the recipient to third parties; and (3) information that would normally be withheld under the <a href="http://laws-lois.justice.gc.ca/eng/acts/A-1/index.html">Access to Information Act</a> and the <a href="http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html">Privacy Act</a>.
-"""
+GC_INFO_EN = 'Federal departments are moving their web content to <a href="http://www.canada.ca">Canada.ca</a>. As a ' \
+             'part of that process, proactive disclosure reports will become available through the <a ' \
+             'href="http://open.canada.ca">Open Government portal</a>. During this transition, if a proactive ' \
+             'disclosure report from a specific department is not yet available on the Open Government portal please ' \
+             'refer to <a href="http://www.tbs-sct.gc.ca/hgw-cgf/finances/rgs-erdg/pd-dp/index-eng.asp"> Proactive ' \
+             'disclosure by department or agency</a> where a copy can be found. For any questions on this issue, ' \
+             'please contact us at <a href="mailto:open-ouvert@tbs-sct.gc.ca">open-ouvert@tbs-sct.gc.ca</a>'
+GC_INFO_FR = 'Les ministères fédéraux déplacent leur contenu Web vers le site <a ' \
+             'href="http://www.canada.ca">canada.ca</a>. Dans le cadre de ce processus, des rapports sur la ' \
+             'divulgation proactive seront accessibles par l’entremise du <a href="http://ouvert.canada.ca"> ' \
+             'Portail du gouvernement ouvert</a>. Dans le cadre de cette transition, advenant qu’un rapport ' \
+             'sur la divulgation proactive d’un ministère en particulier ne soit pas encore accessible par ' \
+             'l’entremise du Portail du gouvernement ouvert, veuillez consulter la <a ' \
+             'href="http://www.tbs-sct.gc.ca/hgw-cgf/finances/rgs-erdg/pd-dp/index-fra.asp">Divulgation proactive ' \
+             'par ordre de ministères ou d’organismes</a>, où vous pourrez en trouver copie. Pour toute question' \
+             'à ce sujet, veuillez nous joindre à l’adresse suivante : <a href="mailto:open-ouvert@tbs-sct.gc.ca">' \
+             'open-ouvert@tbs-sct.gc.ca</a>.'
+GC_ABOUT_FR = '<p>En juin 2016, dans le cadre du Plan d’action pour un gouvernement ouvert, le Secrétariat du ' \
+              'Conseil du Trésor du Canada (SCT) s’est engagé à accroître la transparence et l’utilité des données ' \
+              'sur les subventions et contributions et a par la suite lancé les <a href="https://www.tbs-sct.gc.ca/' \
+              'pol/doc-fra.aspx?id=32563">Lignes directrices sur la divulgation des octrois de subventions et de ' \
+              'contributions</a>, en vigueur le 1er avril 2018.</p>' \
+              '<p>Les règles et principes qui régissent les ' \
+              'subventions et les contributions gouvernementales sont décrits dans <a href="http://www.tbs-sct.gc.ca/' \
+              'pol/doc-fra.aspx?id=13525">la Politique du Conseil du Trésor sur les paiements de transfert</a>. Les ' \
+              'paiements de transfert sont des transferts, imputables sur un crédit, d\'argent, de biens, de ' \
+              'services ou d\'actifs à des personnes ou à des organisations ou à d\'autres ordres de gouvernement, ' \
+              'sans que le gouvernement fédéral reçoive directement des biens ou des services en échange, mais qui ' \
+              'peuvent obliger les bénéficiaires à produire un rapport ou d\'autres renseignements après avoir ' \
+              'reçu le paiement de transfert. Ces dépenses sont signalées dans les <!--<a href="http://www.tpsgc-' \
+              'pwgsc.gc.ca/recgen/txt/72-fra.html">-->Comptes publics du Canada<!--</a>-->. Les principaux types ' \
+              'de paiements de transfert sont les subventions, les contributions et « autres paiements de ' \
+              'transfert ».</p>' \
+              '<p>Sont inclus dans cette catégorie, mais non assujettis à la divulgation ' \
+              'proactive (1), les transferts à d\'autres ordres de gouvernement, par exemple les paiements de ' \
+              'péréquation ainsi que les paiements effectués dans le cadre du Transfert canadien en matière de ' \
+              'santé et du Transfert canadien en matière de programmes sociaux; (2) les subventions ou les ' \
+              'contributions réaffectées ou par ailleurs redistribuées par un bénéficiaire à des tiers; et (3) ' \
+              'l\'information qui ne serait normalement pas divulguée en vertu de <a href="http://laws-lois.' \
+              'justice.gc.ca/fra/lois/A-1/index.html">la Loi sur l\'accès à l\'information</a> de <a ' \
+              'href="http://laws-lois.justice.gc.ca/fra/lois/P-21/index.html">la Loi sur la protection des ' \
+              'renseignements personnels</a> ne figure pas sur le site Web.</p>'
+GC_ABOUT_EN = '<p>In June 2016, as part of the Open Government Action Plan, the Treasury Board of Canada ' \
+              'Secretariat (TBS) committed to increasing the transparency and usefulness of grants and ' \
+              'contribution data and subsequently launched the <a href="https://www.tbs-sct.gc.ca/pol/doc-eng.aspx' \
+              '?id=32563">Guidelines on the Reporting of Grants and Contributions Awards</a>, effective April 1, ' \
+              '2018.</p>' \
+              '<p>The rules and principles governing government grants and contributions are outlined ' \
+              'in the Treasury Board <a href="http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=13525">Policy on ' \
+              'Transfer Payments</a>. Transfer payments are transfers of money, goods, services or assets made ' \
+              'from an appropriation to individuals, organizations or other levels of government, without the ' \
+              'federal government directly receiving goods or services in return, but which may require the ' \
+              'recipient to provide a report or other information subsequent to receiving payment. These ' \
+              'expenditures are reported in the <!--<a href="http://www.tpsgc-pwgsc.gc.ca/recgen/txt/72-eng.' \
+              'html">-->Public Accounts of Canada<!--</a>-->. The major types of transfer payments are grants, ' \
+              'contributions and \'other transfer payments\'.</p>' \
+              '<p>Included in this category, but not to be reported under proactive disclosure of awards, are (1) ' \
+              'transfers to other levels of government such as Equalization payments as well as Canada Health and ' \
+              'Social Transfer payments. (2) Grants and contributions reallocated or otherwise redistributed by the ' \
+              'recipient to third parties; and (3) information that would normally be withheld under the ' \
+              '<a href="http://laws-lois.justice.gc.ca/eng/acts/A-1/index.html">Access to Information Act</a> and ' \
+              'the <a href="http://laws-lois.justice.gc.ca/eng/acts/P-21/index.html">Privacy Act</a>.</p>'
 # These values should match the ones in Contracts.yaml file
 CT_INFO_EN = GC_INFO_EN
-CT_ABOUT_EN ="""<p>As part of Canada’s second Action Plan on Open Government, the Government of Canada has committed to the disclosure of contracting data via a centralized, machine-readable database available to the public. Originally announced in Budget 2004, departments are required to disclose contracts and amendments valued over and under $10,000 in a manner outlined in the <a href="http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=14676"> <em>Guidelines on the Proactive Disclosure of Contracts</em></a>. Amendments to the <a href="https://www.canada.ca/en/treasury-board-secretariat/services/access-information-privacy/access-information-act.html"> <em>Access to Information Act</em></a> codified the aforementioned reporting requirements with the Royal assent of <a href="https://www.parl.ca/DocumentViewer/en/42-1/bill/C-58/royal-assent"> <em>Bill C-58</em></a> in June 2019.</p>
-<p>Information on contracts issued/amended by or on behalf of federal institutions can be searched here using keyword, institution, quarter, and year.</p>
-<p>The Treasury Board <a href="http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=14494"> Contracting Policy</a> outlines the rules and principles governing government contracting. The objective is to procure contracting of goods and services in a manner that enhances access, competition and fairness and results in best value to Canada. For further information on federal government procurement, please visit <a href="https://buyandsell.gc.ca/">Buyandsell.gc.ca</a>.</p>
-"""
+CT_ABOUT_EN ='<p>As part of Canada’s second Action Plan on Open Government, the Government of Canada has committed ' \
+             'to the disclosure of contracting data via a centralized, machine-readable database available to the ' \
+             'public. Originally announced in Budget 2004, departments are required to disclose contracts and ' \
+             'amendments valued over and under $10,000 in a manner outlined in the <em>' \
+             '<a href="http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=14676">Guidelines on the Proactive ' \
+             'Disclosure of Contracts</a></em>. Amendments to the <em><a ' \
+             'href="https://www.canada.ca/en/treasury-board-secretariat/services/access-information-privacy/access-' \
+             'information-act.html">Access to Information Act</a></em> codified the aforementioned ' \
+             'reporting requirements with the Royal assent of <a href="https://www.parl.ca/DocumentViewer' \
+             '/en/42-1/bill/C-58/royal-assent"> <em>Bill C-58</em></a> in June 2019.</p><p>Information on contracts ' \
+             'issued/amended by or on behalf of federal institutions can be searched here using keyword, institution,' \
+             ' quarter, and year.</p><p>The Treasury Board <a href="http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?' \
+             'id=14494"> Contracting Policy</a> outlines the rules and principles governing government contracting. ' \
+             'The objective is to procure contracting of goods and services in a manner that enhances access, ' \
+             'competition and fairness and results in best value to Canada. For further information on federal' \
+             'government procurement, please visit <a href="https://buyandsell.gc.ca/">Buyandsell.gc.ca</a>.</p>'
 CT_INFO_FR  = GC_INFO_FR
-CT_ABOUT_FR = """<p>Dans le cadre du deuxième plan d’action du Canada sur le gouvernement ouvert, le gouvernement du Canada s’est engagé à communiquer les données sur les marchés au moyen d’une base de données centralisée, lisible par machine et accessible au public. Cette initiative a été annoncée à l’origine dans le budget de 2004. Depuis, les ministères sont tenus de divulguer les marchés et les modifications d’une valeur supérieure ou inférieure à 10 000 $ de la manière décrite dans les <a href="http://www.tbs-sct.gc.ca/pol/doc-fra.aspx?id=14676"> Lignes directrices sur la divulgation proactive des marchés</a>. Les modifications apportées à <a href="https://www.canada.ca/fr/secretariat-conseil-tresor/services/acces-information-protection-reseignements-personnels/loi-acces-information.html">la Loi sur l’accès à l’information</a> ont codifié les exigences susmentionnées en matière de rapports avec la sanction royale du projet de loi <a href="https://www.parl.ca/DocumentViewer/fr/42-1/projet-loi/C-58/sanction-royal">C-58</a> en juin 2019.</p>
-<p>Les renseignements sur les contrats conclus ou modifiés par les institutions fédérales ou en leur nom peuvent être recherchés ici par mot clé, institution, trimestre et année.</p>
-<p>La <a href="http://www.tbs-sct.gc.ca/pol/doc-fra.aspx?id=14494"> Politique sur les marchés</a> du Conseil du Trésor énonce les règles et les principes régissant les marchés publics. L’objectif est d’obtenir des marchés de biens et de services d’une manière qui améliore l’accès, la concurrence, l’équité et la valeur optimale pour le Canada. Pour de plus amples renseignements sur l’approvisionnement du gouvernement fédéral, veuillez consulter le site <a href="https://achatsetventes.gc.ca/">achatsetventes.gc.ca</a>.</p>
-"""
+CT_ABOUT_FR = '<p>Dans le cadre du deuxième plan d’action du Canada sur le gouvernement ouvert, le gouvernement du ' \
+              'Canada s’est engagé à communiquer les données sur les marchés au moyen d’une base de données ' \
+              'centralisée, lisible par machine et accessible au public. Cette initiative a été annoncée à l’origine ' \
+              'dans le budget de 2004. Depuis, les ministères sont tenus de divulguer les marchés et les ' \
+              'modifications d’une valeur supérieure ou inférieure à 10 000 $ de la manière décrite dans les <a ' \
+              'href="http://www.tbs-sct.gc.ca/pol/doc-fra.aspx?id=14676"> Lignes directrices sur la ' \
+              'divulgationproactive des marchés</a>. Les modifications apportées à <a href="https://www.canada.ca/' \
+              'fr/secretariat-conseil-tresor/services/acces-information-protection-reseignements-personnels/' \
+              'loi-acces-information.html">la Loi sur l’accès à l’information</a> ont codifié les exigences ' \
+              'susmentionnées en matière de rapports avec la sanction royale du projet de loi <a href="https://www.' \
+              'parl.ca/DocumentViewer/fr/42-1/projet-loi/C-58/sanction-royal">C-58</a> en juin 2019.</p><p>Les ' \
+              'renseignements sur les contrats conclus ou modifiés par les institutions fédérales ou en leur nom ' \
+              'peuvent être recherchés ici par mot clé, institution, trimestre et année.</p><p>La <a ' \
+              'href="http://www.tbs-sct.gc.ca/pol/doc-fra.aspx?id=14494"> Politique sur les marchés</a> du Conseil ' \
+              'du Trésor énonce les règles et les principes régissant les marchés publics. L’objectif est d’obtenir ' \
+              'des marchés de biens et de services d’une manière qui améliore l’accès, la concurrence, l’équité et ' \
+              'la valeur optimale pour le Canada. Pour de plus amples renseignements sur l’approvisionnement du ' \
+              'gouvernement fédéral, veuillez consulter le site <a href="https://achatsetventes.gc.ca/">' \
+              'achatsetventes.gc.ca</a>.</p>'
 
 # National Action Plan App Settings
 
@@ -410,11 +467,26 @@ SI_NOTE_INFO_FR = ''
 SOLR_SI = 'http://127.0.0.1:8983/solr/core_sv_search'
 
 # Question Period Settings
-
-QP_INFO_EN = """<p>In accordance with the Access to Information Act, the government proactively publishes the package of question period notes that were prepared by a government institution for the minister and that were in use on the last sitting day in June and December.</p>
-<p>The question period notes may be partially or fully redacted in accordance with the legislation; for example, if the notes contain information related to national security or personal information. (Learn more about <a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-338">exemptions</a> and <a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-955">exclusions</a>.)</p>"""
-QP_INFO_FR = """<p>En vertu de la Loi sur l’accès à l’information, le gouvernement publie de façon proactive les notes pour la période des questions préparées par l’institution et en usage lors du dernier jour de séance de juin et de décembre.</p>
-<p>Les notes pour la période des questions peuvent être partiellement ou entièrement caviardées en vertu de la Loi; par exemple, si les notes contiennent des renseignements liés à la sécurité nationale ou des renseignements personnels. (Renseignez-vous sur les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-336">exceptions</a> et les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-944">exclusions</a>.)</p>"""
+QP_INFO_EN = '<p>In accordance with the Access to Information Act, the government proactively publishes the package ' \
+             'of question period notes that were prepared by a government institution for the minister and that ' \
+             'were in use on the last sitting day in June and December.</p><p>The question period notes may be ' \
+             'partially or fully redacted in accordance with the legislation; for example, if the notes contain ' \
+             'information related to national security or personal information. (Learn more about ' \
+             '<a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-338">exemptions</a> and ' \
+             '<a href="https://laws-lois.justice.gc.ca/eng/acts/A-1/Fulltext.html#h-955">exclusions</a>.)</p><p>If ' \
+             'you find a question period note of interest, you may make an ' \
+             '<a href="https://www.tbs-sct.gc.ca/tbsf-fsct/350-57-eng.asp">access to information request</a> ' \
+             'in order to obtain it.</p>'
+QP_INFO_FR = '<p>En vertu de la Loi sur l’accès à l’information, le gouvernement publie de façon proactive les ' \
+             'notes pour la période des questions préparées par l’institution et en usage lors du dernier jour de ' \
+             'séance de juin et de décembre.</p><p>Les notes pour la période des questions peuvent être ' \
+             'partiellement ou entièrement caviardées en vertu de la Loi; par exemple, si les titres contiennent ' \
+             'des renseignements liés à la sécurité nationale ou des renseignements personnels. (Renseignez-vous ' \
+             'sur les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-336">exceptions</a> ' \
+             'et les <a href="https://laws-lois.justice.gc.ca/fra/lois/a-1/TexteComplet.html#h-944">exclusions</a>.)' \
+             '</p> <p>Si vous trouvez une note qui vous intéresse, vous pouvez présenter une ' \
+             '<a href="https://www.tbs-sct.gc.ca/tbsf-fsct/350-57-fra.asp">demande d’accès à l’information</a> ' \
+             'afin d’obtenir les documents.</p>'
 QP_DATASET_ID = "ecd1a913-47da-47fc-8f96-2432be420986"
 QP_DATASET_TITLE_EN = "Question Period Notes"
 QP_DATASET_TITLE_FR = "Notes pour la période des questions"

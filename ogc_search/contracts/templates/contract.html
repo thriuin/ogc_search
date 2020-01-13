@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
-{% load markdown_filter %}
 {% load search_extras %}
 
 {% block canada_ca_search %} {% endblock canada_ca_search %}
@@ -109,7 +108,7 @@
                 <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ doc.contract_delivery_s | friendly_date_fr }}{% else %}{{ doc.contract_delivery_s | friendly_date_en }}{% endif %}</div>
             </div>
             <div class="row">
-                <div class="col-sm-4">{% trans 'Value: ' %}</div>
+                <div class="col-sm-4">{% trans 'Contract Value: ' %}</div>
                 <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ doc.contract_value_fr_s }}{% else %}{{ doc.contract_value_en_s }}{% endif %}</div>
             </div>
             <div class="row">
