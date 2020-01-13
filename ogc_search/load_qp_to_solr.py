@@ -86,10 +86,6 @@ def get_minister_status(position, minister, lang_code):
                         return 'Former'
 
 
-def resolve_linebreak(input_str):
-    return input_str.replace('\n\n', '\n').replace('\n', '\n\n')
-
-
 with open(settings.QP_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
     schema = load(ckan_schema_file, Loader=Loader)
 
@@ -125,14 +121,14 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as file:
                 'minister_status_en_s': get_minister_status(csvRow['minister'], minister_name, 'en'),
                 'minister_status_fr_s': get_minister_status(csvRow['minister'], minister_name, 'fr'),
 
-                'question_en_s': resolve_linebreak(str(get_field(csvRow, 'question_en')).strip()),
-                'question_fr_s': resolve_linebreak(str(get_field(csvRow, 'question_fr')).strip()),
-                'background_en_s': resolve_linebreak(str(get_field(csvRow, 'background_en')).strip()),
-                'background_fr_s': resolve_linebreak(str(get_field(csvRow, 'background_fr')).strip()),
-                'response_en_s': resolve_linebreak(str(get_field(csvRow, 'response_en')).strip()),
-                'response_fr_s': resolve_linebreak(str(get_field(csvRow, 'response_fr')).strip()),
-                'additional_information_en_s': resolve_linebreak(str(get_field(csvRow, 'additional_information_en'))),
-                'additional_information_fr_s': resolve_linebreak(str(get_field(csvRow, 'additional_information_fr'))),
+                'question_en_s': str(get_field(csvRow, 'question_en')).strip(),
+                'question_fr_s': str(get_field(csvRow, 'question_fr')).strip(),
+                'background_en_s': str(get_field(csvRow, 'background_en')).strip(),
+                'background_fr_s': str(get_field(csvRow, 'background_fr')).strip(),
+                'response_en_s': str(get_field(csvRow, 'response_en')).strip(),
+                'response_fr_s': str(get_field(csvRow, 'response_fr')).strip(),
+                'additional_information_en_s': str(get_field(csvRow, 'additional_information_en')),
+                'additional_information_fr_s': str(get_field(csvRow, 'additional_information_fr')),
             }
 
             if csvRow['date_received']:
