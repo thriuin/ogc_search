@@ -100,6 +100,11 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 elif 'en-t-fr' in r['name_translated']:
                     resource_title_fr.append(r['name_translated']['en-t-fr'].strip())
 
+            display_options = []
+            if 'display_flags' in o:
+                for flag in o['display_flags']:
+                    display_options.append(str(flag).strip())
+
             od_obj = {
                 'portal_type_en_s': controlled_lists['type']['en'][o['type']],
                 'portal_type_fr_s': controlled_lists['type']['fr'][o['type']],
@@ -134,6 +139,7 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 'last_modified_tdt': o['metadata_modified'] + 'Z',
                 'ogp_link_en_s': '{0}{1}'.format(settings.OPEN_DATA_EN_URL_BASE, o['name']),
                 'ogp_link_fr_s': '{0}{1}'.format(settings.OPEN_DATA_FR_URL_BASE, o['name']),
+                'display_options_s': display_options,
             }
             if 'en' in o['notes_translated']:
                 od_obj['desc_summary_txt_en'] = get_summary(str(o['notes_translated']['en']).strip(), 'en')

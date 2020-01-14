@@ -688,5 +688,6 @@
     <field name="resource_title_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="last_modified_tdt" type="tdate" indexed="true" stored="true" multiValued="false"
            sortMissingLast="true" sortMissingFirst="false"/>
+    <field name="display_options_s" type="string" indexed="true" stored="true" multiValued="true"/>
 
 </schema>

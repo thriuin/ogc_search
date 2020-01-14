@@ -183,18 +183,20 @@
                                     {% for y in doc.keywords_txt_en %}<span class="text-muted">{{y | safe}}, </span> {% endfor %}
                                 {% endif %}
                             </p>
-                            {% if doc.collection_type_en_s == 'Open Maps' or doc.collection_type_fr_s == 'Cartes Ouvertes' %}
-                            <p>
-                                <a value="{{ doc.id_name_s }}"
-                                   id="OGSCartAdd_{{ doc.id_name_s }}"
-                                   class="ogscartbtn ogscartaddbtn btn btn-success btn-xs" href="javascript:;">
-                                   <span class="fa fa-plus"></span> {% trans 'Add to Map List' %}</a>
-                                <a value="{{ doc.id_name_s }}"
-                                   id="OGSCartRemove_{{ doc.id_name_s }}"
-                                   class="ogscartbtn ogscartremovebtn btn btn-danger btn-xs" href="javascript:;">
-                                <span class="fa fa-minus"></span> {% trans 'Remove from Map List' %}</a>
-                            </p>
-                            {% endif %}
+                            {% for display_type in doc.display_options_s %}
+                                {% if display_type == "fgp_viewer" %}
+                                <p>
+                                    <a value="{{ doc.id_name_s }}"
+                                       id="OGSCartAdd_{{ doc.id_name_s }}"
+                                       class="ogscartbtn ogscartaddbtn btn btn-success btn-xs" href="javascript:;">
+                                       <span class="fa fa-plus"></span> {% trans 'Add to Map List' %}</a>
+                                    <a value="{{ doc.id_name_s }}"
+                                       id="OGSCartRemove_{{ doc.id_name_s }}"
+                                       class="ogscartbtn ogscartremovebtn btn btn-danger btn-xs" href="javascript:;">
+                                    <span class="fa fa-minus"></span> {% trans 'Remove from Map List' %}</a>
+                                </p>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                      </div>
 
