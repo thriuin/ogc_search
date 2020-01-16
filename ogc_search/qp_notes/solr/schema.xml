@@ -591,8 +591,16 @@
     <!-- 3.4 -->
     <field name="minister_s" type="string" indexed="true" stored="true" sortMissingLast="true"
            sortMissingFirst="false" docValues="true"/>
+
+    <field name="minister_en_s" type="string" indexed="true" stored="true" sortMissingLast="true"
+           sortMissingFirst="false" docValues="true"/>
     <field name="minister_en_txt" type="text_en" indexed="true" stored="true"/>
+    <copyField source="minister_en_s" dest="minister_en_txt"/>
+
+    <field name="minister_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true"
+           sortMissingFirst="false" docValues="true"/>
     <field name="minister_fr_txt" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="minister_fr_s" dest="minister_fr_txt"/>
 
     <!-- additional fields for minister position -->
     <field name="minister_position_en_s" type="string" indexed="true" stored="true" sortMissingLast="true"
