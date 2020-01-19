@@ -1,2 +1,14 @@
-let accumulators = ['ct-search-orgs', 'ct-search-year', 'ct-search-commodity-type', 'ct-search-country',
-    'ct-search-agreement', 'ct-search-dollar-range', 'ct-solicitation', 'ct-search-doc', 'ct-search-report-type'];
+let accumulators = ['ct-search-year',
+    'ct-search-orgs',
+    'ct-search-dollar-range',
+    'ct-search-agreement',
+    'ct-search-ip',
+    'ct-solicitation',
+    'ct-search-doc',
+    'ct-search-commodity-type',
+    'ct-search-tender',
+    'ct-search-exempt',
+    'ct-search-fps',
+    'ct-search-so',
+    'ct-search-mo',
+    'ct-search-report-type'];
