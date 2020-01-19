@@ -151,28 +151,37 @@ class CTSearchView(View):
                                      ]
 
         # These fields are search facets
-        self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
-                                     '{!ex=tag_report_type_en_s}report_type_en_s',
-                                     '{!ex=tag_contract_year_s}contract_year_s',
+        self.solr_facet_fields_en = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
-                                     '{!ex=tag_commodity_type_code_en_s}commodity_type_code_en_s',
-                                     '{!ex=tag_country_of_origin_en_s}country_of_origin_en_s',
+                                     '{!ex=tag_agreement_type_code_en_s}agreement_type_code_en_s',
+                                     '{!ex=tag_intellectual_property_code_en_s}intellectual_property_code_en_s',
                                      '{!ex=tag_solicitation_procedure_code_en_s}solicitation_procedure_code_en_s',
-                                     '{!ex=tag_exemption_code_en_s}exemption_code_en_s',
-                                     '{!ex=tag_aboriginal_business_en_s}aboriginal_business_en_s',
                                      '{!ex=tag_document_type_code_en_s}document_type_code_en_s',
-                                     '{!ex=tag_agreement_type_code_en_s}agreement_type_code_en_s']
-        self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
-                                     '{!ex=tag_report_type_en_s}report_type_fr_s',
-                                     '{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_commodity_type_code_en_s}commodity_type_code_en_s',
+                                     '{!ex=tag_limited_tendering_reason_code_en_s}limited_tendering_reason_code_en_s',
+                                     '{!ex=tag_exemption_code_en_s}exemption_code_en_s',
+                                     '{!ex=tag_former_public_servant_en_s}former_public_servant_en_s',
+                                     '{!ex=tag_standing_offer_en_s}standing_offer_en_s',
+                                     '{!ex=tag_ministers_office_en_s}ministers_office_en_s',
+                                     '{!ex=tag_report_type_en_s}report_type_en_s',
+                                     ]
+
+        self.solr_facet_fields_fr = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
-                                     '{!ex=tag_commodity_type_code_fr_s}commodity_type_code_fr_s',
-                                     '{!ex=tag_country_of_origin_fr_s}country_of_origin_fr_s',
+                                     '{!ex=tag_agreement_type_code_fr_s}agreement_type_code_fr_s',
+                                     '{!ex=tag_intellectual_property_code_fr_s}intellectual_property_code_fr_s',
                                      '{!ex=tag_solicitation_procedure_code_fr_s}solicitation_procedure_code_fr_s',
-                                     '{!ex=tag_exemption_code_fr_s}exemption_code_fr_s',
-                                     '{!ex=tag_aboriginal_business_fr_s}aboriginal_business_fr_s',
                                      '{!ex=tag_document_type_code_fr_s}document_type_code_fr_s',
-                                     '{!ex=tag_agreement_type_code_fr_s}agreement_type_code_fr_s']
+                                     '{!ex=tag_commodity_type_code_fr_s}commodity_type_code_fr_s',
+                                     '{!ex=tag_limited_tendering_reason_code_fr_s}limited_tendering_reason_code_fr_s',
+                                     '{!ex=tag_exemption_code_fr_s}exemption_code_fr_s',
+                                     '{!ex=tag_former_public_servant_fr_s}former_public_servant_fr_s',
+                                     '{!ex=tag_standing_offer_fr_s}standing_offer_fr_s',
+                                     '{!ex=tag_ministers_office_fr_s}ministers_office_fr_s',
+                                     '{!ex=tag_report_type_fr_s}report_type_fr_s',
+                                     ]
 
         # These fields will have search hit high-lighting applied
         self.solr_hl_fields_en = ['description_txt_en', 'vendor_name_txt_en', 'comments_txt_en',
@@ -229,55 +238,81 @@ class CTSearchView(View):
         # Retrieve search results and transform facets results to python dict
 
         # Retrieve any selected search facets
-        solr_report_type: str = request.GET.get('ct-search-report-type', '')
-        solr_search_orgs: str = request.GET.get('ct-search-orgs', '')
         solr_search_year: str = request.GET.get('ct-search-year', '')
-        solr_search_commodity_type: str = request.GET.get('ct-search-commodity-type', '')
-        solr_search_country: str = request.GET.get('ct-search-country', '')
+        solr_search_orgs: str = request.GET.get('ct-search-orgs', '')
         solr_search_range: str = request.GET.get('ct-search-dollar-range', '')
         solr_search_agreements: str = request.GET.get('ct-search-agreement', '')
+        solr_search_ip: str = request.GET.get('ct-search-ip', '')
         solr_search_solicitation: str = request.GET.get('ct-solicitation', '')
         solr_search_doc_type: str = request.GET.get('ct-search-doc', '')
-        context['type_selected'] = solr_report_type
-        context['type_selected_list'] = solr_report_type.split('|')
-        context["organizations_selected"] = solr_search_orgs
-        context["organizations_selected_list"] = solr_search_orgs.split('|')
+        solr_search_commodity_type: str = request.GET.get('ct-search-commodity-type', '')
+        solr_search_tendering: str = request.GET.get('ct-search-tender', '')
+        solr_search_exempt: str = request.GET.get('ct-search-exempt', '')
+        solr_search_fps: str = request.GET.get('ct-search-fps', '')
+        solr_search_so: str = request.GET.get('ct-search-so', '')
+        solr_search_mo: str = request.GET.get('ct-search-mo', '')
+        solr_report_type: str = request.GET.get('ct-search-report-type', '')
+
         context["year_selected"] = solr_search_year
         context["year_selected_list"] = solr_search_year.split('|')
-        context["commodity_type_selected"] = solr_search_commodity_type
-        context["commodity_type_selected_list"] = solr_search_commodity_type.split('|')
-        context["country_selected"] = solr_search_country
-        context["country_selected_list"] = solr_search_country.split('|')
+        context["organizations_selected"] = solr_search_orgs
+        context["organizations_selected_list"] = solr_search_orgs.split('|')
         context["range_selected"] = solr_search_range
         context["range_selected_list"] = solr_search_range.split('|')
         context["agreement_selected"] = solr_search_agreements
         context["agreement_selected_list"] = solr_search_agreements.split('|')
+        context['ip_selected'] = solr_search_ip
+        context['ip_selected_list'] = solr_search_ip.split('|')
         context["solicitation_selected"] = solr_search_solicitation
         context["solicitation_selected_list"] = solr_search_solicitation.split('|')
         context["doc_type_selected"] = solr_search_doc_type
         context["doc_type_selected_list"] = solr_search_doc_type.split('|')
+        context["commodity_type_selected"] = solr_search_commodity_type
+        context["commodity_type_selected_list"] = solr_search_commodity_type.split('|')
+        context['tendering_selected'] = solr_search_tendering
+        context['tendering_selected_list'] = solr_search_tendering.split('|')
+        context['exempt_selected'] = solr_search_exempt
+        context['exempt_selected_list'] = solr_search_exempt.split('|')
+        context['fps_selected'] = solr_search_fps
+        context['fps_selected_list'] = solr_search_fps.split('|')
+        context['so_selected'] = solr_search_so
+        context['so_selected_list'] = solr_search_so.split('|')
+        context['mo_selected'] = solr_search_mo
+        context['mo_selected_list'] = solr_search_mo.split('|')
+        context['type_selected'] = solr_report_type
+        context['type_selected_list'] = solr_report_type.split('|')
 
         if request.LANGUAGE_CODE == 'fr':
-            facets_dict = dict(owner_org_fr_s=context['organizations_selected'],
-                               report_type_fr_s=context['type_selected'],
-                               contract_year_s=context['year_selected'],
-                               commodity_type_code_fr_s=context['commodity_type_selected'],
-                               country_of_origin_fr_s=context['country_selected'],
-                               contract_value_range_fr_s=context['range_selected'],
-                               agreement_type_code_fr_s=context['agreement_selected'],
-                               solicitation_procedure_code_fr_s=context['solicitation_selected'],
-                               document_type_code_fr_s=context['doc_type_selected']
+            facets_dict = dict(contract_year_s=solr_search_year,
+                               owner_org_fr_s=solr_search_orgs,
+                               contract_value_range_fr_s=solr_search_range,
+                               agreement_type_code_fr_s=solr_search_agreements,
+                               intellectual_property_code_fr_s=solr_search_ip,
+                               solicitation_procedure_code_fr_s=solr_search_solicitation,
+                               document_type_code_fr_s=solr_search_doc_type,
+                               commodity_type_code_fr_s=solr_search_commodity_type,
+                               limited_tendering_reason_code_fr_s=solr_search_tendering,
+                               exemption_code_fr_s=solr_search_exempt,
+                               former_public_servant_fr_s=solr_search_fps,
+                               standing_offer_fr_s=solr_search_so,
+                               ministers_office_fr_s=solr_search_mo,
+                               report_type_fr_s=solr_report_type,
                                )
         else:
-            facets_dict = dict(owner_org_en_s=context['organizations_selected'],
-                               report_type_en_s=context['type_selected'],
-                               contract_year_s=context['year_selected'],
-                               commodity_type_code_en_s=context['commodity_type_selected'],
-                               country_of_origin_en_s=context['country_selected'],
-                               contract_value_range_en_s=context['range_selected'],
-                               agreement_type_code_en_s=context['agreement_selected'],
-                               solicitation_procedure_code_en_s=context['solicitation_selected'],
-                               document_type_code_en_s=context['doc_type_selected']
+            facets_dict = dict(contract_year_s=solr_search_year,
+                               owner_org_en_s=solr_search_orgs,
+                               contract_value_range_en_s=solr_search_range,
+                               agreement_type_code_en_s=solr_search_agreements,
+                               intellectual_property_code_en_s=solr_search_ip,
+                               solicitation_procedure_code_en_s=solr_search_solicitation,
+                               document_type_code_en_s=solr_search_doc_type,
+                               commodity_type_code_en_s=solr_search_commodity_type,
+                               limited_tendering_reason_code_en_s=solr_search_tendering,
+                               exemption_code_en_s=solr_search_exempt,
+                               former_public_servant_en_s=solr_search_fps,
+                               standing_offer_en_s=solr_search_so,
+                               ministers_office_en_s=solr_search_mo,
+                               report_type_en_s=solr_report_type,
                                )
 
         # Retrieve search sort order
@@ -329,42 +364,63 @@ class CTSearchView(View):
         context['next_page'] = next_page
         context['currentpage'] = page
 
+        context['year_facets'] = search_util.convert_facet_list_to_dict(
+            search_results.facets['facet_fields']['contract_year_s'])
         if request.LANGUAGE_CODE == 'fr':
-            context['report_type_fr_s'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['report_type_fr_s'])
             context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_fr_s'])
-            context['commodity_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['commodity_type_code_fr_s'])
-            context['country_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['country_of_origin_fr_s'])
-            context['agreement_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['agreement_type_code_fr_s'])
             context['value_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['contract_value_range_fr_s'])
+            context['agreement_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['agreement_type_code_fr_s'])
+            context['ip_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['intellectual_property_code_fr_s'])
             context['solicitation_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['solicitation_procedure_code_fr_s'])
             context['doc_type_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['document_type_code_fr_s'])
+            context['commodity_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['commodity_type_code_fr_s'])
+            context['tender_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['limited_tendering_reason_code_fr_s'])
+            context['exempt_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['exemption_code_fr_s'])
+            context['fps_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['former_public_servant_fr_s'])
+            context['so_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['standing_offer_fr_s'])
+            context['mo_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['ministers_office_fr_s'])
+            context['report_type_fr_s'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['report_type_fr_s'])
         else:
-            context['report_type_en_s'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['report_type_en_s'])
             context['org_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_en_s'])
-            context['commodity_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['commodity_type_code_en_s'])
-            context['country_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['country_of_origin_en_s'])
-            context['agreement_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['agreement_type_code_en_s'])
             context['value_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['contract_value_range_en_s'])
+            context['agreement_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['agreement_type_code_en_s'])
+            context['ip_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['intellectual_property_code_en_s'])
             context['solicitation_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['solicitation_procedure_code_en_s'])
             context['doc_type_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['document_type_code_en_s'])
-        context['year_facets'] = search_util.convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['contract_year_s'])
+            context['commodity_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['commodity_type_code_en_s'])
+            context['tender_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['limited_tendering_reason_code_en_s'])
+            context['exempt_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['exemption_code_en_s'])
+            context['fps_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['former_public_servant_en_s'])
+            context['so_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['standing_offer_en_s'])
+            context['mo_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['ministers_office_en_s'])
+            context['report_type_en_s'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['report_type_en_s'])
+
         return render(request, "contracts_search.html", context)
 
 

@@ -202,6 +202,7 @@ STATICFILES_DIRS = [
     ('nap', os.path.join(BASE_DIR, "national_action_plan", "static")),
     ('qp', os.path.join(BASE_DIR, "qp_notes", "static")),
     ('si', os.path.join(BASE_DIR, "service_inventory", "static")),
+    ('wet', os.path.join(BASE_DIR, "wet", "static")),
 ]
 
 # Search App Feature Flags

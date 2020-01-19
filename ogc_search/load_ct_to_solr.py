@@ -89,29 +89,34 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'aboriginal_business_fr_s': get_choice_field(controlled_lists, gc, 'aboriginal_business', 'fr',
                                                              'type non spécifié'),
                 'intellectual_property_code_en_s': get_choice_field(controlled_lists, gc, 'intellectual_property_code',
-                                                                    'en'),
+                                                                    'en', 'Unspecified'),
                 'intellectual_property_code_fr_s': get_choice_field(controlled_lists, gc, 'intellectual_property_code',
-                                                                    'fr'),
+                                                                    'fr', 'type non spécifié'),
                 'potential_commercial_exploitation_en_s': get_choice_field(controlled_lists, gc,
                                                                            'potential_commercial_exploitation', 'en'),
                 'potential_commercial_exploitation_fr_s': get_choice_field(controlled_lists, gc,
                                                                            'potential_commercial_exploitation', 'fr'),
-                'former_public_servant_en_s': get_choice_field(controlled_lists, gc, 'former_public_servant', 'en'),
-                'former_public_servant_fr_s': get_choice_field(controlled_lists, gc, 'former_public_servant', 'fr'),
-                'standing_offer_en_s': get_choice_field(controlled_lists, gc, 'standing_offer', 'en'),
-                'standing_offer_fr_s': get_choice_field(controlled_lists, gc, 'standing_offer', 'fr'),
+                'former_public_servant_en_s': get_choice_field(controlled_lists, gc, 'former_public_servant', 'en',
+                                                               'Unspecified'),
+                'former_public_servant_fr_s': get_choice_field(controlled_lists, gc, 'former_public_servant', 'fr',
+                                                               'type non spécifié'),
+                'standing_offer_en_s': get_choice_field(controlled_lists, gc, 'standing_offer', 'en', 'Unspecified'),
+                'standing_offer_fr_s': get_choice_field(controlled_lists, gc, 'standing_offer', 'fr',
+                                                        'type non spécifié'),
                 'standing_offer_number_s': gc['standing_offer_number'],
                 'document_type_code_en_s': get_choice_field(controlled_lists, gc, 'document_type_code', 'en',
                                                             'Unspecified'),
                 'document_type_code_fr_s': get_choice_field(controlled_lists, gc, 'document_type_code', 'fr',
                                                             'type non spécifié'),
-                'ministers_office_en_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'en'),
-                'ministers_office_fr_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'fr'),
+                'ministers_office_en_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'en',
+                                                          'Unspecified'),
+                'ministers_office_fr_s': get_choice_field(controlled_lists, gc, 'ministers_office', 'fr',
+                                                          'type non spécifié'),
                 'reporting_period_s': gc['reporting_period'],
                 'nil_report_b': 'f',
-                'report_type_en_s': 'Contracts',
-                'report_type_fr_s': "Contrats",
             }
+            od_obj['report_type_en_s'] = od_obj['document_type_code_en_s']
+            od_obj['report_type_fr_s'] = od_obj['document_type_code_fr_s']
             if not gc['contract_period_start'] == "":
                 contract_start_dt: datetime = datetime.strptime(gc['contract_period_start'], '%Y-%m-%d')
                 od_obj['contract_start_dt'] = contract_start_dt.strftime('%Y-%m-%dT00:00:00Z')
@@ -122,6 +127,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['contract_start_s'] = "-"
                 od_obj['contract_year_s'] = ""
                 od_obj['contract_month_s'] = ""
+                print("Missing contract start date field: {0}".format(od_obj['id']))
 
             if not gc['delivery_date'] == "":
                 delivery_dt: datetime = datetime.strptime(gc['delivery_date'], '%Y-%m-%d')
@@ -184,8 +190,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['agreement_type_code_fr_s'] = 'type non spécifié'
                 od_obj['agreement_type_code_export_fr_s'] = 'type non spécifié'
 
-            if gc['contract_value']:
-                contract_range = get_bilingual_dollar_range(gc['contract_value'])
+            if gc['original_value']:
+                contract_range = get_bilingual_dollar_range(gc['original_value'])
             else:
                 contract_range = get_bilingual_dollar_range(gc['amendment_value'])
             od_obj['contract_value_range_en_s'] = contract_range['en']['range']
