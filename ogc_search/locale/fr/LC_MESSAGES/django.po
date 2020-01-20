@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-19 17:37-0500\n"
+"POT-Creation-Date: 2020-01-20 12:22-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1268,14 +1268,16 @@ msgid "Date received: "
 msgstr "Date fournie : "
 
 #: .\qp_notes\templates\qp_notes.html:73
-msgid "Name of Minister: "
-msgstr "Nom du ministre : "
+#: .\qp_notes\templates\qp_notes_search.html:135
+#: .\qp_notes\templates\qp_notes_search.html:146
+msgid "Minister by name: "
+msgstr "Ministre par ordre de nom :"
 
 #: .\qp_notes\templates\qp_notes.html:84
 #: .\qp_notes\templates\qp_notes_search.html:137
 #: .\qp_notes\templates\qp_notes_search.html:148
-msgid "Ministry: "
-msgstr "Ministère :"
+msgid "Minister by title: "
+msgstr "Ministre par ordre de titre :"
 
 #: .\qp_notes\templates\qp_notes.html:98
 msgid "Title: "
@@ -1305,22 +1307,17 @@ msgstr "Renseignements supplémentaires : "
 msgid "Back to Search"
 msgstr "Retour à la recherche "
 
-#: .\qp_notes\templates\qp_notes_search.html:135
-#: .\qp_notes\templates\qp_notes_search.html:146
-msgid "Minister: "
-msgstr "Ministre :"
-
 #: .\qp_notes\templates\qp_notes_search.html:216
 msgid "Download dataset of the Question Period Notes"
 msgstr "Téléchargez le jeu de données des notes pour la période des questions"
 
 #: .\qp_notes\templates\qp_notes_search.html:268
-msgid "Minister"
-msgstr "Ministre"
+msgid "Minister by name"
+msgstr "Ministre par ordre de nom"
 
 #: .\qp_notes\templates\qp_notes_search.html:307
-msgid "Ministry"
-msgstr "Ministère"
+msgid "Minister by title"
+msgstr "Ministre par ordre de titre"
 
 #: .\qp_notes\templates\qp_notes_search.html:390
 msgid "Year the note was provided"
