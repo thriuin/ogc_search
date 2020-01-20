@@ -132,9 +132,9 @@
                                 <p class="mrgn-tp-md">
                                     <div><strong>{% trans 'Organization: ' %}</strong> {{ doc.owner_org_title_txt_fr | safe }}</div>
                                     {% if doc.minister_fr_txt %}
-                                        <div><strong>{% trans 'Minister: ' %}</strong> {{ doc.minister_fr_txt | safe }}</div>
+                                        <div><strong>{% trans 'Minister by name: ' %}</strong> {{ doc.minister_fr_txt | safe }}</div>
                                     {% endif %}
-                                    <div><strong>{% trans 'Ministry: ' %}</strong> {{ doc.minister_position_fr_s.0 | safe }}</div>
+                                    <div><strong>{% trans 'Minister by title: ' %}</strong> {{ doc.minister_position_fr_s.0 | safe }}</div>
                                 </p>
                             {% else %}
                                 {% if doc.question_en_txt != '-' %}
@@ -143,9 +143,9 @@
                                 <p class="mrgn-tp-md">
                                     <div><strong>{% trans 'Organization: ' %}</strong> {{ doc.owner_org_title_txt_en | safe }}</div>
                                     {% if doc.minister_en_txt %}
-                                        <div><strong>{% trans 'Minister: ' %}</strong> {{ doc.minister_en_txt | safe }}</div>
+                                        <div><strong>{% trans 'Minister by name: ' %}</strong> {{ doc.minister_en_txt | safe }}</div>
                                     {% endif %}
-                                    <div><strong>{% trans 'Ministry: ' %}</strong> {{ doc.minister_position_en_s.0 | safe }}</div>                                </p>
+                                    <div><strong>{% trans 'Minister by title: ' %}</strong> {{ doc.minister_position_en_s.0 | safe }}</div>                                </p>
                             {% endif %}
                             </div>
                          </div>
@@ -265,7 +265,7 @@
 
                         <details class="panel panel-default mrgn-bttm-0" {% if minister_selected|length > 0 %}open{% endif %}>
                             <summary class="panel-heading">
-                                <h5 class="panel-title">{% trans 'Minister' %}</h5>
+                                <h5 class="panel-title">{% trans 'Minister by name' %}</h5>
                             </summary>
                             <ul class="list-group">
                                 {% if LANGUAGE_CODE == 'fr' %}
@@ -304,7 +304,7 @@
                     {# Minister Position Facet #}
                         <details class="panel panel-default mrgn-bttm-0" {% if minister_position_selected|length > 0 %}open{% endif %}>
                             <summary class="panel-heading">
-                                <h5 class="panel-title">{% trans 'Ministry' %}</h5>
+                                <h5 class="panel-title">{% trans 'Minister by title' %}</h5>
                             </summary>
                             <ul class="list-group">
                             {% if LANGUAGE_CODE == 'fr' %}
