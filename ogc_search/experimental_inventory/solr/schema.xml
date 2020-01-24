@@ -575,12 +575,10 @@
     <field name="_text_en_" type="text_en" multiValued="true" indexed="true" stored="false"/>
     <field name="_text_fr_" type="text_fr" multiValued="true" indexed="true" stored="false"/>
 
-    <!-- ### Replace these with your values ### -->
-
-    <!-- Example ID fields -->
+    <!-- 3.1 ID fields -->
     <field name="ref_number_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <!-- Experiment Title -->
+    <!-- 3.1, 3.2 Experiment Title -->
     <field name="titre_du_projet_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="titre_du_projet_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="titre_du_projet_txt_en" type="text_en" indexed="true" stored="true"/>
@@ -588,7 +586,7 @@
     <copyField source="titre_du_projet_en_s" dest="titre_du_projet_txt_en"/>
     <copyField source="titre_du_projet_fr_s" dest="titre_du_projet_txt_fr"/>
 
-    <!-- Experiment Question -->
+    <!-- 3.4, 3.5 Experiment Question -->
     <field name="question_de_recherche_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="question_de_recherche_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="question_de_recherche_txt_en" type="text_en" indexed="true" stored="true"/>
@@ -596,7 +594,7 @@
     <copyField source="question_de_recherche_en_s" dest="question_de_recherche_txt_en"/>
     <copyField source="question_de_recherche_fr_s" dest="question_de_recherche_txt_fr"/>
 
-    <!-- Project Summary -->
+    <!-- 3.6, 3.7 Project Summary -->
     <field name="project_summary_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="project_summary_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="project_summary_txt_en" type="text_en" indexed="true" stored="true"/>
@@ -604,32 +602,64 @@
     <copyField source="project_summary_en_s" dest="project_summary_txt_en"/>
     <copyField source="project_summary_fr_s" dest="project_summary_txt_fr"/>
 
-    <!-- Last Updated field -->
+    <!-- 3.8 Last Updated field -->
     <field name="last_updated_dt" type="date" indexed="true" stored="true" docValues="true"/>
     <field name="last_updated_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="last_updated_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <!-- Experimental Area -->
+    <!-- 3.9 Experimental Area -->
     <field name="experimental_area_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="experimental_area_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <!-- Research Method -->
-    <field name="research_method_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="research_method_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <!-- 3.10 Research Method -->
+    <field name="research_design_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="research_design_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <!-- Experimentation Status -->
+    <!-- 3.11, 3.12 Design Details -->
+    <field name="design_details_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="design_details_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="design_details_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="design_details_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="design_details_en_s" dest="design_details_txt_en"/>
+    <copyField source="design_details_fr_s" dest="design_details_txt_fr"/>
+    
+    <!-- 3.13, 3.14 Intervention -->
+    <field name="intervention_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="intervention_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="intervention_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="intervention_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="intervention_en_s" dest="intervention_txt_en"/>
+    <copyField source="intervention_fr_s" dest="intervention_txt_fr"/>
+
+    <!-- 3.15, 3.16 Outcomes -->
+    <field name="mesure_des_resultats_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="mesure_des_resultats_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="mesure_des_resultats_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="mesure_des_resultats_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="mesure_des_resultats_en_s" dest="mesure_des_resultats_txt_en"/>
+    <copyField source="mesure_des_resultats_fr_s" dest="mesure_des_resultats_txt_fr"/>
+    
+    <!-- 3.17, 3.18 Outcomes -->
+    <field name="resultats_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="resultats_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="resultats_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="resultats_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="resultats_en_s" dest="resultats_txt_en"/>
+    <copyField source="resultats_fr_s" dest="resultats_txt_fr"/>    
+    
+    <!-- 3.19 Experimentation Status -->
     <field name="status_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="status_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <!-- Reporting To Optional Field -->
-    <field name="report_to_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="report_to_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="report_to_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="report_to_txt_fr" type="text_fr" indexed="true" stored="true"/>
-    <copyField source="report_to_en_s" dest="report_to_txt_en"/>
-    <copyField source="report_to_fr_s" dest="report_to_txt_fr"/>
+    <!-- 3.20, 3.21 Lead Branch or Unit -->
+    <field name="lead_branch_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="lead_branch_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="lead_branch_txt_en" type="text_en" indexed="true" stored="true"/>
+    <field name="lead_branch_txt_fr" type="text_fr" indexed="true" stored="true"/>
+    <copyField source="lead_branch_en_s" dest="lead_branch_txt_en"/>
+    <copyField source="lead_branch_fr_s" dest="lead_branch_txt_fr"/>    
 
-    <!-- Supplementary Information Field -->
+    <!-- S3.22, 3.23 Further Information Field -->
     <field name="info_supplementaire_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="info_supplementaire_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="info_supplementaire_txt_en" type="text_en" indexed="true" stored="true"/>

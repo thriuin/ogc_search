@@ -21,7 +21,7 @@ with open(settings.EXPERIMENT_YAML_FILE, mode='r', encoding='utf8', errors="igno
     ei_schema = load(ckan_schema_file, Loader=Loader)
 
 controlled_lists = {'experimental_area': get_choices('experimental_area', ei_schema),
-                    'research_method': get_choices('research_method', ei_schema),
+                    'research_design': get_choices('research_design', ei_schema),
                     'status': get_choices('status', ei_schema),
                     }
 
@@ -50,24 +50,33 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as ei_file:
                                                              'Unspecified'),
                 'experimental_area_fr_s': get_choice_field(controlled_lists, ei, 'experimental_area', 'fr',
                                                              'type non spécifié'),
-                'research_method_en_s': get_choice_field(controlled_lists, ei, 'research_method', 'en',
+                'research_design_en_s': get_choice_field(controlled_lists, ei, 'research_design', 'en',
                                                            'Unspecified'),
-                'research_method_fr_s': get_choice_field(controlled_lists, ei, 'research_method', 'fr',
+                'research_design_fr_s': get_choice_field(controlled_lists, ei, 'research_design', 'fr',
                                                            'type non spécifié'),
+                'design_details_en_s': get_field(ei, 'design_details_en'),
+                'design_details_fr_s': get_field(ei, 'design_details_fr'),
+                'intervention_en_s': get_field(ei, 'intervention_en'),
+                'intervention_fr_s': get_field(ei, 'intervention_fr'),
+                'mesure_des_resultats_en_s': get_field(ei, 'mesure_des_resultats_en'),
+                'mesure_des_resultats_fr_s': get_field(ei, 'mesure_des_resultats_fr'),
+                'resultats_en_s': get_field(ei, 'resultats_en', '-'),
+                'resultats_fr_s': get_field(ei, 'resultats_fr', '-'),
                 'status_en_s': get_choice_field(controlled_lists, ei, 'status', 'en',
                                                          'Unspecified'),
                 'status_fr_s': get_choice_field(controlled_lists, ei, 'status', 'fr',
                                                          'type non spécifié'),
-                'report_to_en_s': get_field(ei, 'report_to_en'),
-                'report_to_fr_s': get_field(ei, 'report_to_fr'),
-                'info_supplementaire_en_s': get_field(ei, 'info_supplementaire_en'),
-                'info_supplementaire_fr_s': get_field(ei, 'info_supplementaire_fr'),
+                'lead_branch_en_s': get_field(ei, 'lead_branch_en', '-'),
+                'lead_branch_fr_s': get_field(ei, 'lead_branch_fr', '-'),
+                'info_supplementaire_en_s': get_field(ei, 'info_supplementaire_en', '-'),
+                'info_supplementaire_fr_s': get_field(ei, 'info_supplementaire_fr', '-'),
 
             }
             if not ei['last_updated'] == "":
                 last_updated_datetime: datetime = datetime.strptime(ei['last_updated'], '%Y-%m-%d')
                 last_updated_date: date = date(last_updated_datetime.year, last_updated_datetime.month,
                                                last_updated_datetime.day)
+                od_obj['last_update_dt'] = last_updated_date.isoformat()
                 od_obj['last_updated_en_s'] = format_date(last_updated_date, locale='en')
                 od_obj['last_updated_fr_s'] = format_date(last_updated_date, locale='fr')
             else:

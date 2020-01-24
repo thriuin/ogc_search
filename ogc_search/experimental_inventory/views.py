@@ -20,7 +20,7 @@ def get_user_facet_parameters(request: HttpRequest):
     return {
         'solr_search_orgs': request.GET.get('ei-search-orgs', ''),
         'solr_search_area': request.GET.get('ei-area', ''),
-        'solr_search_method': request.GET.get('ei-method', ''),
+        'solr_search_method': request.GET.get('ei-design', ''),
         'solr_search_status': request.GET.get('ei-status', ''),
     }
 
@@ -37,8 +37,13 @@ class EISearchView(View):
                                "project_summary_txt_en,"
                                "last_updated_dt,last_updated_en_s,"
                                "experimental_area_en_s,"
-                               "research_method_en_s,"
+                               "research_design_en_s,"
+                               "design_details_txt_en,"
+                               "intervention_txt_en,"
+                               "mesure_des_resultats_txt_en,"
+                               "resultats_txt_en,"
                                "status_en_s,"
+                               "lead_branch_txt_en,"
                                "report_to_txt_en,"
                                "info_supplementaire_txt_en,"
                                "owner_org_en_s")
@@ -48,8 +53,13 @@ class EISearchView(View):
                                "project_summary_txt_fr,"
                                "last_updated_dt,last_updated_fr_s,"
                                "experimental_area_fr_s,"
-                               "research_method_fr_s,"
+                               "research_design_fr_s,"
+                               "design_details_txt_fr,"
+                               "intervention_txt_fr,"
+                               "mesure_des_resultats_txt_fr,"
+                               "resultats_txt_fr,"
                                "status_fr_s,"
+                               "lead_branch_txt_fr,"
                                "report_to_txt_fr,"
                                "info_supplementaire_txt_fr,"
                                "owner_org_fr_s")
@@ -62,7 +72,11 @@ class EISearchView(View):
                                      'project_summary_txt_en^3',
                                      'last_updated_dt,last_updated_en_s',
                                      'experimental_area_en_s',
-                                     'research_method_en_s',
+                                     'research_design_en_s^2',
+                                     "design_details_txt_en^2",
+                                     "intervention_txt_en^2",
+                                     "mesure_des_resultats_txt_en^3",
+                                     "resultats_txt_en^2",
                                      'status_en_s',
                                      'report_to_txt_en^2',
                                      'info_supplementaire_txt_en^3',
@@ -74,7 +88,11 @@ class EISearchView(View):
                                      'project_summary_txt_fr^3',
                                      'last_updated_dt,last_updated_fr_s',
                                      'experimental_area_fr_s',
-                                     'research_method_fr_s',
+                                     'research_design_fr_s^2',
+                                     "design_details_txt_fr^2",
+                                     "intervention_txt_fr^2",
+                                     "mesure_des_resultats_txt_fr^3",
+                                     "resultats_txt_fr^2",
                                      'status_fr_s',
                                      'report_to_txt_fr^2',
                                      'info_supplementaire_txt_fr^3',
@@ -84,18 +102,22 @@ class EISearchView(View):
         # These fields are search facets
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_experimental_area_en_s}experimental_area_en_s',
-                                     '{!ex=tag_research_method_en_s}research_method_en_s',
+                                     '{!ex=tag_research_design_en_s}research_design_en_s',
                                      '{!ex=tag_status_en_s}status_en_s']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_experimental_area_fr_s}experimental_area_fr_s',
-                                     '{!ex=tag_research_method_fr_s}research_method_fr_s',
+                                     '{!ex=tag_research_design_fr_s}research_design_fr_s',
                                      '{!ex=tag_status_fr_s}status_fr_s']
         
         # These fields will have search hit high-lighting applied
-        self.solr_hl_fields_en = ['titre_du_projet_txt_en', 'question_de_recherche_txt_en', 
-                                  'project_summary_txt_en', 'report_to_txt_en', 'info_supplementaire_txt_en']
-        self.solr_hl_fields_fr = ['titre_du_projet_txt_fr', 'question_de_recherche_txt_fr', 
-                                  'project_summary_txt_fr', 'report_to_txt_fr', 'info_supplementaire_txt_fr']
+        self.solr_hl_fields_en = ['titre_du_projet_txt_en', 'question_de_recherche_txt_en', 'design_details_txt_en',
+                                  'intervention_txt_en', 'mesure_des_resultats_txt_en', 'resultats_txt_en',
+                                  'lead_branch_txt_en', 'report_to_txt_en',
+                                  'project_summary_txt_en', 'info_supplementaire_txt_en']
+        self.solr_hl_fields_fr = ['titre_du_projet_txt_fr', 'question_de_recherche_txt_fr', 'design_details_txt_fr',
+                                  'intervention_txt_fr', 'mesure_des_resultats_txt_fr', 'resultats_txt_fr',
+                                  'lead_branch_txt_fr', 'report_to_txt_fr',
+                                  'project_summary_txt_fr', 'info_supplementaire_txt_fr']
         self.phrase_xtras_fr = {
             'hl': 'on',
             'hl.simple.pre': '<mark>',
@@ -150,13 +172,13 @@ class EISearchView(View):
 
         # Retrieve any selected search facets and convert to lists, and create a facets dictionary
         solr_area: str = request.GET.get('ei-area', '')
-        solr_method: str = request.GET.get('ei-method', '')
+        solr_design: str = request.GET.get('ei-design', '')
         solr_status: str = request.GET.get('ei-status', '')
         solr_search_orgs: str = request.GET.get('ei-search-orgs', '')
         context['area_selected'] = solr_area
         context['area_selected_list'] = solr_area.split('|')
-        context['method_selected'] = solr_method
-        context['method_selected_list'] = solr_method.split('|')
+        context['method_selected'] = solr_design
+        context['method_selected_list'] = solr_design.split('|')
         context['status_selected'] = solr_status
         context['status_selected_list'] = solr_status.split('|')
         context["organizations_selected"] = solr_search_orgs
@@ -165,12 +187,12 @@ class EISearchView(View):
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=solr_search_orgs,
                                experimental_area_fr_s=solr_area,
-                               research_method_fr_s=solr_method,
+                               research_design_fr_s=solr_design,
                                status_fr_s=solr_status)
         else:
             facets_dict = dict(owner_org_en_s=solr_search_orgs,
                                experimental_area_en_s=solr_area,
-                               research_method_en_s=solr_method,
+                               research_design_en_s=solr_design,
                                status_en_s=solr_status)
 
         # Query Solr
@@ -217,8 +239,8 @@ class EISearchView(View):
         if request.LANGUAGE_CODE == 'fr':
             context['experimental_area_fr_s'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['experimental_area_fr_s'])
-            context['research_method_fr_s'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['research_method_fr_s'])
+            context['research_design_fr_s'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['research_design_fr_s'])
             context['status_fr_s'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_fr_s'])
             context['owner_org_fr_s'] = search_util.convert_facet_list_to_dict(
@@ -226,8 +248,8 @@ class EISearchView(View):
         else:
             context['experimental_area_en_s'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['experimental_area_en_s'])
-            context['research_method_en_s'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['research_method_en_s'])
+            context['research_design_en_s'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['research_design_en_s'])
             context['status_en_s'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_en_s'])
             context['owner_org_en_s'] = search_util.convert_facet_list_to_dict(
@@ -284,8 +306,13 @@ class EIExportView(EISearchView):
                                "project_summary_en_s,"
                                "last_updated_en_s,"
                                "experimental_area_en_s,"
-                               "research_method_en_s,"
+                               "research_design_en_s,"
+                               "design_details_en_s,"
+                               "intervention_en_s,"
+                               "mesure_des_resultats_en_s,"
+                               "resultats_en_s,"
                                "status_en_s,"
+                               "lead_branch_en_s,"
                                "report_to_en_s,"
                                "info_supplementaire_en_s,"
                                "owner_org_en_s")
@@ -295,8 +322,13 @@ class EIExportView(EISearchView):
                                "project_summary_fr_s,"
                                "last_updated_fr_s,"
                                "experimental_area_fr_s,"
-                               "research_method_fr_s,"
+                               "research_design_fr_s,"
+                               "design_details_fr_s,"
+                               "intervention_fr_s,"
+                               "mesure_des_resultats_fr_s,"
+                               "resultats_fr_s,"
                                "status_fr_s,"
+                               "lead_branch_fr_s,"
                                "report_to_fr_s,"
                                "info_supplementaire_fr_s,"
                                "owner_org_fr_s")
@@ -329,7 +361,7 @@ class EIExportView(EISearchView):
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=params['solr_search_orgs'],
                                experimental_area_fr_s=params['solr_search_area'],
-                               research_method_fr_s=params['solr_search_method'],
+                               research_design_fr_s=params['solr_search_method'],
                                status_fr_s=params['solr_search_status'])
             solr_fields = self.solr_fields_fr
             solr_search_facets = self.solr_facet_fields_fr
@@ -337,7 +369,7 @@ class EIExportView(EISearchView):
         else:
             facets_dict = dict(owner_org_en_s=params['solr_search_orgs'],
                                experimental_area_en_s=params['solr_search_area'],
-                               research_method_en_s=params['solr_search_method'],
+                               research_design_en_s=params['solr_search_method'],
                                status_en_s=params['solr_search_status'])
 
             solr_fields = self.solr_fields_en
