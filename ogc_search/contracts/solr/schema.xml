@@ -1071,10 +1071,14 @@
     <field name="procurement_id_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="vendor_name_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="vendor_name_txt_en" type="text_en" indexed="true" stored="true"/>
-    <field name="vendor_name_txt_fr" type="text_en" indexed="true" stored="true"/>
-    <copyField source="vendor_name_s" dest="vendor_name_txt_en"/>
-    <copyField source="vendor_name_s" dest="vendor_name_txt_fr"/>
+    <field name="vendor_name_txt" type="text_general" indexed="true" stored="true"/>
+    <copyField source="vendor_name_s" dest="vendor_name_txt"/>
+
+    <field name="vendor_postal_code_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <field name="buyer_name_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="buyer_name_txt" type="text_general" indexed="true" stored="true"/>
+    <copyField source="buyer_name_s" dest="buyer_name_txt"/>
 
     <field name="contract_date_dt" type="date" indexed="true" stored="true" docValues="true"/>
     <field name="contract_year_s" type="string" indexed="true" stored="true" docValues="true"/>
@@ -1134,8 +1138,24 @@
     <copyField source="agreement_type_code_fr_s" dest="agreement_type_code_txt_fr"/>
     <field name="agreement_type_code_export_fr_s" type="string" indexed="false" stored="true"/>
 
-    <field name="commodity_type_code_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="commodity_type_code_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="trade_agreement_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="trade_agreement_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="trade_agreement_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+
+    <field name="trade_agreement_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="trade_agreement_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="trade_agreement_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>   
+
+    <field name="land_claims_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="land_claims_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="land_claims_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+
+    <field name="land_claims_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="land_claims_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="land_claims_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    
+    <field name="commodity_type_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="commodity_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="commodity_code_s" type="string" indexed="true" stored="true" docValues="true"/>
 
@@ -1143,20 +1163,33 @@
     <field name="country_of_origin_en_s" type="string" indexed="true" stored="true"/>
     <field name="country_of_origin_fr_s" type="string" indexed="true" stored="true"/>
 
-    <field name="solicitation_procedure_code_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="solicitation_procedure_code_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="solicitation_procedure_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="solicitation_procedure_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    
+    <field name="limited_tendering_reason_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="limited_tendering_reason_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="limited_tendering_reason_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
 
-    <field name="limited_tendering_reason_code_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="limited_tendering_reason_code_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="limited_tendering_reason_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="limited_tendering_reason_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="limited_tendering_reason_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
 
-    <field name="exemption_code_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="exemption_code_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="trade_agreement_exceptions_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="trade_agreement_exceptions_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="trade_agreement_exceptions_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+
+    <field name="trade_agreement_exceptions_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="trade_agreement_exceptions_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="trade_agreement_exceptions_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
 
     <field name="aboriginal_business_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="aboriginal_business_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <field name="intellectual_property_code_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="intellectual_property_code_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="aboriginal_business_incidental_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="aboriginal_business_incidental_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <field name="intellectual_property_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="intellectual_property_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="potential_commercial_exploitation_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="potential_commercial_exploitation_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
@@ -1164,16 +1197,27 @@
     <field name="former_public_servant_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="former_public_servant_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <field name="standing_offer_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="standing_offer_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="contracting_entity_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="contracting_entity_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="standing_offer_number_s" type="string" indexed="true" stored="true" docValues="true"/>
 
-    <field name="document_type_code_en_s" type="string" indexed="true" stored="true" docValues="true"/>
-    <field name="document_type_code_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="instrument_type_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="instrument_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="ministers_office_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="ministers_office_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <field name="number_of_bids_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <field name="article_6_exceptions_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="article_6_exceptions_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <field name="award_criteria_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="award_criteria_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <field name="socioeconomic_indicator_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="socioeconomic_indicator_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <field name="reporting_period_s" type="string" indexed="true" stored="true" docValues="true"/>
 

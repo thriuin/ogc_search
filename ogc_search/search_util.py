@@ -205,7 +205,7 @@ def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fie
     return True
 
 
-def get_choices(field_name: str, schema: dict, is_lookup=False):
+def get_choices(field_name: str, schema: dict, is_lookup=False, extra_lookup=None):
     choices_en = {}
     choices_fr = {}
     alt_choices_en = {}
@@ -214,6 +214,7 @@ def get_choices(field_name: str, schema: dict, is_lookup=False):
     condition_less_than = ''
     lookup_en = {}
     lookup_fr = {}
+    lookup_extras = {}
 
     if 'resources' in schema:
         for setting in schema['resources'][0]['fields']:
@@ -223,6 +224,8 @@ def get_choices(field_name: str, schema: dict, is_lookup=False):
                         for choice in setting['choices_lookup'].keys():
                             lookup_en[choice] = setting['choices_lookup'][choice]['en']
                             lookup_fr[choice] = setting['choices_lookup'][choice]['fr']
+                            if extra_lookup and extra_lookup in setting['choices_lookup'][choice]:
+                                lookup_extras[choice] = setting['choices_lookup'][choice][extra_lookup]
                     for choice in setting['choices'].keys():
                         if not is_lookup:
                             choices_en[choice] = setting['choices'][choice]['en']
@@ -262,7 +265,7 @@ def get_choices(field_name: str, schema: dict, is_lookup=False):
                                 # @TODO Handle the conditional lookup
                 break
     return {'en': choices_en, 'fr': choices_fr, 'alt_choices_en': alt_choices_en, 'alt_choices_fr': alt_choices_fr,
-            'condition_field': condition_field, 'condition_less_than': condition_less_than}
+            'condition_field': condition_field, 'condition_less_than': condition_less_than, 'extra_field': lookup_extras}
 
 
 def get_choices_json(file_name: str):
@@ -322,6 +325,20 @@ def get_choice_field(choices, fields, field_key, lang, default_value="-"):
         return default_value
     else:
         return choices[field_key][lang][fields[field_key]]
+
+
+def get_choice_lookup_field(controlled_list, fields, field_key, lookup_field, lang, tertiary_choice, default_value="-"):
+    if field_key not in controlled_list:
+        return default_value
+    elif field_key not in fields:
+        return default_value
+    elif fields[field_key] not in controlled_list[field_key][lookup_field]:
+        return default_value
+    x = controlled_list[field_key][lookup_field][fields[field_key]]
+    if x in controlled_list[tertiary_choice][lang]:
+        x = controlled_list[tertiary_choice][lang][x]
+    else:
+        x = controlled_list[field_key][lang][fields[field_key]]
 
 
 def get_bilingual_field(fields, field_key: str, lang: str, default_value="-"):
