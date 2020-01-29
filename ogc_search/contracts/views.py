@@ -38,6 +38,8 @@ class CTSearchView(View):
         # Fields to be returned by the Solr query, English and French Versions
         self.solr_fields_en = ("id,ref_number_s,procurement_id_s,"
                                "vendor_name_s,vendor_name_txt_en,"
+                               "vendor_postal_code_s,"
+                               "buyer_name_s,buyer_name_txt_en,"
                                "contract_date_dt,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_en_s,description_txt_en,"
@@ -49,20 +51,27 @@ class CTSearchView(View):
                                "comments_en_s,comments_txt_en,"
                                "additional_comments_en_s,additional_comments_txt_en,"
                                "agreement_type_code_en_s,agreement_type_code_txt_en,"
+                               "trade_agreement_en_s,trade_agreement_txt_en,"
+                               "land_claims_en_s,land_claims_txt_en,"
                                "commodity_type_code_en_s,"
                                "commodity_code_s,"
                                "country_of_origin_en_s,"
                                "solicitation_procedure_code_en_s,"
-                               "limited_tendering_reason_code_en_s,"
-                               "exemption_code_en_s,"
+                               "limited_tendering_reason_code_en_s,limited_tendering_reason_code_txt_en,"
+                               "trade_agreement_exceptions_en_s,trade_agreement_exceptions_txt_en,"
                                "aboriginal_business_en_s,"
+                               "aboriginal_business_incidental_en_s,"
                                "intellectual_property_code_en_s,"
                                "potential_commercial_exploitation_en_s,"
                                "former_public_servant_en_s,"
-                               "standing_offer_en_s,"
+                               "contracting_entity_en_s,"
                                "standing_offer_number_s,"
-                               "document_type_code_en_s,"
+                               "instrument_type_en_s,"
                                "ministers_office_en_s,"
+                               "number_of_bids_i,"
+                               "article_6_exceptions_en_s,"
+                               "award_criteria_en_s,"
+                               "socioeconomic_indicator_en_s,"
                                "reporting_period_s,"
                                "owner_org_s,owner_org_en_s,"
                                "report_type_en_s,"
@@ -70,6 +79,8 @@ class CTSearchView(View):
                                )
         self.solr_fields_fr = ("id,ref_number_s,procurement_id_s,"
                                "vendor_name_s,vendor_name_txt_fr,"
+                               "vendor_postal_code_s,"
+                               "buyer_name_s,buyer_name_txt_fr,"
                                "contract_date_dt,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_fr_s,description_txt_fr,"
@@ -81,20 +92,27 @@ class CTSearchView(View):
                                "comments_fr_s,comments_txt_fr,"
                                "additional_comments_fr_s,additional_comments_txt_fr,"
                                "agreement_type_code_fr_s,agreement_type_code_txt_fr,"
+                               "trade_agreement_fr_s,trade_agreement_txt_fr,"
+                               "land_claims_fr_s,land_claims_txt_fr,"
                                "commodity_type_code_fr_s,"
                                "commodity_code_s,"
                                "country_of_origin_fr_s,"
                                "solicitation_procedure_code_fr_s,"
-                               "limited_tendering_reason_code_fr_s,"
-                               "exemption_code_fr_s,"
+                               "limited_tendering_reason_code_fr_s,limited_tendering_reason_code_txt_fr,"
+                               "trade_agreement_exceptions_fr_s,trade_agreement_exceptions_txt_fr,"
                                "aboriginal_business_fr_s,"
+                               "aboriginal_business_incidental_fr_s,"
                                "intellectual_property_code_fr_s,"
                                "potential_commercial_exploitation_fr_s,"
                                "former_public_servant_fr_s,"
-                               "standing_offer_fr_s,"
+                               "contracting_frtity_fr_s,"
                                "standing_offer_number_s,"
-                               "document_type_code_fr_s,"
+                               "instrument_type_fr_s,"
                                "ministers_office_fr_s,"
+                               "number_of_bids_i,"
+                               "article_6_exceptions_fr_s,"
+                               "award_criteria_fr_s,"
+                               "socioeconomic_indicator_fr_s,"
                                "reporting_period_s,"
                                "owner_org_s,owner_org_fr_s,"
                                "report_type_fr_s,"
@@ -104,46 +122,52 @@ class CTSearchView(View):
         # Fields to be searched in the Solr query. Fields can be weighted to indicate which are more relevant for
         # searching. 
         self.solr_query_fields_en = ['ref_number_s^5', 'procurement_id_s^5',
-                                     'vendor_name_txt_en', 'contract_year_s', 'contract_month_s',
+                                     'vendor_name_txt_en', 'vendor_postal_code_s',
+                                     'buyer_name_s',
+                                     'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_en^3',
                                      'contract_start_s^4', 'contract_delivery_s^4',
                                      'contract_value_en_s^5', 'original_value_en_s^4', 'amendment_value_en_s^4',
                                      'comments_txt_en', 'additional_comments_txt_en',
-                                     'agreement_type_code_txt_en',
-                                     'commodity_type_code_en_s',
+                                     'trade_agreement_exception_en_s',
+                                     'commodity_type_en_s',
                                      'commodity_code_s',
                                      'country_of_origin_en_s^2',
                                      'solicitation_procedure_code_en_s',
                                      'limited_tendering_reason_code_en_s',
-                                     'exemption_code_en_s',
+                                     'trade_agreement_exceptions_en_s',
                                      'aboriginal_business_en_s',
-                                     'intellectual_property_code_en_s',
+                                     'intellectual_property_en_s',
                                      'former_public_servant_en_s',
-                                     'standing_offer_en_s', 'standing_offer_number_s',
+                                     'contracting_entity_en_s', 'standing_offer_number_s',
+                                     'instrument_type_en_s,'
                                      'ministers_office_en_s',
                                      'reporting_period_s',
                                      'owner_org_en_s',
                                      'report_type_en_s'
                                      ]
         self.solr_query_fields_fr = ['ref_number_s^5', 'procurement_id_s^5',
-                                     'vendor_name_txt_fr', 'contract_year_s', 'contract_month_s',
+                                     'vendor_name_txt_fr', 'vendor_postal_code_s',
+                                     'buyer_name_s',
+                                     'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_fr^3',
                                      'contract_start_s^4', 'contract_delivery_s^4',
                                      'contract_value_fr_s^5', 'original_value_fr_s^4', 'amendment_value_fr_s^4',
                                      'comments_txt_fr', 'additional_comments_txt_fr',
-                                     'agreement_type_code_txt_fr',
-                                     'commodity_type_code_fr_s',
+                                     'trade_agreement_exception_fr_s',
+                                     'commodity_type_fr_s',
                                      'commodity_code_s',
                                      'country_of_origin_fr_s^2',
                                      'solicitation_procedure_code_fr_s',
                                      'limited_tendering_reason_code_fr_s',
-                                     'exemption_code_fr_s',
+                                     'trade_agreement_exceptions_fr_s',
                                      'aboriginal_business_fr_s',
-                                     'intellectual_property_code_fr_s',
+                                     'intellectual_property_fr_s',
                                      'former_public_servant_fr_s',
-                                     'standing_offer_fr_s', 'standing_offer_number_s',
+                                     'contracting_frtity_fr_s', 'standing_offer_number_s',
+                                     'instrument_type_fr_s,'
                                      'ministers_office_fr_s',
                                      'reporting_period_s',
                                      'owner_org_fr_s',
@@ -151,6 +175,7 @@ class CTSearchView(View):
                                      ]
 
         # These fields are search facets
+        # @todo start here
         self.solr_facet_fields_en = ['{!ex=tag_contract_year_s}contract_year_s',
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',

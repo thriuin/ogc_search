@@ -225,7 +225,8 @@ def get_choices(field_name: str, schema: dict, is_lookup=False, extra_lookup=Non
                             lookup_en[choice] = setting['choices_lookup'][choice]['en']
                             lookup_fr[choice] = setting['choices_lookup'][choice]['fr']
                             if extra_lookup and extra_lookup in setting['choices_lookup'][choice]:
-                                lookup_extras[choice] = setting['choices_lookup'][choice][extra_lookup]
+                                lookup_extras[lookup_en[choice]] = setting['choices_lookup'][choice][extra_lookup]
+                                lookup_extras[lookup_fr[choice]] = setting['choices_lookup'][choice][extra_lookup]
                     for choice in setting['choices'].keys():
                         if not is_lookup:
                             choices_en[choice] = setting['choices'][choice]['en']
@@ -328,17 +329,49 @@ def get_choice_field(choices, fields, field_key, lang, default_value="-"):
 
 
 def get_choice_lookup_field(controlled_list, fields, field_key, lookup_field, lang, tertiary_choice, default_value="-"):
+    """
+    Written specifically for contracts, this function looks up alternative values for choices_lookup fields in]
+    another controlled list. For example, in contracts.yaml, the agreement_type_code field has lookup values. So
+    choice value 'Z' expands to [WTO-AGP, NAFTA]. In turn 'WTO-AGP' and 'NAFTA' are keys into the choices_lookup
+    values. The choice lookup for 'WTA-AGP' is linked to the choice 'GP' in the 'trade_agreement' field. Therefore
+    the following call:
+
+    get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code', 'trade_agreement', 'en', 'trade_agreement',
+                                        agreement_types_en)
+     will return the list:
+
+    ['World Trade Organization – Agreement on Government Procurement',  'North American Free Trade Agreement']
+
+    If there is no corresponding lookup field in the tertiary lookup list, then the original lookup value will be
+    returned instead.
+    :param controlled_list: a dictionary of dictionary containing the values from the yaml file
+    :param fields: the CSV record that is being processed
+    :param field_key:  the field in the CSV record that is being processed
+    :param lookup_field:  the primary choice field that will be expanded
+    :param lang: language: 'en' or 'fr'
+    :param tertiary_choice:  the associated choice field  associated with and replacing the lookup values from the
+    lookup_field
+    :param default_value: A value to return if no lookup value is found
+    :return: a list of looked up values
+    """
+
+    # error checking
     if field_key not in controlled_list:
         return default_value
     elif field_key not in fields:
         return default_value
-    elif fields[field_key] not in controlled_list[field_key][lookup_field]:
+    if fields[field_key] not in controlled_list[field_key][lang]:
         return default_value
-    x = controlled_list[field_key][lookup_field][fields[field_key]]
-    if x in controlled_list[tertiary_choice][lang]:
-        x = controlled_list[tertiary_choice][lang][x]
-    else:
-        x = controlled_list[field_key][lang][fields[field_key]]
+
+    # where ta linked lookup choice from the tertiary field exists use this value otherwise use the original
+    # lookup value
+    mapped_lookup = list()
+    for x in controlled_list[field_key][lang][fields[field_key]]:
+        if x in controlled_list[field_key]['extra_field']:
+            mapped_lookup.append(controlled_list[tertiary_choice][lang][controlled_list[field_key]['extra_field'][x]])
+        else:
+            mapped_lookup.append(x)
+    return mapped_lookup
 
 
 def get_bilingual_field(fields, field_key: str, lang: str, default_value="-"):

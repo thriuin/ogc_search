@@ -65,8 +65,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'economic_object_code_s': get_field(gc, 'economic_object_code'),
                 'description_en_s': get_field(gc, 'description_en'),
                 'description_fr_s': get_field(gc, 'description_fr'),
-                'comments_en_s': gc['comments_en'],
-                'comments_fr_s': gc['comments_fr'],
+                'comments_en_s': get_field(gc, 'comments_en'),
+                'comments_fr_s': get_field( gc, 'comments_fr'),
                 'additional_comments_en_s': get_field(gc, 'additional_comments_en').strip(),
                 'additional_comments_fr_s': get_field(gc, 'additional_comments_fr').strip(),
                 'land_claims_en_s': get_choice_field(controlled_lists, gc, 'land_claims', 'en', 'Unspecified'),
@@ -142,9 +142,10 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                                                         'Unspecified'),
                 'award_criteria_fr_s': get_choice_field(controlled_lists, gc, 'award_criteria', 'fr',
                                                         'type non spécifié'),
-                'socioeconomic_indicator_en_s': get_field(gc, 'socioeconomic_indicator_en', 'en', 'Unspecified'),
-                'socioeconomic_indicator_fr_s': get_field(gc, 'socioeconomic_indicator_fr', 'fr',
-                                                          'type non spécifié'),
+                'socioeconomic_indicator_en_s': get_choice_field(controlled_lists, gc, 'socioeconomic_indicator',
+                                                                 'en', 'Unspecified'),
+                'socioeconomic_indicator_fr_s': get_choice_field(controlled_lists, gc, 'socioeconomic_indicator',
+                                                                 'fr', 'type non spécifié'),
                 'reporting_period_s': gc['reporting_period'],
                 'nil_report_b': 'f',
             }
@@ -217,22 +218,42 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 if gc['agreement_type_code'] == 'AIT':
                     gc['agreement_type_code'] = 'I'
                 gc['agreement_type_code'] = str(gc['agreement_type_code']).upper().strip()
-                agreement_types = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'en', ['Unspecified'], 'trade_agreement')
-                od_obj['agreement_type_code_en_s'] = agreement_types
-                od_obj['agreement_type_code_export_en_s'] = ",".join([str(code) for code in agreement_types])
-                agreement_types = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'fr', ['type non spécifié'], 'trade_agreement')
-                od_obj['agreement_type_code_fr_s'] = agreement_types
-                od_obj['agreement_type_code_export_fr_s'] = ",".join([str(code) for code in agreement_types])
+                agreement_types_en = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'en', ['Unspecified'])
+                od_obj['agreement_type_code_en_s'] = agreement_types_en
+
+                agreement_types_fr = get_lookup_field(controlled_lists, gc, 'agreement_type_code', 'fr', ['type non spécifié'])
+                od_obj['agreement_type_code_fr_s'] = agreement_types_fr
+
             else:
                 od_obj['agreement_type_code_en_s'] = 'Unspecified'
                 od_obj['agreement_type_code_export_en_s'] = 'Unspecified'
                 od_obj['agreement_type_code_fr_s'] = 'type non spécifié'
                 od_obj['agreement_type_code_export_fr_s'] = 'type non spécifié'
 
+            # This insanity is because there are two trade agreement fields in the contracts schema that need to be
+            # merged into one field for faceting.
+
             trade_agreement_en = get_choice_field(controlled_lists, gc, 'trade_agreement', 'en', 'Unspecified'),
             trade_agreement_fr = get_choice_field(controlled_lists, gc, 'trade_agreement', 'fr',
                                                          'type non spécifié'),
-            x = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code', 'trade_agreement', 'en', 'trade_agreement')
+
+            # if trade_agreements was not specified, then use the agreement type code
+            if len(trade_agreement_en) > 0 and trade_agreement_en[0] == 'Unspecified':
+                od_obj['trade_agreement_en_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
+                                                                         'trade_agreement', 'en', 'trade_agreement',
+                                                                         agreement_types_en)
+            else:
+                od_obj['trade_agreement_en_s'] = trade_agreement_en
+            # export multi-value field should be quoted
+            od_obj['agreement_type_code_export_en_s'] = ",".join([str(code) for code in od_obj['trade_agreement_en_s']])
+
+            if len(trade_agreement_fr) > 0 and trade_agreement_fr[0] == 'type non spécifié':
+                od_obj['trade_agreement_fr_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
+                                                                         'trade_agreement', 'fr', 'trade_agreement',
+                                                                         agreement_types_fr)
+            else:
+                od_obj['trade_agreement_fr_s'] = trade_agreement_fr
+            od_obj['agreement_type_code_export_fr_s'] = ",".join([str(code) for code in od_obj['trade_agreement_fr_s']])
 
             if gc['original_value']:
                 contract_range = get_bilingual_dollar_range(gc['original_value'])
