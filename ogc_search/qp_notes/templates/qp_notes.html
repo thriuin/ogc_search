@@ -68,9 +68,9 @@
                         {% endif %}
                     </div></dd>
                 </div>
-                {% if results.docs.0.minister_en_txt or results.docs.0.minister_fr_txt %}
+                {% if results.docs.0.minister_s %}
                     <div class="row brdr-tp">
-                        <dt><div class="col-sm-3"><strong>{% trans 'Minister by name: ' %}</strong></div></dt>
+                        <dt><div class="col-sm-3"><strong>{% trans 'Name of Minister: ' %}</strong></div></dt>
                         <dd><div class="col-sm-9">
                             {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.minister_fr_txt }}
                                 {% for position in results.docs.0.minister_position_fr_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
@@ -81,7 +81,7 @@
                     </div>
                 {% else %}
                     <div class="row brdr-tp">
-                        <dt><div class="col-sm-3"><strong>{% trans 'Minister by title: ' %}</strong></div></dt>
+                        <dt><div class="col-sm-3"><strong>{% trans 'Ministry: ' %}</strong></div></dt>
                         <dd><div class="col-sm-9">
                             {% if LANGUAGE_CODE == 'fr' %}
                                 {{ results.docs.0.minister_position_fr_s.0 | safe }}
@@ -149,7 +149,7 @@
             <div>{{ results.docs.0.additional_information_en_txt | markdown_filter | normalize_headings | safe }}</div>
         {%  endif %}
     {% endif %}
-    
+
     <p class="mrgn-tp-lg mrgn-bttm-xl"><a class="btn btn-primary" href="{{ back_url }}"><span class="glyphicon glyphicon-circle-arrow-left mrgn-rght-md"></span>{% trans 'Back to Search' %}</a></p>
 
 {% endblock main-content %}

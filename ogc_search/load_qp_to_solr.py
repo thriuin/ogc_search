@@ -116,8 +116,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as file:
                 'minister_position_en_txt': get_minister_positions(minister_name, 'en'),
                 'minister_position_fr_txt': get_minister_positions(minister_name, 'fr'),
                 'minister_s': minister_name,
-                'minister_en_s': get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'en', True),
-                'minister_fr_s': get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'fr', True),
+                'minister_en_txt': get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'en', True),
+                'minister_fr_txt': get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'fr', True),
                 'minister_status_en_s': get_minister_status(csvRow['minister'], minister_name, 'en'),
                 'minister_status_fr_s': get_minister_status(csvRow['minister'], minister_name, 'fr'),
 
