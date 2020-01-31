@@ -7,7 +7,6 @@ import os
 from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 import hashlib
 import time
-import re
 
 logger = logging.getLogger('ogc_search')
 
@@ -34,7 +33,7 @@ class QPSearchView(View):
 
         # French search fields
         self.solr_fields_fr = ["id, reference_number_s, title_fr_txt,"
-                               "minister_s, minister_fr_txt, minister_position_fr_s, minister_position_fr_txt,"
+                               "minister_fr_txt, minister_position_fr_s, minister_position_fr_txt,"
                                "question_fr_txt, background_fr_txt, response_fr_txt, additional_information_fr_txt,"
                                "date_received_dt, month_i, year_i, owner_org_title_txt_fr, owner_org_fr_s, "]
         self.solr_query_fields_fr = ['reference_number_s^5', 'title_fr_txt^5', 'minister_position_fr_txt^4',
@@ -43,7 +42,7 @@ class QPSearchView(View):
         self.solr_facet_fields_fr = ['{!ex=tag_minister_position_fr_s}minister_position_fr_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
-                                     '{!ex=tag_minister_s}minister_s',
+                                     '{!ex=tag_minister_fr_s}minister_fr_s',
                                      '{!ex=tag_minister_status_fr_s}minister_status_fr_s',
                                      '{!ex=tag_owner_org_fr_s}owner_org_fr_s', ]
         self.solr_hl_fields_fr = ['question_fr_txt', 'title_fr_txt', 'owner_org_title_txt_fr', 'minster_fr_txt',
@@ -51,7 +50,7 @@ class QPSearchView(View):
 
         # English search fields
         self.solr_fields_en = ["id,reference_number_s, title_en_txt,"
-                               "minister_s, minister_en_txt, minister_position_en_s, minister_position_en_txt,"
+                               "minister_en_txt, minister_position_en_s, minister_position_en_txt,"
                                "question_en_txt, background_en_txt, response_en_txt, additional_information_en_txt,"
                                "date_received_dt, month_i, year_i, owner_org_title_txt_en, owner_org_en_s",
                                ]
@@ -61,7 +60,7 @@ class QPSearchView(View):
         self.solr_facet_fields_en = ['{!ex=tag_minister_position_en_s}minister_position_en_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
-                                     '{!ex=tag_minister_s}minister_s',
+                                     '{!ex=tag_minister_en_s}minister_en_s',
                                      '{!ex=tag_minister_status_en_s}minister_status_en_s',
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s', ]
         self.solr_hl_fields_en = ['question_en_txt', 'title_en_txt', 'owner_org_title_txt_en', 'minster_en_txt',
@@ -155,7 +154,7 @@ class QPSearchView(View):
             facets_dict = dict(
                 year_i=context['year_selected'],
                 month_i=context['month_selected'],
-                minister_s=context['minister_selected'],
+                minister_fr_s=context['minister_selected'],
                 minister_position_fr_s=context['minister_position_selected'],
                 minister_status_fr_s=context['minister_status_selected'],
                 owner_org_fr_s=context['organizations_selected'],
@@ -164,7 +163,7 @@ class QPSearchView(View):
             facets_dict = dict(
                 year_i=context['year_selected'],
                 month_i=context['month_selected'],
-                minister_s=context['minister_selected'],
+                minister_en_s=context['minister_selected'],
                 minister_position_en_s=context['minister_position_selected'],
                 minister_status_en_s=context['minister_status_selected'],
                 owner_org_en_s=context['organizations_selected'],
@@ -209,6 +208,8 @@ class QPSearchView(View):
 
         # Generate facet list for the search result
         if request.LANGUAGE_CODE == 'fr':
+            context['minister_fr_s'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['minister_fr_s'])
             context['minister_position_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['minister_position_fr_s'])
             context['minister_status_facets_fr_s'] = search_util.convert_facet_list_to_dict(
@@ -216,6 +217,8 @@ class QPSearchView(View):
             context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_fr_s'])
         else:
+            context['minister_en_s'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['minister_en_s'])
             context['minister_position_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['minister_position_en_s'])
             context['minister_status_facets_en_s'] = search_util.convert_facet_list_to_dict(
@@ -227,8 +230,6 @@ class QPSearchView(View):
             search_results.facets['facet_fields']['month_i'])
         context['year_i'] = search_util.convert_facet_list_to_dict(
             search_results.facets['facet_fields']['year_i'])
-        context['minister_s'] = search_util.convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['minister_s'])
 
         # export url
         export_url = "/{0}/qp/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
@@ -289,11 +290,11 @@ class QPExportView(View):
 
         # Fields to be returned by the Solr query, English and French Versions
         self.solr_fields_en = ("id,reference_number_s,title_en_s,"
-                               "minister_s,minister_position_en_s,"
+                               "minister_en_s,minister_position_en_s,"
                                "question_en_s,background_en_s,response_en_s,additional_information_en_s,"
                                "date_received_dt,month_i,year_i,owner_org_en_s,")
         self.solr_fields_fr = ("id,reference_number_s,title_fr_s,"
-                               "minister_s,minister_position_fr_s,"
+                               "minister_fr_s,minister_position_fr_s,"
                                "question_fr_s,background_fr_s,response_fr_s,additional_information_fr_s,"
                                "date_received_dt,month_i,year_i,owner_org_fr_s,")
 
@@ -311,13 +312,13 @@ class QPExportView(View):
                                      '{!ex=tag_minister_position_en_s}minister_position_en_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
-                                     '{!ex=tag_minister_s}minister_s',
+                                     '{!ex=tag_minister_en_s}minister_en_s',
                                      '{!ex=tag_minister_status_en_s}minister_status_en_s', ]
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_minister_position_fr_s}minister_position_fr_s',
                                      '{!ex=tag_month_i}month_i',
                                      '{!ex=tag_year_i}year_i',
-                                     '{!ex=tag_minister_s}minister_s',
+                                     '{!ex=tag_minister_fr_s}minister_fr_s',
                                      '{!ex=tag_minister_status_fr_s}minister_status_fr_s', ]
         self.phrase_xtras = {
             'mm': '3<70%',
