@@ -102,7 +102,7 @@
                                 <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
-                                <option value="contract_delivery_s desc" {% if sortby == "contract_delivery_s desc" %}selected="selected"{% endif %}
+                                <option value="contract_start_s desc" {% if sortby == "contract_start_s desc" %}selected="selected"{% endif %}
                                     >{% trans 'Newest' %}</option>
                                 <option value="contract_value_f desc" {% if sortby == "contract_value_f desc" or sortby == "contract_value_f desc" %}selected="selected"{% endif %}
                                     >{% trans 'Value' %}</option>
@@ -125,46 +125,46 @@
                             {% if LANGUAGE_CODE == 'fr' %}
                                 <div class="row">
                                      <div class="col-sm-9 text-capitalize">
-                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt_fr | safe }}</strong></a>
+                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt.0 | safe }}</strong></a>
                                     </div>
                                     <div class="col-sm-3 text-right"> <strong>{{ doc.original_value_fr_s }}</strong></div>
                                 </div><div class="row">
                                     <div class="col-sm-9">
-                                         {{ doc.description_txt_fr | safe }}.{% if doc.comments_fr_s %}<br><span class="small">{{ doc.comments_fr_s }}</span>{% endif %}
+                                         {{ doc.description_txt_fr | safe }}.{% if doc.comments_fr_s and not doc.comments_fr_s == "-" %}<br><span class="small">{{ doc.comments_fr_s }}</span>{% endif %}
                                     </div>
-                                    <div class="col-sm-3 text-right small">{{ doc.contract_delivery_s | friendly_date_fr }}</div>
+                                    <div class="col-sm-3 text-right small">{{ doc.contract_start_s | friendly_date_fr }}</div>
                                 </div><div class="row">
                                     <div class="col-sm-12"><strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_fr_s }}</div>
                                 </div><div class="row">
                                     <div class="col-sm-12 text-sm-right">
-                                        {% if not doc.document_type_code_fr_s == 'Unspecified' %}
-                                        <span class="label label-info">{{ doc.document_type_code_fr_s }}</span>
+                                        {% if not doc.instrument_type_fr_s == 'Unspecified' %}
+                                        <span class="label label-info">{{ doc.instrument_type_fr_s }}</span>
                                         {% endif %}
-                                        {% if not doc.commodity_type_code_fr_s == 'Unspecified' %}
-                                        <span class="label label-default">{{ doc.commodity_type_code_fr_s }}</span>
+                                        {% if not doc.commodity_type_fr_s == 'Unspecified' %}
+                                        <span class="label label-default">{{ doc.commodity_type_fr_s }}</span>
                                         {% endif %}
                                      </div>
                                 </div>                            
                             {% else %}
                                 <div class="row">
                                      <div class="col-sm-9 text-capitalize">
-                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt_en | safe }}</strong></a>
+                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt.0 | safe }}</strong></a>
                                     </div>
                                     <div class="col-sm-3 text-right"> <strong>{{ doc.original_value_en_s }}</strong></div>
                                 </div><div class="row">
                                     <div class="col-sm-9">
-                                         {{ doc.description_txt_en | safe }}.{% if doc.comments_en_s %}<br><span class="small">{{ doc.comments_en_s }}</span>{% endif %}
+                                         {{ doc.description_txt_en | safe }}.{% if doc.comments_en_s and not doc.comments_en_s == "-" %}<br><span class="small">{{ doc.comments_en_s }}</span>{% endif %}
                                     </div>
-                                    <div class="col-sm-3 text-right small">{{ doc.contract_delivery_s | friendly_date_en }}</div>
+                                    <div class="col-sm-3 text-right small">{{ doc.contract_start_s | friendly_date_en }}</div>
                                 </div><div class="row">
                                     <div class="col-sm-12"><strong>{% trans 'Organization' %}</strong>: {{ doc.owner_org_en_s }}</div>
                                 </div><div class="row">
                                     <div class="col-sm-12 text-sm-right">
-                                        {% if not doc.document_type_code_en_s == 'Unspecified' %}
-                                        <span class="label label-info">{{ doc.document_type_code_en_s }}</span>
+                                        {% if not doc.instrument_type_en_s == 'Unspecified' %}
+                                        <span class="label label-info">{{ doc.instrument_type_en_s }}</span>
                                         {% endif %}
-                                        {% if not doc.commodity_type_code_en_s == 'Unspecified' %}
-                                        <span class="label label-default">{{ doc.commodity_type_code_en_s }}</span>
+                                        {% if not doc.commodity_type_en_s == 'Unspecified' %}
+                                        <span class="label label-default">{{ doc.commodity_type_en_s }}</span>
                                         {% endif %}
                                      </div>
                                 </div>
@@ -403,7 +403,7 @@
                         </ul>
                     </details>
 
-                    {# 5. Intellectual Propery @todo #}
+                    {# 5. Intellectual Propery #}
 
                     <details class="panel panel-default mrgn-bttm-0" {% if ip_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">

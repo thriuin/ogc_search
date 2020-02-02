@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-31 16:18-0500\n"
+"POT-Creation-Date: 2020-02-02 15:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -417,7 +417,7 @@ msgstr "Mois"
 
 #: .\ATI\templates\ati_search.html:393
 #: .\briefing_notes\templates\bn_search.html:400
-#: .\contracts\templates\contract.html:235
+#: .\contracts\templates\contract.html:258
 #: .\contracts\templates\contracts_search.html:841
 #: .\dev\templates\example_search.html:84
 #: .\experimental_inventory\templates\ei_search.html:422
@@ -434,7 +434,7 @@ msgstr ""
 
 #: .\ATI\templates\ati_search.html:394
 #: .\briefing_notes\templates\bn_search.html:401
-#: .\contracts\templates\contract.html:236
+#: .\contracts\templates\contract.html:259
 #: .\contracts\templates\contracts_search.html:842
 #: .\dev\templates\example_search.html:85
 #: .\experimental_inventory\templates\ei_search.html:423
@@ -450,7 +450,7 @@ msgstr "Contactez-nous du gouvernement ouvert"
 
 #: .\ATI\templates\ati_search.html:396
 #: .\briefing_notes\templates\bn_search.html:403
-#: .\contracts\templates\contract.html:238
+#: .\contracts\templates\contract.html:261
 #: .\contracts\templates\contracts_search.html:844
 #: .\dev\templates\example_search.html:87
 #: .\experimental_inventory\templates\ei_search.html:425
@@ -466,7 +466,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/min.html"
 
 #: .\ATI\templates\ati_search.html:397
 #: .\briefing_notes\templates\bn_search.html:404
-#: .\contracts\templates\contract.html:239
+#: .\contracts\templates\contract.html:262
 #: .\contracts\templates\contracts_search.html:845
 #: .\dev\templates\example_search.html:88
 #: .\experimental_inventory\templates\ei_search.html:426
@@ -482,7 +482,7 @@ msgstr "Ministères et organismes"
 
 #: .\ATI\templates\ati_search.html:399
 #: .\briefing_notes\templates\bn_search.html:406
-#: .\contracts\templates\contract.html:241
+#: .\contracts\templates\contract.html:264
 #: .\contracts\templates\contracts_search.html:847
 #: .\dev\templates\example_search.html:90
 #: .\experimental_inventory\templates\ei_search.html:428
@@ -498,7 +498,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
 
 #: .\ATI\templates\ati_search.html:400
 #: .\briefing_notes\templates\bn_search.html:407
-#: .\contracts\templates\contract.html:242
+#: .\contracts\templates\contract.html:265
 #: .\contracts\templates\contracts_search.html:848
 #: .\dev\templates\example_search.html:91
 #: .\experimental_inventory\templates\ei_search.html:429
@@ -514,7 +514,7 @@ msgstr "Fonction publique et force militaire"
 
 #: .\ATI\templates\ati_search.html:402
 #: .\briefing_notes\templates\bn_search.html:409
-#: .\contracts\templates\contract.html:244
+#: .\contracts\templates\contract.html:267
 #: .\contracts\templates\contracts_search.html:850
 #: .\dev\templates\example_search.html:93
 #: .\experimental_inventory\templates\ei_search.html:431
@@ -530,7 +530,7 @@ msgstr "http://nouvelles.gc.ca"
 
 #: .\ATI\templates\ati_search.html:403
 #: .\briefing_notes\templates\bn_search.html:410
-#: .\contracts\templates\contract.html:245
+#: .\contracts\templates\contract.html:268
 #: .\contracts\templates\contracts_search.html:851
 #: .\dev\templates\example_search.html:94
 #: .\experimental_inventory\templates\ei_search.html:432
@@ -546,7 +546,7 @@ msgstr "Nouvelles"
 
 #: .\ATI\templates\ati_search.html:405
 #: .\briefing_notes\templates\bn_search.html:412
-#: .\contracts\templates\contract.html:247
+#: .\contracts\templates\contract.html:270
 #: .\contracts\templates\contracts_search.html:853
 #: .\dev\templates\example_search.html:96
 #: .\experimental_inventory\templates\ei_search.html:434
@@ -562,7 +562,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
 
 #: .\ATI\templates\ati_search.html:406
 #: .\briefing_notes\templates\bn_search.html:413
-#: .\contracts\templates\contract.html:248
+#: .\contracts\templates\contract.html:271
 #: .\contracts\templates\contracts_search.html:854
 #: .\dev\templates\example_search.html:97
 #: .\experimental_inventory\templates\ei_search.html:435
@@ -578,7 +578,7 @@ msgstr "Traités, lois et règlements"
 
 #: .\ATI\templates\ati_search.html:408
 #: .\briefing_notes\templates\bn_search.html:415
-#: .\contracts\templates\contract.html:250
+#: .\contracts\templates\contract.html:273
 #: .\contracts\templates\contracts_search.html:856
 #: .\dev\templates\example_search.html:99
 #: .\experimental_inventory\templates\ei_search.html:437
@@ -594,7 +594,7 @@ msgstr "https://www.canada.ca/fr/transparence/rapports.html"
 
 #: .\ATI\templates\ati_search.html:409
 #: .\briefing_notes\templates\bn_search.html:416
-#: .\contracts\templates\contract.html:251
+#: .\contracts\templates\contract.html:274
 #: .\contracts\templates\contracts_search.html:857
 #: .\dev\templates\example_search.html:100
 #: .\experimental_inventory\templates\ei_search.html:438
@@ -610,7 +610,7 @@ msgstr "Rapports à l'échelle du gouvernement"
 
 #: .\ATI\templates\ati_search.html:411
 #: .\briefing_notes\templates\bn_search.html:418
-#: .\contracts\templates\contract.html:253
+#: .\contracts\templates\contract.html:276
 #: .\contracts\templates\contracts_search.html:859
 #: .\dev\templates\example_search.html:102
 #: .\experimental_inventory\templates\ei_search.html:440
@@ -626,7 +626,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
 
 #: .\ATI\templates\ati_search.html:412
 #: .\briefing_notes\templates\bn_search.html:419
-#: .\contracts\templates\contract.html:254
+#: .\contracts\templates\contract.html:277
 #: .\contracts\templates\contracts_search.html:860
 #: .\dev\templates\example_search.html:103
 #: .\experimental_inventory\templates\ei_search.html:441
@@ -671,9 +671,8 @@ msgid "Action Required"
 msgstr "Mesure requise"
 
 #: .\contracts\templates\contract.html:11
-#: .\contracts\templates\contract.html:41
 msgid "Contract Details"
-msgstr "Détails"
+msgstr "Détails du contrat"
 
 #: .\contracts\templates\contract.html:34
 msgid "Search Government Contracts"
@@ -684,23 +683,31 @@ msgstr "Rechercher des contrats gouvernementaux"
 msgid "/en/ct/"
 msgstr "/fr/ct/"
 
-#: .\contracts\templates\contract.html:51
+#: .\contracts\templates\contract.html:41
+msgid "Contract Details:"
+msgstr "Détails du contrat :"
+
+#: .\contracts\templates\contract.html:46
+msgid "Contract"
+msgstr "Contrats"
+
+#: .\contracts\templates\contract.html:50
 msgid "Description: "
 msgstr "Description :"
 
-#: .\contracts\templates\contract.html:56
+#: .\contracts\templates\contract.html:55
 msgid "Comments: "
 msgstr "Commentaires :"
 
-#: .\contracts\templates\contract.html:62
+#: .\contracts\templates\contract.html:61
 msgid "Additional Comments: "
 msgstr "Commentaires supplémentaires :"
 
-#: .\contracts\templates\contract.html:67
+#: .\contracts\templates\contract.html:66
 msgid "Commodity Type: "
 msgstr "Type de produit"
 
-#: .\contracts\templates\contract.html:71
+#: .\contracts\templates\contract.html:70
 #: .\experimental_inventory\templates\experiment.html:102
 #: .\qp_notes\templates\qp_notes.html:62
 #: .\qp_notes\templates\qp_notes_search.html:133
@@ -708,105 +715,125 @@ msgstr "Type de produit"
 msgid "Organization: "
 msgstr "Organisation :"
 
-#: .\contracts\templates\contract.html:76
+#: .\contracts\templates\contract.html:75
 msgid "Country of Origin: "
 msgstr "Pays d’origine"
 
-#: .\contracts\templates\contract.html:84
-msgid "Contract"
-msgstr "Contrats"
+#: .\contracts\templates\contract.html:81
+msgid "Vendor Name:"
+msgstr "Nom du fournisseur :"
 
-#: .\contracts\templates\contract.html:90
+#: .\contracts\templates\contract.html:86
+msgid "Vendor Postal Code:"
+msgstr "Code postal du fournisseur :"
+
+#: .\contracts\templates\contract.html:94
+msgid "Date and Value"
+msgstr "Date et valeur"
+
+#: .\contracts\templates\contract.html:100
 msgid "Reporting Period: "
 msgstr "Période de déclaration :"
 
-#: .\contracts\templates\contract.html:96
+#: .\contracts\templates\contract.html:106
 msgid "Contract Date: "
 msgstr "Date du contrat :"
 
-#: .\contracts\templates\contract.html:102
+#: .\contracts\templates\contract.html:112
 msgid "Start Date: "
 msgstr "Date de début :"
 
-#: .\contracts\templates\contract.html:107
+#: .\contracts\templates\contract.html:117
 msgid "Delivery Date: "
 msgstr "Date de livraison :"
 
-#: .\contracts\templates\contract.html:111
+#: .\contracts\templates\contract.html:121
 msgid "Contract Value: "
 msgstr "Valeur du contrat : "
 
-#: .\contracts\templates\contract.html:115
+#: .\contracts\templates\contract.html:125
 msgid "Original Value: "
 msgstr "Valeur d'origine du contrat :"
 
-#: .\contracts\templates\contract.html:121
+#: .\contracts\templates\contract.html:130
 msgid "Amendment Value: "
 msgstr "Valeur de modification :"
 
-#: .\contracts\templates\contract.html:130
+#: .\contracts\templates\contract.html:139
 msgid "Applicable Trade Agreements"
 msgstr "Accord commercial applicable"
 
-#: .\contracts\templates\contract.html:145
+#: .\contracts\templates\contract.html:154
 msgid "Additional Details"
 msgstr "Informations supplémentaires"
 
-#: .\contracts\templates\contract.html:149
+#: .\contracts\templates\contract.html:158
 msgid "Procurement Identification Number: "
 msgstr "Numéro d’identification d’approvisionnement :"
 
-#: .\contracts\templates\contract.html:154
+#: .\contracts\templates\contract.html:163
 msgid "Standing Offer: "
 msgstr "Offre à commandes :"
 
-#: .\contracts\templates\contract.html:160
+#: .\contracts\templates\contract.html:169
 msgid "Standing Offer Number: "
 msgstr "Numéro d’offre à commandes :"
 
-#: .\contracts\templates\contract.html:166
-msgid "Document Type: "
-msgstr "Type d'document :"
+#: .\contracts\templates\contract.html:175
+msgid "Instrument Type: "
+msgstr "Type d’instrument :"
 
-#: .\contracts\templates\contract.html:171
+#: .\contracts\templates\contract.html:180
 msgid "Solicitation Procedure: "
 msgstr "Méthode d’invitation à soumissionner :"
 
-#: .\contracts\templates\contract.html:175
+#: .\contracts\templates\contract.html:184
 msgid "Reason for Limited Tendering: "
 msgstr "Raisons justifiant le recours à l’appel d’offres limité :"
 
-#: .\contracts\templates\contract.html:180
+#: .\contracts\templates\contract.html:189
 msgid "Economic Object Code: "
 msgstr "Code d’article économique :"
 
-#: .\contracts\templates\contract.html:186
-msgid "Commodity Code: "
-msgstr "ode de produit :"
-
-#: .\contracts\templates\contract.html:191
-msgid "Exemption: "
-msgstr "Exemption :"
-
 #: .\contracts\templates\contract.html:195
+msgid "Commodity Code: "
+msgstr "Code de produit :"
+
+#: .\contracts\templates\contract.html:200
+msgid "Trade Agreement Exceptions and Exclusions: "
+msgstr "Exceptions et exclusions applicables aux accords commerciaux :"
+
+#: .\contracts\templates\contract.html:204
 msgid "Aboriginal Business: "
 msgstr "Entreprise autochtone :"
 
-#: .\contracts\templates\contract.html:200
+#: .\contracts\templates\contract.html:209
 msgid "Intellectual Property: "
 msgstr "propriété intellectuelle :"
 
-#: .\contracts\templates\contract.html:206
+#: .\contracts\templates\contract.html:215
 msgid "Potential Commercial Exploitation: "
 msgstr "Potentiel d'exploitation commerciale :"
 
-#: .\contracts\templates\contract.html:212
+#: .\contracts\templates\contract.html:221
 msgid "Former Public Servant: "
 msgstr "Ancien fonctionnaire :"
 
-#: .\contracts\templates\contract.html:218
+#: .\contracts\templates\contract.html:227
 msgid "Ministers Office Contracts: "
 msgstr "Marchés du cabinet du ministre :"
+
+#: .\contracts\templates\contract.html:233
+msgid "Number of Bids: "
+msgstr "Nombre do soumissions : "
+
+#: .\contracts\templates\contract.html:238
+msgid "Article 6 Exceptions: "
+msgstr "Article 6 – Exceptions au Règlement :"
+
+#: .\contracts\templates\contract.html:242
+msgid "Award Criteria: "
+msgstr "Critères d’attribution :"
 
 #: .\contracts\templates\contracts_search.html:11
 #: .\contracts\templates\contracts_search.html:43
@@ -1043,7 +1070,7 @@ msgstr "Location :"
 #: .\grants\templates\gc_amendment.html:70
 #: .\grants\templates\gc_amendment.html:93
 msgid "Type:"
-msgstr ""
+msgstr "Type :"
 
 #: .\grants\templates\gc_amendment.html:72
 #: .\grants\templates\gc_amendment.html:95
@@ -1598,8 +1625,8 @@ msgstr ""
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
 
-#~ msgid "Name of Minister: "
-#~ msgstr "Nom du ministre : "
+#~ msgid "Document Type: "
+#~ msgstr "Type d'document :"
 
 #~ msgid "Ministry: "
 #~ msgstr "Ministère :"

@@ -37,7 +37,9 @@ class CTSearchView(View):
 
         # Fields to be returned by the Solr query, English and French Versions
         self.solr_fields_en = ("id,ref_number_s,procurement_id_s,"
-                               "vendor_name_s,vendor_name_txt_en,"
+                               "vendor_name_s,vendor_name_txt,"
+                               "vendor_postal_code_s,"
+                               "buyer_name_s,buyer_name_txt_en,"
                                "contract_date_dt,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_en_s,description_txt_en,"
@@ -49,27 +51,36 @@ class CTSearchView(View):
                                "comments_en_s,comments_txt_en,"
                                "additional_comments_en_s,additional_comments_txt_en,"
                                "agreement_type_code_en_s,agreement_type_code_txt_en,"
-                               "commodity_type_code_en_s,"
+                               "trade_agreement_en_s,trade_agreement_txt_en,"
+                               "land_claims_en_s,land_claims_txt_en,"
+                               "commodity_type_en_s,"
                                "commodity_code_s,"
                                "country_of_origin_en_s,"
-                               "solicitation_procedure_code_en_s,"
-                               "limited_tendering_reason_code_en_s,"
-                               "exemption_code_en_s,"
+                               "solicitation_procedure_en_s,"
+                               "limited_tendering_reason_en_s,limited_tendering_reason_txt_en,"
+                               "trade_agreement_exceptions_en_s,trade_agreement_exceptions_txt_en,"
                                "aboriginal_business_en_s,"
-                               "intellectual_property_code_en_s,"
+                               "aboriginal_business_incidental_en_s,"
+                               "intellectual_property_en_s,"
                                "potential_commercial_exploitation_en_s,"
                                "former_public_servant_en_s,"
-                               "standing_offer_en_s,"
+                               "contracting_entity_en_s,"
                                "standing_offer_number_s,"
-                               "document_type_code_en_s,"
+                               "instrument_type_en_s,"
                                "ministers_office_en_s,"
+                               "number_of_bids_s,"
+                               "article_6_exceptions_en_s,"
+                               "award_criteria_en_s,"
+                               "socioeconomic_indicator_en_s,"
                                "reporting_period_s,"
                                "owner_org_s,owner_org_en_s,"
                                "report_type_en_s,"
                                "nil_report_b"
                                )
         self.solr_fields_fr = ("id,ref_number_s,procurement_id_s,"
-                               "vendor_name_s,vendor_name_txt_fr,"
+                               "vendor_name_s,vendor_name_txt,"
+                               "vendor_postal_code_s,"
+                               "buyer_name_s,buyer_name_txt_fr,"
                                "contract_date_dt,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_fr_s,description_txt_fr,"
@@ -81,20 +92,27 @@ class CTSearchView(View):
                                "comments_fr_s,comments_txt_fr,"
                                "additional_comments_fr_s,additional_comments_txt_fr,"
                                "agreement_type_code_fr_s,agreement_type_code_txt_fr,"
-                               "commodity_type_code_fr_s,"
+                               "trade_agreement_fr_s,trade_agreement_txt_fr,"
+                               "land_claims_fr_s,land_claims_txt_fr,"
+                               "commodity_type_fr_s,"
                                "commodity_code_s,"
                                "country_of_origin_fr_s,"
-                               "solicitation_procedure_code_fr_s,"
-                               "limited_tendering_reason_code_fr_s,"
-                               "exemption_code_fr_s,"
+                               "solicitation_procedure_fr_s,"
+                               "limited_tendering_reason_fr_s,limited_tendering_reason_txt_fr,"
+                               "trade_agreement_exceptions_fr_s,trade_agreement_exceptions_txt_fr,"
                                "aboriginal_business_fr_s,"
-                               "intellectual_property_code_fr_s,"
+                               "aboriginal_business_incidental_fr_s,"
+                               "intellectual_property_fr_s,"
                                "potential_commercial_exploitation_fr_s,"
                                "former_public_servant_fr_s,"
-                               "standing_offer_fr_s,"
+                               "contracting_entity_fr_s,"
                                "standing_offer_number_s,"
-                               "document_type_code_fr_s,"
+                               "instrument_type_fr_s,"
                                "ministers_office_fr_s,"
+                               "number_of_bids_s,"
+                               "article_6_exceptions_fr_s,"
+                               "award_criteria_fr_s,"
+                               "socioeconomic_indicator_fr_s,"
                                "reporting_period_s,"
                                "owner_org_s,owner_org_fr_s,"
                                "report_type_fr_s,"
@@ -104,46 +122,52 @@ class CTSearchView(View):
         # Fields to be searched in the Solr query. Fields can be weighted to indicate which are more relevant for
         # searching. 
         self.solr_query_fields_en = ['ref_number_s^5', 'procurement_id_s^5',
-                                     'vendor_name_txt_en', 'contract_year_s', 'contract_month_s',
+                                     'vendor_name_txt', 'vendor_postal_code_s',
+                                     'buyer_name_s',
+                                     'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_en^3',
                                      'contract_start_s^4', 'contract_delivery_s^4',
                                      'contract_value_en_s^5', 'original_value_en_s^4', 'amendment_value_en_s^4',
                                      'comments_txt_en', 'additional_comments_txt_en',
-                                     'agreement_type_code_txt_en',
-                                     'commodity_type_code_en_s',
+                                     'trade_agreement_exception_en_s',
+                                     'commodity_type_en_s',
                                      'commodity_code_s',
                                      'country_of_origin_en_s^2',
                                      'solicitation_procedure_code_en_s',
                                      'limited_tendering_reason_code_en_s',
-                                     'exemption_code_en_s',
+                                     'trade_agreement_exceptions_en_s',
                                      'aboriginal_business_en_s',
-                                     'intellectual_property_code_en_s',
+                                     'intellectual_property_en_s',
                                      'former_public_servant_en_s',
-                                     'standing_offer_en_s', 'standing_offer_number_s',
+                                     'contracting_entity_en_s', 'standing_offer_number_s',
+                                     'instrument_type_en_s,'
                                      'ministers_office_en_s',
                                      'reporting_period_s',
                                      'owner_org_en_s',
                                      'report_type_en_s'
                                      ]
         self.solr_query_fields_fr = ['ref_number_s^5', 'procurement_id_s^5',
-                                     'vendor_name_txt_fr', 'contract_year_s', 'contract_month_s',
+                                     'vendor_name_txt', 'vendor_postal_code_s',
+                                     'buyer_name_s',
+                                     'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_fr^3',
                                      'contract_start_s^4', 'contract_delivery_s^4',
                                      'contract_value_fr_s^5', 'original_value_fr_s^4', 'amendment_value_fr_s^4',
                                      'comments_txt_fr', 'additional_comments_txt_fr',
-                                     'agreement_type_code_txt_fr',
-                                     'commodity_type_code_fr_s',
+                                     'trade_agreement_exception_fr_s',
+                                     'commodity_type_fr_s',
                                      'commodity_code_s',
                                      'country_of_origin_fr_s^2',
                                      'solicitation_procedure_code_fr_s',
                                      'limited_tendering_reason_code_fr_s',
-                                     'exemption_code_fr_s',
+                                     'trade_agreement_exceptions_fr_s',
                                      'aboriginal_business_fr_s',
-                                     'intellectual_property_code_fr_s',
+                                     'intellectual_property_fr_s',
                                      'former_public_servant_fr_s',
-                                     'standing_offer_fr_s', 'standing_offer_number_s',
+                                     'contracting_entity_fr_s', 'standing_offer_number_s',
+                                     'instrument_type_fr_s,'
                                      'ministers_office_fr_s',
                                      'reporting_period_s',
                                      'owner_org_fr_s',
@@ -154,15 +178,15 @@ class CTSearchView(View):
         self.solr_facet_fields_en = ['{!ex=tag_contract_year_s}contract_year_s',
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
-                                     '{!ex=tag_agreement_type_code_en_s}agreement_type_code_en_s',
-                                     '{!ex=tag_intellectual_property_code_en_s}intellectual_property_code_en_s',
-                                     '{!ex=tag_solicitation_procedure_code_en_s}solicitation_procedure_code_en_s',
-                                     '{!ex=tag_document_type_code_en_s}document_type_code_en_s',
-                                     '{!ex=tag_commodity_type_code_en_s}commodity_type_code_en_s',
-                                     '{!ex=tag_limited_tendering_reason_code_en_s}limited_tendering_reason_code_en_s',
-                                     '{!ex=tag_exemption_code_en_s}exemption_code_en_s',
+                                     '{!ex=tag_trade_agreement_en_s}trade_agreement_en_s',
+                                     '{!ex=tag_intellectual_property_en_s}intellectual_property_en_s',
+                                     '{!ex=tag_solicitation_procedure_en_s}solicitation_procedure_en_s',
+                                     '{!ex=tag_instrument_type_en_s}instrument_type_en_s',
+                                     '{!ex=tag_commodity_type_en_s}commodity_type_en_s',
+                                     '{!ex=tag_limited_tendering_reason_en_s}limited_tendering_reason_en_s',
+                                     '{!ex=tag_trade_agreement_exceptions_en_s}trade_agreement_exceptions_en_s',
                                      '{!ex=tag_former_public_servant_en_s}former_public_servant_en_s',
-                                     '{!ex=tag_standing_offer_en_s}standing_offer_en_s',
+                                     '{!ex=tag_contracting_entity_en_s}contracting_entity_en_s',
                                      '{!ex=tag_ministers_office_en_s}ministers_office_en_s',
                                      '{!ex=tag_report_type_en_s}report_type_en_s',
                                      ]
@@ -170,26 +194,30 @@ class CTSearchView(View):
         self.solr_facet_fields_fr = ['{!ex=tag_contract_year_s}contract_year_s',
                                      '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
-                                     '{!ex=tag_agreement_type_code_fr_s}agreement_type_code_fr_s',
-                                     '{!ex=tag_intellectual_property_code_fr_s}intellectual_property_code_fr_s',
-                                     '{!ex=tag_solicitation_procedure_code_fr_s}solicitation_procedure_code_fr_s',
-                                     '{!ex=tag_document_type_code_fr_s}document_type_code_fr_s',
-                                     '{!ex=tag_commodity_type_code_fr_s}commodity_type_code_fr_s',
-                                     '{!ex=tag_limited_tendering_reason_code_fr_s}limited_tendering_reason_code_fr_s',
-                                     '{!ex=tag_exemption_code_fr_s}exemption_code_fr_s',
+                                     '{!ex=tag_trade_agreement_fr_s}trade_agreement_fr_s',
+                                     '{!ex=tag_intellectual_property_fr_s}intellectual_property_fr_s',
+                                     '{!ex=tag_solicitation_procedure_fr_s}solicitation_procedure_fr_s',
+                                     '{!ex=tag_instrument_type_fr_s}instrument_type_fr_s',
+                                     '{!ex=tag_commodity_type_fr_s}commodity_type_fr_s',
+                                     '{!ex=tag_limited_tendering_reason_fr_s}limited_tendering_reason_fr_s',
+                                     '{!ex=tag_trade_agreement_exceptions_fr_s}trade_agreement_exceptions_fr_s',
                                      '{!ex=tag_former_public_servant_fr_s}former_public_servant_fr_s',
-                                     '{!ex=tag_standing_offer_fr_s}standing_offer_fr_s',
+                                     '{!ex=tag_contracting_entity_fr_s}contracting_entity_fr_s',
                                      '{!ex=tag_ministers_office_fr_s}ministers_office_fr_s',
                                      '{!ex=tag_report_type_fr_s}report_type_fr_s',
                                      ]
 
         # These fields will have search hit high-lighting applied
-        self.solr_hl_fields_en = ['description_txt_en', 'vendor_name_txt_en', 'comments_txt_en',
+        self.solr_hl_fields_en = ['description_txt_en', 'vendor_name_txt', 'comments_txt_en',
                                   'additional_comments_txt_en', 'agreement_type_code_txt_en',
-                                  'country_of_origin_en_s', ]
-        self.solr_hl_fields_fr = ['description_txt_fr', 'vendor_name_txt_fr', 'comments_txt_fr',
+                                  'country_of_origin_en_s', 'trade_agreement_txt_en',
+                                  'land_claims_txt_en', 'limited_tendering_reason_txt_en',
+                                  'trade_agreement_exceptions_txt_en']
+        self.solr_hl_fields_fr = ['description_txt_fr', 'vendor_name_txt', 'comments_txt_fr',
                                   'additional_comments_txt_fr', 'agreement_type_code_txt_fr',
-                                  'country_of_origin_fr_s', ]
+                                  'country_of_origin_fr_s', 'trade_agreement_txt_fr',
+                                  'land_claims_txt_fr', 'limited_tendering_reason_txt_fr',
+                                  'trade_agreement_exceptions_txt_fr']
 
         self.phrase_xtras_fr = {
             'hl': 'on',
@@ -238,20 +266,20 @@ class CTSearchView(View):
         # Retrieve search results and transform facets results to python dict
 
         # Retrieve any selected search facets
-        solr_search_year: str = request.GET.get('ct-search-year', '')
-        solr_search_orgs: str = request.GET.get('ct-search-orgs', '')
-        solr_search_range: str = request.GET.get('ct-search-dollar-range', '')
-        solr_search_agreements: str = request.GET.get('ct-search-agreement', '')
-        solr_search_ip: str = request.GET.get('ct-search-ip', '')
-        solr_search_solicitation: str = request.GET.get('ct-solicitation', '')
-        solr_search_doc_type: str = request.GET.get('ct-search-doc', '')
-        solr_search_commodity_type: str = request.GET.get('ct-search-commodity-type', '')
-        solr_search_tendering: str = request.GET.get('ct-search-tender', '')
-        solr_search_exempt: str = request.GET.get('ct-search-exempt', '')
-        solr_search_fps: str = request.GET.get('ct-search-fps', '')
-        solr_search_so: str = request.GET.get('ct-search-so', '')
-        solr_search_mo: str = request.GET.get('ct-search-mo', '')
-        solr_report_type: str = request.GET.get('ct-search-report-type', '')
+        solr_search_year: str = request.GET.get('ct-search-year', '')  # contract_year_s
+        solr_search_orgs: str = request.GET.get('ct-search-orgs', '')  # owner_org_en_s
+        solr_search_range: str = request.GET.get('ct-search-dollar-range', '')  # contract_value_range_en_s
+        solr_search_agreements: str = request.GET.get('ct-search-agreement', '')  # trade_agreement_en_s
+        solr_search_ip: str = request.GET.get('ct-search-ip', '')  # intellectual_property_en_s
+        solr_search_solicitation: str = request.GET.get('ct-solicitation', '')  # solicitation_procedure_en_s
+        solr_search_doc_type: str = request.GET.get('ct-search-doc', '')  # instrument_type_en_s
+        solr_search_commodity_type: str = request.GET.get('ct-search-commodity-type', '')  # commodity_type_en_s
+        solr_search_tendering: str = request.GET.get('ct-search-tender', '')  # limited_tendering_reason_en_s
+        solr_search_exempt: str = request.GET.get('ct-search-exempt', '')  # trade_agreement_exceptions_en_s
+        solr_search_fps: str = request.GET.get('ct-search-fps', '')  # former_public_servant_en_s
+        solr_search_so: str = request.GET.get('ct-search-so', '')  # contracting_entity_en_s
+        solr_search_mo: str = request.GET.get('ct-search-mo', '')  # ministers_office_en_s
+        solr_report_type: str = request.GET.get('ct-search-report-type', '')  # report_type_en_s
 
         context["year_selected"] = solr_search_year
         context["year_selected_list"] = solr_search_year.split('|')
@@ -286,15 +314,15 @@ class CTSearchView(View):
             facets_dict = dict(contract_year_s=solr_search_year,
                                owner_org_fr_s=solr_search_orgs,
                                contract_value_range_fr_s=solr_search_range,
-                               agreement_type_code_fr_s=solr_search_agreements,
-                               intellectual_property_code_fr_s=solr_search_ip,
-                               solicitation_procedure_code_fr_s=solr_search_solicitation,
-                               document_type_code_fr_s=solr_search_doc_type,
-                               commodity_type_code_fr_s=solr_search_commodity_type,
-                               limited_tendering_reason_code_fr_s=solr_search_tendering,
-                               exemption_code_fr_s=solr_search_exempt,
+                               trade_agreement_fr_s=solr_search_agreements,
+                               intellectual_property_fr_s=solr_search_ip,
+                               solicitation_procedure_fr_s=solr_search_solicitation,
+                               instrument_type_fr_s=solr_search_doc_type,
+                               commodity_type_fr_s=solr_search_commodity_type,
+                               limited_tendering_reason_fr_s=solr_search_tendering,
+                               trade_agreement_exceptions_fr_s=solr_search_exempt,
                                former_public_servant_fr_s=solr_search_fps,
-                               standing_offer_fr_s=solr_search_so,
+                               contracting_entity_fr_s=solr_search_so,
                                ministers_office_fr_s=solr_search_mo,
                                report_type_fr_s=solr_report_type,
                                )
@@ -302,15 +330,15 @@ class CTSearchView(View):
             facets_dict = dict(contract_year_s=solr_search_year,
                                owner_org_en_s=solr_search_orgs,
                                contract_value_range_en_s=solr_search_range,
-                               agreement_type_code_en_s=solr_search_agreements,
-                               intellectual_property_code_en_s=solr_search_ip,
-                               solicitation_procedure_code_en_s=solr_search_solicitation,
-                               document_type_code_en_s=solr_search_doc_type,
-                               commodity_type_code_en_s=solr_search_commodity_type,
-                               limited_tendering_reason_code_en_s=solr_search_tendering,
-                               exemption_code_en_s=solr_search_exempt,
+                               trade_agreement_en_s=solr_search_agreements,
+                               intellectual_property_en_s=solr_search_ip,
+                               solicitation_procedure_en_s=solr_search_solicitation,
+                               instrument_type_en_s=solr_search_doc_type,
+                               commodity_type_en_s=solr_search_commodity_type,
+                               limited_tendering_reason_en_s=solr_search_tendering,
+                               trade_agreement_exceptions_en_s=solr_search_exempt,
                                former_public_servant_en_s=solr_search_fps,
-                               standing_offer_en_s=solr_search_so,
+                               contracting_entity_en_s=solr_search_so,
                                ministers_office_en_s=solr_search_mo,
                                report_type_en_s=solr_report_type,
                                )
@@ -372,23 +400,23 @@ class CTSearchView(View):
             context['value_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['contract_value_range_fr_s'])
             context['agreement_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['agreement_type_code_fr_s'])
+                search_results.facets['facet_fields']['trade_agreement_fr_s'])
             context['ip_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['intellectual_property_code_fr_s'])
+                search_results.facets['facet_fields']['intellectual_property_fr_s'])
             context['solicitation_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['solicitation_procedure_code_fr_s'])
+                search_results.facets['facet_fields']['solicitation_procedure_fr_s'])
             context['doc_type_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['document_type_code_fr_s'])
+                search_results.facets['facet_fields']['instrument_type_fr_s'])
             context['commodity_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['commodity_type_code_fr_s'])
+                search_results.facets['facet_fields']['commodity_type_fr_s'])
             context['tender_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['limited_tendering_reason_code_fr_s'])
+                search_results.facets['facet_fields']['limited_tendering_reason_fr_s'])
             context['exempt_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['exemption_code_fr_s'])
+                search_results.facets['facet_fields']['trade_agreement_exceptions_fr_s'])
             context['fps_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['former_public_servant_fr_s'])
             context['so_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['standing_offer_fr_s'])
+                search_results.facets['facet_fields']['contracting_entity_fr_s'])
             context['mo_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['ministers_office_fr_s'])
             context['report_type_fr_s'] = search_util.convert_facet_list_to_dict(
@@ -399,23 +427,23 @@ class CTSearchView(View):
             context['value_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['contract_value_range_en_s'])
             context['agreement_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['agreement_type_code_en_s'])
+                search_results.facets['facet_fields']['trade_agreement_en_s'])
             context['ip_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['intellectual_property_code_en_s'])
+                search_results.facets['facet_fields']['intellectual_property_en_s'])
             context['solicitation_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['solicitation_procedure_code_en_s'])
+                search_results.facets['facet_fields']['solicitation_procedure_en_s'])
             context['doc_type_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['document_type_code_en_s'])
+                search_results.facets['facet_fields']['instrument_type_en_s'])
             context['commodity_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['commodity_type_code_en_s'])
+                search_results.facets['facet_fields']['commodity_type_en_s'])
             context['tender_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['limited_tendering_reason_code_en_s'])
+                search_results.facets['facet_fields']['limited_tendering_reason_en_s'])
             context['exempt_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['exemption_code_en_s'])
+                search_results.facets['facet_fields']['trade_agreement_exceptions_en_s'])
             context['fps_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['former_public_servant_en_s'])
             context['so_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['standing_offer_en_s'])
+                search_results.facets['facet_fields']['contracting_entity_en_s'])
             context['mo_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['ministers_office_en_s'])
             context['report_type_en_s'] = search_util.convert_facet_list_to_dict(
@@ -468,6 +496,8 @@ class CTExportView(View):
         self.solr_fields_en = ("ref_number_s,"
                                "procurement_id_s,"
                                "vendor_name_s,"
+                               "vendor_postal_code_s,"
+                               "buyer_name_s,"
                                "contract_date_dt,"
                                "economic_object_code_s,"
                                "description_en_s,"
@@ -479,20 +509,27 @@ class CTExportView(View):
                                "comments_en_s,"
                                "additional_comments_en_s,"
                                "agreement_type_code_export_en_s,"
-                               "commodity_type_code_en_s,"
+                               "trade_agreement_en_s,"
+                               "land_claims_en_s,"
+                               "commodity_type_en_s,"
                                "commodity_code_s,"
                                "country_of_origin_en_s,"
-                               "solicitation_procedure_code_en_s,"
-                               "limited_tendering_reason_code_en_s,"
-                               "exemption_code_en_s,"
+                               "solicitation_procedure_en_s,"
+                               "limited_tendering_reason_en_s,"
+                               "trade_agreement_exceptions_en_s,"
                                "aboriginal_business_en_s,"
-                               "intellectual_property_code_en_s,"
+                               "aboriginal_business_incidental_en_s,"
+                               "intellectual_property_en_s,"
                                "potential_commercial_exploitation_en_s,"
                                "former_public_servant_en_s,"
-                               "standing_offer_en_s,"
+                               "contracting_entity_en_s,"
                                "standing_offer_number_s,"
-                               "document_type_code_en_s,"
+                               "instrument_type_en_s,"
                                "ministers_office_en_s,"
+                               "number_of_bids_s,"
+                               "article_6_exceptions_en_s,"
+                               "award_criteria_en_s,"
+                               "socioeconomic_indicator_en_s,"
                                "reporting_period_s,"
                                "owner_org_en_s,"
                                "report_type_en_s"
@@ -500,6 +537,8 @@ class CTExportView(View):
         self.solr_fields_fr = ("ref_number_s,"
                                "procurement_id_s,"
                                "vendor_name_s,"
+                               "vendor_postal_code_s,"
+                               "buyer_name_s,"
                                "contract_date_dt,"
                                "economic_object_code_s,"
                                "description_fr_s,"
@@ -511,20 +550,27 @@ class CTExportView(View):
                                "comments_fr_s,"
                                "additional_comments_fr_s,"
                                "agreement_type_code_export_fr_s,"
-                               "commodity_type_code_fr_s,"
+                               "trade_agreement_fr_s,"
+                               "land_claims_fr_s,"
+                               "commodity_type_fr_s,"
                                "commodity_code_s,"
                                "country_of_origin_fr_s,"
-                               "solicitation_procedure_code_fr_s,"
-                               "limited_tendering_reason_code_fr_s,"
-                               "exemption_code_fr_s,"
+                               "solicitation_procedure_fr_s,"
+                               "limited_tendering_reason_fr_s,"
+                               "trade_agreement_exceptions_fr_s,"
                                "aboriginal_business_fr_s,"
-                               "intellectual_property_code_fr_s,"
+                               "aboriginal_business_incidental_fr_s,"
+                               "intellectual_property_fr_s,"
                                "potential_commercial_exploitation_fr_s,"
                                "former_public_servant_fr_s,"
-                               "standing_offer_fr_s,"
+                               "contracting_entity_fr_s,"
                                "standing_offer_number_s,"
-                               "document_type_code_fr_s,"
+                               "instrument_type_fr_s,"
                                "ministers_office_fr_s,"
+                               "number_of_bids_s,"
+                               "article_6_exceptions_fr_s,"
+                               "award_criteria_fr_s,"
+                               "socioeconomic_indicator_fr_s,"
                                "reporting_period_s,"
                                "owner_org_fr_s,"
                                "report_type_fr_s"
@@ -533,75 +579,91 @@ class CTExportView(View):
         # Fields to be searched in the Solr query. Fields can be weighted to indicate which are more relevant for
         # searching.
         self.solr_query_fields_en = ['ref_number_s^5', 'procurement_id_s^5',
-                                     'vendor_name_txt_en', 'contract_year_s', 'contract_month_s',
+                                     'vendor_name_txt', 'vendor_postal_code_s',
+                                     'buyer_name_s',
+                                     'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_en^3',
                                      'contract_start_s^4', 'contract_delivery_s^4',
                                      'contract_value_en_s^5', 'original_value_en_s^4', 'amendment_value_en_s^4',
                                      'comments_txt_en', 'additional_comments_txt_en',
-                                     'agreement_type_code_txt_en',
-                                     'commodity_type_code_en_s',
+                                     'trade_agreement_exception_en_s',
+                                     'commodity_type_en_s',
                                      'commodity_code_s',
                                      'country_of_origin_en_s^2',
                                      'solicitation_procedure_code_en_s',
                                      'limited_tendering_reason_code_en_s',
-                                     'exemption_code_en_s',
+                                     'trade_agreement_exceptions_en_s',
                                      'aboriginal_business_en_s',
-                                     'intellectual_property_code_en_s',
+                                     'intellectual_property_en_s',
                                      'former_public_servant_en_s',
-                                     'standing_offer_en_s', 'standing_offer_number_s',
+                                     'contracting_entity_en_s', 'standing_offer_number_s',
+                                     'instrument_type_en_s,'
                                      'ministers_office_en_s',
                                      'reporting_period_s',
                                      'owner_org_en_s',
                                      'report_type_en_s'
                                      ]
         self.solr_query_fields_fr = ['ref_number_s^5', 'procurement_id_s^5',
-                                     'vendor_name_txt_fr', 'contract_year_s', 'contract_month_s',
+                                     'vendor_name_txt', 'vendor_postal_code_s',
+                                     'buyer_name_s',
+                                     'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_fr^3',
                                      'contract_start_s^4', 'contract_delivery_s^4',
                                      'contract_value_fr_s^5', 'original_value_fr_s^4', 'amendment_value_fr_s^4',
                                      'comments_txt_fr', 'additional_comments_txt_fr',
-                                     'agreement_type_code_txt_fr',
-                                     'commodity_type_code_fr_s',
+                                     'trade_agreement_exception_fr_s',
+                                     'commodity_type_fr_s',
                                      'commodity_code_s',
                                      'country_of_origin_fr_s^2',
                                      'solicitation_procedure_code_fr_s',
                                      'limited_tendering_reason_code_fr_s',
-                                     'exemption_code_fr_s',
+                                     'trade_agreement_exceptions_fr_s',
                                      'aboriginal_business_fr_s',
-                                     'intellectual_property_code_fr_s',
+                                     'intellectual_property_fr_s',
                                      'former_public_servant_fr_s',
-                                     'standing_offer_fr_s', 'standing_offer_number_s',
+                                     'contracting_entity_fr_s', 'standing_offer_number_s',
+                                     'instrument_type_fr_s,'
                                      'ministers_office_fr_s',
                                      'reporting_period_s',
                                      'owner_org_fr_s',
                                      'report_type_fr_s'
                                      ]
 
+
         # These fields are search facets
-        self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
-                                     '{!ex=tag_report_type_en_s}report_type_en_s',
-                                     '{!ex=tag_contract_year_s}contract_year_s',
+        self.solr_facet_fields_en = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
-                                     '{!ex=tag_commodity_type_code_en_s}commodity_type_code_en_s',
-                                     '{!ex=tag_country_of_origin_en_s}country_of_origin_en_s',
-                                     '{!ex=tag_solicitation_procedure_code_en_s}solicitation_procedure_code_en_s',
-                                     '{!ex=tag_exemption_code_en_s}exemption_code_en_s',
-                                     '{!ex=tag_aboriginal_business_en_s}aboriginal_business_en_s',
-                                     '{!ex=tag_document_type_code_en_s}document_type_code_en_s',
-                                     '{!ex=tag_agreement_type_code_en_s}agreement_type_code_en_s']
-        self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
-                                     '{!ex=tag_report_type_en_s}report_type_fr_s',
-                                     '{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_trade_agreement_en_s}trade_agreement_en_s',
+                                     '{!ex=tag_intellectual_property_en_s}intellectual_property_en_s',
+                                     '{!ex=tag_solicitation_procedure_en_s}solicitation_procedure_en_s',
+                                     '{!ex=tag_instrument_type_en_s}instrument_type_en_s',
+                                     '{!ex=tag_commodity_type_en_s}commodity_type_en_s',
+                                     '{!ex=tag_limited_tendering_reason_en_s}limited_tendering_reason_en_s',
+                                     '{!ex=tag_trade_agreement_exceptions_en_s}trade_agreement_exceptions_en_s',
+                                     '{!ex=tag_former_public_servant_en_s}former_public_servant_en_s',
+                                     '{!ex=tag_contracting_entity_en_s}contracting_entity_en_s',
+                                     '{!ex=tag_ministers_office_en_s}ministers_office_en_s',
+                                     '{!ex=tag_report_type_en_s}report_type_en_s',
+                                     ]
+
+        self.solr_facet_fields_fr = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
-                                     '{!ex=tag_commodity_type_code_fr_s}commodity_type_code_fr_s',
-                                     '{!ex=tag_country_of_origin_fr_s}country_of_origin_fr_s',
-                                     '{!ex=tag_solicitation_procedure_code_fr_s}solicitation_procedure_code_fr_s',
-                                     '{!ex=tag_exemption_code_fr_s}exemption_code_fr_s',
-                                     '{!ex=tag_aboriginal_business_fr_s}aboriginal_business_fr_s',
-                                     '{!ex=tag_document_type_code_fr_s}document_type_code_fr_s',
-                                     '{!ex=tag_agreement_type_code_fr_s}agreement_type_code_fr_s']
+                                     '{!ex=tag_trade_agreement_fr_s}trade_agreement_fr_s',
+                                     '{!ex=tag_intellectual_property_fr_s}intellectual_property_fr_s',
+                                     '{!ex=tag_solicitation_procedure_fr_s}solicitation_procedure_fr_s',
+                                     '{!ex=tag_instrument_type_fr_s}instrument_type_fr_s',
+                                     '{!ex=tag_commodity_type_fr_s}commodity_type_fr_s',
+                                     '{!ex=tag_limited_tendering_reason_fr_s}limited_tendering_reason_fr_s',
+                                     '{!ex=tag_trade_agreement_exceptions_fr_s}trade_agreement_exceptions_fr_s',
+                                     '{!ex=tag_former_public_servant_fr_s}former_public_servant_fr_s',
+                                     '{!ex=tag_contracting_entity_fr_s}contracting_entity_fr_s',
+                                     '{!ex=tag_ministers_office_fr_s}ministers_office_fr_s',
+                                     '{!ex=tag_report_type_fr_s}report_type_fr_s',
+                                     ]
         self.phrase_xtras = {
             'mm': '3<70%',
         }
@@ -624,38 +686,60 @@ class CTExportView(View):
                     return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
         # Retrieve any selected search facets
-        params = get_user_facet_parameters(request)
-
         solr_search_terms = search_util.get_search_terms(request)
-        solr_fields = self.solr_fields_en
-        solr_search_facets = self.solr_facet_fields_en
-        solr_query_fields = self.solr_query_fields_en
+        solr_search_year: str = request.GET.get('ct-search-year', '')  # contract_year_s
+        solr_search_orgs: str = request.GET.get('ct-search-orgs', '')  # owner_org_en_s
+        solr_search_range: str = request.GET.get('ct-search-dollar-range', '')  # contract_value_range_en_s
+        solr_search_agreements: str = request.GET.get('ct-search-agreement', '')  # trade_agreement_en_s
+        solr_search_ip: str = request.GET.get('ct-search-ip', '')  # intellectual_property_en_s
+        solr_search_solicitation: str = request.GET.get('ct-solicitation', '')  # solicitation_procedure_en_s
+        solr_search_doc_type: str = request.GET.get('ct-search-doc', '')  # instrument_type_en_s
+        solr_search_commodity_type: str = request.GET.get('ct-search-commodity-type', '')  # commodity_type_en_s
+        solr_search_tendering: str = request.GET.get('ct-search-tender', '')  # limited_tendering_reason_en_s
+        solr_search_exempt: str = request.GET.get('ct-search-exempt', '')  # trade_agreement_exceptions_en_s
+        solr_search_fps: str = request.GET.get('ct-search-fps', '')  # former_public_servant_en_s
+        solr_search_so: str = request.GET.get('ct-search-so', '')  # contracting_entity_en_s
+        solr_search_mo: str = request.GET.get('ct-search-mo', '')  # ministers_office_en_s
+        solr_report_type: str = request.GET.get('ct-search-report-type', '')  # report_type_en_s
 
         if request.LANGUAGE_CODE == 'fr':
-            facets_dict = dict(owner_org_fr_s=params['solr_search_orgs'],
-                               report_type_fr_s=params['solr_report_type'],
-                               contract_year_s=params['solr_search_year'],
-                               commodity_type_code_fr_s=params['solr_search_commodity_type'],
-                               country_of_origin_fr_s=params['solr_search_country'],
-                               contract_value_range_fr_s=params['solr_search_range'],
-                               agreement_type_code_fr_s=params['solr_search_agreements'],
-                               solicitation_procedure_code_fr_s=params['solr_search_solicitation'],
-                               document_type_code_fr_s=params['solr_search_doc_type']
+            facets_dict = dict(contract_year_s=solr_search_year,
+                               owner_org_fr_s=solr_search_orgs,
+                               contract_value_range_fr_s=solr_search_range,
+                               trade_agreement_fr_s=solr_search_agreements,
+                               intellectual_property_fr_s=solr_search_ip,
+                               solicitation_procedure_fr_s=solr_search_solicitation,
+                               instrument_type_fr_s=solr_search_doc_type,
+                               commodity_type_fr_s=solr_search_commodity_type,
+                               limited_tendering_reason_fr_s=solr_search_tendering,
+                               trade_agreement_exceptions_fr_s=solr_search_exempt,
+                               former_public_servant_fr_s=solr_search_fps,
+                               contracting_entity_fr_s=solr_search_so,
+                               ministers_office_fr_s=solr_search_mo,
+                               report_type_fr_s=solr_report_type,
                                )
             solr_fields = self.solr_fields_fr
             solr_search_facets = self.solr_facet_fields_fr
             solr_query_fields = self.solr_query_fields_fr
         else:
-            facets_dict = dict(owner_org_en_s=params['solr_search_orgs'],
-                               report_type_en_s=params['solr_report_type'],
-                               contract_year_s=params['solr_search_year'],
-                               commodity_type_code_en_s=params['solr_search_commodity_type'],
-                               country_of_origin_en_s=params['solr_search_country'],
-                               contract_value_range_en_s=params['solr_search_range'],
-                               agreement_type_code_en_s=params['solr_search_agreements'],
-                               solicitation_procedure_code_en_s=params['solr_search_solicitation'],
-                               document_type_code_en_s=params['solr_search_doc_type']
+            facets_dict = dict(contract_year_s=solr_search_year,
+                               owner_org_en_s=solr_search_orgs,
+                               contract_value_range_en_s=solr_search_range,
+                               trade_agreement_en_s=solr_search_agreements,
+                               intellectual_property_en_s=solr_search_ip,
+                               solicitation_procedure_en_s=solr_search_solicitation,
+                               instrument_type_en_s=solr_search_doc_type,
+                               commodity_type_en_s=solr_search_commodity_type,
+                               limited_tendering_reason_en_s=solr_search_tendering,
+                               trade_agreement_exceptions_en_s=solr_search_exempt,
+                               former_public_servant_en_s=solr_search_fps,
+                               contracting_entity_en_s=solr_search_so,
+                               ministers_office_en_s=solr_search_mo,
+                               report_type_en_s=solr_report_type,
                                )
+            solr_fields = self.solr_fields_en
+            solr_search_facets = self.solr_facet_fields_en
+            solr_query_fields = self.solr_query_fields_en
 
         search_results = search_util.solr_query_for_export(solr_search_terms,
                                                            settings.SOLR_CT,
@@ -665,7 +749,6 @@ class CTExportView(View):
                                                            "id asc",
                                                            facets_dict,
                                                            self.phrase_xtras)
-
 
         if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
                                                  solr_fields=solr_fields):
