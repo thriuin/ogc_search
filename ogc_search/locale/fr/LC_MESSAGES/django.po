@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-24 13:10-0500\n"
+"POT-Creation-Date: 2020-01-31 16:18-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -733,7 +733,6 @@ msgid "Delivery Date: "
 msgstr "Date de livraison :"
 
 #: .\contracts\templates\contract.html:111
-#| msgid "Contract Value"
 msgid "Contract Value: "
 msgstr "Valeur du contrat : "
 
@@ -940,12 +939,10 @@ msgid "Summary: "
 msgstr "Résumé du projet : "
 
 #: .\experimental_inventory\templates\experiment.html:50
-#| msgid "Details"
 msgid "Design Details: "
 msgstr "Devis détails : "
 
 #: .\experimental_inventory\templates\experiment.html:54
-#| msgid "Issue/Question: "
 msgid "Intervention: "
 msgstr "Intervention : "
 
@@ -982,7 +979,6 @@ msgid "Lead Branch and/or Unit: "
 msgstr "Direction et/ou unité responsable : "
 
 #: .\experimental_inventory\templates\experiment.html:98
-#| msgid "Reference number: "
 msgid "Reference ID: "
 msgstr "Référence ID : "
 
@@ -1601,6 +1597,21 @@ msgstr ""
 #: .\wet\templatetags\search_extras.py:43
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
+
+#~ msgid "Name of Minister: "
+#~ msgstr "Nom du ministre : "
+
+#~ msgid "Ministry: "
+#~ msgstr "Ministère :"
+
+#~ msgid "Minister: "
+#~ msgstr "Ministre :"
+
+#~ msgid "Minister"
+#~ msgstr "Ministre"
+
+#~ msgid "Ministry"
+#~ msgstr "Ministère"
 
 #~ msgid "Research Method"
 #~ msgstr "Méthode de recherche"

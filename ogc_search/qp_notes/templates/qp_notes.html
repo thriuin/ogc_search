@@ -149,7 +149,7 @@
             <div>{{ results.docs.0.additional_information_en_txt | markdown_filter | normalize_headings | safe }}</div>
         {%  endif %}
     {% endif %}
-    
+
     <p class="mrgn-tp-lg mrgn-bttm-xl"><a class="btn btn-primary" href="{{ back_url }}"><span class="glyphicon glyphicon-circle-arrow-left mrgn-rght-md"></span>{% trans 'Back to Search' %}</a></p>
 
 {% endblock main-content %}
