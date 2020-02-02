@@ -1141,18 +1141,22 @@
     <field name="trade_agreement_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="trade_agreement_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="trade_agreement_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="trade_agreement_en_s" dest="trade_agreement_txt_en"/>
 
     <field name="trade_agreement_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="trade_agreement_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
-    <field name="trade_agreement_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>   
+    <field name="trade_agreement_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="trade_agreement_fr_s" dest="trade_agreement_txt_fr"/>
 
     <field name="land_claims_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="land_claims_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="land_claims_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="land_claims_en_s" dest="land_claims_txt_en"/>
 
     <field name="land_claims_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="land_claims_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="land_claims_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="land_claims_fr_s" dest="land_claims_txt_fr"/>
     
     <field name="commodity_type_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="commodity_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
@@ -1169,18 +1173,22 @@
     <field name="limited_tendering_reason_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="limited_tendering_reason_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="limited_tendering_reason_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="limited_tendering_reason_en_s" dest="limited_tendering_reason_txt_en"/>
 
     <field name="limited_tendering_reason_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="limited_tendering_reason_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="limited_tendering_reason_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="limited_tendering_reason_fr_s" dest="limited_tendering_reason_txt_fr"/>
 
     <field name="trade_agreement_exceptions_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="trade_agreement_exceptions_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="trade_agreement_exceptions_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="trade_agreement_exceptions_en_s" dest="trade_agreement_exceptions_txt_en"/>
 
     <field name="trade_agreement_exceptions_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
     <field name="trade_agreement_exceptions_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="trade_agreement_exceptions_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <copyField source="trade_agreement_exceptions_fr_s" dest="trade_agreement_exceptions_txt_fr"/>
 
     <field name="aboriginal_business_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="aboriginal_business_fr_s" type="string" indexed="true" stored="true" docValues="true"/>

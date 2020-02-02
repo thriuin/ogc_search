@@ -34,7 +34,7 @@ controlled_lists = {'agreement_type_code': get_choices('agreement_type_code', gc
                     'intellectual_property': get_choices('intellectual_property', gc_schema),
                     'potential_commercial_exploitation': get_choices('potential_commercial_exploitation', gc_schema),
                     'former_public_servant': get_choices('former_public_servant', gc_schema),
-                    'contacting_entity': get_choices('contacting_entity', gc_schema),
+                    'contracting_entity': get_choices('contracting_entity', gc_schema),
                     'instrument_type': get_choices('instrument_type', gc_schema),
                     'ministers_office': get_choices('ministers_office', gc_schema),
                     'article_6_exceptions': get_choices('article_6_exceptions', gc_schema),
@@ -120,7 +120,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                                                                'Unspecified'),
                 'former_public_servant_fr_s': get_choice_field(controlled_lists, gc, 'former_public_servant', 'fr',
                                                                'type non spécifié'),
-                'contracting_entity_en_s': get_choice_field(controlled_lists, gc, 'contracting_entity', 'en', 
+                'contracting_entity_en_s': get_choice_field(controlled_lists, gc, 'contracting_entity', 'en',
                                                             'Unspecified'),
                 'contracting_entity_fr_s': get_choice_field(controlled_lists, gc, 'contracting_entity', 'fr',
                                                             'type non spécifié'),
@@ -241,7 +241,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             if len(trade_agreement_en) > 0 and trade_agreement_en[0] == 'Unspecified':
                 od_obj['trade_agreement_en_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
                                                                          'trade_agreement', 'en', 'trade_agreement',
-                                                                         agreement_types_en)
+                                                                         trade_agreement_en)
             else:
                 od_obj['trade_agreement_en_s'] = trade_agreement_en
             # export multi-value field should be quoted
@@ -250,7 +250,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             if len(trade_agreement_fr) > 0 and trade_agreement_fr[0] == 'type non spécifié':
                 od_obj['trade_agreement_fr_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
                                                                          'trade_agreement', 'fr', 'trade_agreement',
-                                                                         agreement_types_fr)
+                                                                         trade_agreement_fr)
             else:
                 od_obj['trade_agreement_fr_s'] = trade_agreement_fr
             od_obj['agreement_type_code_export_fr_s'] = ",".join([str(code) for code in od_obj['trade_agreement_fr_s']])

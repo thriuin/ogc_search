@@ -109,6 +109,7 @@ venv.bak/
 .idea/
 ocsenv/
 cdts/
+cdts/
 /ogc_search/ckan/presets.yaml
 /ogc_search/ckan/minister.json
 /ogc_search/ckan/grants.yaml
