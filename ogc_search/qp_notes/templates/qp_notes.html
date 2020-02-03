@@ -70,27 +70,24 @@
                 </div>
                 {% if results.docs.0.minister_en_txt or results.docs.0.minister_fr_txt %}
                     <div class="row brdr-tp">
-                        <dt><div class="col-sm-3"><strong>{% trans 'Minister by name: ' %}</strong></div></dt>
+                        <dt><div class="col-sm-3"><strong>{% trans 'Name of Minister: ' %}</strong></div></dt>
                         <dd><div class="col-sm-9">
                             {% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.minister_fr_txt }}
-                                {% for position in results.docs.0.minister_position_fr_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
                             {% else %}{{ results.docs.0.minister_en_txt }}
-                                {% for position in results.docs.0.minister_position_en_txt %}<div class="mrgn-lft-lg">{{ position | safe }}</div>{% endfor %}
-                            {% endif %}
-                        </div></dd>
-                    </div>
-                {% else %}
-                    <div class="row brdr-tp">
-                        <dt><div class="col-sm-3"><strong>{% trans 'Minister by title: ' %}</strong></div></dt>
-                        <dd><div class="col-sm-9">
-                            {% if LANGUAGE_CODE == 'fr' %}
-                                {{ results.docs.0.minister_position_fr_s.0 | safe }}
-                            {% else %}
-                                {{ results.docs.0.minister_position_en_s.0 | safe }}
                             {% endif %}
                         </div></dd>
                     </div>
                 {% endif %}
+                <div class="row brdr-tp">
+                    <dt><div class="col-sm-3"><strong>{% trans 'Title of Minister: ' %}</strong></div></dt>
+                    <dd><div class="col-sm-9">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {{ results.docs.0.minister_position_fr_s.0 | safe }}
+                        {% else %}
+                            {{ results.docs.0.minister_position_en_s.0 | safe }}
+                        {% endif %}
+                    </div></dd>
+                </div>
             </dl>
         </div>
     </section>
