@@ -96,15 +96,15 @@
                                     <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
                                     <select class="form-control" name="sort-by" id="sort-by" value="{{ sortby }}"
                                             onchange="submitForm();">
-                                        <option value="last_modified_tdt desc"
-                                                {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
-                                        >{% trans 'Newest' %}</option>
                                         <option value="score desc"
                                                 {% if sortby == "score desc" %}selected="selected"{% endif %}
                                         >{% trans 'Best match' %}</option>
                                         <option value="title_en_s asc"
                                                 {% if sortby == "title_en_s asc" or sortby == "title_fr_s asc" %}selected="selected"{% endif %}
                                         >{% trans 'Title' %}</option>
+                                        <option value="last_modified_tdt desc"
+                                                {% if sortby == "last_modified_tdt desc" %}selected="selected"{% endif %}
+                                        >{% trans 'Newest' %}</option>
                                     </select>
                                 </div>
 
