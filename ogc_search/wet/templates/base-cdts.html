@@ -15,7 +15,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
     <!-- Meta data -->
-    <meta name="description" content="">
+    {% block meta_tags %}<meta name="description" content="">{% endblock %}
     {% block adobe_analytics_meta_title %}
     <meta name="dcterms:title" content="{% trans 'Open Government' %}" />
     {% endblock %}

@@ -7,6 +7,9 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/ati{% endblock language_switch_url %}
 
+{% block page_title %}{% trans "Completed Access to Information Requests" %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% trans 'Completed Access to Information Requests' %}" />{% endblock meta_tags %}
+
 {% block custom_page_javascript %}
     <script src="{% static 'ati/facets.js' %}"></script>
     <script src="{% static 'open_data/od_search.js' %}"></script>

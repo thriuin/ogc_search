@@ -7,6 +7,9 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
 
+{% block page_title %}{% trans 'Amendments for ' %}{{ ref_number_s }} - {% trans 'Search Grants and Contributions' %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% trans 'Amendments for ' %}{{ ref_number_s }}" />{% endblock meta_tags %}
+
 {% block adobe_analytics_meta_title %}
     <meta name="dcterms:title" content="{% trans 'Amendments for ' %}{{ ref_number_s }}" />
 {% endblock %}
