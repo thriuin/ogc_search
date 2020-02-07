@@ -7,6 +7,9 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/ct{% endblock language_switch_url %}
 
+{% block page_title %}{% trans 'Search Government Contracts over $10,000' %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% trans 'Search Government Contracts over $10,000' %}" />{% endblock meta_tags%}
+
 {% block adobe_analytics_meta_title %}
     <meta name="dcterms:title" content="{% trans 'Search Government Contracts over $10,000' %}" />
 {% endblock %}

@@ -7,6 +7,14 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
 
+{% block page_title %}{{ results.docs.0.vendor_name_txt.0 }} - {% trans 'Contract Details' %} | {% trans 'Open Government' %}
+{% endblock page_title %}
+
+{% block meta_tags %}
+    <meta name="description" content="{{ results.docs.0.vendor_name_txt.0 }} - {% trans 'Contract Details' %}" />
+{% endblock %}
+
+
 {% block adobe_analytics_meta_title %}
     <meta name="dcterms:title" content="{% trans 'Contract Details' %} ({{ ref_number_s }})" />
 {% endblock %}

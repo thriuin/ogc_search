@@ -7,6 +7,16 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/ei/id/{{ ref_number_s }}{% endblock language_switch_url %}
 
+{% block page_title %}{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.titre_du_projet_txt_fr }}{% else %}
+    {{ results.docs.0.titre_du_projet_txt_en }}{% endif %} - {% trans 'Experiment' %} | {% trans 'Open Government' %}
+{% endblock page_title %}
+
+{% block meta_tags %}
+    <meta name="description" content="{% if LANGUAGE_CODE == 'fr' %}
+        {{ results.docs.0.titre_du_projet_txt_fr }}{% else %}
+        {{ results.docs.0.titre_du_projet_txt_en }}{% endif %}">
+{% endblock meta_tags %}
+
 {% block adobe_analytics_meta_title %}
     <meta name="dcterms:title" content="{% trans 'Experiment' %} ({{ ref_number_s }})" />
 {% endblock %}
