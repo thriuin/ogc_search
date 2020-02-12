@@ -120,6 +120,7 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 'resource_type_fr_s': list(set(resource_type_fr)),
                 'update_cycle_en_s': controlled_lists['frequency']['en'][o['frequency']],
                 'update_cycle_fr_s': controlled_lists['frequency']['fr'][o['frequency']],
+                'id': o['name'],
                 'id_name_s': o['name'],
                 'owner_org_s': o['organization']['name'],
                 'author_txt': '' if o['author'] is None else o['author'],

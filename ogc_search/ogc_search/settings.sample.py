@@ -425,7 +425,7 @@ CT_ABOUT_EN ='<p>As part of Canada’s second Action Plan on Open Government, th
              ' quarter, and year.</p><p>The Treasury Board <a href="http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?' \
              'id=14494"> Contracting Policy</a> outlines the rules and principles governing government contracting. ' \
              'The objective is to procure contracting of goods and services in a manner that enhances access, ' \
-             'competition and fairness and results in best value to Canada. For further information on federal' \
+             'competition and fairness and results in best value to Canada. For further information on federal ' \
              'government procurement, please visit <a href="https://buyandsell.gc.ca/">Buyandsell.gc.ca</a>.</p>'
 CT_INFO_FR  = GC_INFO_FR
 CT_ABOUT_FR = '<p>Dans le cadre du deuxième plan d’action du Canada sur le gouvernement ouvert, le gouvernement du ' \

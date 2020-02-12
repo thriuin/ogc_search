@@ -51,8 +51,7 @@ class GCSearchView(View):
                                      'foreign_currency_type_fr_s', 'foreign_currency_value_s',
                                      'coverage_txt_fr', 'description_txt_fr',
                                      'naics_identifier_s',
-                                     'expected_results_txt_fr', 'additional_information_txt_fr',
-                                     '_text_fr_^0.5']
+                                     'expected_results_txt_fr', 'additional_information_txt_fr']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_agreement_type_fr_s}agreement_type_fr_s',
                                      '{!ex=tag_year_i}year_i',
@@ -104,8 +103,7 @@ class GCSearchView(View):
                                      'foreign_currency_type_en_s', 'foreign_currency_value_s',
                                      'coverage_txt_en', 'description_txt_en',
                                      'naics_identifier_s',
-                                     'expected_results_txt_en', 'additional_information_txt_en',
-                                     '_text_en_^0.5']
+                                     'expected_results_txt_en', 'additional_information_txt_en']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_agreement_type_en_s}agreement_type_en_s',
                                      '{!ex=tag_year_i}year_i',
@@ -346,8 +344,7 @@ class GCExportView(View):
                                      'foreign_currency_type_fr_s', 'foreign_currency_value_s',
                                      'coverage_txt_fr', 'description_txt_fr',
                                      'naics_identifier_s',
-                                     'expected_results_txt_fr', 'additional_information_txt_fr',
-                                     '_text_fr_^0.5']
+                                     'expected_results_txt_fr', 'additional_information_txt_fr']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_agreement_type_fr_s}agreement_type_fr_s',
                                      '{!ex=tag_year_i}year_i',
@@ -390,8 +387,7 @@ class GCExportView(View):
                                      'foreign_currency_type_en_s', 'foreign_currency_value_s',
                                      'coverage_txt_en', 'description_txt_en',
                                      'naics_identifier_s',
-                                     'expected_results_txt_en', 'additional_information_txt_en',
-                                     '_text_en_^0.5']
+                                     'expected_results_txt_en', 'additional_information_txt_en']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_agreement_type_en_s}agreement_type_en_s',
                                      '{!ex=tag_year_i}year_i',

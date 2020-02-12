@@ -76,7 +76,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as ei_file:
                 last_updated_datetime: datetime = datetime.strptime(ei['last_updated'], '%Y-%m-%d')
                 last_updated_date: date = date(last_updated_datetime.year, last_updated_datetime.month,
                                                last_updated_datetime.day)
-                od_obj['last_update_dt'] = last_updated_date.isoformat()
+                od_obj['last_update_dt'] = last_updated_date.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['last_updated_en_s'] = format_date(last_updated_date, locale='en')
                 od_obj['last_updated_fr_s'] = format_date(last_updated_date, locale='fr')
             else:

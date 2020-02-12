@@ -37,8 +37,7 @@ class SISearchView(View):
                                "standards")
 
         self.solr_query_fields_fr = ['service_name_txt_fr^5', 'service_description_txt_fr^3', 'authority_txt_fr^2',
-                                     'program_name_txt_fr^3', 'special_remarks_txt_fr^6', 'owner_org_title_txt_fr^2',
-                                     '_text_fr_^0.5']
+                                     'program_name_txt_fr^3', 'special_remarks_txt_fr^6', 'owner_org_title_txt_fr^2']
 
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_fiscal_year_s}fiscal_year_s',
@@ -89,8 +88,7 @@ class SISearchView(View):
                                "standards")
 
         self.solr_query_fields_en = ['service_name_txt_en^5', 'service_description_txt_en^3', 'authority_txt_en^2',
-                                     'program_name_txt_en^3', 'special_remarks_txt_en^6', 'owner_org_title_txt_en^2',
-                                     '_text_en_^0.5']
+                                     'program_name_txt_en^3', 'special_remarks_txt_en^6', 'owner_org_title_txt_en^2']
 
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_fiscal_year_s}fiscal_year_s',
@@ -361,11 +359,9 @@ class SIExportView(View):
                             "client_feedback_fr_s,client_feedback_en_s,"
                             "standards")
         self.solr_query_fields_fr = ['service_name_txt_fr^5', 'service_description_txt_fr^3', 'authority_txt_fr^2',
-                                     'program_name_txt_fr^3', 'special_remarks_txt_fr^6', 'owner_org_title_txt_fr^2',
-                                     '_text_fr_^0.5']
+                                     'program_name_txt_fr^3', 'special_remarks_txt_fr^6', 'owner_org_title_txt_fr^2']
         self.solr_query_fields_en = ['service_name_txt_en^5', 'service_description_txt_en^3', 'authority_txt_en^2',
-                                     'program_name_txt_en^3', 'special_remarks_txt_en^6', 'owner_org_title_txt_en^2',
-                                     '_text_en_^0.5']
+                                     'program_name_txt_en^3', 'special_remarks_txt_en^6', 'owner_org_title_txt_en^2']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_fiscal_year_s}fiscal_year_s',
                                      '{!ex=tag_external_internal_fr_s}external_internal_fr_s',

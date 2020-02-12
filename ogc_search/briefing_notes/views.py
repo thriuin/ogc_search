@@ -21,7 +21,7 @@ class BNSearchView(View):
                                "date_received_tdt,month_i,year_i,owner_org_fr_s,additional_information_fr_s,"
                                "date_received_fmt_s")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
-                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5',
+                                     'title_txt_fr^5', 'action_required_fr_s^0.5',
                                      'date_received_fmt_s', 'tracking_number_s^5']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_month_i}month_i',
@@ -36,7 +36,7 @@ class BNSearchView(View):
                                "date_received_tdt,month_i,year_i,owner_org_en_s,additional_information_en_s,"
                                "date_received_fmt_s")
         self.solr_query_fields_en = ['owner_org_en_s^2', 'additional_information_en_s^3', 'org_sector_en_s^4',
-                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5',
+                                     'title_txt_en^5', 'action_required_en_s^0.5',
                                      'date_received_fmt_s', 'tracking_number_s^5']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_month_i}month_i',
@@ -205,10 +205,10 @@ class BNExportView(View):
                             "additional_information_en_s,additional_information_fr_s,"
                             "owner_org_en_s,owner_org_fr_s")
         self.solr_query_fields_fr = ['owner_org_fr_s^2', 'additional_information_fr_s^3', 'org_sector_fr_s^4',
-                                     'title_txt_fr^5', '_text_fr_^0.5', 'action_required_fr_s^0.5',
+                                     'title_txt_fr^5', 'action_required_fr_s^0.5',
                                      'tracking_number_s^5']
         self.solr_query_fields_en = ['owner_org_en_s^2', 'additional_information_en_s^3', 'org_sector_en_s^4',
-                                     'title_txt_en^5', '_text_en_^0.5', 'action_required_en_s^0.5',
+                                     'title_txt_en^5','action_required_en_s^0.5',
                                      'tracking_number_s^5']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_month_i}month_i',
