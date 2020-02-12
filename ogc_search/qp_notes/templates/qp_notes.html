@@ -7,8 +7,20 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/gc{% endblock language_switch_url %}
 
+{% block page_title %}{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.title_fr_txt }}{% else %}
+    {{ results.docs.0.title_en_txt }}{% endif %} - {% trans 'Question Period Notes' %} | {% trans 'Open Government' %}
+{% endblock page_title %}
+
+{% block meta_tags %}
+    <meta name="description" content="{% trans 'Question period note prepared for the' %} {% if LANGUAGE_CODE == 'fr' %}
+        {{ results.docs.0.minister_position_fr_s.0 }}{% else %}
+        {{ results.docs.0.minister_position_en_s.0 }}{% endif %}">
+{% endblock meta_tags %}
+
 {% block adobe_analytics_meta_title %}
-    <meta name="dcterms:title" content="{% trans 'Question Period Note Details' %} ({{ reference_number_s }})" />
+    <meta name="dcterms:title" content="{% trans 'Question Period Note Details' %} - {% if LANGUAGE_CODE == 'fr' %}
+        {{ results.docs.0.title_fr_txt | safe }}{% else %}{{ results.docs.0.title_en_txt | safe }}{% endif %} -
+        {{ reference_number_s }}" />
 {% endblock %}
 
 {% block top-settings %}

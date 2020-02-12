@@ -7,6 +7,9 @@
 {% block canada_ca_search %} {% endblock canada_ca_search %}
 {% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/si{% endblock language_switch_url %}
 
+{% block page_title %}{% trans 'Search Service Inventory' %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% trans 'Search Service Inventory' %}" />{% endblock meta_tags %}
+
 {% block adobe_analytics_meta_title %}
     <meta name="dcterms:title" content="{% trans 'Search Service Inventory' %}" />
 {% endblock %}
