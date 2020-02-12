@@ -391,7 +391,7 @@ def get_bilingual_field(fields, field_key: str, lang: str, default_value="-"):
 
 
 def get_bilingual_dollar_range(dollars: str):
-    dollar_range = {'en': {'value': '$-.--', 'range': 'No Value Declared'}, 'fr': {'value': '-,-- $', 'range': 'Sans valeur déclarée'}}
+    dollar_range = {'en': {'value': '$-.--', 'range': '(h) No Value Declared'}, 'fr': {'value': '-,-- $', 'range': '(h) Sans valeur déclarée'}}
     if not dollars == '':
         try:
             dollar_amount = parse_decimal(dollars.replace('$', '').replace(',', ''), locale='en')
