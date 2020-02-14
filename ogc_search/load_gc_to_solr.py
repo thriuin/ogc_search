@@ -203,6 +203,7 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
     for gc in gc_reader:
         try:
             od_obj = {
+                'id': "{0}-{1}-{2}".format(get_field(gc, 'owner_org'), get_field(gc, 'fiscal_year'), get_field(gc, 'quarter')),
                 'owner_org_en_s': get_bilingual_field(gc, 'owner_org_title', 'en').strip(),
                 'owner_org_fr_s': get_bilingual_field(gc, 'owner_org_title', 'fr').strip(),
                 'fiscal_year_s': get_field(gc, 'fiscal_year'),
@@ -210,6 +211,7 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
                 'nil_report_b': 't',
                 'report_type_en_s': 'Nothing To Report',
                 'report_type_fr_s': 'Rien à signaler',
+                'amendment_number_s': 'current'
             }
             if len(od_obj['fiscal_year_s']) > 4:
                 try:
