@@ -5,7 +5,7 @@
 {% load search_extras %}
 
 {% block canada_ca_search %} {% endblock canada_ca_search %}
-{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/si{% endblock language_switch_url %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/nap{% endblock language_switch_url %}
 
 {% block page_title %}{% trans 'Search National Action Plan on Open Government Tracker' %} | {% trans 'Open Government' %}{% endblock page_title %}
 {% block meta_tags %}<meta name="description" content="{% trans 'Search National Action Plan on Open Government Tracker' %}" />{% endblock meta_tags %}
@@ -127,9 +127,9 @@
                                         <div class="col-sm-10">
                                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                                 {% if LANGUAGE_CODE == 'fr' %}
-                                                    {{ doc.indicators_fr_s }} - {{ doc.ind_full_text_fr_s }}
+                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id }}">{{ doc.indicators_fr_s }}</a> - {{ doc.ind_full_text_fr_s }}
                                                 {% else %}
-                                                    {{ doc.indicators_en_s }} - {{ doc.ind_full_text_en_s }}
+                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id }}">{{ doc.indicators_en_s }}</a> - {{ doc.ind_full_text_en_s }}
                                                 {% endif %}
                                             </h4>
                                         </div>
@@ -141,7 +141,7 @@
 
                                                     <strong>{% trans 'Milestone' %}</strong>: <a
                                                         href="{{ oc_fr_url }}{{ doc.commitment_nap_url_fr_s }}"
-                                                >{{ doc.milestones_fr_s }} - {{ doc.milestone_full_text_fr_s }}</a><br>
+                                                >{{ doc.milestone_fr_s }} - {{ doc.milestone_full_text_fr_s }}</a><br>
                                                     <strong>{% trans 'Commitment' %}</strong>: <a
                                                         href="{{ oc_fr_url }}{{ doc.commitment_nap_url_fr_s }}"
                                                 >{{ doc.commitments_fr_s }}</a><br>
@@ -162,7 +162,7 @@
                                             {% else %}
                                                     <strong>{% trans 'Milestone' %}</strong>: <a
                                                         href="{{ oc_en_url }}{{ doc.commitment_nap_url_en_s }}"
-                                                >{{ doc.milestones_en_s }} - {{ doc.milestone_full_text_en_s }}</a><br>
+                                                >{{ doc.milestone_en_s }} - {{ doc.milestone_full_text_en_s }}</a><br>
                                                     <strong>{% trans 'Commitment' %}</strong>: <a
                                                         href="{{ oc_en_url }}{{ doc.commitment_nap_url_en_s | safe }}"
                                                 >{{ doc.commitments_en_s }}</a><br>

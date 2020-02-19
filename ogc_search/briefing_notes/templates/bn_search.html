@@ -131,7 +131,7 @@
                         </div>
                         <div class="col-sm-4 text-right">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.date_received_fmt_s | safe }}</h4>
-                            <small>{% trans 'Ref #' %} {{ doc.tracking_number_s | safe }}</small>
+                            <small><a href="/{{ LANGUAGE_CODE }}/bn/note/{{ doc.id | safe }}">{% trans 'Ref #' %} {{ doc.tracking_number_s | safe }}</a></small>
                         </div>
 
                         <div class="col-sm-12">

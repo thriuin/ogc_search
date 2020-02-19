@@ -1,0 +1,112 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/nap/id/{{ id }}{% endblock language_switch_url %}
+
+{% block page_title %}{% trans 'National Action Plan on Open Government Commitment' %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% trans 'National Action Plan on Open Government Commitment' %}" />{% endblock meta_tags %}
+
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'National Action Plan on Open Government Commitment' %} - {{ id }}" />
+{% endblock %}
+
+{% block top-settings %}
+    "lngLinks": [{
+    "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+    "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/nap/id/{{ id }}",
+    "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'About Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca/en/about-open-government' %}",
+    },{
+        "title": "{% trans 'Search National Action Plan on Open Government Tracker' %}",
+        "href": "{% trans '/en/nap/' %}",
+    }]
+{% endblock %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans 'National Action Plan on Open Government Commitment' %}</h1>
+{% endblock main-content-title %}
+
+    {% if LANGUAGE_CODE == 'fr' %}
+
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Milestone:' %}</strong></div>
+            <div class="col-sm-8"><a href="{{ oc_fr_url }}{{ results.docs.0.commitment_nap_url_fr_s }}">{{ results.docs.0.milestone_fr_s }} - {{ results.docs.0.milestone_full_text_fr_s }}</a></div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Commitment:' %}</strong></div>
+            <div class="col-sm-8"><a href="{{ oc_fr_url }}{{ results.docs.0.commitment_nap_url_fr_s | safe }}">{{ results.docs.0.commitments_fr_s }}</a></div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Lead Organization:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.owner_org_title_txt_fr }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Status:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.status_fr_s | safe }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Progress:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.progress_txt_fr | safe | urlize }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Evidence of progress:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.evidence_txt_fr | safe | urlize }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Challenges:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.challenges_txt_fr | safe | urlize }}<br>
+            <a href="{{ oc_fr_url }}{{ results.docs.0.cmt_url_fr_s }}" class="btn btn-xs btn-default">
+            <span class="fa fa-comment"></span> Comment</a></div>
+        </div>
+
+    {% else %}
+
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Milestone:' %}</strong></div>
+            <div class="col-sm-8"><a href="{{ oc_en_url }}{{ results.docs.0.commitment_nap_url_en_s }}">{{ results.docs.0.milestone_en_s }} - {{ results.docs.0.milestone_full_text_en_s }}</a></div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Commitment:' %}</strong></div>
+            <div class="col-sm-8"><a href="{{ oc_en_url }}{{ results.docs.0.commitment_nap_url_en_s | safe }}">{{ results.docs.0.commitments_en_s }}</a></div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Lead Organization:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.owner_org_title_txt_en }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Status:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.status_en_s | safe }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Progress:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.progress_txt_en | safe | urlize }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Evidence of progress:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.evidence_txt_en | safe | urlize }}</div>
+        </div>
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Challenges:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.challenges_txt_en | safe | urlize }}<br>
+            <a href="{{ oc_en_url }}{{ results.docs.0.cmt_url_en_s }}" class="btn btn-xs btn-default">
+            <span class="fa fa-comment"></span> Comment</a></div>
+        </div>
+        
+    {% endif %}
+
+{% endblock main-content %}

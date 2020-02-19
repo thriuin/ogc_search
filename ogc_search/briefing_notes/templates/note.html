@@ -1,0 +1,109 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/bn/note/{{ results.docs.0.id }}{% endblock language_switch_url %}
+
+{% block page_title %}{% trans "Search Briefing Note Titles and Numbers" %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% trans 'Search Briefing Note Titles and Numbers' %} />{% endblock meta_tags %}
+
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Search Briefing Note Titles and Numbers' %}" />
+{% endblock %}
+
+{% block custom_page_javascript %}
+    <script src="{% static 'bn/facets.js' %}"></script>
+    <script src="{% static 'open_data/od_search.js' %}"></script>
+{% endblock custom_page_javascript %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/bn/note/{{results.docs.0.id }}",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'Open Information' %}",
+        "href": "{% trans 'https://open.canada.ca/en/open-information' %}",
+    },{
+        "title": "{% trans 'Proactive Disclosure' %}",
+        "href": "{% trans 'https://open.canada.ca/en/proactive-disclosure' %}",
+    },{
+        "title": "{% trans 'Search Briefing Notes' %}",
+        "href": "{%  trans '/en/bn/' %}"
+    }]
+{% endblock %}
+
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Briefing Note" %}</h1>
+{% endblock %}
+
+    {% if LANGUAGE_CODE == 'fr' %}
+        <div class="row">
+            <div class="col-sm-3"><strong>{% trans 'Title' %}</strong> :</div>
+            <div class="col-sm-9">{{ results.docs.0.title_txt_fr }}</div>
+        </div>
+        {% if results.docs.0.additional_information_fr_s %}
+        <div class="row">
+            <div class="col-sm-3"><strong>{% trans 'Additional Information' %}</strong> :</div>
+            <div class="col-sm-9">{{ results.docs.0.additional_information_fr_s }}</div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-3"><strong>{% trans 'Received' %}</strong> :</div>
+            <div class="col-sm-9">{{ results.docs.0.date_received_fmt_s | friendly_date_fr}}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>{% trans 'Organization' %}</strong> :</div>
+            <div class="col-sm-9">{{ results.docs.0.owner_org_fr_s }}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>{% trans 'Sector' %}</strong> :</div>
+            <div class="col-sm-9">{{ results.docs.0.org_sector_fr_s | safe }}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>{% trans 'Addressee' %}</strong> :</div>
+            <div class="col-sm-9">{{ results.docs.0.addressee_fr_s }}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>{% trans 'Action Required' %}</strong> :</div>
+            <div class="col-sm-9">{{ results.docs.0.action_required_fr_s }}</div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-sm-3"><strong>Title</strong>:</div>
+            <div class="col-sm-9">{{ results.docs.0.title_txt_en }}</div>
+        </div>
+        {% if results.docs.0.additional_information_en_s %}
+        <div class="row">
+            <div class="col-sm-3"><strong>Additional Information</strong>:</div>
+            <div class="col-sm-9">{{ results.docs.0.additional_information_en_s }}</div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-3"><strong>Received</strong>:</div>
+            <div class="col-sm-9">{{ results.docs.0.date_received_fmt_s | friendly_date_en}}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>Organization</strong>:</div>
+            <div class="col-sm-9">{{ results.docs.0.owner_org_en_s }}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>Sector</strong>:</div>
+            <div class="col-sm-9">{{ results.docs.0.org_sector_en_s | safe }}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>Addressee</strong>:</div>
+            <div class="col-sm-9">{{ results.docs.0.addressee_en_s }}</div>
+        </div><div class="row">
+            <div class="col-sm-3"><strong>Action Required</strong>:</div>
+            <div class="col-sm-9">{{ results.docs.0.action_required_en_s }}</div>
+        </div>
+    {% endif %}
+
+{% endblock main-content %}

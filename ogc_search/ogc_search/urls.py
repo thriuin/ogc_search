@@ -21,11 +21,11 @@ from django.contrib import admin
 from django.urls import path
 from django.views.decorators.cache import cache_page
 from ATI.views import ATISearchView, ATIExportView
-from briefing_notes.views import BNSearchView, BNExportView
+from briefing_notes.views import BNSearchView, BNExportView, BNoteView
 from contracts.views import CTSearchView, CTExportView, CTContractView
 from experimental_inventory.views import EISearchView, EIExperimentView, EIExportView
-from grants.views import GCSearchView, GCExportView, GCAmendmentView
-from national_action_plan.views import NAPSearchView, NAPExportView
+from grants.views import GCSearchView, GCExportView, GCAmendmentView, GCRecordView
+from national_action_plan.views import NAPSearchView, NAPExportView, NAPRecordView
 from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
 from qp_notes.views import QPSearchView, QPExportView, QPCardView
@@ -49,7 +49,15 @@ if settings.ATI_ENABLED:
 if settings.BN_ENABLED:
     urlpatterns += i18n_patterns(
         path('bn/', BNSearchView.as_view(), name='BNQuery'),
+        path('bn/note/<path:slug>', BNoteView.as_view(), name='BNote'),
         path('bn/export/', BNExportView.as_view(), name='BNExport')
+    )
+
+if settings.CT_ENABLED:
+    urlpatterns += i18n_patterns(
+        path('ct/', CTSearchView.as_view(), name='CTQuery'),
+        path('ct/export/', CTExportView.as_view(), name='CTExport'),
+        path('ct/id/<path:slug>', CTContractView.as_view(), name='CTContract')
     )
 
 if settings.EI_ENABLED:
@@ -63,26 +71,21 @@ if settings.GC_ENABLED:
     urlpatterns += i18n_patterns(
         path('gc/', GCSearchView.as_view(), name='GCQuery'),
         path('gc/export/', GCExportView.as_view(), name='GCExport'),
-        path('gc/id/<slug:slug>', GCAmendmentView.as_view(), name='GCAmendment')
+        path('gc/amend/<slug:slug>', GCAmendmentView.as_view(), name='GCAmendment'),
+        path('gc/id/<slug:slug>', GCRecordView.as_view(), name='GCRecord')
     )
 
-if settings.CT_ENABLED:
+if settings.NAP_ENABLED:
     urlpatterns += i18n_patterns(
-        path('ct/', CTSearchView.as_view(), name='CTQuery'),
-        path('ct/export/', CTExportView.as_view(), name='CTExport'),
-        path('ct/id/<path:slug>', CTContractView.as_view(), name='CTContract')
+        path('nap/', NAPSearchView.as_view(), name='NAPQuery'),
+        path('nap/export/', NAPExportView.as_view(), name='NAPExport'),
+        path('nap/id/<path:slug>', NAPRecordView.as_view(), name='NAPRecord')
     )
 
 if settings.SI_ENABLED:
     urlpatterns += i18n_patterns(
         path('si/', SISearchView.as_view(), name='SIQuery'),
         path('si/export/', SIExportView.as_view(), name='SIExport')
-    )
-
-if settings.NAP_ENABLED:
-    urlpatterns += i18n_patterns(
-        path('nap/', NAPSearchView.as_view(), name='NAPQuery'),
-        path('nap/export/', NAPExportView.as_view(), name='NAPExport')
     )
 
 if settings.QP_ENABLED:

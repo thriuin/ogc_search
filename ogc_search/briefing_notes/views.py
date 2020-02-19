@@ -191,6 +191,41 @@ class BNSearchView(View):
         return render(request, "bn_search.html", context)
 
 
+class BNoteView(BNSearchView):
+
+    def __init__(self):
+        super().__init__()
+        self.phrase_xtras_en = {}
+        self.phrase_xtras_fr = {}
+
+    def get(self, request, slug=''):
+        context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
+        context["cdts_version"] = settings.CDTS_VERSION
+        context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
+        context["slug"] = slug
+        solr_search_terms = 'id:"{0}"'.format(slug)
+        if request.LANGUAGE_CODE == 'fr':
+            search_results = search_util.solr_query(solr_search_terms,
+                                                    settings.SOLR_BN,
+                                                    self.solr_fields_fr,
+                                                    self.solr_query_fields_fr,
+                                                    self.solr_facet_fields_fr,
+                                                    self.phrase_xtras_fr)
+        else:
+            search_results = search_util.solr_query(solr_search_terms,
+                                                    settings.SOLR_BN,
+                                                    self.solr_fields_en,
+                                                    self.solr_query_fields_en,
+                                                    self.solr_facet_fields_en,
+                                                    self.phrase_xtras_en)
+        context['results'] = search_results
+        if len(search_results.docs) > 0:
+            context['id'] = slug
+            return render(request, "note.html", context)
+        else:
+            return render(request, 'no_record_found.html', context, status=404)
+
+
 class BNExportView(View):
 
     def __init__(self):
