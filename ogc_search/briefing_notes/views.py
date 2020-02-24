@@ -6,6 +6,7 @@ import hashlib
 import logging
 import os
 import search_util
+from urlsafe import url_part_escape, url_part_unescape
 import time
 
 logger = logging.getLogger('ogc_search')
@@ -202,8 +203,8 @@ class BNoteView(BNSearchView):
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
-        context["slug"] = slug
-        solr_search_terms = 'id:"{0}"'.format(slug)
+        context["slug"] = url_part_escape(slug)
+        solr_search_terms = 'id:"{0}"'.format(context["slug"])
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
                                                     settings.SOLR_BN,

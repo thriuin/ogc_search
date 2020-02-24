@@ -4,6 +4,7 @@ import os
 import pysolr
 from search_util import get_choices
 import sys
+from urlsafe import url_part_escape
 from yaml import load
 
 try:
@@ -151,7 +152,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
         if (si['fiscal_yr'] != '2017-2018') and (not is_discontinued_id(si['harmonized_service_id'])):
             continue
         try:
-            od_obj = dict(id='{0}-{1}-{2}'.format(si['owner_org'], si['fiscal_yr'], si['service_id']),
+            od_obj = dict(id=url_part_escape('{0},{1},{2}'.format(si['owner_org'], si['fiscal_yr'], si['service_id'])),
                           service_id_s=si['harmonized_service_id'], owner_org_s=si['owner_org'],
                           service_name_en_s=si['harmonized_service_name_en'], service_name_fr_s=si['harmonized_service_name_fr'],
                           service_description_en_s=si['service_description_en'],

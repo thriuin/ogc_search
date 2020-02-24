@@ -127,9 +127,9 @@
                                         <div class="col-sm-10">
                                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                                 {% if LANGUAGE_CODE == 'fr' %}
-                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id }}">{{ doc.indicators_fr_s }}</a> - {{ doc.ind_full_text_fr_s }}
+                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id | url_part_unescape }}">{{ doc.indicators_fr_s }}</a> - {{ doc.ind_full_text_fr_s }}
                                                 {% else %}
-                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id }}">{{ doc.indicators_en_s }}</a> - {{ doc.ind_full_text_en_s }}
+                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id | url_part_unescape }}">{{ doc.indicators_en_s }}</a> - {{ doc.ind_full_text_en_s }}
                                                 {% endif %}
                                             </h4>
                                         </div>

@@ -5,6 +5,7 @@ import os
 import pysolr
 from search_util import get_choices
 import sys
+from urlsafe import url_part_escape
 from yaml import load
 
 try:
@@ -35,7 +36,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
     for bn in bn_reader:
         try:
             od_obj = {
-                'id': bn['owner_org'] + bn['tracking_number'],
+                'id': url_part_escape("{0},{1}".format(bn['owner_org'], bn['tracking_number'])),
                 'tracking_number_s': bn['tracking_number'],
                 'title_en_s': bn['title_en'],
                 'title_fr_s': bn['title_fr'],

@@ -134,7 +134,7 @@
                 {% if LANGUAGE_CODE == 'fr' %}
                     <div class="row">
                          <div class="col-sm-9 text-capitalize">
-                             <a href="/{{ LANGUAGE_CODE }}/ei/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.titre_du_projet_txt_fr | safe }}</strong></a>
+                             <a href="/{{ LANGUAGE_CODE }}/ei/id/{{ doc.id | url_part_unescape | safe }}"><strong>{{ doc.titre_du_projet_txt_fr | safe }}</strong></a>
                         </div>
                         <div class="col-sm-3 text-right"> <strong>{{ doc.last_updated_fr_s }}</strong></div>
                     </div>
@@ -148,7 +148,7 @@
                 {% else %}
                     <div class="row">
                          <div class="col-sm-9 text-capitalize">
-                             <a href="/{{ LANGUAGE_CODE }}/ei/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.titre_du_projet_txt_en | safe }}</strong></a>
+                             <a href="/{{ LANGUAGE_CODE }}/ei/id/{{ doc.id | url_part_unescape | safe }}"><strong>{{ doc.titre_du_projet_txt_en | safe }}</strong></a>
                         </div>
                         <div class="col-sm-3 text-right"> <strong>{{ doc.last_updated_en_s }}</strong></div>
                     </div>

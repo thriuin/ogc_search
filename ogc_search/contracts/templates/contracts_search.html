@@ -128,7 +128,7 @@
                             {% if LANGUAGE_CODE == 'fr' %}
                                 <div class="row">
                                      <div class="col-sm-9 text-capitalize">
-                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt.0 | safe }}</strong></a>
+                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id | url_part_unescape | safe}}"><strong>{{ doc.vendor_name_txt.0 | safe }}</strong></a>
                                     </div>
                                     <div class="col-sm-3 text-right"> <strong>{{ doc.original_value_fr_s }}</strong></div>
                                 </div><div class="row">
@@ -151,7 +151,7 @@
                             {% else %}
                                 <div class="row">
                                      <div class="col-sm-9 text-capitalize">
-                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.vendor_name_txt.0 | safe }}</strong></a>
+                                         <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id | url_part_unescape | safe}}"><strong>{{ doc.vendor_name_txt.0 | safe }}</strong></a>
                                     </div>
                                     <div class="col-sm-3 text-right"> <strong>{{ doc.original_value_en_s }}</strong></div>
                                 </div><div class="row">

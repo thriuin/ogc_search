@@ -113,9 +113,9 @@
                             <div class="col-sm-8">
                                 <h2 class="mrgn-tp-0 mrgn-bttm-sm h4">
                                     {% if LANGUAGE_CODE == 'en' %}
-                                        <a href="/{{ LANGUAGE_CODE }}/qp/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.title_en_txt | safe }}</strong></a>
+                                        <a href="/{{ LANGUAGE_CODE }}/qp/id/{{ doc.id | url_part_unescape | safe }}"><strong>{{ doc.title_en_txt | safe }}</strong></a>
                                     {% else %}
-                                        <a href="/{{ LANGUAGE_CODE }}/qp/id/{{ doc.id|urlencode:""| safe}}"><strong>{{ doc.title_fr_txt | safe }}</strong></a>
+                                        <a href="/{{ LANGUAGE_CODE }}/qp/id/{{ doc.id | url_part_unescape | safe }}"><strong>{{ doc.title_fr_txt | safe }}</strong></a>
                                     {% endif %}
                                 </h2>
                             </div>

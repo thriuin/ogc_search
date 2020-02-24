@@ -6,6 +6,7 @@ from django.conf import settings
 import os
 import pysolr
 from search_util import get_choices, get_choices_json
+from urlsafe import url_part_escape
 import sys
 from yaml import load
 
@@ -78,7 +79,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
     for gc in gc_reader:
         try:
             od_obj = {
-                'id': "{0}-{1}-{2}".format(gc['owner_org'], gc['ref_number'], gc['amendment_number']),
+                'id': url_part_escape("{0},{1},{2}".format(gc['owner_org'], gc['ref_number'], gc['amendment_number'])),
                 'ref_number_s': gc['ref_number'],
                 'owner_org_en_s':  get_bilingual_field(gc, 'owner_org_title', 'en').strip(),
                 'owner_org_fr_s': get_bilingual_field(gc, 'owner_org_title', 'fr').strip(),
@@ -203,7 +204,7 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
     for gc in gc_reader:
         try:
             od_obj = {
-                'id': "{0}-{1}-{2}".format(get_field(gc, 'owner_org'), get_field(gc, 'fiscal_year'), get_field(gc, 'quarter')),
+                'id': "{0},{1},{2}".format(get_field(gc, 'owner_org'), get_field(gc, 'fiscal_year'), get_field(gc, 'quarter')),
                 'owner_org_en_s': get_bilingual_field(gc, 'owner_org_title', 'en').strip(),
                 'owner_org_fr_s': get_bilingual_field(gc, 'owner_org_title', 'fr').strip(),
                 'fiscal_year_s': get_field(gc, 'fiscal_year'),

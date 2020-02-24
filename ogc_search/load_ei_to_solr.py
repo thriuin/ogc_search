@@ -7,6 +7,7 @@ import os
 import pysolr
 from search_util import get_bilingual_field, get_choices, get_field, get_choice_field
 import sys
+from urlsafe import url_part_escape
 from yaml import load
 try:
     from yaml import CLoader as Loader
@@ -38,7 +39,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as ei_file:
         total += 1
         try:
             od_obj = {
-                'id': "{0}_{1}".format(ei['reference_number'], ei['owner_org']),
+                'id': url_part_escape("{0},{1}".format(ei['owner_org'], ei['reference_number'])),
                 'ref_number_s': get_field(ei, 'reference_number'),
                 'titre_du_projet_en_s': get_field(ei, 'titre_du_projet_en'),
                 'titre_du_projet_fr_s': get_field(ei, 'titre_du_projet_fr'),

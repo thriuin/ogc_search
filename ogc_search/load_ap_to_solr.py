@@ -79,7 +79,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
     for nap in nap_reader:
         try:
             od_obj = {
-                'id': urlsafe.url_part_unescape("{0},{1}".format(nap['reporting_period'],nap['indicators'])),
+                'id': urlsafe.url_part_escape("{0},{1}".format(nap['reporting_period'], nap['indicators'])),
                 'commitments_en_s': nap['commitments'] + " - " + controlled_lists['commitments']['en'][nap['commitments']],
                 'commitments_fr_s': nap['commitments'] + " - " + controlled_lists['commitments']['fr'][nap['commitments']],
                 'commitment_txt_en': controlled_lists['commitments']['en'][nap['commitments']],

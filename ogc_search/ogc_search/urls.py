@@ -72,7 +72,7 @@ if settings.GC_ENABLED:
         path('gc/', GCSearchView.as_view(), name='GCQuery'),
         path('gc/export/', GCExportView.as_view(), name='GCExport'),
         path('gc/amend/<slug:slug>', GCAmendmentView.as_view(), name='GCAmendment'),
-        path('gc/id/<slug:slug>', GCRecordView.as_view(), name='GCRecord')
+        path('gc/id/<path:slug>', GCRecordView.as_view(), name='GCRecord')
     )
 
 if settings.NAP_ENABLED:

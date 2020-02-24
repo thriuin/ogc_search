@@ -2,13 +2,15 @@
 
 
 from babel.dates import format_date
+import bleach
 from django import template
 from django.conf import settings
 from django.utils.translation import gettext
 from dateutil import parser
 import json
 import markdown2
-import bleach
+from urlsafe import url_part_unescape
+
 
 register = template.Library()
 
@@ -165,3 +167,8 @@ def markdown_filter(text):
     text = markdown2.markdown(text, extras=settings.MARKDOWN_FILTER_EXTRAS)
     html = bleach.clean(text, tags=settings.MARKDOWN_FILTER_WHITELIST_TAGS)
     return bleach.linkify(html)
+
+
+@register.filter('url_part_unescape')
+def url_part_unescape_filter(value: str):
+    return url_part_unescape(value)

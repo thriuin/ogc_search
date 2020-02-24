@@ -14,7 +14,7 @@ loaded into custom Solr cores that customized specifically to support Canada's t
    
 ## Setup
 
-OGC Search is a Django 2.1 application that runs on Python 3.6 or higher. It also requires Solr 6.6.2,
+OGC Search is a Django 2.2 application that runs on Python 3.6 or higher. It also requires Solr 6.6.2,
 which is compatible with the version of Solr currently in use with Open Canada.
 
  #### ogc_search
@@ -25,7 +25,7 @@ which is compatible with the version of Solr currently in use with Open Canada.
  
  `pip install -r requirements.txt`
  
- OGC Search is built using [Django 2.1](https://www.djangoproject.com/).
+ OGC Search is built using [Django 2.2](https://www.djangoproject.com/).
  Familiarity with Django is prerequisite to developing with the OGC Search. 
  * **NLTK Data** OGC Search uses the NLTK python library and requires the Punkt tokenizers which are 
    available from https://www.nltk.org/nltk_data/. These datafiles must be accessible
@@ -50,14 +50,37 @@ which is compatible with the version of Solr currently in use with Open Canada.
   to a new local folder, for example /themes-dist-GCWeb located in the project root.
 
  #### Setting up Solr
-  Download and install Apache Solr 6.6.x from the [Apache repo](https://archive.apache.org/dist/lucene/solr/6.6.6/)
-  After installing, create at least one new Solr core for the default search. Once the core
+ 
+  [Download and install Apache Solr 8.4.x](https://lucene.apache.org/solr/downloads.html) or alternatively
+  download an older version 6.6.x from the [Apache repo](https://archive.apache.org). Follow the Solr [installation
+  instructions](https://lucene.apache.org/solr/guide/8_4/taking-solr-to-production.html). 
+  
+  After installing Solr, create at least one new Solr core for the default search. Once the core
   has been created, customize it for OGC Search.
 - As the `solr` user create a new core: `solr -c <core_name> create`
 - In the /conf folder of the new Solr core, remove the file `managed-schema` and copy the new
-  `schema.xml`  and `solrconfig.xml` from the corresponding search application project solr folder. 
-- Copy the `/lang` folder and the `synonyms_en.txt` and `synonyms_fr.txt` files from the project to the new Solr core /conf folder 
+  `schema.xml`  and `solrconfig.xml` from the corresponding search application project Solr folder. 
+  Be sure to use the schema from the appropriate version folder.
+- Copy the `/lang` folder from the project to the new Solr core's `/conf` folder 
 - Verify the new core is working using the Solr admin interface
+
+
+The unique index for each Solr core, matches as closely as possible the `datastore_primary_key` field from
+the corresponding CKAN YAML file.
+
+<a name="table1" >Table 1: Identifier Map</a>
+
+Data Type | CKAN | Search
+--------- | ---- | ------
+Briefing Note | tracking_number | owner_org,tracking_number
+Contracts | reference_number | owner_org,reference_number<br>owner_org,reporting_period
+Experimental Inventory | reference_number | owner_org,reference_number
+Grants and Contributions | ref_number,amendment_number | owner_org,ref_number,amendment_number<br>owner_org.fiscal_year,quarter
+NAP | reporting_period,indicators | owner_org, reporting_period,indicators
+Question Period Briefing Notes | reference_number | owner_org,reference_number
+Service Inventory | fiscal_yr,service_id | owner_org,fiscal_yr,service_id
+Open Data | name | name (Package UUID)
+
 
  #### Static Files
   

@@ -7,6 +7,7 @@ import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
     get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field
 import sys
+from urlsafe import url_part_escape
 from yaml import load
 try:
     from yaml import CLoader as Loader
@@ -56,7 +57,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
         total += 1
         try:
             od_obj = {
-                'id': "{0}_{1}".format(gc['reference_number'], gc['owner_org']),
+                'id': url_part_escape("{0},{1}".format(gc['owner_org'], gc['reference_number'])),
                 'ref_number_s': get_field(gc, 'reference_number'),
                 'procurement_id_s': get_field(gc, 'procurement_id'),
                 'vendor_name_s': get_field(gc, 'vendor_name').title(),
@@ -167,7 +168,6 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['contract_start_s'] = "-"
                 od_obj['contract_year_s'] = ""
                 od_obj['contract_month_s'] = ""
-                print("Missing contract start date field: {0}".format(od_obj['id']))
 
             if not gc['delivery_date'] == "":
                 delivery_dt: datetime = datetime.strptime(gc['delivery_date'], '%Y-%m-%d')
@@ -290,6 +290,7 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
         try:
             #
             od_obj = {
+                'id': url_part_escape("{0},{1}".format(gc['owner_org'], gc['reporting_period'])),
                 'owner_org_en_s': get_bilingual_field(gc, 'owner_org_title', 'en').strip(),
                 'owner_org_fr_s': get_bilingual_field(gc, 'owner_org_title', 'fr').strip(),
                 'reporting_period_s': get_field(gc, 'reporting_period'),

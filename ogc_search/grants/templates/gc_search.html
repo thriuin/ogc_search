@@ -159,7 +159,7 @@
                             {% endspaceless %}
                             <details>{% spaceless %}
                                 <summary>{% trans 'Details' %}</summary>
-                                <strong>{% trans 'Ref #' %}</strong> </strong><a href="/{{ LANGUAGE_CODE }}/gc/id/{{ doc.id }}">{{ doc.ref_number_txt_ws | safe }}</a> <em> ({{ doc.agreement_type_fr_s }})</em><br>{# There is ALWAYS a reference no. #}
+                                <strong>{% trans 'Ref #' %}</strong> <a href="/{{ LANGUAGE_CODE }}/gc/id/{{ doc.id | url_part_unescape }}">{{ doc.ref_number_txt_ws | safe }}</a> <em> ({{ doc.agreement_type_fr_s }})</em><br>{# There is ALWAYS a reference no. #}
                                 {% if not doc.recipient_business_number_s == "-" %}<strong>{% trans 'Recipient Business Number:' %}</strong> {{ doc.recipient_business_number_s | safe}}<br>{% endif %}
                                 {% if not doc.additional_information_txt_fr == "-" %}{{ doc.additional_information_txt_fr | markdown_filter | safe }}{% endif %}
                                 {% if not doc.amendment_number_s == '0' and not doc.amendment_number_s == 'current' %}<strong>{% trans 'Amendment #' %}</strong> {% trans doc.amendment_number_s %} {% if doc.amendment_date_s %}{% if not doc.amendment_date_s == "-" %} ({{ doc.amendment_date_s }}){% endif %}{% endif %}<br>{% endif %}
@@ -190,7 +190,7 @@
                             {% endspaceless %}
                             <details>{% spaceless %}
                                 <summary>{% trans 'Details' %}</summary>
-                                <strong>{% trans 'Ref #' %}</strong> <a href="/{{ LANGUAGE_CODE }}/gc/id/{{ doc.id }}">{{ doc.ref_number_txt_ws | safe }}</a> <em> ({{ doc.agreement_type_en_s }})</em><br>{# There is ALWAYS a reference no. #}
+                                <strong>{% trans 'Ref #' %}</strong> <a href="/{{ LANGUAGE_CODE }}/gc/id/{{ doc.id | url_part_unescape }}">{{ doc.ref_number_txt_ws | safe }}</a> <em> ({{ doc.agreement_type_en_s }})</em><br>{# There is ALWAYS a reference no. #}
                                 {% if not doc.recipient_business_number_s == "-" %}<strong>{% trans 'Recipient Business Number:' %}</strong> {{ doc.recipient_business_number_s | safe}}<br>{% endif %}
                                 {% if not doc.additional_information_txt_en == "-" %}<strong>{% trans "Additional Information:" %}</strong>{{ doc.additional_information_txt_en | markdown_filter | safe }}{% endif %}
                                 {% if not doc.amendment_number_s == 'current' %}<strong>{% trans 'Amendment #' %}</strong> {% trans doc.amendment_number_s %} {% if doc.amendment_date_s %}{% if not doc.amendment_date_s == "-" %}({{ doc.amendment_date_s }}){% endif %}{% endif %}<br>{% endif %}

@@ -7,6 +7,7 @@ import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
     get_choice_field, get_bilingual_dollar_range
 import sys
+from urlsafe import url_part_escape
 from yaml import load
 try:
     from yaml import CLoader as Loader
@@ -105,7 +106,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as file:
         minister_name = get_minister_from_position(csvRow['minister'], csvRow['date_received'], 'en', False)
         try:
             solrDoc = {
-                'id': "{0}_{1}".format(csvRow['reference_number'], csvRow['owner_org']),
+                'id': url_part_escape("{0},{1}".format(csvRow['owner_org'], csvRow['reference_number'])),
                 'owner_org_s': get_field(csvRow, 'owner_org'),
                 'reference_number_s': get_field(csvRow, 'reference_number'),
                 'title_en_s': get_field(csvRow, 'title_en'),
