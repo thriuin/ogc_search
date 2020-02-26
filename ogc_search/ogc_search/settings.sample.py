@@ -242,6 +242,7 @@ OPEN_DATA_FR_FGP_BASE = "https://ouvert.canada.ca/data/fr/fgpv_vpgf/"
 OPEN_DATA_DATASET_ID = "c4c5c7f1-bfa6-4ff6-b4a0-c164cb2060f7"
 OPEN_DATA_DATASET_TITLE_EN = "Open Data Portal Catalogue Dataset"
 OPEN_DATA_DATASET_TITLE_FR = "Catalogue du portail de données ouvertes ensemble de données"
+OPEN_DATA_ITEMS_PER_PAGE = 10
 
 # conditional banners on Open Data App
 OPEN_MAPS_INFO_EN = "<h3>Open Maps</h3> Search for geospatial data or click <b>Add to cart</b> to select multiple " \

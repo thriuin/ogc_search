@@ -207,7 +207,7 @@ class EISearchView(View):
                                                     start_row=str(start_row), pagesize=str(items_per_page),
                                                     facets=facets_dict,
                                                     sort_order=solr_search_sort,
-                                                    facet_limit=200)
+                                                    facet_limit={'facet.limit': 200})
         else:
             search_results = search_util.solr_query(solr_search_terms,
                                                     settings.SOLR_EI,
@@ -218,7 +218,7 @@ class EISearchView(View):
                                                     start_row=str(start_row), pagesize=str(items_per_page),
                                                     facets=facets_dict,
                                                     sort_order=solr_search_sort,
-                                                    facet_limit=200)
+                                                    facet_limit={'facet.limit': 200})
 
         context['results'] = search_results
         export_url = "/{0}/ei/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())

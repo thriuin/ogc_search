@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from django.views.generic import View
 import logging
-from math import ceil
 import csv
 import hashlib
 import os
@@ -15,56 +14,6 @@ import time
 
 logger = logging.getLogger('ogc_search')
 
-
-def _convert_facet_list_to_dict(facet_list: dict, reverse=False) -> dict:
-    """
-    Solr returns search facet results in the form of an alternating list. Convert the list into a dictionary key
-    on the facet
-    :param facet_list: facet list returned by Solr
-    :param reverse: boolean flag indicating if the search results should be returned in reverse order
-    :return: A dictonary of the facet values and counts
-    """
-    facet_dict = {}
-    for i in range(0, len(facet_list)):
-        if i % 2 == 0:
-            facet_dict[facet_list[i]] = facet_list[i + 1]
-    if reverse:
-        rkeys = sorted(facet_dict,  reverse=True)
-        facet_dict_r = {}
-        for k in rkeys:
-            facet_dict_r[k] = facet_dict[k]
-        return facet_dict_r
-    else:
-        return facet_dict
-
-
-def _calc_pagination_range(results, pagesize, current_page):
-    pages = int(ceil(results.hits / pagesize))
-    delta = 2
-    if current_page > pages:
-        current_page = pages
-    elif current_page < 1:
-        current_page = 1
-    left = current_page - delta
-    right = current_page + delta + 1
-    pagination = []
-    spaced_pagination = []
-
-    for p in range(1, pages + 1):
-        if (p == 1) or (p == pages) or (left <= p < right):
-            pagination.append(p)
-
-    last = None
-    for p in pagination:
-        if last:
-            if p - last == 2:
-                spaced_pagination.append(last + 1)
-            elif p - last != 1:
-                spaced_pagination.append(0)
-        spaced_pagination.append(p)
-        last = p
-
-    return spaced_pagination
 
 # Credit to https://gist.github.com/kgriffs/c20084db6686fee2b363fdc1a8998792 for this function
 def _create_pattern(version):
@@ -79,10 +28,10 @@ def _create_pattern(version):
         re.IGNORECASE
 )
 
-# Create your views here.
 
 def default_search(request):
     return redirect('/od')
+
 
 def handle_404_error(request, exception=None):
     context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE,)
@@ -166,7 +115,7 @@ class ODSearchView(View):
             'mm': '3<70%',
             'bq': 'last_modified_tdt:[NOW/DAY-2YEAR TO NOW/DAY]',
             'pf2': self.solr_bigram_fields_en,
-            'pf3': self.solr_bigram_fields_en
+            'pf3': self.solr_bigram_fields_en,
         }
         self.phrase_xtras_fr = {
             'hl': 'on',
@@ -184,90 +133,6 @@ class ODSearchView(View):
         }
         self.uuid_regex = _create_pattern('[1-5]')
 
-    @staticmethod
-    def split_with_quotes(csv_string):
-        # As per https://stackoverflow.com/a/23155180
-        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
-
-    def solr_query(self, q, startrow='0', pagesize='10', facets={}, language='en', search_text='',
-                   sort_order='score asc', ids=''):
-        solr = pysolr.Solr(settings.SOLR_URL)
-        solr_facets = []
-
-        if language == 'fr':
-            extras = {
-                'start': startrow,
-                'rows': pagesize,
-                'facet': 'on',
-                'facet.sort': 'index',
-                'facet.field': self.solr_facet_fields_fr,
-                'fq': solr_facets,
-                'fl': self.solr_fields_fr,
-                'defType': 'edismax',
-                'qf': self.solr_query_fields_fr,
-                'sort': sort_order,
-            }
-            extras.update(self.solr_facet_limits_fr)
-        else:
-            extras = {
-                'start': startrow,
-                'rows': pagesize,
-                'facet': 'on',
-                'facet.sort': 'index',
-                'facet.field': self.solr_facet_fields_en,
-                'fq': solr_facets,
-                'fl': self.solr_fields_en,
-                'defType': 'edismax',
-                'qf': self.solr_query_fields_en,
-                'sort': sort_order,
-            }
-            extras.update(self.solr_facet_limits_en)
-
-        # Regular search, facets are respected
-        if ids == '':
-            for facet in facets.keys():
-                if facets[facet] != '':
-                    facet_terms = facets[facet].split('|')
-                    quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
-                    facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
-                    solr_facets.append(facet_text)
-
-            if q != '*':
-                if language == 'fr':
-                    extras.update(self.phrase_xtras_fr)
-                elif language == 'en':
-                    extras.update(self.phrase_xtras_en)
-        else:
-            ids_list = str(ids).split(',')
-            q = ""
-            for id in ids_list:
-                if self.uuid_regex.match(id):
-                    q += 'id_s:"{0}" OR '.format(id)
-            if q.endswith(' OR '):
-                q = q[:-4]
-
-        sr = solr.search(q, **extras)
-
-        # If there are highlighted results, substitute the highlighted field in the doc results
-
-        for doc in sr.docs:
-            if doc['id'] in sr.highlighting:
-                hl_entry = sr.highlighting[doc['id']]
-                for hl_fld_id in hl_entry:
-                    if hl_fld_id in doc and len(hl_entry[hl_fld_id]) > 0:
-                        if type(doc[hl_fld_id]) is list:
-                            # Scan Multi-valued Solr fields for matching highlight fields
-                            for y in hl_entry[hl_fld_id]:
-                                y_filtered = re.sub('</mark>', '', re.sub(r'<mark>', "", y))
-                                x = 0
-                                for hl_fld_txt in doc[hl_fld_id]:
-                                    if hl_fld_txt == y_filtered:
-                                        doc[hl_fld_id][x] = y
-                                    x += 1
-                        else:
-                            # Straight-forward field replacement with highlighted text
-                            doc[hl_fld_id] = hl_entry[hl_fld_id][0]
-        return sr
 
     def get(self, request):
 
@@ -386,62 +251,76 @@ class ODSearchView(View):
 
         # Retrieve search results and transform facets results to python dict
 
-        search_results = self.solr_query(solr_search_terms, startrow=str(start_row), pagesize='10', facets=facets_dict,
-                                         language=request.LANGUAGE_CODE, search_text=search_text,
-                                         sort_order=solr_search_sort, ids=solr_search_ids)
+        if request.LANGUAGE_CODE == 'fr':
+            search_results = search_util.solr_query(solr_search_terms, settings.SOLR_URL, self.solr_fields_fr,
+                                                    self.solr_query_fields_fr, self.solr_facet_fields_fr,
+                                                    self.phrase_xtras_fr, start_row=str(start_row),
+                                                    pagesize=str(settings.OPEN_DATA_ITEMS_PER_PAGE),
+                                                    facets=facets_dict, sort_order=solr_search_sort,
+                                                    uuid_list=solr_search_ids, facet_limit=self.solr_facet_limits_fr
+                                                    )
+        else:
+            search_results = search_util.solr_query(solr_search_terms, settings.SOLR_URL, self.solr_fields_en,
+                                                    self.solr_query_fields_en, self.solr_facet_fields_en,
+                                                    self.phrase_xtras_en, start_row=str(start_row),
+                                                    pagesize=str(settings.OPEN_DATA_ITEMS_PER_PAGE),
+                                                    facets=facets_dict, sort_order=solr_search_sort,
+                                                    uuid_list=solr_search_ids, facet_limit=self.solr_facet_limits_en
+                                                    )
+
 
         export_url = "/{0}/od/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
 
         context['export_url'] = export_url
 
         if request.LANGUAGE_CODE == 'fr':
-            context['portal_facets'] = _convert_facet_list_to_dict(
+            context['portal_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['portal_type_fr_s'])
-            context['collection_facets'] = _convert_facet_list_to_dict(
+            context['collection_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['collection_type_fr_s'])
-            context['jurisdiction_facets'] = _convert_facet_list_to_dict(
+            context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['jurisdiction_fr_s'])
-            context['org_facets_en'] = _convert_facet_list_to_dict(
+            context['org_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_title_fr_s'])
-            context['org_facets_fr'] = _convert_facet_list_to_dict(
+            context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_title_fr_s'])
-            context['keyword_facets'] = _convert_facet_list_to_dict(
+            context['keyword_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['keywords_fr_s'])
-            context['subject_facets'] = _convert_facet_list_to_dict(
+            context['subject_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['subject_fr_s'])
-            context['format_facets'] = _convert_facet_list_to_dict(
+            context['format_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['resource_format_s'])
-            context['type_facets'] = _convert_facet_list_to_dict(
+            context['type_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['resource_type_fr_s'])
-            context['frequency_facets'] = _convert_facet_list_to_dict(
+            context['frequency_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['update_cycle_fr_s'])
         else:
-            context['portal_facets'] = _convert_facet_list_to_dict(
+            context['portal_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['portal_type_en_s'])
-            context['collection_facets'] = _convert_facet_list_to_dict(
+            context['collection_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['collection_type_en_s'])
-            context['jurisdiction_facets'] = _convert_facet_list_to_dict(
+            context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['jurisdiction_en_s'])
-            context['org_facets_en'] = _convert_facet_list_to_dict(
+            context['org_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_title_en_s'])
-            context['org_facets_fr'] = _convert_facet_list_to_dict(
+            context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_title_en_s'])
-            context['keyword_facets'] = _convert_facet_list_to_dict(
+            context['keyword_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['keywords_en_s'])
-            context['subject_facets'] = _convert_facet_list_to_dict(
+            context['subject_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['subject_en_s'])
-            context['format_facets'] = _convert_facet_list_to_dict(
+            context['format_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['resource_format_s'])
-            context['type_facets'] = _convert_facet_list_to_dict(
+            context['type_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['resource_type_en_s'])
-            context['frequency_facets'] = _convert_facet_list_to_dict(
+            context['frequency_facets'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['update_cycle_en_s'])
 
         context['results'] = search_results
 
         # Set up previous and next page numbers
 
-        pagination = _calc_pagination_range(context['results'], 10, page)
+        pagination = search_util.calc_pagination_range(context['results'], 10, page)
         context['pagination'] = pagination
         context['previous_page'] = (1 if page == 1 else page - 1)
         last_page = (pagination[len(pagination) - 1] if len(pagination) > 0 else 1)
@@ -469,7 +348,7 @@ class ODSearchView(View):
         return render(request, "od_search.html", context)
 
 
-class ODExportView(View):
+class ODExportView(ODSearchView):
     """
     A view for downloading a simple CSV containing a subset of the fields from the Search View.
     """
@@ -486,62 +365,6 @@ class ODExportView(View):
             os.mkdir(self.cache_dir)
         self.uuid_regex = _create_pattern('[1-5]')
 
-    def cache_search_results_file(self, cached_filename: str, sr: pysolr.Results):
-
-        if not os.path.exists(cached_filename):
-            with open(cached_filename, 'w', newline='', encoding='utf8') as csvfile:
-                cache_writer = csv.writer(csvfile, dialect='excel')
-                headers = self.solr_fields[0].split(',')
-                headers[0] = u'\N{BOM}' + headers[0]
-                cache_writer.writerow(headers)
-                for i in sr.docs:
-                    try:
-                        cache_writer.writerow(i.values())
-                    except UnicodeEncodeError:
-                        pass
-        return True
-
-    @staticmethod
-    def split_with_quotes(csv_string):
-        return re.findall(r'[^"\s]\S*|".+?"', csv_string)
-
-    def solr_query(self, q, facets={}, language='en', sort_order='last_modified_tdt desc', ids=''):
-
-        solr = pysolr.Solr(settings.SOLR_URL, search_handler='/export')
-        solr_facets = []
-        for facet in facets.keys():
-            if facets[facet] != '':
-                facet_terms = facets[facet].split(',')
-                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
-                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
-                solr_facets.append(facet_text)
-
-        if language == 'fr':
-            extras = {
-                'fq': solr_facets,
-                'fl': self.solr_fields,
-                'defType': 'edismax',
-                'qf': self.solr_query_fields_fr,
-                'sort': sort_order,
-            }
-        else:
-            extras = {
-                'fq': solr_facets,
-                'fl': self.solr_fields,
-                'defType': 'edismax',
-                'qf': self.solr_query_fields_en,
-                'sort': sort_order,
-            }
-        if not ids == '':
-            ids_list = str(ids).split(',')
-            q = ""
-            for id in ids_list:
-                if self.uuid_regex.match(id):
-                    q += 'id:{0} OR '.format(id)
-            if q.endswith(' OR '):
-                q = q[:-4]
-        sr = solr.search(q, **extras)
-        return sr
 
     def get(self, request: HttpRequest):
 
@@ -580,7 +403,7 @@ class ODExportView(View):
             search_text = str(request.GET.get('search_text', ''))
 
             # Respect quoted strings
-            search_terms = self.split_with_quotes(search_text)
+            search_terms = search_util.split_with_quotes(search_text)
             if len(search_terms) == 0:
                 solr_search_terms = "*"
             elif len(search_terms) == 1:
@@ -621,10 +444,14 @@ class ODExportView(View):
                                resource_type_en_s=solr_search_rsct,
                                update_cycle_en_s=solr_search_updc)
 
-        search_results = self.solr_query(solr_search_terms, facets=facets_dict, language=request.LANGUAGE_CODE,
-                                         ids=solr_search_ids)
-        self.cache_search_results_file(cached_filename, search_results)
-        if settings.EXPORT_FILE_CACHE_URL == "":
-            return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
-        else:
-            return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+        search_results = search_util.solr_query_for_export(solr_search_terms, settings.SOLR_URL, self.solr_fields,
+                                                           self.solr_query_fields_en, self.solr_facet_fields_en,
+                                                           "id asc", facets_dict, self.phrase_xtras_en, solr_search_ids)
+
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
+                                                 solr_fields=self.solr_fields):
+            if settings.EXPORT_FILE_CACHE_URL == "":
+                return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
+            else:
+                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))

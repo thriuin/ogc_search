@@ -13,6 +13,20 @@ import re
 logger = logging.getLogger('ogc_search')
 
 
+# Credit to https://gist.github.com/kgriffs/c20084db6686fee2b363fdc1a8998792 for this function
+def uuid_pattern(version):
+    return re.compile(
+        (
+            '[a-f0-9]{8}-' +
+            '[a-f0-9]{4}-' +
+            version + '[a-f0-9]{3}-' +
+            '[89ab][a-f0-9]{3}-' +
+            '[a-f0-9]{12}$'
+        ),
+        re.IGNORECASE
+)
+
+
 def convert_facet_list_to_dict(facet_list: list, reverse: bool = False) -> dict:
     """
     Solr returns search facet results in the form of an alternating list. Convert the list into a dictionary key
@@ -89,7 +103,8 @@ def calc_starting_row(page_num, rows_per_age=10):
 
 
 def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, phrases_extra,
-               start_row='0', pagesize='10', facets={}, sort_order='score asc', facet_limit=''):
+               start_row='0', pagesize='10', facets={}, sort_order='score asc', facet_limit='',
+               uuid_list=''):
     solr = pysolr.Solr(solr_url)
     solr_facets = []
     extras = {
@@ -105,17 +120,28 @@ def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, p
             'sort': sort_order,
         }
     if facet_limit:
-        extras.update({'facet.limit': facet_limit})
+        extras.update(facet_limit)
 
-    for facet in facets.keys():
-        if facets[facet] != '':
-            facet_terms = facets[facet].split('|')
-            quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
-            facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
-            solr_facets.append(facet_text)
+    # Regular search, facets are respected
+    if uuid_list == '':
+        for facet in facets.keys():
+            if facets[facet] != '':
+                facet_terms = facets[facet].split('|')
+                quoted_terms = ['"{0}"'.format(item) for item in facet_terms]
+                facet_text = '{{!tag=tag_{0}}}{0}:({1})'.format(facet, ' OR '.join(quoted_terms))
+                solr_facets.append(facet_text)
 
-    if q != '*':
-        extras.update(phrases_extra)
+        if q != '*':
+            extras.update(phrases_extra)
+    else:
+        ids_list = str(uuid_list).split(',')
+        q = ""
+        uuid_regex = uuid_pattern('[1-5]')
+        for id in ids_list:
+            if uuid_regex.match(id):
+                q += 'id:"{0}" OR '.format(id)
+        if q.endswith(' OR '):
+            q = q[:-4]
 
     sr = solr.search(q, **extras)
 
@@ -157,7 +183,7 @@ def get_search_terms(request: HttpRequest):
 
 
 def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, sort_order, facets={},
-                          phrase_extras={}):
+                          phrase_extras={}, id_list=''):
 
     solr = pysolr.Solr(solr_url, search_handler='/export')
     solr_facets = []
@@ -182,6 +208,15 @@ def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_face
     if q != '*':
         extras.update(phrase_extras)
 
+    if not id_list == '':
+        uuid_regex = uuid_pattern('[1-5]')
+        ids_list = str(id_list).split(',')
+        q = ""
+        for id in ids_list:
+            if uuid_regex.match(id):
+                q += 'id:{0} OR '.format(id)
+        if q.endswith(' OR '):
+            q = q[:-4]
     sr = solr.search(q, **extras)
 
     return sr
