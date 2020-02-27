@@ -128,10 +128,14 @@
                                     {{ doc.title_txt_fr | safe }}
                                 {% endif %}
                             </h4>
+
                         </div>
                         <div class="col-sm-4 text-right">
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">{{ doc.date_received_fmt_s | safe }}</h4>
-                            <small><a href="/{{ LANGUAGE_CODE }}/bn/note/{{ doc.id | url_part_unescape | safe }}">{% trans 'Ref #' %} {{ doc.tracking_number_s | safe }}</a></small>
+                            <small>{% trans 'Ref #' %} {{ doc.tracking_number_s | safe }}</small>&nbsp;
+                            <a href="/{{ LANGUAGE_CODE }}/bn/note/{{ doc.id | url_part_unescape | safe }}">
+                                <span class="glyphicon glyphicon-share" aria-label="{% trans "Details" %}"></span>
+                            </a>
                         </div>
 
                         <div class="col-sm-12">
@@ -150,7 +154,7 @@
                             <strong>Organization</strong>: {{ doc.owner_org_en_s }}<br>
                             <strong>Sector</strong>: {{ doc.org_sector_en_s | safe }}<br>
                             <strong>Addressee</strong>: {{ doc.addressee_en_s }}<br>
-                            <strong>Action Required</strong>: {{ doc.action_required_en_s }}</>
+                            <strong>Action Required</strong>: {{ doc.action_required_en_s }}
                         {% endif %}
                         </div>
                      </div>

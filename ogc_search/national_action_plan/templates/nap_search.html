@@ -127,10 +127,14 @@
                                         <div class="col-sm-10">
                                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                                 {% if LANGUAGE_CODE == 'fr' %}
-                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id | url_part_unescape }}">{{ doc.indicators_fr_s }}</a> - {{ doc.ind_full_text_fr_s }}
+                                                    {{ doc.indicators_fr_s }} - {{ doc.ind_full_text_fr_s }}
                                                 {% else %}
-                                                    <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id | url_part_unescape }}">{{ doc.indicators_en_s }}</a> - {{ doc.ind_full_text_en_s }}
+                                                    {{ doc.indicators_en_s }} - {{ doc.ind_full_text_en_s }}
                                                 {% endif %}
+                                                &nbsp;
+                                                <a href="/{{ LANGUAGE_CODE }}/nap/id/{{ doc.id | url_part_unescape }}">
+                                                    <span class="glyphicon glyphicon-share" aria-label="{% trans "Details" %}"></span>
+                                                </a>
                                             </h4>
                                         </div>
                                         <div class="col-sm-2">
@@ -138,7 +142,6 @@
                                         </div>
                                         <div class="col-sm-12">
                                             {% if LANGUAGE_CODE == 'fr' %}
-
                                                     <strong>{% trans 'Milestone' %}</strong>: <a
                                                         href="{{ oc_fr_url }}{{ doc.commitment_nap_url_fr_s }}"
                                                 >{{ doc.milestone_fr_s }} - {{ doc.milestone_full_text_fr_s }}</a><br>
