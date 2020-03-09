@@ -279,7 +279,7 @@
                                         <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                             <label><input type="checkbox"
                                                      {% if k in minister_selected_list %} checked="checked"{% endif %}
-                                                     onclick='select_facet("{{ k }}", "qp-search-minister")' value="{{ k }}"> {{ k  }}</label></div>
+                                                     onclick='select_facet("{{ k | escapejs }}", "qp-search-minister")' value="{{ k }}"> {{ k  }}</label></div>
                                             <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                         </div>
                                     </li>
@@ -293,7 +293,7 @@
                                         <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                             <label><input type="checkbox"
                                                      {% if k in minister_selected_list %} checked="checked"{% endif %}
-                                                     onclick='select_facet("{{ k }}", "qp-search-minister")' value="{{ k }}"> {{ k  }}</label></div>
+                                                     onclick='select_facet("{{ k | escapejs }}", "qp-search-minister")' value="{{ k }}"> {{ k  }}</label></div>
                                             <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                         </div>
                                     </li>
@@ -318,7 +318,7 @@
                                         <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                             <label><input type="checkbox"
                                             {% if k in minister_position_selected_list %} checked="checked"{% endif %}
-                                                  onclick='select_facet("{{ k }}", "qp-search-minister-positions")' value="{{ k }}"> {{ k }}</label>
+                                                  onclick='select_facet("{{ k | escapejs }}", "qp-search-minister-positions")' value="{{ k }}"> {{ k }}</label>
                                         </div>
                                         <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                     </div>
@@ -333,7 +333,7 @@
                                         <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                             <label><input type="checkbox"
                                             {% if k in minister_position_selected_list %} checked="checked"{% endif %}
-                                                  onclick='select_facet("{{ k }}", "qp-search-minister-positions")' value="{{ k }}"> {{ k }}</label>
+                                                  onclick='select_facet("{{ k | escapejs }}", "qp-search-minister-positions")' value="{{ k }}"> {{ k }}</label>
                                         </div>
                                         <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                     </div>
@@ -360,7 +360,7 @@
                                     <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                         <label><input type="checkbox"
                                         {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                              onclick='select_facet("{{ k }}", "qp-search-orgs")' value="{{ k }}"
+                                              onclick='select_facet("{{ k | escapejs }}", "qp-search-orgs")' value="{{ k }}"
                                         style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
                                     <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                 </div>
@@ -375,7 +375,7 @@
                                     <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                         <label><input type="checkbox"
                                         {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                              onclick='select_facet("{{ k }}", "qp-search-orgs")' value="{{ k }}"
+                                              onclick='select_facet("{{ k | escapejs }}", "qp-search-orgs")' value="{{ k }}"
                                         style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
                                     <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                 </div>
@@ -400,7 +400,7 @@
                                     <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                         <label><input type="checkbox"
                                                  {% if k in year_selected_list %} checked="checked"{% endif %}
-                                                 onclick='select_facet("{{ k }}", "qp-search-year")' value="{{ k }}"> {{ k }}</label>
+                                                 onclick='select_facet("{{ k | escapejs }}", "qp-search-year")' value="{{ k }}"> {{ k }}</label>
                                     </div>
                                     <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                 </div>
@@ -425,7 +425,7 @@
                                         <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                             <label><input type="checkbox"
                                                      {% if k in month_selected_list %} checked="checked"{% endif %}
-                                                     onclick='select_facet("{{ k }}", "qp-search-month")' value="{{ k }}"> {{ k | ToMonth }}</label>
+                                                     onclick='select_facet("{{ k | escapejs }}", "qp-search-month")' value="{{ k }}"> {{ k | ToMonth }}</label>
                                         </div>
                                         <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
                                     </div>

@@ -302,12 +302,15 @@
                             {% for k, v in report_type_fr_s.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                              {% if k in type_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k }}", "gc-search-report-type")'
+                                             onclick='select_facet("{{ k | escapejs }}", "gc-search-report-type")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k  }} ({{ v }})</label></div>
+                                    > {{ k  }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -315,12 +318,15 @@
                             {% for k, v in report_type_en_s.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9  h6">
                                     <label><input type="checkbox"
                                              {% if k in type_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k }}", "gc-search-report-type")'
+                                             onclick='select_facet("{{ k | escapejs }}", "gc-search-report-type")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k }} ({{ v }})</label></div>
+                                    > {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -341,11 +347,14 @@
                             {% for k, v in org_facets_fr.items %}
                             {% if v > 0 %}
                             <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick='select_facet("{{ k }}", "gc-search-orgs")' value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                                          onclick='select_facet("{{ k | escapejs }}", "gc-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -353,11 +362,14 @@
                             {% for k, v in org_facets_en.items %}
                             {% if v > 0 %}
                             <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick='select_facet("{{ k }}", "gc-search-orgs")' value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                                          onclick='select_facet("{{ k | escapejs }}", "gc-search-orgs")' value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -375,12 +387,15 @@
                             {% for k, v in year_i.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in year_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                              {% if k in year_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k }}", "gc-search-year")'
+                                             onclick='select_facet("{{ k | escapejs }}", "gc-search-year")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k }} ({{ v }})</label></div>
+                                    > {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -398,12 +413,15 @@
                             {% for k, v in agreement_type_facets_fr.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in agreement_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                              {% if k in agreement_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k }}", "gc-search-agreement-type")'
+                                             onclick='select_facet("{{ k | escapejs }}", "gc-search-agreement-type")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k  }} ({{ v }})</label></div>
+                                    > {{ k  }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -411,12 +429,15 @@
                             {% for k, v in agreement_type_facets_en.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in agreement_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                              {% if k in agreement_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k }}", "gc-search-agreement-type")'
+                                             onclick='select_facet("{{ k | escapejs }}", "gc-search-agreement-type")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k }} ({{ v }})</label></div>
+                                    > {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -435,12 +456,15 @@
                             {% for k, v in agreement_value_range_facets_fr.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in range_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                              {% if k in range_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k }}", "gc-search-agreement-range")'
+                                             onclick='select_facet("{{ k | escapejs }}", "gc-search-agreement-range")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k | trim_left:4 }} ({{ v }})</label></div>
+                                    > {{ k | trim_left:4 }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -448,12 +472,15 @@
                             {% for k, v in agreement_value_range_facets_en.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in range_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                              {% if k in range_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k }}", "gc-search-agreement-range")'
+                                             onclick='select_facet("{{ k | escapejs }}", "gc-search-agreement-range")'
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k | trim_left:4 }} ({{ v }})</label></div>
+                                    > {{ k | trim_left:4 }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -505,4 +532,8 @@
 {% endblock %}
 {% block custom-jquery %}
 <script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
+<style> {# Handle the item count on the facets with a selected item #}
+.list-group-item.active .badge {background-color: #ffffff; color: #2572b4}
+.label {white-space: normal}
+</style>
 {% endblock %}
