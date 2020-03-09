@@ -285,11 +285,14 @@
                             {% for k, v in org_facets_fr.items %}
                             {% if v > 0 %}
                             <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected_list %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k | addslashes }}', 'od-search-orgs')" value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                                          onclick="select_facet('{{ k  | escapejs }}', 'od-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -297,11 +300,14 @@
                             {% for k, v in org_facets_en.items %}
                             {% if v > 0 %}
                             <li class="list-group-item {% if k in organizations_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                     {% if k in organizations_selected %} checked="checked"{% endif %}
-                                          onclick="select_facet('{{ k | addslashes }}', 'od-search-orgs')" value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v }})</label></div>
+                                          onclick="select_facet('{{ k  | escapejs }}', 'od-search-orgs')" value="{{ k }}"
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}</label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -320,12 +326,15 @@
                             {% for k, v in portal_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in portal_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                              {% if k in portal_selected_list %} checked="checked"{% endif %}
-                                             onclick="select_facet('{{ k }}', 'od-search-portal')"
+                                             onclick="select_facet('{{ k | escapejs }}', 'od-search-portal')"
                                              style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    > {{ k }} ({{ v }})</label></div>
+                                    > {{ k }} </label></div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -344,13 +353,17 @@
                             {% for k, v in collection_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in col_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="month{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-col')"
+                                    onclick="select_facet('{{ k | escapejs }}', 'od-search-col')"
                                     {% if k in col_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label>
                                 </div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                                </div>
+
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -369,13 +382,15 @@
                             {% for k, v in jurisdiction_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in jur_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox" value="{{ k }}" id="jur{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-jur')"
+                                    onclick="select_facet('{{ k | escapejs }}', 'od-search-jur')"
                                     {% if k in jur_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label>
                                 </div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -394,13 +409,16 @@
                             {% for k, v in keyword_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in keyw_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="keyw{{ k }}"
-                                    onclick="select_facet('{{ k | addslashes }}', 'od-search-keywords')"
+                                    onclick="select_facet('{{ k  | escapejs }}', 'od-search-keywords')"
                                     {% if k in keyw_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label>
                                 </div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -419,13 +437,16 @@
                             {% for k, v in subject_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in subject_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
 
-                                    <label><input type="checkbox" value="{{ k }}" id="subject{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-subjects')"
+                                    <label><input type="checkbox" value="{{ k | escapejs }}" id="subject{{ k }}"
+                                    onclick="select_facet('{{ k | escapejs }}', 'od-search-subjects')"
                                     {% if k in subject_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label>
                                 </div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -444,13 +465,15 @@
                             {% for k, v in format_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in format_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="format{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-format')"
+                                    onclick="select_facet('{{ k | escapejs }}', 'od-search-format')"
                                     {% if k in format_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
-                                </div>
+                                                  style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} </label></div>
+                                    <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -469,13 +492,15 @@
                             {% for k, v in type_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in rsct_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
-
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox" value="{{ k }}" id="rsct{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-rsct')"
+                                    onclick="select_facet('{{ k | escapejs }}', 'od-search-rsct')"
                                     {% if k in rsct_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} ({{ v}})</label>
+                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label>
                                 </div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -494,13 +519,16 @@
                             {% for k, v in frequency_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item{% if k in update_selected_list %} active{% endif %}">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 h6">
+                            <div class="row">
+                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
 
                                     <label><input type="checkbox" value="{{ k }}" id="freq{{ k }}"
-                                    onclick="select_facet('{{ k }}', 'od-search-update')"
+                                    onclick="select_facet('{{ k | escapejs }}', 'od-search-update')"
                                     {% if k in update_selected_list %} checked{% endif %}
-                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} ({{ v}})</label>
+                                    style="vertical-align:middle;position:relative;top:-1px;" > {{ k }} </label>
                                 </div>
+                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
+                            </div>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -607,4 +635,8 @@ $( document ).ready(function() {
 });
 </script>
 <script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
+    <style> {# Handle the item count on the facets with a selected item #}
+    .list-group-item.active .badge {background-color: #ffffff; color: #2572b4}
+    .label {white-space: normal}
+    </style>
 {% endblock %}
