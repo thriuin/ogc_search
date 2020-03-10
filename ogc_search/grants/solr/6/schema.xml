@@ -686,6 +686,7 @@
     <field name="agreement_title_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="agreement_title_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="agreement_number_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="agreement_number_ws" type="text_ws" indexed="true"/>
     <field name="agreement_value_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fs" type="float" indexed="true" stored="true" />
@@ -735,6 +736,7 @@
     <copyField source="agreement_value_en_s" dest="_text_en_"/>
     <copyField source="agreement_number_s" dest="_text_fr_"/>
     <copyField source="agreement_number_s" dest="_text_en_"/>
+    <copyField source="agreement_number_s" dest="agreement_number_ws"/>
     <copyField source="foreign_currency_type_fr_s" dest="_text_fr_"/>
     <copyField source="foreign_currency_type_en_s" dest="_text_en_"/>
     <copyField source="foreign_currency_value_s" dest="_text_fr_"/>

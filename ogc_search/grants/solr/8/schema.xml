@@ -1079,6 +1079,7 @@
     <copyField source="expected_results_txt_fr" dest="expected_results_fr_s"/>
     <copyField source="additional_information_txt_en" dest="additional_information_en_s"/>
     <copyField source="additional_information_txt_fr" dest="additional_information_fr_s"/>
+    <copyField source="agreement_number_s" dest="agreement_number_ws"/>
 
     <!-- id field is populated with org-code + reference_num + amendment_number-->
     <field name="ref_number_s" type="string" indexed="true" stored="true" docValues="true"/>
@@ -1121,7 +1122,8 @@
     <field name="program_purpose_txt_fr" type="text_fr" indexed="true" stored="true"/>
     <field name="agreement_title_txt_en" type="text_en" indexed="true" stored="true"/>
     <field name="agreement_title_txt_fr" type="text_fr" indexed="true" stored="true"/>
-    <field name="agreement_number_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="agreement_number_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="agreement_number_ws" type="text_ws" indexed="true"/>
     <field name="agreement_value_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="agreement_value_fs" type="pfloat" indexed="true" stored="true" />

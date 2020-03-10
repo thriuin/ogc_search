@@ -23,7 +23,7 @@ class GCSearchView(View):
                                "agreement_value_range_fr_s,"
                                "year_i,"
                                "owner_org_fr_s,"
-                               "amendment_number_s,"
+                               "amendment_number_s,agreement_number_ws," 
                                "amendment_date_s,amendment_date_txt,"
                                "recipient_business_number_s,recipient_business_number_txt,"
                                "recipient_legal_name_txt_fr,recipient_type_fr_s,"
@@ -50,7 +50,7 @@ class GCSearchView(View):
                                      'program_name_txt_fr', 'program_purpose_txt_fr',
                                      'agreement_title_txt_fr',
                                      'agreement_value_fr_txt_ws', 'agreement_value_fr_s',
-                                     'agreement_number_s',
+                                     'agreement_number_s', 'agreement_number_ws',
                                      'foreign_currency_type_fr_s', 'foreign_currency_value_s',
                                      'coverage_txt_fr', 'description_txt_fr',
                                      'naics_identifier_s',
@@ -104,7 +104,7 @@ class GCSearchView(View):
                                      'program_name_txt_en', 'program_purpose_txt_en',
                                      'agreement_title_txt_en',
                                      'agreement_value_en_txt_ws',
-                                     'agreement_number_s',
+                                     'agreement_number_s', 'agreement_number_ws',
                                      'foreign_currency_type_en_s', 'foreign_currency_value_s',
                                      'coverage_txt_en', 'description_txt_en',
                                      'naics_identifier_s',
