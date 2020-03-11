@@ -69,7 +69,7 @@ class ODSearchView(View):
                                      'keywords_txt_fr^4', 'keywords_xlt_txt_fr^4',
                                      'title_txt_fr^5', 'title_xlt_fr_s^3',
                                      'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5',
-                                     'id_s']
+                                     'id_s^5']
         self.solr_phrase_fields_fr = ['description_txt_fr~3^10', 'title_txt_fr~3^10']
         self.solr_bigram_fields_fr = ['description_txt_fr', 'title_txt_fr', 'keywords_txt_fr']
         self.solr_facet_limits_fr = {'f.keywords_fr_s.facet.limit': 250,
@@ -99,7 +99,7 @@ class ODSearchView(View):
                                      'keywords_txt_en^4', 'keywords_xlt_txt_en^4',
                                      'title_txt_en^5', 'title_xlt_en_s^3',
                                      'author_txt^2', 'resource_title_txt_en^3', '_text_en_^0.5',
-                                     'id_s']
+                                     'id_s^5']
         self.solr_phrase_fields_en = ['description_txt_en~3^10', 'title_txt_en~3^10']
         self.solr_bigram_fields_en = ['description_txt_en', 'title_txt_en', 'keywords_txt_en']
         self.solr_trigram_fields_en = ['description_txt_en', 'title_txt_en']
