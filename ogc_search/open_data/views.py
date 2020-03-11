@@ -4,10 +4,8 @@ from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
 from django.views.generic import View
 import logging
-import csv
 import hashlib
 import os
-import pysolr
 import re
 import search_util
 import time
@@ -67,8 +65,11 @@ class ODSearchView(View):
                                      '{!ex=tag_update_cycle_fr_s}update_cycle_fr_s']
         self.solr_hl_fields_fr = ['description_txt_fr', 'title_txt_fr', 'owner_org_title_txt_fr', 'keywords_txt_fr',
                                   'desc_summary_txt_fr']
-        self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'keywords_txt_fr^4',
-                                     'title_txt_fr^5', 'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5']
+        self.solr_query_fields_fr = ['owner_org_title_txt_fr^2', 'description_txt_fr^3', 'description_xlt_txt_fr^3',
+                                     'keywords_txt_fr^4', 'keywords_xlt_txt_fr^4',
+                                     'title_txt_fr^5', 'title_xlt_fr_s^3',
+                                     'author_txt^2', 'resource_title_txt_fr^3', '_text_fr_^0.5',
+                                     'id_s']
         self.solr_phrase_fields_fr = ['description_txt_fr~3^10', 'title_txt_fr~3^10']
         self.solr_bigram_fields_fr = ['description_txt_fr', 'title_txt_fr', 'keywords_txt_fr']
         self.solr_facet_limits_fr = {'f.keywords_fr_s.facet.limit': 250,
@@ -94,8 +95,11 @@ class ODSearchView(View):
                                      'f.keywords_en_s.facet.sort': 'count'}
         self.solr_hl_fields_en = ['description_txt_en', 'title_txt_en', 'owner_org_title_txt_en', 'keywords_txt_en',
                                   'desc_summary_txt_en']
-        self.solr_query_fields_en = ['owner_org_title_txt_en^2', 'description_txt_en', 'keywords_txt_en^2',
-                                     'title_txt_en^3', 'author_txt', 'resource_title_txt_en^2']
+        self.solr_query_fields_en = ['owner_org_title_txt_en^2', 'description_txt_en^3', 'description_xlt_txt_en^3',
+                                     'keywords_txt_en^4', 'keywords_xlt_txt_en^4',
+                                     'title_txt_en^5', 'title_xlt_en_s^3',
+                                     'author_txt^2', 'resource_title_txt_en^3', '_text_en_^0.5',
+                                     'id_s']
         self.solr_phrase_fields_en = ['description_txt_en~3^10', 'title_txt_en~3^10']
         self.solr_bigram_fields_en = ['description_txt_en', 'title_txt_en', 'keywords_txt_en']
         self.solr_trigram_fields_en = ['description_txt_en', 'title_txt_en']
