@@ -176,14 +176,14 @@
                             <p><span class="glyphicon glyphicon-tags" aria-hidden="true"></span><span class="wb-inv">{% trans 'Keywords' %}:</span>&nbsp;
                                 {% if LANGUAGE_CODE == 'fr' %}
                                     {% if 'keywords_txt_fr' in doc %}
-                                        {% for y in doc.keywords_txt_fr %}<span class="text-muted">{{y | safe}} </span> {% endfor %}
+                                        {% for y in doc.keywords_txt_fr %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
                                     {% elif 'keywords_xlt_txt_fr' in doc %}
-                                        {% for y in doc.keywords_xlt_txt_fr %}<span class="text-muted">{{y | safe}} </span> {% endfor %}
+                                        {% for y in doc.keywords_xlt_txt_fr %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
                                         <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
                                 {% else %}
-                                    {% for y in doc.keywords_txt_en %}<span class="text-muted">{{y | safe}}, </span> {% endfor %}
+                                    {% for y in doc.keywords_txt_en %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
                                 {% endif %}
                             </p>
                             {% for display_type in doc.display_options_s %}
