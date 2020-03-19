@@ -230,6 +230,7 @@ SERVICES_YAML_FILE = os.path.join(BASE_DIR, "ckan", "service.yaml")
 COUNTRY_JSON_FILE = os.path.join(BASE_DIR, "ckan", "country.json")
 CURRENCY_JSON_FILE = os.path.join(BASE_DIR, "ckan", "currency.json")
 MINISTER_JSON_FILE = os.path.join(BASE_DIR, "ckan", "minister.json")
+SUGGESTED_DS_YAML_FILE = os.path.join(BASE_DIR, "ckan", "prop.yaml")
 
 # Open Data App Settings
 
