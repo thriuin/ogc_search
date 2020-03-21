@@ -103,6 +103,11 @@ class QPSearchView(View):
         context['ds_title_en'] = settings.QP_DATASET_TITLE_EN
         context['ds_title_fr'] = settings.QP_DATASET_TITLE_FR
         context['adobe_analytics_url'] = settings.ADOBE_ANALYTICS_URL
+        # Allow for, but do not require, a custom alert message
+        if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
+            context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE
+        else:
+            context['od_portal_alert_base'] = "/data/static/_site_messaging/header_od_ckan."
 
         items_per_page = int(settings.QP_ITEMS_PER_PAGE)
         start_row, page = search_util.calc_starting_row(request.GET.get('page', 1), items_per_page)

@@ -161,6 +161,11 @@ class EISearchView(View):
         solr_search_terms = search_util.get_search_terms(request)
         context['search_text'] = str(request.GET.get('search_text', ''))
         items_per_page = 15
+        # Allow for, but do not require, a custom alert message
+        if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
+            context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE
+        else:
+            context['od_portal_alert_base'] = "/data/static/_site_messaging/header_od_ckan."
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')

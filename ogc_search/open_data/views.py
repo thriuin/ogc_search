@@ -345,8 +345,13 @@ class ODSearchView(View):
         context["cdts_version"] = settings.CDTS_VERSION
         context['od_en_fgp_root'] = settings.OPEN_DATA_EN_FGP_BASE
         context['od_fr_fgp_root'] = settings.OPEN_DATA_FR_FGP_BASE
+        # Allow for, but do not require, a custom alert message
+        if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
+            context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE
+        else:
+            context['od_portal_alert_base'] = "/data/static/_site_messaging/header_od_ckan."
 
-        # Adobe Analytics URL
+            # Adobe Analytics URL
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
 
         return render(request, "od_search.html", context)

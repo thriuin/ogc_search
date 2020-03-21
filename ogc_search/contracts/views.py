@@ -261,6 +261,12 @@ class CTSearchView(View):
             context['info_msg'] = settings.CT_INFO_EN
             context['about_msg'] = settings.CT_ABOUT_EN
 
+        # Allow for, but do not require, a custom alert message
+        if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
+            context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE
+        else:
+            context['od_portal_alert_base'] = "/data/static/_site_messaging/header_od_ckan."
+
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)
         context['search_text'] = str(request.GET.get('search_text', ''))

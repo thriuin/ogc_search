@@ -132,6 +132,11 @@ class SISearchView(View):
         context["si_dv_path_en"] = settings.SI_DATAVIZ_PATH_EN
         context["si_dv_path_fr"] = settings.SI_DATAVIZ_PATH_FR
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
+        # Allow for, but do not require, a custom alert message
+        if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
+            context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE
+        else:
+            context['od_portal_alert_base'] = "/data/static/_site_messaging/header_od_ckan."
 
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)
