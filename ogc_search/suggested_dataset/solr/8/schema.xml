@@ -1030,7 +1030,7 @@
     <copyField source="title_fr_s" dest="title_fr_txt"/>
 
     <!-- organization -->
-    <field name="owner_org_s" type="text_ws" indexed="true" stored="true"/>
+
     <field name="owner_org_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>
     <field name="owner_org_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
@@ -1074,15 +1074,12 @@
     <field name="votes" type="pint" indexed="true" stored="true" docValues="true"/>
 
     <!-- Subject -->
-    <field name="subject_s" type="text_ws" indexed="true" stored="true" multiValued="true"/>
-    <!-- These exported fields cannot be multi-valued - they need to be set to a quoted string -->
-    <field name="subject_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
-           docValues="true"/>
-    <field name="subject_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
-           docValues="true"/>
+    <field name="subjects_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="subjects_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
 
-    <field name="subject_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
-    <field name="subject_txt_fr" type="text_fr" indexed="true" stored="true" multiValued="true"/>
+    <!-- These exported fields cannot be multi-valued - they need to be set to a quoted string -->
+    <field name="subject_list_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="subject_list_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
     <!-- Keywords (English) - the exported field cannot be multi-valued - they need to be set to a quoted string -->
     <field name="keywords_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
@@ -1105,11 +1102,17 @@
     <copyField source="comments_fr_s" dest="comments_fr_txt"/>
 
     <!-- Reason -->
-    <field name="reason_s" type="string" indexed="true" stored="true" multiValued="true"/>
-
     <field name="reason_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>
     <field name="reason_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>
+
+    <!-- Registry Status Updates -->
+    <!-- formatted for display  -->
+    <field name="status_updates_en_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <field name="status_updates_fr_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <!-- for export - non-multivalue -->
+    <field name="status_updates_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
+    <field name="status_updates_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
 
 </schema>

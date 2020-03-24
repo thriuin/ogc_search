@@ -497,6 +497,8 @@ QP_DATASET_TITLE_FR = "Notes pour la période des questions"
 QP_ITEMS_PER_PAGE = 25
 SOLR_QP = 'http://127.0.0.1:8983/solr/core_qp_search'
 
+SOLR_SD = 'http://127.0.0.1:8983/solr/core_sd_search'
+
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""
 
