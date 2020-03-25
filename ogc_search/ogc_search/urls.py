@@ -30,6 +30,7 @@ from open_data import views
 from open_data.views import ODSearchView, ODExportView, handle_404_error
 from qp_notes.views import QPSearchView, QPExportView, QPCardView
 from service_inventory.views import SISearchView, SIExportView
+from suggested_dataset.views import SDSearchView, SDDatasetView, SDExportView
 
 urlpatterns = [
     path('', views.default_search),
@@ -93,6 +94,13 @@ if settings.QP_ENABLED:
         path('qp/', QPSearchView.as_view(), name='QPQuery'),
         path('qp/export/', QPExportView.as_view(), name='QPExport'),
         path('qp/id/<path:slug>', QPCardView.as_view(), name='QPCard')
+    )
+
+if settings.SD_ENABLED:
+    urlpatterns += i18n_patterns(
+        path('sd/', SDSearchView.as_view(), name='SDQuery'),
+        path('sd/export/', SDExportView.as_view(), name='SDExport'),
+        path('sd/id/<path:slug>', SDDatasetView.as_view(), name='SDDataset')
     )
 
 # Use a friendly rendered page for Page Not Found errors

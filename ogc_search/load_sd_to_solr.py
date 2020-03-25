@@ -139,6 +139,9 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                 if sd['reason'] in reasons:
                     od_obj['reason_en_s'] = reasons[sd['reason']]['en']
                     od_obj['reason_fr_s'] = reasons[sd['reason']]['fr']
+            else:
+                od_obj['reason_en_s'] = "Not Provided"
+                od_obj['reason_fr_s'] = "Non fourni"
 
             if sd['uuid'] in ckan_ds_records:
                 status_msg_en = []

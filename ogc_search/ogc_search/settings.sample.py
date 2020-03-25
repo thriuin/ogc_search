@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'national_action_plan',
     'open_data',
     'qp_notes',
+    'suggested_dataset'
     'wet'
 ]
 
@@ -100,6 +101,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'open_data', 'templates'),
             os.path.join(BASE_DIR, 'qp_notes', 'templates'),
             os.path.join(BASE_DIR, 'service_inventory', 'templates'),
+            os.path.join(BASE_DIR, 'suggested_dataset', 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -202,6 +204,7 @@ STATICFILES_DIRS = [
     ('nap', os.path.join(BASE_DIR, "national_action_plan", "static")),
     ('qp', os.path.join(BASE_DIR, "qp_notes", "static")),
     ('si', os.path.join(BASE_DIR, "service_inventory", "static")),
+    ('sd', os.path.join(BASE_DIR, "suggested_dataset", "static")),
     ('wet', os.path.join(BASE_DIR, "wet", "static")),
 ]
 
@@ -217,6 +220,7 @@ GC_ENABLED = False
 NAP_ENABLED = False
 QP_ENABLED = False
 SI_ENABLED = False
+SD_ENABLED = False
 
 # CKAN YAML files from https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables
 
@@ -497,7 +501,15 @@ QP_DATASET_TITLE_FR = "Notes pour la période des questions"
 QP_ITEMS_PER_PAGE = 25
 SOLR_QP = 'http://127.0.0.1:8983/solr/core_qp_search'
 
+# Suggested Datasets
 SOLR_SD = 'http://127.0.0.1:8983/solr/core_sd_search'
+SD_SUGGESTED_DS_FORM_EN = "https://open.canada.ca/en/forms/suggest-dataset"
+SD_SUGGESTED_DS_FORM_FR = "https://ouvert.canada.ca/fr/formulaire/proposez-un-formulaire-densemble-de-donnees"
+SD_ABOUT_EN = "Is there Government of Canada data that you would like to be released, and made available on our " \
+              "site? Please let us know by filling out the Suggest a Dataset form, but first search below to see " \
+              "if someone has already requested the same dataset. If you find it, you can check on its status and " \
+              "add your request by clicking on the thumbs up."
+SD_ABOUT_FR = "En tradution"
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""

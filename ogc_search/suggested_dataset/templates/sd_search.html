@@ -1,0 +1,201 @@
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load search_extras %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/qp{% endblock language_switch_url %}
+
+{% block page_title %}{% trans 'Suggested Datasets' %} | {% trans 'Open Government' %}{% endblock page_title %}
+{% block meta_tags %}<meta name="description" content="{% trans 'Suggested Datasets' %}" />{% endblock meta_tags %}
+
+{% block adobe_analytics_meta_title %}
+    <meta name="dcterms:title" content="{% trans 'Suggested Datasets' %}" />
+{% endblock %}
+
+{% block custom_page_javascript %}
+    <script src="{% static 'sd/facets.js' %}"></script>
+    <script src="{% static 'open_data/od_search.js' %}"></script>
+{% endblock custom_page_javascript %}
+
+{% block top-settings %}
+    "lngLinks": [{
+        "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/ei/",
+        "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+        "title": "{% trans 'Home' %}",
+        "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+        "title": "{% trans 'Open Government' %}",
+        "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+        "title": "{% trans 'Open Data' %}",
+        "href": "{% trans 'https://open.canada.ca/en/open-data' %}",
+    }]
+{% endblock %}
+
+{% block main-content %}
+
+{% block main-content-title %}
+<h1 property="name" id="wb-cont">{% trans "Suggested Datasets" %}</h1>
+{% endblock %}
+
+<section>
+
+    {% if info_msg|length > 0 %}
+    <div class="row">
+        <section class="alert alert-info">
+            <div class="small">{{ info_msg | markdown_filter | safe }}</div>
+        </section>
+    </div>
+    {% endif %}
+
+    {% if about_msg|length > 0 %}
+    <div class="row">
+        <div class="col-md-12">
+        <details>
+            <summary>{% trans 'About this information' %}</summary>
+            {{ about_msg | markdown_filter | safe }}
+        </details>
+        </div>
+        <div class="col-md-4 col-md-pull-8">
+        </div>
+    </div>
+    {% endif %}
+
+    {# Search form, results and left sidebar #}
+
+    <div class="row">
+        {# Search form and results #}
+        <div class="col-md-8 col-md-push-4">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mrgn-tp-md mrgn-bttm-md">
+            <div class="col-md-12" id="search_terms"></div>
+        </div>
+
+        <div class="row">
+            <form action="{% url 'SDQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
+            <div class="row">
+                <div class="col-md-7 col-sm-12">
+                    <div class="input-group">
+                        <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
+                        <input type="text" name="od-search-input" class="form-control" id="od-search-input"
+                               value="{{ search_text }}" placeholder="{% trans 'Search Suggested Datasets' %}"
+                               onkeypress="submitFormOnEnter(event)" size="60"/>
+
+                        <span class="input-group-btn">
+                             <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
+                             <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                    onclick="submitForm()">{% trans 'Search' %}
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-12">
+                    <div class="form-group">
+                        <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
+                        <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
+                        <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
+                            >{% trans 'Best match' %}</option>
+                        <option value="date_received_dt desc" {% if sortby == "date_received_dt desc" %}selected="selected"{% endif %}
+                            >{% trans 'Last Updated' %}</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="input-group hidden">
+                    <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
+                </div>
+            </div>
+            </form>
+        </div>
+
+        {% block main-content-pagination %}
+        <section class="brdr-tp mrgn-tp-md">
+            <ul class="pagination">
+                {% for pg in pagination %}
+                    {% if pg == 1 %}
+                        {% if currentpage == 1 %}
+                        <li class="previous disabled"><a href="#" rel="prev">{% trans 'Previous' %}</a></li>
+                        {% else %}
+                        <li class="previous"><a href="#" onclick="gotoPage('{{ previous_page }}')">
+                        {% trans 'Previous' %} <span class="wb-inv">Go to page {{ previous_page }}</span></a></li>
+                        {% endif %}
+                        <li{% if currentpage == 1 %} class="active" {% endif %}><a href="#" onclick="gotoPage('1')">
+                            1<span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                        {% elif pg == last_page %}
+                        <li{% if currentpage == last_page %} class="active" {% endif %}><a
+                                href="#" onclick="gotoPage('{{ last_page }}')">{{ pg }}
+                            <span class="wb-inv">(current) {% trans 'Go to' %} 1 </span></a></li>
+                        {% if currentpage == last_page %}
+                        <li class="next disabled"><a href="#" rel="next">{% trans 'Next' %}</a></li>
+                        {% else %}
+                        <li class="next"><a href="#" onclick="gotoPage('{{ next_page }}')">
+                            {% trans 'Next' %} <span
+                                    class="wb-inv">Go to page {{ next_page }}</span></a></li>
+                        {% endif %}
+                    {% elif pg == 0 %}
+                    <li><a href="#" onclick="">...<span class="wb-inv"></span></a></li>
+                    {% else %}
+                    <li {% if currentpage == pg %}class="active" {% endif %}>
+                        <a href="#" onclick="gotoPage('{{ pg }}')">
+                            {{ pg }} <span
+                                    class="wb-inv">Go to page {{pg}}</span></a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </section>
+    {% endblock main-content-pagination %}
+    </div>
+</section>
+
+{% endblock main-content %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}
+
+{% block footer-settings %}
+"footerSections": [{
+    "href": "{% trans 'https://open.canada.ca/en/forms/contact-us' %}",
+    "text": "{% trans 'Open Government Contact' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/dept.html' %}",
+    "text": "{% trans 'Departments and agencies' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/publicservice.html' %}",
+    "text": "{% trans 'Public service and military' %}"
+},{
+    "href": "{% trans 'http://news.gc.ca/' %}",
+    "text": "{% trans 'News' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system/laws.html' %}",
+    "text": "{% trans 'Treaties, laws and regulations' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/transparency/reporting.html' %}",
+    "text": "{% trans 'Government-wide reporting' %}"
+},{
+    "href": "{% trans 'https://www.canada.ca/en/government/system.html' %}",
+    "text": "{% trans 'How government works' %}"
+}],
+"showFeatures": false
+{% endblock %}
+
+{% block custom-jquery %}
+<script src="{% static 'open_data/od_facet_buttons.js' %}"></script>
+    <style> {# Handle the item count on the facets with a selected item #}
+    .list-group-item.active .badge {background-color: #ffffff; color: #2572b4}
+    .label {white-space: normal}
+    </style>
+{% endblock %}
