@@ -510,6 +510,10 @@ SD_ABOUT_EN = "Is there Government of Canada data that you would like to be rele
               "if someone has already requested the same dataset. If you find it, you can check on its status and " \
               "add your request by clicking on the thumbs up."
 SD_ABOUT_FR = "En tradution"
+SD_COMMENTS_BASE_EN = "http://127.0.0.1:8000/en/external-comment/suggest-dataset/"
+SD_COMMENTS_BASE_FR = "http://127.0.0.1:8000/fr/external-comment/suggest-dataset/"
+SD_SUGGEST_A_DATASET_EN = "https://open.canada.ca/en/suggested-datasets"
+SD_SUGGEST_A_DATASET_FR = "https://ouvert.canada.ca/fr/jeux-de-donnees-suggeres"
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""

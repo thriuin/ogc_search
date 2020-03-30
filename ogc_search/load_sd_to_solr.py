@@ -112,10 +112,17 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                 od_obj['date_released_dt'] = date_released
                 od_obj['date_released_en_s'] = format_date(date_released, locale='en')
                 od_obj['date_released_fr_s'] = format_date(date_released, locale='fr')
+            else:
+                od_obj['date_released_dt'] = ""
+                od_obj['date_released_en_s'] = "-"
+                od_obj['date_released_fr_s'] = "-"
 
             if sd['dataset_suggestion_status'] in stati:
                 od_obj['status_en_s'] = stati[sd['dataset_suggestion_status']]['en']
                 od_obj['status_fr_s'] = stati[sd['dataset_suggestion_status']]['fr']
+            else:
+                od_obj['status_en_s'] = "-"
+                od_obj['status_fr_s'] = "-"
 
             sd_subjects_en = []
             sd_subjects_fr = []
@@ -153,10 +160,14 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                     if fiscal_quarter == 0:
                         fiscal_quarter = 4
                         fiscal_year -= 1
-                    status_msg_en.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
-                                                                 stati[status_update['reason']]['en']))
-                    status_msg_fr.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
-                                                                 stati[status_update['reason']]['fr']))
+                    # status_msg_en.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
+                    #                                             stati[status_update['reason']]['en']))
+                    # status_msg_fr.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
+                    #                                             stati[status_update['reason']]['fr']))
+                    status_msg_en.append("{0} - {1}".format(format_date(status_date, locale='en'),
+                                                            stati[status_update['reason']]['en']))
+                    status_msg_fr.append("{0} - {1}".format(format_date(status_date, locale='fr'),
+                                                        stati[status_update['reason']]['fr']))
                 status_msg_en.sort()
                 status_msg_fr.sort()
                 od_obj['status_updates_en_s'] = status_msg_en

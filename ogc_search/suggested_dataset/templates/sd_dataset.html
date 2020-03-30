@@ -1,10 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base-cdts.html" %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% load search_extras %}
 
-</body>
-</html>
+{% block custom_page_css %}
+    {# From the Aurora design guide #}
+    <style>
+        .badge-info {
+            color: #fff;
+            background-color: #269abc;
+        }
+
+        .badge-info[href]:hover, .badge-info[href]:focus {
+            color: #fff;
+            text-decoration: none;
+            background-color: #1d7792;
+        }
+
+        .badge-light {
+            color: #212529;
+            background-color: #FFFFFF;
+        }
+
+        .badge-pill {
+
+            padding: 8px 12px;
+            border-radius: 10rem;
+        }
+    </style>
+{% endblock %}
+
+{% block canada_ca_search %} {% endblock canada_ca_search %}
+{% block language_switch_url %}/{{ LANGUAGE_CODE | SwapLangCode }}/sd/id/{{ id }}{% endblock language_switch_url %}
+
+{% block page_title %}{% if LANGUAGE_CODE == 'fr' %}Suggested Dataset{% else %}
+    Suggested Dataset{% endif %} - {% trans 'Suggested Dataset' %} | {% trans 'Open Government' %}
+{% endblock page_title %}
+
+{% block meta_tags %}
+    <meta name="description" content="{% if LANGUAGE_CODE == 'fr' %}
+        {{ results.docs.0.desc_fr_s }}{% else %}
+        {{ results.docs.0.desc_en_s }}{% endif %}">
+{% endblock meta_tags %}
+
+{% block adobe_analytics_meta_title %}{% endblock %}
+
+{% block top-settings %}
+    "lngLinks": [{
+    "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
+    "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/sd/id/{{results.docs.0.id }}",
+    "text": "{{ LANGUAGE_CODE | SwapLangName }}"
+    }],
+    search: false,
+    "breadcrumbs": [{
+    "title": "{% trans 'Home' %}",
+    "href": "https://www.canada.ca/{{ LANGUAGE_CODE }}.html",
+    },{
+    "title": "{% trans 'Open Government' %}",
+    "href": "{% trans 'https://open.canada.ca' %}/{{ LANGUAGE_CODE }}",
+    },{
+    "title": "{% trans 'Open Data' %}",
+    "href": "{% trans 'https://open.canada.ca/en/open-data' %}",
+    },{
+    "title": "{% trans 'Search Suggested Datasets' %}",
+    "href": "{% trans '/en/sd' %}",
+    }]
+{% endblock %}
+
+{% block main-content %}
+{% block main-content-title %}
+<h1 property="name">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.title_fr_txt }}{% else %}{{ results.docs.0.title_en_txt }}{% endif %}</h1>
+{% endblock %}
+    <div class="row">
+    {# Main details #}
+    <div class="col-md-8 col-md-push-4">
+        <div class="row">
+            <div class="col-sm-12"><strong>{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.owner_org_fr_s }}{% else %}{{ results.docs.0.owner_org_en_s }}{% endif %}</strong></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.desc_fr_txt | safe }}{% else %}{{ results.docs.0.desc_en_txt }}{% endif %}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 panel panel-default">
+                <table class="table">
+                  <caption class="wb-inv">{% trans 'Status Updates' %}</caption>
+                    <thead>
+                    <tr>
+                     <th scope="col">{% trans 'Status Updates' %}</th>
+                    </tr></thead>
+                    <tbody>
+                    {% if LANGUAGE_CODE == 'fr' %}
+                       {% for status in results.docs.0.status_updates_fr_s %}
+                        <tr><td>{{ status }}</td></tr>
+                       {% endfor %}
+                    {% else %}
+                       {% for status in results.docs.0.status_updates_en_s %}
+                        <tr><td>{{ status }}</td></tr>
+                       {% endfor %}
+                    {% endif %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+    {# Left-hand Sidebar #}
+    <div class="col-md-4 col-md-pull-8">
+       <section>
+            {% spaceless %}
+                <aside class="mrgn-tp-lg">
+                    <strong>{% trans 'Status:' %}</strong>&nbsp;&nbsp;
+                    <span class="badge badge-info badge-pill"role="badge">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            {{ results.docs.0.status_fr_s }}
+                        {% else %}
+                            {{ results.docs.0.status_en_s }}
+                        {% endif %}
+                    </span>
+                </aside>
+                <aside class="mrgn-tp-lg">
+                    <strong>{% trans 'Reason for Status:' %}</strong>
+                    {% if LANGUAGE_CODE == 'fr' %}
+                        {{ results.docs.0.reason_fr_s }}
+                    {% else %}
+                        {{ results.docs.0.reason_en_s }}
+                    {% endif %}
+                </aside>
+                <aside class="mrgn-tp-lg">
+                    <strong>{% trans 'Votes:' %}</strong>{{ results.docs.0.votes }}&nbsp;&nbsp;
+                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                </aside>
+                <aside class="mrgn-tp-lg">
+                    <strong>{% trans 'Subjects:' %}</strong><br>
+                    {% if LANGUAGE_CODE == 'fr' %}
+                    {% for subject in results.docs.0.subjects_fr_s %}
+                        <span class="badge badge-light badge-pill">{{ subject }}</span>
+                    {% endfor %}
+                    {% else %}
+                    {% for subject in results.docs.0.subjects_en_s %}
+                        <span class="badge badge-light badge-pill">{{ subject }}</span>
+                    {% endfor %}
+                    {% endif %}
+                </aside>
+           {% endspaceless %}
+       </section>
+    </div>
+    </div>
+    <div class="row">
+    {% if LANGUAGE_CODE == 'fr' %}<div data-ajax-replace="{{comments_base_fr}}{{ results.docs.0.id }}"></div>
+    {% else %}
+    <div data-ajax-replace="{{comments_base_en}}{{ results.docs.0.id }}"></div>
+    {% endif %}
+    </div>
+{% endblock main-content %}
+
+{% block pre-footer-settings %}
+    showPostContent: false,
+    showFeedback: false,
+    showShare: false
+{% endblock %}
+
+{% block footer-settings %}
+    "footerSections": [{
+    "href": "{% trans 'https://open.canada.ca/en/forms/contact-us' %}",
+    "text": "{% trans 'Open Government Contact' %}"
+    },{
+    "href": "{% trans 'https://www.canada.ca/en/government/dept.html' %}",
+    "text": "{% trans 'Departments and agencies' %}"
+    },{
+    "href": "{% trans 'https://www.canada.ca/en/government/publicservice.html' %}",
+    "text": "{% trans 'Public service and military' %}"
+    },{
+    "href": "{% trans 'http://news.gc.ca/' %}",
+    "text": "{% trans 'News' %}"
+    },{
+    "href": "{% trans 'https://www.canada.ca/en/government/system/laws.html' %}",
+    "text": "{% trans 'Treaties, laws and regulations' %}"
+    },{
+    "href": "{% trans 'https://www.canada.ca/en/transparency/reporting.html' %}",
+    "text": "{% trans 'Government-wide reporting' %}"
+    },{
+    "href": "{% trans 'https://www.canada.ca/en/government/system.html' %}",
+    "text": "{% trans 'How government works' %}"
+    }],
+    "showFeatures": false
+{% endblock %}
+
+{% block adobe_analytics_footer %}{% endblock %}

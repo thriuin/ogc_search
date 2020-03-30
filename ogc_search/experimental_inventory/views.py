@@ -277,6 +277,11 @@ class EIExperimentView(EISearchView):
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["slug"] = url_part_escape(slug)
         solr_search_terms = 'id:"{0}"'.format(context["slug"])
+        # Allow for, but do not require, a custom alert message
+        if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
+            context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE
+        else:
+            context['od_portal_alert_base'] = "/data/static/_site_messaging/header_od_ckan."
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
                                                     settings.SOLR_EI,
