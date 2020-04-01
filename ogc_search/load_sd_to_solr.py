@@ -100,6 +100,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                 'keywords_fr_s': sd['keywords_fr'],
                 'comments_en_s': sd['additional_comments_and_feedback_en'],
                 'comments_fr_s': sd['additional_comments_and_feedback_fr'],
+                'suggestion_id': sd['suggestion_id']
             }
             date_received = datetime.strptime(sd['date_created'], '%Y-%m-%d')
             od_obj['date_received_dt'] = date_received

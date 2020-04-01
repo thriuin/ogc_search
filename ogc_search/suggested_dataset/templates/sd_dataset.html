@@ -127,8 +127,7 @@
                     {% endif %}
                 </aside>
                 <aside class="mrgn-tp-lg">
-                    <strong>{% trans 'Votes:' %}</strong>{{ results.docs.0.votes }}&nbsp;&nbsp;
-                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    <div data-ajax-replace="{% if LANGUAGE_CODE == 'fr' %}{{ votes_base_fr }}{% else %}{{ votes_base_en }}{% endif %}{{ results.docs.0.suggestion_id }}"></div>
                 </aside>
                 <aside class="mrgn-tp-lg">
                     <strong>{% trans 'Subjects:' %}</strong><br>

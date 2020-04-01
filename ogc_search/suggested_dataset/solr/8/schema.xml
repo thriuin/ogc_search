@@ -1107,6 +1107,9 @@
     <field name="reason_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>
 
+    <!-- Drupal Node ID -->
+    <field name="suggestion_id" type="string" indexed="false" stored="true"/>
+
     <!-- Registry Status Updates -->
     <!-- formatted for display  -->
     <field name="status_updates_en_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>

@@ -668,6 +668,9 @@
     <field name="comments_fr_txt" type="text_fr" indexed="true" stored="true"/>
     <copyField source="comments_fr_s" dest="comments_fr_txt"/>
 
+    <!-- Drupal Node ID -->
+    <field name="suggestion_id" type="string" indexed="false" stored="true"/>
+
     <!-- Reason -->
     <field name="reason_s" type="string" indexed="true" stored="true" multiValued="true"/>
 

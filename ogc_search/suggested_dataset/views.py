@@ -32,7 +32,8 @@ class SDSearchView(View):
         # French search fields
         self.solr_fields_fr = ("id,title_fr_txt,owner_org_fr_s,owner_org_title_txt_fr,desc_fr_txt,"
                                "votes,keywords_txt_fr,date_received_dt,date_create_fr_s,status_fr_s,"
-                               "subjects_fr_s,reason_fr_s,status_updates_fr_s,date_released_fr_s")
+                               "subjects_fr_s,reason_fr_s,status_updates_fr_s,date_released_fr_s,"
+                               "suggestion_id")
         self.solr_query_fields_fr = ['id', 'owner_org_title_txt_fr', 'desc_fr_txt^3', 'keywords_txt_fr^4',
                                      'status_fr_s', 'subjects_fr_s', 'reason_fr_s', 'title_fr_txt']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
@@ -44,7 +45,8 @@ class SDSearchView(View):
         # E English earch fields
         self.solr_fields_en = ("id,title_en_txt,owner_org_en_s,owner_org_title_txt_en,desc_en_txt,"
                                "votes,keywords_txt_en,date_received_dt,date_create_en_s,status_en_s,"
-                               "subjects_en_s,reason_en_s,status_updates_en_s,date_released_en_s")
+                               "subjects_en_s,reason_en_s,status_updates_en_s,date_released_en_s,"
+                               "suggestion_id")
         self.solr_query_fields_en = ['id', 'owner_org_title_txt_en', 'desc_en_txt^3', 'keywords_txt_en^4',
                                      'status_en_s', 'subjects_en_s', 'reason_en_s', 'title_en_txt']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
@@ -196,6 +198,8 @@ class SDDatasetView(SDSearchView):
         context["slug"] = slug
         context["comments_base_en"] = settings.SD_COMMENTS_BASE_EN
         context["comments_base_fr"] = settings.SD_COMMENTS_BASE_FR
+        context["votes_base_en"] = settings.SD_VOTES_BASE_EN
+        context["votes_base_fr"] = settings.SD_VOTES_BASE_FR
 
         # Allow for, but do not require, a custom alert message
         if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
