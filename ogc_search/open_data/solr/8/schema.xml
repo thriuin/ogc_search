@@ -200,6 +200,7 @@
 
     <!-- The StrField type is not analyzed, but indexed/stored verbatim. -->
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true" />
+
     <fieldType name="strings" class="solr.StrField" sortMissingLast="true" multiValued="true" docValues="true" />
 
     <!-- boolean type: "true" or "false" -->
@@ -336,7 +337,9 @@
       <analyzer type="index">
             <charFilter class="solr.HTMLStripCharFilterFactory"/>
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"/>
+            <filter class="solr.WordDelimiterGraphFilterFactory" splitOnCaseChange="0" preserveOriginal="1" catenateAll="1"/>
+            <filter class="solr.FlattenGraphFilterFactory"/>
+            <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="lang/synonyms_en.txt"/>
             <filter class="solr.FlattenGraphFilterFactory"/>
             <filter class="solr.StopFilterFactory" words="lang/stopwords_en.txt" ignoreCase="true"/>
             <filter class="solr.LowerCaseFilterFactory"/>
@@ -347,7 +350,7 @@
       <analyzer type="query">
             <charFilter class="solr.HTMLStripCharFilterFactory"/>
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-            <filter class="solr.WordDelimiterGraphFilterFactory"/>
+            <filter class="solr.WordDelimiterGraphFilterFactory" splitOnCaseChange="0" preserveOriginal="1" catenateAll="1"/>
             <filter class="solr.StopFilterFactory" words="lang/stopwords_en.txt" ignoreCase="true"/>
             <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="lang/synonyms_en.txt"/>
             <filter class="solr.LowerCaseFilterFactory"/>
