@@ -1,4 +1,4 @@
-coronavirus,COVID-19,covid19,COVID19,corona,2019-nCoV,2019ncov,SARS-CoV-2,sarscov2
+coronavirus,covid,COVID-19,covid19,COVID19,corona,2019-nCoV,2019ncov,SARS-CoV-2,sarscov2
 
 AAB => AAB, Audit and Accountability Bureau
 ADM => ADM, Associate Deputy Minister

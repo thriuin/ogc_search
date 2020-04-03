@@ -277,15 +277,17 @@
             <tokenizer class="solr.StandardTokenizerFactory"/>
             <filter class="solr.ElisionFilterFactory" articles="lang/contractions_fr.txt" ignoreCase="true"/>
             <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="lang/synonyms_fr.txt"/>
+            <filter class="solr.FlattenGraphFilterFactory"/>
             <filter class="solr.StopFilterFactory" format="snowball" words="lang/stopwords_fr.txt" ignoreCase="true"/>
             <filter class="solr.StopFilterFactory" format="snowball" words="lang/profanities_fr.txt" ignoreCase="true"/>
             <filter class="solr.FrenchLightStemFilterFactory"/>
         </analyzer>
         <analyzer type="query">
             <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="lang/synonyms_fr.txt"/>
             <filter class="solr.ElisionFilterFactory" articles="lang/contractions_fr.txt" ignoreCase="true"/>
             <filter class="solr.LowerCaseFilterFactory"/>
-            <filter class="solr.StopFilterFactory" format="snowball" words="lang/stopwords_fr.txt" ignoreCase="true"/>
             <filter class="solr.StopFilterFactory" format="snowball" words="lang/stopwords_fr.txt" ignoreCase="true"/>
             <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms_fr.txt"/>
             <filter class="solr.FrenchLightStemFilterFactory"/>
