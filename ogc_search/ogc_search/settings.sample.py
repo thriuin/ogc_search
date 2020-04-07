@@ -514,8 +514,9 @@ SD_COMMENTS_BASE_EN = "http://127.0.0.1:8000/en/external-comment/suggest-dataset
 SD_COMMENTS_BASE_FR = "http://127.0.0.1:8000/fr/external-comment/suggest-dataset/"
 SD_SUGGEST_A_DATASET_EN = "https://open.canada.ca/en/suggested-datasets"
 SD_SUGGEST_A_DATASET_FR = "https://ouvert.canada.ca/fr/jeux-de-donnees-suggeres"
-SD_VOTES_BASE_EN = "http://127.0.0.1/en/node/"
-SD_VOTES_BASE_FR = "http://127.0.0.1/fr/node/"
+SD_VOTES_BASE_EN = "http://127.0.0.1:8000/en/external-vote/suggest-dataset/"
+SD_VOTES_BASE_FR = "http://127.0.0.1:8000/fr/external-vote/suggest-dataset/"
+
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""
