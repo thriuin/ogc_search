@@ -52,7 +52,7 @@ class ODSearchView(View):
                                "description_txt_fr,description_xlt_txt_fr,title_fr_s,title_txt_fr,title_xlt_fr_s,"
                                "desc_summary_txt_fr,resource_title_fr_s,resource_title_txt_fr,"
                                "keywords_fr_s,keywords_txt_fr,keywords_xlt_txt_fr,id,_version_,last_modified_tdt,"
-                               "resource_format_s,id_name_s,display_options_s")
+                               "published_tdt,resource_format_s,id_name_s,display_options_s")
 
         self.solr_facet_fields_fr = ['{!ex=tag_portal_type_fr_s}portal_type_fr_s',
                                      '{!ex=tag_collection_type_fr_s}collection_type_fr_s',
@@ -81,7 +81,7 @@ class ODSearchView(View):
                                "description_txt_en,description_xlt_txt_fr,title_en_s,title_txt_en,title_xlt_en_s,"
                                "desc_summary_txt_en,resource_title_en_s,resource_title_txt_en,"
                                "keywords_en_s,keywords_txt_en,keywords_xlt_txt_en,id,_version_,last_modified_tdt,"
-                               "resource_format_s,id_name_s,display_options_s")
+                               "published_tdt,resource_format_s,id_name_s,display_options_s")
         self.solr_facet_fields_en = ['{!ex=tag_portal_type_en_s}portal_type_en_s',
                                      '{!ex=tag_collection_type_en_s}collection_type_en_s',
                                      '{!ex=tag_jurisdiction_en_s}jurisdiction_en_s',

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-06 11:29-0400\n"
+"POT-Creation-Date: 2020-04-07 16:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -351,8 +351,8 @@ msgstr "Rien à signaler"
 #: .\grants\templates\gc_search.html:236 .\grants\templates\gc_search.html:239
 #: .\national_action_plan\templates\nap_search.html:201
 #: .\national_action_plan\templates\nap_search.html:204
-#: .\open_data\templates\od_search.html:213
-#: .\open_data\templates\od_search.html:216
+#: .\open_data\templates\od_search.html:215
+#: .\open_data\templates\od_search.html:218
 #: .\qp_notes\templates\qp_notes_search.html:165
 #: .\qp_notes\templates\qp_notes_search.html:168
 #: .\service_inventory\templates\si_search.html:212
@@ -372,8 +372,8 @@ msgstr "Précédent"
 #: .\grants\templates\gc_search.html:242 .\grants\templates\gc_search.html:246
 #: .\national_action_plan\templates\nap_search.html:209
 #: .\national_action_plan\templates\nap_search.html:213
-#: .\open_data\templates\od_search.html:219
-#: .\open_data\templates\od_search.html:223
+#: .\open_data\templates\od_search.html:221
+#: .\open_data\templates\od_search.html:225
 #: .\qp_notes\templates\qp_notes_search.html:171
 #: .\qp_notes\templates\qp_notes_search.html:175
 #: .\service_inventory\templates\si_search.html:218
@@ -393,8 +393,8 @@ msgstr "Aller à la page"
 #: .\grants\templates\gc_search.html:248 .\grants\templates\gc_search.html:251
 #: .\national_action_plan\templates\nap_search.html:215
 #: .\national_action_plan\templates\nap_search.html:218
-#: .\open_data\templates\od_search.html:225
-#: .\open_data\templates\od_search.html:228
+#: .\open_data\templates\od_search.html:227
+#: .\open_data\templates\od_search.html:230
 #: .\qp_notes\templates\qp_notes_search.html:177
 #: .\qp_notes\templates\qp_notes_search.html:180
 #: .\service_inventory\templates\si_search.html:224
@@ -410,7 +410,7 @@ msgstr "Suivant"
 #: .\experimental_inventory\templates\ei_search.html:216
 #: .\grants\templates\gc_search.html:274
 #: .\national_action_plan\templates\nap_search.html:242
-#: .\open_data\templates\od_search.html:251
+#: .\open_data\templates\od_search.html:253
 #: .\qp_notes\templates\qp_notes_search.html:204
 #: .\service_inventory\templates\si_search.html:250
 #: .\suggested_dataset\templates\sd_search.html:306
@@ -440,8 +440,8 @@ msgstr "Genre de rapport"
 #: .\grants\templates\gc_amendment.html:93
 #: .\grants\templates\gc_search.html:187 .\grants\templates\gc_search.html:341
 #: .\national_action_plan\templates\nap_search.html:456
-#: .\open_data\templates\od_search.html:168
-#: .\open_data\templates\od_search.html:276
+#: .\open_data\templates\od_search.html:170
+#: .\open_data\templates\od_search.html:278
 #: .\qp_notes\templates\qp_notes_search.html:351
 #: .\service_inventory\templates\si_search.html:164
 #: .\service_inventory\templates\si_search.html:274
@@ -468,7 +468,7 @@ msgstr "Mois"
 #: .\experimental_inventory\templates\experiment.html:126
 #: .\grants\templates\gc_search.html:510
 #: .\national_action_plan\templates\nap_search.html:549
-#: .\open_data\templates\od_search.html:553
+#: .\open_data\templates\od_search.html:555
 #: .\qp_notes\templates\qp_notes.html:174
 #: .\qp_notes\templates\qp_notes_search.html:458
 #: .\service_inventory\templates\si_search.html:842
@@ -486,7 +486,7 @@ msgstr ""
 #: .\experimental_inventory\templates\experiment.html:127
 #: .\grants\templates\gc_search.html:511
 #: .\national_action_plan\templates\nap_search.html:550
-#: .\open_data\templates\od_search.html:554
+#: .\open_data\templates\od_search.html:556
 #: .\qp_notes\templates\qp_notes.html:175
 #: .\qp_notes\templates\qp_notes_search.html:459
 #: .\service_inventory\templates\si_search.html:843
@@ -503,7 +503,7 @@ msgstr "Contactez-nous du gouvernement ouvert"
 #: .\experimental_inventory\templates\experiment.html:129
 #: .\grants\templates\gc_search.html:513
 #: .\national_action_plan\templates\nap_search.html:552
-#: .\open_data\templates\od_search.html:556
+#: .\open_data\templates\od_search.html:558
 #: .\qp_notes\templates\qp_notes.html:177
 #: .\qp_notes\templates\qp_notes_search.html:461
 #: .\service_inventory\templates\si_search.html:845
@@ -520,7 +520,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/min.html"
 #: .\experimental_inventory\templates\experiment.html:130
 #: .\grants\templates\gc_search.html:514
 #: .\national_action_plan\templates\nap_search.html:553
-#: .\open_data\templates\od_search.html:557
+#: .\open_data\templates\od_search.html:559
 #: .\qp_notes\templates\qp_notes.html:178
 #: .\qp_notes\templates\qp_notes_search.html:462
 #: .\service_inventory\templates\si_search.html:846
@@ -537,7 +537,7 @@ msgstr "Ministères et organismes"
 #: .\experimental_inventory\templates\experiment.html:132
 #: .\grants\templates\gc_search.html:516
 #: .\national_action_plan\templates\nap_search.html:555
-#: .\open_data\templates\od_search.html:559
+#: .\open_data\templates\od_search.html:561
 #: .\qp_notes\templates\qp_notes.html:180
 #: .\qp_notes\templates\qp_notes_search.html:464
 #: .\service_inventory\templates\si_search.html:848
@@ -554,7 +554,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
 #: .\experimental_inventory\templates\experiment.html:133
 #: .\grants\templates\gc_search.html:517
 #: .\national_action_plan\templates\nap_search.html:556
-#: .\open_data\templates\od_search.html:560
+#: .\open_data\templates\od_search.html:562
 #: .\qp_notes\templates\qp_notes.html:181
 #: .\qp_notes\templates\qp_notes_search.html:465
 #: .\service_inventory\templates\si_search.html:849
@@ -571,7 +571,7 @@ msgstr "Fonction publique et force militaire"
 #: .\experimental_inventory\templates\experiment.html:135
 #: .\grants\templates\gc_search.html:519
 #: .\national_action_plan\templates\nap_search.html:558
-#: .\open_data\templates\od_search.html:562
+#: .\open_data\templates\od_search.html:564
 #: .\qp_notes\templates\qp_notes.html:183
 #: .\qp_notes\templates\qp_notes_search.html:467
 #: .\service_inventory\templates\si_search.html:851
@@ -588,7 +588,7 @@ msgstr "http://nouvelles.gc.ca"
 #: .\experimental_inventory\templates\experiment.html:136
 #: .\grants\templates\gc_search.html:520
 #: .\national_action_plan\templates\nap_search.html:559
-#: .\open_data\templates\od_search.html:563
+#: .\open_data\templates\od_search.html:565
 #: .\qp_notes\templates\qp_notes.html:184
 #: .\qp_notes\templates\qp_notes_search.html:468
 #: .\service_inventory\templates\si_search.html:852
@@ -605,7 +605,7 @@ msgstr "Nouvelles"
 #: .\experimental_inventory\templates\experiment.html:138
 #: .\grants\templates\gc_search.html:522
 #: .\national_action_plan\templates\nap_search.html:561
-#: .\open_data\templates\od_search.html:565
+#: .\open_data\templates\od_search.html:567
 #: .\qp_notes\templates\qp_notes.html:186
 #: .\qp_notes\templates\qp_notes_search.html:470
 #: .\service_inventory\templates\si_search.html:854
@@ -622,7 +622,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
 #: .\experimental_inventory\templates\experiment.html:139
 #: .\grants\templates\gc_search.html:523
 #: .\national_action_plan\templates\nap_search.html:562
-#: .\open_data\templates\od_search.html:566
+#: .\open_data\templates\od_search.html:568
 #: .\qp_notes\templates\qp_notes.html:187
 #: .\qp_notes\templates\qp_notes_search.html:471
 #: .\service_inventory\templates\si_search.html:855
@@ -639,7 +639,7 @@ msgstr "Traités, lois et règlements"
 #: .\experimental_inventory\templates\experiment.html:141
 #: .\grants\templates\gc_search.html:525
 #: .\national_action_plan\templates\nap_search.html:564
-#: .\open_data\templates\od_search.html:568
+#: .\open_data\templates\od_search.html:570
 #: .\qp_notes\templates\qp_notes.html:189
 #: .\qp_notes\templates\qp_notes_search.html:473
 #: .\service_inventory\templates\si_search.html:857
@@ -656,7 +656,7 @@ msgstr "https://www.canada.ca/fr/transparence/rapports.html"
 #: .\experimental_inventory\templates\experiment.html:142
 #: .\grants\templates\gc_search.html:526
 #: .\national_action_plan\templates\nap_search.html:565
-#: .\open_data\templates\od_search.html:569
+#: .\open_data\templates\od_search.html:571
 #: .\qp_notes\templates\qp_notes.html:190
 #: .\qp_notes\templates\qp_notes_search.html:474
 #: .\service_inventory\templates\si_search.html:858
@@ -673,7 +673,7 @@ msgstr "Rapports à l'échelle du gouvernement"
 #: .\experimental_inventory\templates\experiment.html:144
 #: .\grants\templates\gc_search.html:528
 #: .\national_action_plan\templates\nap_search.html:567
-#: .\open_data\templates\od_search.html:571
+#: .\open_data\templates\od_search.html:573
 #: .\qp_notes\templates\qp_notes.html:192
 #: .\qp_notes\templates\qp_notes_search.html:476
 #: .\service_inventory\templates\si_search.html:860
@@ -690,7 +690,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
 #: .\experimental_inventory\templates\experiment.html:145
 #: .\grants\templates\gc_search.html:529
 #: .\national_action_plan\templates\nap_search.html:568
-#: .\open_data\templates\od_search.html:572
+#: .\open_data\templates\od_search.html:574
 #: .\qp_notes\templates\qp_notes.html:193
 #: .\qp_notes\templates\qp_notes_search.html:477
 #: .\service_inventory\templates\si_search.html:861
@@ -949,7 +949,7 @@ msgstr "Valeur"
 #: .\contracts\templates\contracts_search.html:243
 #: .\experimental_inventory\templates\ei_search.html:222
 #: .\grants\templates\gc_search.html:281
-#: .\open_data\templates\od_search.html:256
+#: .\open_data\templates\od_search.html:258
 #: .\suggested_dataset\templates\sd_search.html:313
 msgid "Download Search Results"
 msgstr "Télécharger les résultats de recherche"
@@ -1092,6 +1092,7 @@ msgid "Status: "
 msgstr "Statut : "
 
 #: .\experimental_inventory\templates\experiment.html:98
+#: .\open_data\templates\od_search.html:168
 msgid "Last Updated: "
 msgstr "Dernière mise à jour : "
 
@@ -1449,7 +1450,7 @@ msgstr "Vider la list"
 #: .\open_data\templates\od_search.html:143
 #: .\open_data\templates\od_search.html:160
 #: .\open_data\templates\od_search.html:165
-#: .\open_data\templates\od_search.html:180
+#: .\open_data\templates\od_search.html:182
 msgid ""
 "This third party metadata element has been translated using an automated "
 "translation tool (DeepL).  To report any discrepancies please contact open-"
@@ -1459,56 +1460,61 @@ msgstr ""
 "l'aide d'un outil de traduction automatisée (DeepL). Pour signaler toute "
 "anomalie, veuillez communiquer avec nous à open-ouvert@tbs-sct.gc.ca"
 
-#: .\open_data\templates\od_search.html:170
-#: .\open_data\templates\od_search.html:458
+#: .\open_data\templates\od_search.html:169
+#| msgid "Date Released: "
+msgid "Date Published: "
+msgstr "Dossier publié : "
+
+#: .\open_data\templates\od_search.html:172
+#: .\open_data\templates\od_search.html:460
 msgid "Formats"
 msgstr "Formats"
 
-#: .\open_data\templates\od_search.html:173
-#: .\open_data\templates\od_search.html:402
+#: .\open_data\templates\od_search.html:175
+#: .\open_data\templates\od_search.html:404
 msgid "Keywords"
 msgstr "Mots clés"
 
-#: .\open_data\templates\od_search.html:192
+#: .\open_data\templates\od_search.html:194
 msgid "Add to Map List"
 msgstr "Ajouter à la liste de cartes"
 
-#: .\open_data\templates\od_search.html:196
+#: .\open_data\templates\od_search.html:198
 msgid "Remove from Map List"
 msgstr "Supprimer de la liste de cartes"
 
-#: .\open_data\templates\od_search.html:266
+#: .\open_data\templates\od_search.html:268
 msgid "https://open.canada.ca/en/suggested-datasets"
 msgstr "https://ouvert.canada.ca/fr/jeux-de-donnees-suggeres"
 
-#: .\open_data\templates\od_search.html:268
+#: .\open_data\templates\od_search.html:270
 #: .\suggested_dataset\templates\sd_search.html:319
 msgid "Suggest a Dataset"
 msgstr "Proposez un jeu de données"
 
-#: .\open_data\templates\od_search.html:320
+#: .\open_data\templates\od_search.html:322
 msgid "Portal Type"
 msgstr "Type de portail"
 
-#: .\open_data\templates\od_search.html:346
+#: .\open_data\templates\od_search.html:348
 msgid "Collection Type"
 msgstr "Type de collection"
 
-#: .\open_data\templates\od_search.html:375
+#: .\open_data\templates\od_search.html:377
 msgid "Jurisdiction"
 msgstr "Juridiction"
 
-#: .\open_data\templates\od_search.html:430
+#: .\open_data\templates\od_search.html:432
 #: .\suggested_dataset\templates\sd_search.html:208
 #: .\suggested_dataset\templates\sd_search.html:241
 msgid "Subjects"
 msgstr "Sujets"
 
-#: .\open_data\templates\od_search.html:485
+#: .\open_data\templates\od_search.html:487
 msgid "Resource Types"
 msgstr "Type de ressource"
 
-#: .\open_data\templates\od_search.html:512
+#: .\open_data\templates\od_search.html:514
 msgid "Update Frequency"
 msgstr "Fréquence de mise à jour"
 
@@ -1739,7 +1745,6 @@ msgid "E-Feedback"
 msgstr "Rétroaction électroniques"
 
 #: .\suggested_dataset\templates\sd_dataset.html:38
-#| msgid "Suggest a Dataset"
 msgid "Suggested Dataset"
 msgstr "Jeu de données proposés"
 
@@ -1750,24 +1755,20 @@ msgstr "Données ouvertes"
 
 #: .\suggested_dataset\templates\sd_dataset.html:64
 #: .\suggested_dataset\templates\sd_search.html:82
-#| msgid "https://open.canada.ca/en/open-information"
 msgid "https://open.canada.ca/en/open-data"
 msgstr "https://ouvert.canada.ca/fr/donnees-ouvertes"
 
 #: .\suggested_dataset\templates\sd_dataset.html:66
 #: .\suggested_dataset\templates\sd_search.html:141
-#| msgid "Suggest a Dataset"
 msgid "Search Suggested Datasets"
 msgstr "Rechercher les jeux de données proposés"
 
 #: .\suggested_dataset\templates\sd_dataset.html:67
-#| msgid "/en/user"
 msgid "/en/sd"
 msgstr "/fr/sd"
 
 #: .\suggested_dataset\templates\sd_dataset.html:87
 #: .\suggested_dataset\templates\sd_dataset.html:90
-#| msgid "Last Updated"
 msgid "Status Updates"
 msgstr "Mises à jour sur l’état"
 
@@ -1776,7 +1777,6 @@ msgid "Reason for Status:"
 msgstr "Raison de l’état :"
 
 #: .\suggested_dataset\templates\sd_dataset.html:133
-#| msgid "Subjects"
 msgid "Subjects:"
 msgstr "Sujets :"
 
@@ -1784,12 +1784,11 @@ msgstr "Sujets :"
 #: .\suggested_dataset\templates\sd_search.html:12
 #: .\suggested_dataset\templates\sd_search.html:15
 #: .\suggested_dataset\templates\sd_search.html:89
-#| msgid "Suggest a Dataset"
 msgid "Suggested Datasets"
 msgstr "Jeux de données proposés"
 
 #: .\suggested_dataset\templates\sd_search.html:123
-#| msgid "Found %(result_num)s record%(result_s)s"
+#, python-format
 msgid ""
 "Found\n"
 "                            %(result_num)s record%(result_s)s"
@@ -1810,13 +1809,11 @@ msgstr ""
 
 #: .\suggested_dataset\templates\sd_search.html:201
 #: .\suggested_dataset\templates\sd_search.html:234
-#| msgid "Date received: "
 msgid "Date Requested: "
 msgstr "Date de la demande : "
 
 #: .\suggested_dataset\templates\sd_search.html:203
 #: .\suggested_dataset\templates\sd_search.html:236
-#| msgid "Date received: "
 msgid "Date Released: "
 msgstr "Date fournie : "
 
@@ -1833,10 +1830,6 @@ msgid "Error 404"
 msgstr "Erreur 404"
 
 #: .\wet\templates\404.html:33
-#| msgid ""
-#| "We're sorry you ended up here. Sometimes a page gets moved or deleted, "
-#| "but hopefully we can help you find what you're looking for. Return to the "
-#| "<a href=\"/en/od\">search page"
 msgid ""
 "We're sorry you ended up here. Sometimes a page gets moved or deleted, but "
 "hopefully we can help you find what you're looking for. Return to the <a "
@@ -1959,6 +1952,11 @@ msgstr ""
 #: .\wet\templatetags\search_extras.py:45
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
+
+#, fuzzy
+#~| msgid "Last Updated: "
+#~ msgid "Last Updated:"
+#~ msgstr "Dernière mise à jour : "
 
 #~ msgid "Document Type: "
 #~ msgstr "Type d'document :"
