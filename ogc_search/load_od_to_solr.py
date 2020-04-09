@@ -153,6 +153,15 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
             elif 'en-t-fr' in o['notes_translated']:
                 od_obj['desc_summary_txt_fr'] = get_summary(str(o['notes_translated']['en-t-fr']).strip(), 'fr')
 
+            if 'data_series_issue_identification' in o:
+                if 'en' in o['data_series_issue_identification']:
+                    od_obj['data_series_issue_identification_en'] = o['data_series_issue_identification']['en']
+                else:
+                    od_obj['data_series_issue_ident_en'] = '-'
+                if 'fr' in o['data_series_issue_identification']:
+                    od_obj['data_series_issue_identification_fr'] = o['data_series_issue_identification']['fr']
+                else:
+                    od_obj['data_series_issue_ident_fr'] = '-'
             if 'en' in o['keywords']:
                 od_obj['keywords_en_s'] = o['keywords']['en']
             elif 'fr-t-en' in o['keywords']:

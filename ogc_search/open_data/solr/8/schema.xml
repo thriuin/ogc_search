@@ -1075,6 +1075,8 @@
     <copyField source="keywords_xlt_fr_s" dest="keywords_xlt_txt_fr"/>
     <copyField source="keywords_xlt_en_s" dest="keywords_en_s"/>
     <copyField source="keywords_xlt_fr_s" dest="keywords_fr_s"/>
+    <copyField source="data_series_issue_identification_en" dest="data_series_issue_ident_en"/>
+    <copyField source="data_series_issue_identification_fr" dest="data_series_issue_ident_fr"/>
     <field name="ogp_link_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="ogp_link_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 
@@ -1137,5 +1139,8 @@
     <field name="published_tdt" type="pdate" indexed="true" stored="true" multiValued="false"
            sortMissingLast="true" sortMissingFirst="false"/>
     <field name="display_options_s" type="string" indexed="true" stored="true" multiValued="true"/>
-
+    <field name="data_series_issue_identification_en" type="text_en" stored="true"/>
+    <field name="data_series_issue_identification_fr" type="text_fr" stored="true"/>
+    <field name="data_series_issue_ident_en" type="string" stored="true" docValues="true"/>
+    <field name="data_series_issue_ident_fr" type="string" stored="true" docValues="true"/>
 </schema>
