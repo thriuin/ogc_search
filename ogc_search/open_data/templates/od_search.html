@@ -165,6 +165,7 @@
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
                                 {% endif %}</span>
+                            <p><a href="/{{ LANGUAGE_CODE }}/od?mlt_id={{ doc.id }}">{% trans 'Show similar datasets' %}</a></p>
                             <p><strong>{% trans 'Last Updated: ' %}</strong>{% if LANGUAGE_CODE == 'en' %}{{ doc.last_modified_tdt | isoDateTimeToDate | friendly_date_en }}{% else %}{{ doc.last_modified_tdt | isoDateTimeToDate | friendly_date_fr }}{% endif %}</p>
                             <p><strong>{% trans 'Date Published: ' %}</strong>{% if LANGUAGE_CODE == 'en' %}{{ doc.published_tdt | isoDateTimeToDate | friendly_date_en }}{% else %}{{ doc.published_tdt | isoDateTimeToDate | friendly_date_fr }}{% endif %}</p>
                             <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}

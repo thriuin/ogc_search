@@ -106,6 +106,12 @@ class ODSearchView(View):
         self.solr_trigram_fields_en = ['description_txt_en', 'title_txt_en']
         self.solr_facet_limits_en = {'f.keywords_en_s.facet.limit': 250,
                                      'f.keywords_en_s.facet.sort': 'count'}
+        self.mlt_fields_en = "author_txt,description_txt_en,description_xlt_txt_en," \
+                             "data_series_issue_identification_en,title_txt_en,keywords_txt_en,keywords_xlt_txt_en," \
+                             "resource_title_txt_en,desc_summary_txt_en"
+        self.mlt_fields_fr = "author_txt,description_txt_fr,description_xlt_txt_fr," \
+                             "data_series_issue_identification_fr,title_txt_fr,keywords_txt_fr,keywords_xlt_txt_fr," \
+                             "resource_title_txt_fr,desc_summary_txt_fr"
 
         self.phrase_xtras_en = {
             'hl': 'on',
@@ -157,7 +163,9 @@ class ODSearchView(View):
 
         solr_search_ids = request.GET.get('ids', '')
 
-        if solr_search_ids == '':
+        mlt_search_id = request.GET.get("mlt_id", '')
+
+        if solr_search_ids == '' and mlt_search_id == '':
             # Handle search text
             search_text = str(request.GET.get('search_text', ''))
 
@@ -255,71 +263,76 @@ class ODSearchView(View):
                                update_cycle_en_s=context['update_selected'])
 
         # Retrieve search results and transform facets results to python dict
-
-        if request.LANGUAGE_CODE == 'fr':
-            search_results = search_util.solr_query(solr_search_terms, settings.SOLR_URL, self.solr_fields_fr,
-                                                    self.solr_query_fields_fr, self.solr_facet_fields_fr,
-                                                    self.phrase_xtras_fr, start_row=str(start_row),
-                                                    pagesize=str(settings.OPEN_DATA_ITEMS_PER_PAGE),
-                                                    facets=facets_dict, sort_order=solr_search_sort,
-                                                    uuid_list=solr_search_ids, facet_limit=self.solr_facet_limits_fr
-                                                    )
+        if mlt_search_id == '':
+            if request.LANGUAGE_CODE == 'fr':
+                search_results = search_util.solr_query(solr_search_terms, settings.SOLR_URL, self.solr_fields_fr,
+                                                        self.solr_query_fields_fr, self.solr_facet_fields_fr,
+                                                        self.phrase_xtras_fr, start_row=str(start_row),
+                                                        pagesize=str(settings.OPEN_DATA_ITEMS_PER_PAGE),
+                                                        facets=facets_dict, sort_order=solr_search_sort,
+                                                        uuid_list=solr_search_ids, facet_limit=self.solr_facet_limits_fr
+                                                        )
+            else:
+                search_results = search_util.solr_query(solr_search_terms, settings.SOLR_URL, self.solr_fields_en,
+                                                        self.solr_query_fields_en, self.solr_facet_fields_en,
+                                                        self.phrase_xtras_en, start_row=str(start_row),
+                                                        pagesize=str(settings.OPEN_DATA_ITEMS_PER_PAGE),
+                                                        facets=facets_dict, sort_order=solr_search_sort,
+                                                        uuid_list=solr_search_ids, facet_limit=self.solr_facet_limits_en
+                                                        )
         else:
-            search_results = search_util.solr_query(solr_search_terms, settings.SOLR_URL, self.solr_fields_en,
-                                                    self.solr_query_fields_en, self.solr_facet_fields_en,
-                                                    self.phrase_xtras_en, start_row=str(start_row),
-                                                    pagesize=str(settings.OPEN_DATA_ITEMS_PER_PAGE),
-                                                    facets=facets_dict, sort_order=solr_search_sort,
-                                                    uuid_list=solr_search_ids, facet_limit=self.solr_facet_limits_en
-                                                    )
+            if request.LANGUAGE_CODE == 'fr':
+                search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_fr, self.mlt_fields_fr,
+                                                      start_row='0', pagesize='10')
+            else:
+                search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_en, self.mlt_fields_en,
+                                                      start_row='0', pagesize='10')
 
+        context['export_url'] = "/{0}/od/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
 
-        export_url = "/{0}/od/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
-
-        context['export_url'] = export_url
-
-        if request.LANGUAGE_CODE == 'fr':
-            context['portal_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['portal_type_fr_s'])
-            context['collection_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['collection_type_fr_s'])
-            context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['jurisdiction_fr_s'])
-            context['org_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['owner_org_title_fr_s'])
-            context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['owner_org_title_fr_s'])
-            context['keyword_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['keywords_fr_s'])
-            context['subject_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['subject_fr_s'])
-            context['format_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['resource_format_s'])
-            context['type_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['resource_type_fr_s'])
-            context['frequency_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['update_cycle_fr_s'])
-        else:
-            context['portal_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['portal_type_en_s'])
-            context['collection_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['collection_type_en_s'])
-            context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['jurisdiction_en_s'])
-            context['org_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['owner_org_title_en_s'])
-            context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['owner_org_title_en_s'])
-            context['keyword_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['keywords_en_s'])
-            context['subject_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['subject_en_s'])
-            context['format_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['resource_format_s'])
-            context['type_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['resource_type_en_s'])
-            context['frequency_facets'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['update_cycle_en_s'])
+        if mlt_search_id == '':
+            if request.LANGUAGE_CODE == 'fr':
+                context['portal_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['portal_type_fr_s'])
+                context['collection_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['collection_type_fr_s'])
+                context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['jurisdiction_fr_s'])
+                context['org_facets_en'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['owner_org_title_fr_s'])
+                context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['owner_org_title_fr_s'])
+                context['keyword_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['keywords_fr_s'])
+                context['subject_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['subject_fr_s'])
+                context['format_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['resource_format_s'])
+                context['type_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['resource_type_fr_s'])
+                context['frequency_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['update_cycle_fr_s'])
+            else:
+                context['portal_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['portal_type_en_s'])
+                context['collection_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['collection_type_en_s'])
+                context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['jurisdiction_en_s'])
+                context['org_facets_en'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['owner_org_title_en_s'])
+                context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['owner_org_title_en_s'])
+                context['keyword_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['keywords_en_s'])
+                context['subject_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['subject_en_s'])
+                context['format_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['resource_format_s'])
+                context['type_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['resource_type_en_s'])
+                context['frequency_facets'] = search_util.convert_facet_list_to_dict(
+                    search_results.facets['facet_fields']['update_cycle_en_s'])
 
         context['results'] = search_results
 
@@ -393,7 +406,6 @@ class ODExportView(ODSearchView):
 
         # If a list of ids is provided, then the facets and search text are ignored.
 
-        search_text = ''
         solr_search_terms = ''
         solr_search_portal = ''
         solr_search_col = ''
@@ -406,7 +418,9 @@ class ODExportView(ODSearchView):
         solr_search_updc = ''
 
         solr_search_ids = request.GET.get('ids', '')
-        if solr_search_ids == '':
+        mlt_search_id = request.GET.get("mlt_id", '')
+
+        if solr_search_ids == '' and mlt_search_id == '':
 
             # Handle search text
 
@@ -454,10 +468,21 @@ class ODExportView(ODSearchView):
                                resource_type_en_s=solr_search_rsct,
                                update_cycle_en_s=solr_search_updc)
 
-
-        search_results = search_util.solr_query_for_export(solr_search_terms, settings.SOLR_URL, self.solr_fields,
-                                                           self.solr_query_fields_en, self.solr_facet_fields_en,
-                                                           "id asc", facets_dict, self.phrase_xtras_en, solr_search_ids)
+        if mlt_search_id == "":
+            search_results = search_util.solr_query_for_export(solr_search_terms, settings.SOLR_URL, self.solr_fields,
+                                                               self.solr_query_fields_en, self.solr_facet_fields_en,
+                                                               "id asc", facets_dict, self.phrase_xtras_en, solr_search_ids)
+        else:
+            if request.LANGUAGE_CODE == 'fr':
+                search_results = search_util.solr_query_for_export_mlt(mlt_search_id,settings.SOLR_URL,
+                                                                       self.solr_fields, self.mlt_fields_fr,
+                                                                       self.solr_query_fields_fr, 'title_fr_s asc',
+                                                                       10)
+            else:
+                search_results = search_util.solr_query_for_export_mlt(mlt_search_id,settings.SOLR_URL,
+                                                                       self.solr_fields, self.mlt_fields_en,
+                                                                       self.solr_query_fields_en, 'title_en_s asc',
+                                                                       10)
 
         if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
                                                  solr_fields=self.solr_fields):
@@ -465,3 +490,6 @@ class ODExportView(ODSearchView):
                 return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
             else:
                 return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+
+
+

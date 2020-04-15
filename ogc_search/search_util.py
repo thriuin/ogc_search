@@ -102,6 +102,33 @@ def calc_starting_row(page_num, rows_per_age=10):
     return rows_per_age * (page - 1), page
 
 
+def solr_mlt(unique_id, solr_url, solr_fields, solr_mlt_fields, start_row='0', pagesize='10'):
+    solr = pysolr.Solr(solr_url)
+    extras = {
+        'start': start_row,
+        'rows': pagesize,
+        'facet': 'off',
+        'mlt': 'true',
+        'mlt.boost': 'true',
+        'mlt.mindf': 1,
+        'mlt.mintf': 1,
+        'mlt.match.include': 'true',
+        'mlt.count': pagesize,
+        'mlt.fl': solr_mlt_fields
+    }
+    q = ""
+    uuid_regex = uuid_pattern('[1-5]')
+    if uuid_regex.match(unique_id):
+        q = 'id:{0}'.format(unique_id)
+    sr = solr.search(q, **extras)
+    sr.docs = sr.raw_response['moreLikeThis'][unique_id]['docs']
+    if sr.raw_response['moreLikeThis'][unique_id]['numFound'] < int(pagesize):
+        sr.hits = sr.raw_response['moreLikeThis'][unique_id]['numFound']
+    else:
+        sr.hits = int(pagesize)
+    return sr
+
+
 def solr_query(q, solr_url, solr_fields, solr_query_fields, solr_facet_fields, phrases_extra,
                start_row='0', pagesize='10', facets={}, sort_order='score asc', facet_limit='',
                uuid_list=''):
@@ -220,6 +247,55 @@ def solr_query_for_export(q, solr_url, solr_fields, solr_query_fields, solr_face
     sr = solr.search(q, **extras)
 
     return sr
+
+
+def solr_query_for_export_mlt(unique_id, solr_url, solr_fields, solr_mlt_fields, solr_query_fields,
+                              sort_order, pagesize):
+
+    solr = pysolr.Solr(solr_url)
+    extras = {
+        'facet': 'off',
+        'mlt': 'true',
+        'mlt.boost': 'true',
+        'mlt.mindf': 1,
+        'mlt.mintf': 1,
+        'mlt.match.include': 'true',
+        'mlt.count': pagesize,
+        'mlt.fl': solr_mlt_fields
+    }
+    q = ""
+    uuid_regex = uuid_pattern('[1-5]')
+    if uuid_regex.match(unique_id):
+        q = 'id:{0}'.format(unique_id)
+    sr = solr.search(q, **extras)
+    ids = []
+    for doc in sr.raw_response['moreLikeThis'][unique_id]['docs']:
+        ids.append(doc['id'])
+
+    solr = pysolr.Solr(solr_url, search_handler='/export')
+    solr_facets = []
+
+    extras = {
+            'fq': solr_facets,
+            'fl': solr_fields,
+            'facet': 'on',
+            'facet.sort': 'index',
+            'defType': 'edismax',
+            'qf': solr_query_fields,
+            'sort': sort_order,
+        }
+
+    uuid_regex = uuid_pattern('[1-5]')
+    q = ""
+    for id in ids:
+        if uuid_regex.match(id):
+            q += 'id:{0} OR '.format(id)
+    if q.endswith(' OR '):
+        q = q[:-4]
+    sr = solr.search(q, **extras)
+
+    return sr
+
 
 
 def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fields: str):

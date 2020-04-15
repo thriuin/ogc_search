@@ -162,6 +162,10 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                     od_obj['data_series_issue_identification_fr'] = o['data_series_issue_identification']['fr']
                 else:
                     od_obj['data_series_issue_ident_fr'] = '-'
+            else:
+                od_obj['data_series_issue_ident_en'] = '-'
+                od_obj['data_series_issue_ident_fr'] = '-'
+
             if 'en' in o['keywords']:
                 od_obj['keywords_en_s'] = o['keywords']['en']
             elif 'fr-t-en' in o['keywords']:
