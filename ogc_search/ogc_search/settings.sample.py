@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'national_action_plan',
     'open_data',
     'qp_notes',
-    'suggested_dataset'
+    'suggested_dataset',
     'wet'
 ]
 
