@@ -1461,8 +1461,8 @@ msgstr ""
 "anomalie, veuillez communiquer avec nous à open-ouvert@tbs-sct.gc.ca"
 
 #: .\open_data\templates\od_search.html:168
-msgid "Show similar datasets"
-msgstr "Recherche des jeux de données similaires"
+msgid "Show similar records"
+msgstr "Recherche des dossiers similaires"
 
 #: .\open_data\templates\od_search.html:170
 msgid "Date Published: "

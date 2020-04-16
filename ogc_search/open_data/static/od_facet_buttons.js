@@ -15,12 +15,12 @@ $(function(){
                     // same basic user value scrubbing
                     let display_key = (pair[0] + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
                     let display_term = (display_terms[j] + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
-                    let new_link_obj = {class: "btn btn-default btn-xs",
+                    let new_link_obj = {class: "btn btn-secondary btn-sm",
                         onclick:  'select_facet("' + display_term + '","' + display_key + '");',
                         text: display_terms[j] + " " };
                     let new_link = $("<a />", new_link_obj).append($("<span />",
                         {class: 'glyphicon glyphicon-remove', text: ' '}));
-                    $('#search_terms').append(new_link);
+                    $('#search_terms').append(new_link).append(' ');
                 }
             }
         }

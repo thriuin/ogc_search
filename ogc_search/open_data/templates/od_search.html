@@ -19,6 +19,7 @@
     <script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 {% block custom_page_css %}
+    <link rel="stylesheet" href="{% static 'wet/aurora-custom.css' %}">
 {% endblock custom_page_css %}
 {% block top-settings %}
     "lngLinks": [{
@@ -68,7 +69,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
-                            <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{ result_num }} record{{ result_s }}{% endblocktrans %}</p>
+                            <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{ result_num }} record{{ result_s }}{% endblocktrans %}{{ mlt_message | safe }}</p>
                         </div>
                     </div>
                     <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form"
@@ -92,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-5 col-md-5">
-                                <div class="form-group">
+                                <div class="form-group pull-right">
                                     <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
                                     <select class="form-control" name="sort-by" id="sort-by" value="{{ sortby }}"
                                             onchange="submitForm();">
@@ -118,7 +119,7 @@
                         </div>
                     </form>
                     <div class="row mrgn-tp-md mrgn-bttm-md">
-                        <div class="col-md-12" id="search_terms">
+                        <div class="col-md-12"><span id="search_terms"></span>
                         </div>
                     </div>
 
@@ -146,15 +147,15 @@
                                 </a></h4>
                         </div>
                         <div class="col-sm-2 text-right">
-                            <span class="{% if doc.jurisdiction_en_s == 'Provincial' or doc.jurisdiction_fr_s == 'Provinciale' %}label label-success
-                                         {% elif doc.jurisdiction_en_s == 'User' or doc.jurisdiction_fr_s == 'Utilisateur' %}label label-warning
-                                         {% elif doc.jurisdiction_en_s == 'Municipal' or doc.jurisdiction_fr_s == 'Municipal' %}label label-danger
-                                         {% else %}label label-primary{% endif %}">
+                            <span class="{% if doc.jurisdiction_en_s == 'Provincial' or doc.jurisdiction_fr_s == 'Provinciale' %}badge badge-secondary
+                                         {% elif doc.jurisdiction_en_s == 'User' or doc.jurisdiction_fr_s == 'Utilisateur' %}badge badge-warning
+                                         {% elif doc.jurisdiction_en_s == 'Municipal' or doc.jurisdiction_fr_s == 'Municipal' %}badge badge-info
+                                         {% else %}badge badge-success{% endif %}">
                                 {% if LANGUAGE_CODE == 'fr' %}
                                 {{ doc.jurisdiction_fr_s }}{% else %}{{doc.jurisdiction_en_s}}{% endif %}</span>
                         </div>
-                        <div class="col-sm-12">
-                            <span class="mrgn-bttm-sm mrgn-lft-sm mrgn-rght-sm mrgn-tp-sm">{% if LANGUAGE_CODE == 'en' %}
+                        <div class="col-sm-12 mrgn-bttm mrgn-lft-sm mrgn-rght-sm mrgn-tp-sm">
+                            {% if LANGUAGE_CODE == 'en' %}
                                     {% if 'description_txt_en' in doc %}{{ doc.desc_summary_txt_en | markdown_filter | safe }}
                                     {% elif 'description_xlt_txt_en' in doc %}{{ doc.description_xlt_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
@@ -164,45 +165,55 @@
                                     {% elif 'description_xlt_txt_fr' in doc %}{{ doc.description_xlt_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
-                                {% endif %}</span>
-                            <p><a href="/{{ LANGUAGE_CODE }}/od?mlt_id={{ doc.id }}">{% trans 'Show similar datasets' %}</a></p>
-                            <p><strong>{% trans 'Last Updated: ' %}</strong>{% if LANGUAGE_CODE == 'en' %}{{ doc.last_modified_tdt | isoDateTimeToDate | friendly_date_en }}{% else %}{{ doc.last_modified_tdt | isoDateTimeToDate | friendly_date_fr }}{% endif %}</p>
-                            <p><strong>{% trans 'Date Published: ' %}</strong>{% if LANGUAGE_CODE == 'en' %}{{ doc.published_tdt | isoDateTimeToDate | friendly_date_en }}{% else %}{{ doc.published_tdt | isoDateTimeToDate | friendly_date_fr }}{% endif %}</p>
-                            <p><strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
-                                {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ doc.owner_org_title_txt_fr | safe }}{% endif %}</p>
-                            <p><strong>{% trans 'Formats' %}: </strong>
-                                {% for f in doc.resource_format_s %}<span class="badge">{% trans f %}</span> {% endfor %}
-                            </p>
-                            <p><span class="glyphicon glyphicon-tags" aria-hidden="true"></span><span class="wb-inv">{% trans 'Keywords' %}:</span>&nbsp;
-                                {% if LANGUAGE_CODE == 'fr' %}
-                                    {% if 'keywords_txt_fr' in doc %}
-                                        {% for y in doc.keywords_txt_fr %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
-                                    {% elif 'keywords_xlt_txt_fr' in doc %}
-                                        {% for y in doc.keywords_xlt_txt_fr %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
-                                        <span class="fa fa-language text-muted mrgn-lft-sm"
-                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
-                                    {% endif %}
-                                {% else %}
-                                    {% for y in doc.keywords_txt_en %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
                                 {% endif %}
-                            </p>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <strong>{% trans 'Last Updated: ' %}</strong>{% if LANGUAGE_CODE == 'en' %}{{ doc.last_modified_tdt | isoDateTimeToDate | friendly_date_en }}{% else %}{{ doc.last_modified_tdt | isoDateTimeToDate | friendly_date_fr }}{% endif %}
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <strong>{% trans 'Date Published: ' %}</strong>{% if LANGUAGE_CODE == 'en' %}{{ doc.published_tdt | isoDateTimeToDate | friendly_date_en }}{% else %}{{ doc.published_tdt | isoDateTimeToDate | friendly_date_fr }}{% endif %}
+                        </div>
+                        <div class="col-sm-12">
+                            <strong>{% trans 'Organization' %}: </strong>{% if LANGUAGE_CODE == 'en' %}
+                                {{ doc.owner_org_title_txt_en | safe }}{% else %}{{ doc.owner_org_title_txt_fr | safe }}{% endif %}
+                        </div>
+                        <div class="col-sm-12">
+                            <strong>{% trans 'Formats' %}: </strong>
+                                {% for f in doc.resource_format_s %}<span class="badge">{% trans f %}</span> {% endfor %}
+                        </div>
+                        <div class="col-sm-12">
+
+                        </div>
+                        <div class="col-sm-12">
+                                <span class="glyphicon glyphicon-tags" aria-hidden="true"></span><span class="wb-inv">{% trans 'Keywords' %}:</span>&nbsp;
+                                    {% if LANGUAGE_CODE == 'fr' %}
+                                        {% if 'keywords_txt_fr' in doc %}
+                                            {% for y in doc.keywords_txt_fr %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
+                                        {% elif 'keywords_xlt_txt_fr' in doc %}
+                                            {% for y in doc.keywords_xlt_txt_fr %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
+                                            <span class="fa fa-language text-muted mrgn-lft-sm"
+                                             title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                        {% endif %}
+                                    {% else %}
+                                        {% for y in doc.keywords_txt_en %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
+                                    {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-12 pull-left mrgn-tp-sm">
                             {% for display_type in doc.display_options_s %}
                                 {% if display_type == "fgp_viewer" %}
-                                <p>
                                     <a value="{{ doc.id_name_s }}"
                                        id="OGSCartAdd_{{ doc.id_name_s }}"
-                                       class="ogscartbtn ogscartaddbtn btn btn-success btn-xs" href="javascript:;">
+                                       class="ogscartbtn ogscartaddbtn btn btn-success btn-sm" href="javascript:;">
                                        <span class="fa fa-plus"></span> {% trans 'Add to Map List' %}</a>
                                     <a value="{{ doc.id_name_s }}"
                                        id="OGSCartRemove_{{ doc.id_name_s }}"
-                                       class="ogscartbtn ogscartremovebtn btn btn-danger btn-xs" href="javascript:;">
+                                       class="ogscartbtn ogscartremovebtn btn btn-danger btn-sm" href="javascript:;">
                                     <span class="fa fa-minus"></span> {% trans 'Remove from Map List' %}</a>
-                                </p>
                                 {% endif %}
                             {% endfor %}
+                             <a class="btn btn-secondary btn-sm pull-right"  href="/{{ LANGUAGE_CODE }}/od?mlt_id={{ doc.id }}">{% trans 'Show similar records' %}</a>
                         </div>
-                     </div>
-
                 </div>
             </div>
             {% endfor %}

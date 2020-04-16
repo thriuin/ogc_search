@@ -172,3 +172,8 @@ def markdown_filter(text):
 @register.filter('url_part_unescape')
 def url_part_unescape_filter(value: str):
     return url_part_unescape(value)
+
+
+@register.filter('strip_whitespace')
+def strip_whitespace(text):
+    return str(text).strip()

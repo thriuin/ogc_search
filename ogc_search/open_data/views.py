@@ -280,59 +280,65 @@ class ODSearchView(View):
                                                         facets=facets_dict, sort_order=solr_search_sort,
                                                         uuid_list=solr_search_ids, facet_limit=self.solr_facet_limits_en
                                                         )
+            context['mlt_message'] = ''
         else:
             if request.LANGUAGE_CODE == 'fr':
-                search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_fr, self.mlt_fields_fr,
+                search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_fr,
+                                                      self.solr_facet_fields_fr, self.mlt_fields_fr,
                                                       start_row='0', pagesize='10')
+                context['mlt_message'] = " similaries à <strong>{0}</strong>".format(search_results.docs[0]['title_fr_s'])
             else:
-                search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_en, self.mlt_fields_en,
+                search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_en,
+                                                      self.solr_facet_fields_en, self.mlt_fields_en,
                                                       start_row='0', pagesize='10')
+                context['mlt_message'] = " similar to <strong>{0}</strong>".format(search_results.docs[0]['title_en_s'])
+            search_results.docs = search_results.raw_response['moreLikeThis'][mlt_search_id]['docs']
 
         context['export_url'] = "/{0}/od/export/?{1}".format(request.LANGUAGE_CODE, request.GET.urlencode())
 
-        if mlt_search_id == '':
-            if request.LANGUAGE_CODE == 'fr':
-                context['portal_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['portal_type_fr_s'])
-                context['collection_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['collection_type_fr_s'])
-                context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['jurisdiction_fr_s'])
-                context['org_facets_en'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['owner_org_title_fr_s'])
-                context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['owner_org_title_fr_s'])
-                context['keyword_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['keywords_fr_s'])
-                context['subject_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['subject_fr_s'])
-                context['format_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['resource_format_s'])
-                context['type_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['resource_type_fr_s'])
-                context['frequency_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['update_cycle_fr_s'])
-            else:
-                context['portal_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['portal_type_en_s'])
-                context['collection_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['collection_type_en_s'])
-                context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['jurisdiction_en_s'])
-                context['org_facets_en'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['owner_org_title_en_s'])
-                context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['owner_org_title_en_s'])
-                context['keyword_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['keywords_en_s'])
-                context['subject_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['subject_en_s'])
-                context['format_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['resource_format_s'])
-                context['type_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['resource_type_en_s'])
-                context['frequency_facets'] = search_util.convert_facet_list_to_dict(
-                    search_results.facets['facet_fields']['update_cycle_en_s'])
+
+        if request.LANGUAGE_CODE == 'fr':
+            context['portal_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['portal_type_fr_s'])
+            context['collection_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['collection_type_fr_s'])
+            context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['jurisdiction_fr_s'])
+            context['org_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_fr_s'])
+            context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_fr_s'])
+            context['keyword_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['keywords_fr_s'])
+            context['subject_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['subject_fr_s'])
+            context['format_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_format_s'])
+            context['type_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_type_fr_s'])
+            context['frequency_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['update_cycle_fr_s'])
+        else:
+            context['portal_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['portal_type_en_s'])
+            context['collection_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['collection_type_en_s'])
+            context['jurisdiction_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['jurisdiction_en_s'])
+            context['org_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_en_s'])
+            context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['owner_org_title_en_s'])
+            context['keyword_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['keywords_en_s'])
+            context['subject_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['subject_en_s'])
+            context['format_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_format_s'])
+            context['type_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['resource_type_en_s'])
+            context['frequency_facets'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['update_cycle_en_s'])
 
         context['results'] = search_results
 

@@ -102,12 +102,16 @@ def calc_starting_row(page_num, rows_per_age=10):
     return rows_per_age * (page - 1), page
 
 
-def solr_mlt(unique_id, solr_url, solr_fields, solr_mlt_fields, start_row='0', pagesize='10'):
+def solr_mlt(unique_id, solr_url, solr_fields, solr_facet_fields, solr_mlt_fields, start_row='0', pagesize='10'):
     solr = pysolr.Solr(solr_url)
+    solr_facets=[]
     extras = {
         'start': start_row,
         'rows': pagesize,
-        'facet': 'off',
+        'facet': 'on',
+        'facet.sort': 'index',
+        'facet.field': solr_facet_fields,
+        'fq': solr_facets,
         'mlt': 'true',
         'mlt.boost': 'true',
         'mlt.mindf': 1,
@@ -121,7 +125,6 @@ def solr_mlt(unique_id, solr_url, solr_fields, solr_mlt_fields, start_row='0', p
     if uuid_regex.match(unique_id):
         q = 'id:{0}'.format(unique_id)
     sr = solr.search(q, **extras)
-    sr.docs = sr.raw_response['moreLikeThis'][unique_id]['docs']
     if sr.raw_response['moreLikeThis'][unique_id]['numFound'] < int(pagesize):
         sr.hits = sr.raw_response['moreLikeThis'][unique_id]['numFound']
     else:
