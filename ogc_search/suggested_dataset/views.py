@@ -38,7 +38,7 @@ class SDSearchView(View):
                                      'status_fr_s', 'subjects_fr_s', 'reason_fr_s', 'title_fr_txt']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_status_fr_s}status_fr_s',
-                                     '{!ex=tag_reason_fr_s}reason_fr_s']
+                                     '{!ex=tag_subjects_fr_s}subjects_fr_s']
         self.solr_hl_fields_fr = ['title_fr_txt', 'owner_org_title_txt_fr', 'desc_fr_txt',
                                   'desc_fr_txt', 'keywords_txt_fr']
         
@@ -51,7 +51,7 @@ class SDSearchView(View):
                                      'status_en_s', 'subjects_en_s', 'reason_en_s', 'title_en_txt']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_status_en_s}status_en_s',
-                                     '{!ex=tag_reason_en_s}reason_en_s']
+                                     '{!ex=tag_subjects_en_s}subjects_en_s']
         self.solr_hl_fields_en = ['title_en_txt', 'owner_org_title_txt_en', 'desc_en_txt',
                                   'desc_en_txt', 'keywords_txt_en']
 
@@ -100,14 +100,14 @@ class SDSearchView(View):
         # Retrieve search results and transform facets results to python dict
 
         solr_search_orgs: str = request.GET.get('sd-search-orgs', '')
+        solr_search_subject: str = request.GET.get('sd-subject', '')
         solr_search_status: str = request.GET.get('sd-status', '')
-        solr_search_reason: str = request.GET.get('sd-reason', '')
         context["organizations_selected"] = solr_search_orgs
         context["organizations_selected_list"] = solr_search_orgs.split('|')
+        context["subjects_selected"] = solr_search_subject
+        context["subjects_selected_list"] = solr_search_subject.split('|')
         context["status_selected"] = solr_search_status
         context["status_selected_list"] = solr_search_status.split('|')
-        context["reason_selected"] = solr_search_reason
-        context["reason_selected_list"] = solr_search_reason.split('|')
         context["suggest_a_dataset_en"] = settings.SD_SUGGEST_A_DATASET_EN
         context["suggest_a_dataset_fr"] = settings.SD_SUGGEST_A_DATASET_FR
 
@@ -123,11 +123,11 @@ class SDSearchView(View):
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(owner_org_fr_s=context['organizations_selected'],
                                status_fr_s=context['status_selected'],
-                               reason_fr_s=context['reason_selected'])
+                               subjects_fr_s=context['subjects_selected'])
         else:
             facets_dict = dict(owner_org_en_s=context['organizations_selected'],
                                status_en_s=context['status_selected'],
-                               reason_en_s=context['reason_selected'])
+                               subjects_en_s=context['subjects_selected'])
 
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
@@ -172,16 +172,16 @@ class SDSearchView(View):
                 search_results.facets['facet_fields']['owner_org_fr_s'])
             context['status_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_fr_s'])
-            context['reason_facets_fr'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['reason_fr_s'])
+            context['subjects_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['subjects_fr_s'])
         else:
             context['org_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_en_s'])
             context['status_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['status_en_s'])
-            context['reason_facets_en'] = search_util.convert_facet_list_to_dict(
-                search_results.facets['facet_fields']['reason_en_s'])
-            
+            context['subjects_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['subjects_en_s'])
+
         return render(request, "sd_search.html", context)
 
 

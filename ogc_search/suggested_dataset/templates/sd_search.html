@@ -238,17 +238,12 @@
                                             <span class="badge badge-info badge-pill"
                                                   role="badge">{{ doc.status_en_s }}</span><br>
                                             <strong>{% trans 'Date Requested: ' %}</strong>{{ doc.date_create_en_s }}
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 text-center text-sm-left">
                                             {% if not doc.date_released_en_s == "-" %}
                                                 <br><strong>{% trans 'Date Released: ' %}</strong>
                                                 {{ doc.date_released_en_s }}
                                             {% endif %}
-                                        </div>
-                                        <div class="col-sm-12 col-md-6 text-center text-sm-left">
-                                            <strong>{% trans 'Subjects' %}</strong><br>
-
-                                            {% for subject in doc.subjects_en_s %}
-                                                <span class="badge badge-secondary badge-pill">{{ subject }}</span>
-                                            {% endfor %}
                                         </div>
                                     </div>
 
@@ -442,26 +437,27 @@
                             </div>
                         </aside>
 
-                        {# Reason Facet #}
+
+                        {# Subject Facet #}
                         <aside>
                             <div>
                                 <details class="panel panel-default mrgn-bttm-0"
-                                         {% if reason_selected|length > 0 %}open{% endif %}>
+                                         {% if subjects_selected|length > 0 %}open{% endif %}>
                                     <summary class="panel-heading">
-                                        <h5 class="panel-title">{% trans 'Reason' %}</h5>
+                                        <h5 class="panel-title">{% trans 'Subjects' %}</h5>
                                     </summary>
                                     <ul class="list-group" id="org-list">
 
                                         {% if LANGUAGE_CODE == 'fr' %}
-                                            {% for k, v in reason_facets_fr.items %}
+                                            {% for k, v in subjects_facets_fr.items %}
                                                 {% if v > 0 %}
-                                                    <li class="list-group-item {% if k in reason_selected_list %} active{% endif %}">
+                                                    <li class="list-group-item {% if k in subjects_selected_list %} active{% endif %}">
                                                         <div class="row">
                                                             <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                                                 <label><input type="checkbox"
-                                                                        {% if k in reason_selected_list %}
+                                                                        {% if k in subjects_selected_list %}
                                                                               checked="checked"{% endif %}
-                                                                              onclick='select_facet("{{ k | escapejs }}", "sd-reason")'
+                                                                              onclick='select_facet("{{ k | escapejs }}", "sd-subject")'
                                                                               value="{{ k }}"
                                                                               style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                                 </label></div>
@@ -472,15 +468,15 @@
                                                 {% endif %}
                                             {% endfor %}
                                         {% else %}
-                                            {% for k, v in reason_facets_en.items %}
+                                            {% for k, v in subjects_facets_en.items %}
                                                 {% if v > 0 %}
-                                                    <li class="list-group-item {% if k in reason_selected %} active{% endif %}">
+                                                    <li class="list-group-item {% if k in subjects_selected %} active{% endif %}">
                                                         <div class="row">
                                                             <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                                                 <label><input type="checkbox"
-                                                                        {% if k in reason_selected_list %}
+                                                                        {% if k in subjects_selected_list %}
                                                                               checked="checked"{% endif %}
-                                                                              onclick='select_facet("{{ k | escapejs }}", "sd-reason")'
+                                                                              onclick='select_facet("{{ k | escapejs }}", "sd-subject")'
                                                                               value="{{ k }}"
                                                                               style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                                 </label></div>
@@ -492,8 +488,8 @@
                                             {% endfor %}
                                         {% endif %}
                                         {% if LANGUAGE_CODE == 'fr' %}
-                                            {{ status_facets_fr | EmptyFacetMessage }}{% else %}
-                                            {{ status_facets_en | EmptyFacetMessage }}{% endif %}
+                                            {{ subjects_facets_fr | EmptyFacetMessage }}{% else %}
+                                            {{ subjects_facets_en | EmptyFacetMessage }}{% endif %}
                                     </ul>
                                 </details>
                             </div>
