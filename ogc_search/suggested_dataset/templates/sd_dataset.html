@@ -74,12 +74,12 @@
 {% endblock %}
     <div class="row">
     {# Main details #}
-    <div class="col-md-8 col-md-push-4">
+    <div class="col-md-7 col-md-push-5">
         <div class="row">
-            <div class="col-sm-12"><strong>{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.owner_org_fr_s }}{% else %}{{ results.docs.0.owner_org_en_s }}{% endif %}</strong></div>
+            <div class="col-sm-12"><strong>{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.owner_org_fr_s }}{% else %}{{ results.docs.0.owner_org_en_s | safe }}{% endif %}</strong></div>
         </div>
         <div class="row">
-            <div class="col-sm-12">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.desc_fr_txt | safe }}{% else %}{{ results.docs.0.desc_en_txt }}{% endif %}</div>
+            <div class="col-sm-12">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.desc_fr_txt | safe }}{% else %}{{ results.docs.0.desc_en_txt | safe }}{% endif %}</div>
         </div>
         <div class="row">
             <div class="col-sm-12 panel panel-default">
@@ -105,12 +105,12 @@
         </div>
     </div>
     {# Left-hand Sidebar #}
-    <div class="col-md-4 col-md-pull-8">
+    <div class="col-md-5 col-md-pull-7">
        <section>
             {% spaceless %}
                 <aside class="mrgn-tp-lg">
-                    <strong>{% trans 'Status:' %}</strong>&nbsp;&nbsp;
-                    <span class="badge badge-info badge-pill"role="badge">
+                    <strong>{% trans 'Status:' %}</strong>&nbsp;<br>&nbsp;
+                    <span class="badge badge-info badge-pill mrgn-lft-sm"role="badge">
                         {% if LANGUAGE_CODE == 'fr' %}
                             {{ results.docs.0.status_fr_s }}
                         {% else %}
