@@ -115,7 +115,8 @@ class SDSearchView(View):
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')
-        if solr_search_sort not in ['score desc', 'date_received_dt desc', 'date_recieved_dt asc']:
+        if solr_search_sort not in ['score desc', 'date_received_dt desc', 'date_recieved_dt asc', 'votes asc',
+                                    'votes desc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 

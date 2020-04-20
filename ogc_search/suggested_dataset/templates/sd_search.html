@@ -160,10 +160,16 @@
                                         >{% trans 'Best match' %}</option>
                                         <option value="date_received_dt desc"
                                                 {% if sortby == "date_received_dt desc" %}selected="selected"{% endif %}
-                                        >{% trans 'Newest to oldest' %}</option>
+                                        >{% trans 'Newest suggestions' %}</option>
                                         <option value="date_received_dt asc"
                                                 {% if sortby == "date_received_dt asc" %}selected="selected"{% endif %}
-                                        >{% trans 'Oldest to newest' %}</option>
+                                        >{% trans 'Oldest suggestions' %}</option>
+                                        <option value="votes asc"
+                                                {% if sortby == "votes asc" %}selected="selected"{% endif %}
+                                        >{% trans 'Least votes' %}</option>
+                                        <option value="votes desc"
+                                                {% if sortby == "votes desc" %}selected="selected"{% endif %}
+                                        >{% trans 'Most votes' %}</option>
                                     </select>
                                 </div>
 
