@@ -205,18 +205,12 @@
                                             <span class="badge badge-info badge-pill"
                                                   role="badge">{{ doc.status_fr_s }}</span><br>
                                             <strong>{% trans 'Date Requested: ' %}</strong>{{ doc.date_create_fr_s }}
+                                        </div>
+                                        <div class="col-sm-6 text-center">
                                             {% if not doc.date_released_fr_s == "-" %}
                                                 <br><strong>{% trans 'Date Released: ' %}</strong>
                                                 {{ doc.date_released_fr_s }}
                                             {% endif %}
-                                        </div>
-                                        <div class="col-sm-6 text-center">
-                                            <strong>{% trans 'Subjects' %}</strong><br>
-
-                                            {% for subject in doc.subjects_fr_s %}
-                                                <span class="badge badge-light">{{ subject }}</span>
-                                            {% endfor %}
-
                                         </div>
                                     </div>
                                 {% else %}
