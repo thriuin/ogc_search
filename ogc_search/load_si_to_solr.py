@@ -212,28 +212,30 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as si_file:
                           client_feedback_fr_s=get_multivalue_choice('client_feedback','fr',si['client_feedback']) if not si['client_feedback'] == '' else '')
 
             od_obj['new_service_id_s'] = si['harmonized_service_id']
-            standards = get_standards_for_service(sys.argv[2], od_obj['fiscal_year_s'], si['harmonized_service_id'])
-            if len(standards) > 0:
-                standards_list = []
-                for std in standards:
-                    std_dict = {'service_std_id': standards[std]['service_std_id'],
-                                'service_std_en': standards[std]['service_std_en'],
-                                'service_std_fr': standards[std]['service_std_fr'],
-                                'service_std_url_en': standards[std]['service_std_url_en'],
-                                'service_std_url_fr': standards[std]['service_std_url_fr'],
-                                'service_std_type': standards[std]['service_std_type'],
-                                'service_std_target': standards[std]['service_std_target'],
-                                'q1_performance_result': standards[std]['q1_performance_result'],
-                                'q1_business_volume': standards[std]['q1_business_volume'],
-                                'q2_performance_result': standards[std]['q2_performance_result'],
-                                'q2_business_volume': standards[std]['q2_business_volume'],
-                                'q3_performance_result': standards[std]['q3_performance_result'],
-                                'q3_business_volume': standards[std]['q3_business_volume'],
-                                'q4_performance_result': standards[std]['q4_performance_result'],
-                                'q4_business_volume': standards[std]['q4_business_volume'],
-                                }
-                    standards_list.append(std_dict)
-                od_obj['standards'] = standards_list
+
+            # Date: 4/28/2020 - Commenting out the loading of service standards, as they're not being used in the Service search
+            # standards = get_standards_for_service(sys.argv[2], od_obj['fiscal_year_s'], si['harmonized_service_id'])
+            # if len(standards) > 0:
+            #     standards_list = []
+            #     for std in standards:
+            #         std_dict = {'service_std_id': standards[std]['service_std_id'],
+            #                     'service_std_en': standards[std]['service_std_en'],
+            #                     'service_std_fr': standards[std]['service_std_fr'],
+            #                     'service_std_url_en': standards[std]['service_std_url_en'],
+            #                     'service_std_url_fr': standards[std]['service_std_url_fr'],
+            #                     'service_std_type': standards[std]['service_std_type'],
+            #                     'service_std_target': standards[std]['service_std_target'],
+            #                     'q1_performance_result': standards[std]['q1_performance_result'],
+            #                     'q1_business_volume': standards[std]['q1_business_volume'],
+            #                     'q2_performance_result': standards[std]['q2_performance_result'],
+            #                     'q2_business_volume': standards[std]['q2_business_volume'],
+            #                     'q3_performance_result': standards[std]['q3_performance_result'],
+            #                     'q3_business_volume': standards[std]['q3_business_volume'],
+            #                     'q4_performance_result': standards[std]['q4_performance_result'],
+            #                     'q4_business_volume': standards[std]['q4_business_volume'],
+            #                     }
+            #         standards_list.append(std_dict)
+            #     od_obj['standards'] = standards_list
 
             bi_org_title = str(si['owner_org_title']).split('|')
             od_obj['owner_org_en_s'] = bi_org_title[0].strip()
