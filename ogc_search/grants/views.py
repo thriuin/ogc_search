@@ -187,7 +187,7 @@ class GCSearchView(View):
         context["range_selected"] = solr_search_range
         context["range_selected_list"] = solr_search_range.split('|')
 
-        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1))
+        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1), rows_per_age=items_per_page)
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')
