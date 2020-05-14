@@ -141,7 +141,7 @@
                                         {{ doc.title_fr_s | safe }}
                                     {% elif 'title_xlt_fr_s' in doc %}
                                         {{ doc.title_xlt_fr_s | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
-                                                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
                                 {% endif %}
                                 </a></h4>
@@ -158,12 +158,12 @@
                             {% if LANGUAGE_CODE == 'en' %}
                                     {% if 'description_txt_en' in doc %}{{ doc.desc_summary_txt_en | markdown_filter | safe }}
                                     {% elif 'description_xlt_txt_en' in doc %}{{ doc.description_xlt_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
-                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
                                 {% else %}
                                     {% if 'description_txt_fr' in doc %}{{ doc.desc_summary_txt_fr | markdown_filter | safe }}
                                     {% elif 'description_xlt_txt_fr' in doc %}{{ doc.description_xlt_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
-                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                         title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                     {% endif %}
                                 {% endif %}
                         </div>
@@ -192,7 +192,7 @@
                                         {% elif 'keywords_xlt_txt_fr' in doc %}
                                             {% for y in doc.keywords_xlt_txt_fr %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
                                             <span class="fa fa-language text-muted mrgn-lft-sm"
-                                             title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                             title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                         {% endif %}
                                     {% else %}
                                         {% if 'keywords_txt_en' in doc %}
@@ -200,7 +200,7 @@
                                         {% elif 'keywords_xlt_txt_en' in doc %}
                                             {% for y in doc.keywords_xlt_txt_en %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
                                             <span class="fa fa-language text-muted mrgn-lft-sm"
-                                             title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                             title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                         {% endif %}
                                     {% endif %}
                             </div>
