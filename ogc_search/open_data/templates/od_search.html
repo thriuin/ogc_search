@@ -195,7 +195,13 @@
                                              title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
                                         {% endif %}
                                     {% else %}
-                                        {% for y in doc.keywords_txt_en %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
+                                        {% if 'keywords_txt_en' in doc %}
+                                          {% for y in doc.keywords_txt_en %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
+                                        {% elif 'keywords_xlt_txt_en' in doc %}
+                                            {% for y in doc.keywords_xlt_txt_en %}{% if forloop.counter < 10 %}<span class="text-muted">{% if not forloop.first %}, {% endif %}{{y | safe}}{% endif %}</span>{% endfor %}
+                                            <span class="fa fa-language text-muted mrgn-lft-sm"
+                                             title="{% trans 'This third party metadata element has been translated using an automated translation tool (DeepL).  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                        {% endif %}
                                     {% endif %}
                             </div>
                         </div>

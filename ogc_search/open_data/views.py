@@ -79,7 +79,7 @@ class ODSearchView(View):
         # English search fields
         self.solr_fields_en = ("portal_type_en_s,collection_type_en_s,jurisdiction_en_s,owner_org_title_en_s,"
                                "owner_org_title_txt_en,subject_en_s,resource_type_en_s,update_cycle_en_s,"
-                               "description_txt_en,description_xlt_txt_fr,title_en_s,title_txt_en,title_xlt_en_s,"
+                               "description_txt_en,description_xlt_txt_en,title_en_s,title_txt_en,title_xlt_en_s,"
                                "desc_summary_txt_en,resource_title_en_s,resource_title_txt_en,"
                                "keywords_en_s,keywords_txt_en,keywords_xlt_txt_en,id,_version_,last_modified_tdt,"
                                "published_tdt,resource_format_s,id_name_s,display_options_s")

@@ -34,7 +34,7 @@ def get_summary(original_text, lang, max_sentences=4):
     return summary_text
 
 
-def get_cs_choices(field_name, lang = 'en'):
+def get_cs_choices(field_name):
     choices_en = {}
     choices_fr = {}
 
@@ -129,7 +129,7 @@ with open(sys.argv[1], 'r', encoding='utf8', errors="ignore") as j:
                 'description_txt_fr': o['notes_translated']['fr'] if 'fr' in o['notes_translated'] else '',
                 'description_xlt_txt_fr': o['notes_translated']['fr-t-en'] if 'fr-t-en' in o[
                     'notes_translated'] else '',
-                'description_xlt_txt_en': o['notes_translated']['en-t-fr'] if 'en-t-f-r' in o[
+                'description_xlt_txt_en': o['notes_translated']['en-t-fr'] if 'en-t-fr' in o[
                     'notes_translated'] else '',
                 'title_en_s': str(o['title_translated']['en']).strip() if 'en' in o['title_translated'] else '',
                 'title_fr_s': str(o['title_translated']['fr']).strip() if 'fr' in o['title_translated'] else '',
