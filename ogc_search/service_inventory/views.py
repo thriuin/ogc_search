@@ -132,6 +132,7 @@ class SISearchView(View):
         context["si_dv_path_en"] = settings.SI_DATAVIZ_PATH_EN
         context["si_dv_path_fr"] = settings.SI_DATAVIZ_PATH_FR
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
+        context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
         # Allow for, but do not require, a custom alert message
         if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
             context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE

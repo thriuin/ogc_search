@@ -101,6 +101,7 @@ class NAPSearchView(View):
         context["nap_ds_title_en"] = settings.NAP_DATASET_TITLE_EN
         context["nap_ds_title_fr"] = settings.NAP_DATASET_TITLE_FR
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
+        context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
         # Allow for, but do not require, a custom alert message
         if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):
             context['od_portal_alert_base'] = settings.OPEN_DATA_PORTAL_ALERT_BASE
@@ -236,6 +237,7 @@ class NAPRecordView(NAPSearchView):
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
+        context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
         context["slug"] = url_part_escape(slug)
         context["oc_en_url"] = settings.OPEN_CANADA_EN_URL_BASE
         context["oc_fr_url"] = settings.OPEN_CANADA_FR_URL_BASE
