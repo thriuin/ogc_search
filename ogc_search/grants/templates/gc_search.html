@@ -53,6 +53,8 @@
             <div class="small">{{ info_msg | markdown_filter | safe }}</div>
         </section>
     </div>
+    {% endif %}
+    {% if about_msg|length > 0 %}
     <div class="row">
         <div class="col-md-12">
         <details>
