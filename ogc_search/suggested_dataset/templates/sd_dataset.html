@@ -87,7 +87,7 @@
                   <caption class="wb-inv">{% trans 'Status Updates' %}</caption>
                     <thead>
                     <tr>
-                     <th scope="col">{% trans 'Status Updates' %}</th>
+                     <th scope="col" colspan="3">{% trans 'Status Updates' %}</th>
                     </tr></thead>
                     <tbody>
                     {% if LANGUAGE_CODE == 'fr' %}
@@ -96,7 +96,8 @@
                        {% endfor %}
                     {% else %}
                        {% for status in results.docs.0.status_updates_en_s %}
-                        <tr><td>{{ status }}</td></tr>
+                           <tr><td style="font-weight: bolder">{{ status.date }}</td><td colspan="2" style="">{{ status.reason }}</td></tr>
+                           <tr><td colspan="3" style="border-top-color: white; font-style: italic">{{ status.comment | markdown_filter | safe }}</td></tr>
                        {% endfor %}
                     {% endif %}
                     </tbody>
@@ -117,14 +118,14 @@
                             {{ results.docs.0.status_en_s }}
                         {% endif %}
                     </span>
-                </aside>
-                <aside class="mrgn-tp-lg">
-                    <strong>{% trans 'Reason for Status:' %}</strong>
+                    <br>
+                    <span class="mrgn-lft-md mrgn-tp-md">
                     {% if LANGUAGE_CODE == 'fr' %}
                         {{ results.docs.0.reason_fr_s }}
                     {% else %}
                         {{ results.docs.0.reason_en_s }}
                     {% endif %}
+                    </span>
                 </aside>
                 <aside class="mrgn-tp-lg">
                     <div data-ajax-replace="{% if LANGUAGE_CODE == 'fr' %}{{ votes_base_fr }}{% else %}{{ votes_base_en }}{% endif %}{{ results.docs.0.suggestion_id }}"></div>

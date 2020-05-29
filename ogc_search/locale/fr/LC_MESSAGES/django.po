@@ -1366,7 +1366,7 @@ msgstr "Ministrère responsable :"
 #: .\national_action_plan\templates\nap_record.html:92
 #: .\suggested_dataset\templates\sd_dataset.html:112
 msgid "Status:"
-msgstr "Statut :"
+msgstr "État :"
 
 #: .\national_action_plan\templates\nap_record.html:63
 #: .\national_action_plan\templates\nap_record.html:96
@@ -1774,10 +1774,6 @@ msgstr "/fr/sd"
 #: .\suggested_dataset\templates\sd_dataset.html:90
 msgid "Status Updates"
 msgstr "Mises à jour sur l’état"
-
-#: .\suggested_dataset\templates\sd_dataset.html:122
-msgid "Reason for Status:"
-msgstr "Raison de l’état :"
 
 #: .\suggested_dataset\templates\sd_dataset.html:133
 msgid "Subjects:"

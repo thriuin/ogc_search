@@ -3,6 +3,7 @@ from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.views.generic import View
 import hashlib
+import json
 import logging
 import os
 import search_util
@@ -226,6 +227,18 @@ class SDDatasetView(SDSearchView):
                                                     self.solr_facet_fields_en,
                                                     self.phrase_xtras_en)
         context['results'] = search_results
+        if "status_updates_en_s" in search_results.docs[0]:
+            supdates = []
+            for supdate in search_results.docs[0]['status_updates_en_s']:
+                supdate = str(supdate).replace("\'", '"')
+                supdates.append(json.loads(supdate))
+                search_results.docs[0]["status_updates_en_s"] = supdates
+        elif "status_updates_fr_s" in search_results.docs[0]:
+            supdates = []
+            for supdate in search_results.docs[0]['status_updates_fr_s']:
+                supdate = str(supdate).replace("\'", '"')
+                supdates.append(json.loads(supdate))
+                search_results.docs[0]["status_updates_fr_s"] = supdates
         if len(search_results.docs) >= 0:
             context['id'] = slug
             return render(request, "sd_dataset.html", context)

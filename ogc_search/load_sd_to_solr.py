@@ -53,7 +53,7 @@ with open(settings.CKAN_YAML_FILE, mode='r', encoding='utf8', errors="ignore") a
 # load the organization information from CKAN
 with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as org_file:
     orgs = json.load(org_file)
-    for org in orgs['result']:
+    for org in orgs:
         values = [str(x).strip() for x in org['display_name'].split('|')]
         if len(values) == 1:
             organizations[org['name']] = {'en': values[0], 'fr': values[0]}
@@ -64,8 +64,8 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as org_file:
 # "ckanapi search datasets include_private=true q=type:prop"
 
 with open(sys.argv[3], 'r', encoding='utf-8', errors="ignore") as ckan_file:
-    for ckan_record in ckan_file:
-        ds = json.loads(ckan_record)
+    ckan_records = json.load(ckan_file)
+    for ds in ckan_records["results"]:
         if 'id' in ds and 'status' in ds:
             ckan_ds_records[ds['id']] = ds['status']
 
@@ -155,26 +155,34 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                 status_msg_en = []
                 status_msg_fr = []
                 for status_update in ckan_ds_records[sd['uuid']]:
+                    status_dict_en = {}
+                    status_dict_fr = {}
                     status_date = datetime.strptime(status_update['date'], '%Y-%m-%d')
-                    fiscal_quarter = int(ceil(status_date.month / 3.)) - 1
-                    fiscal_year = status_date.year
-                    if fiscal_quarter == 0:
-                        fiscal_quarter = 4
-                        fiscal_year -= 1
+                    # fiscal_quarter = int(ceil(status_date.month / 3.)) - 1
+                    # fiscal_year = status_date.year
+                    # if fiscal_quarter == 0:
+                    #    fiscal_quarter = 4
+                    #    fiscal_year -= 1
                     # status_msg_en.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
                     #                                             stati[status_update['reason']]['en']))
                     # status_msg_fr.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
                     #                                             stati[status_update['reason']]['fr']))
-                    status_msg_en.append("{0} - {1}".format(format_date(status_date, locale='en'),
-                                                            stati[status_update['reason']]['en']))
-                    status_msg_fr.append("{0} - {1}".format(format_date(status_date, locale='fr'),
-                                                        stati[status_update['reason']]['fr']))
-                status_msg_en.sort()
-                status_msg_fr.sort()
+                    status_dict_en['date'] = format_date(status_date, locale='en')
+                    status_dict_en['reason'] = stati[status_update['reason']]['en']
+                    if "comments" in status_update and 'en' in status_update['comments']:
+                        status_dict_en['comment'] = status_update['comments']['en']
+                    status_msg_en.append(status_dict_en)
+                    
+                    status_dict_fr['date'] = format_date(status_date, locale='fr')
+                    status_dict_fr['reason'] = stati[status_update['reason']]['fr']
+                    if "comments" in status_update and 'fr' in status_update['comments']:
+                        status_dict_fr['comment'] = status_update['comments']['fr']
+                    status_msg_fr.append(status_dict_fr)
+                    
                 od_obj['status_updates_en_s'] = status_msg_en
                 od_obj['status_updates_fr_s'] = status_msg_fr
-                od_obj['status_updates_export_en_s'] = "\n".join(status_msg_en)
-                od_obj['status_updates_export_fr_s'] = "\n".join(status_msg_fr)
+                od_obj['status_updates_export_en_s'] = "\n".join(str(status_msg_en))
+                od_obj['status_updates_export_fr_s'] = "\n".join(str(status_msg_fr))
             sd_list.append(od_obj)
             i += 1
             if i == BULK_SIZE:
