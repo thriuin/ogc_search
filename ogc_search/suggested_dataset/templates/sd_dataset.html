@@ -116,8 +116,8 @@
        <section>
             {% spaceless %}
                 <aside class="mrgn-tp-lg">
-                    <span> {% trans 'Status:' %}</span><br>
-                    <span class="decal decal-status">
+                    <span><strong>{% trans 'Status:' %}</strong></span><br>
+                    <span class="decal decal-status mrgn-tp-md">
                         {% if LANGUAGE_CODE == 'fr' %}
                             {{ results.docs.0.status_fr_s }}
                         {% else %}
@@ -130,10 +130,10 @@
                     <div data-ajax-replace="{% if LANGUAGE_CODE == 'fr' %}{{ votes_base_fr }}{% else %}{{ votes_base_en }}{% endif %}{{ results.docs.0.suggestion_id }}"></div>
                 </aside>
                 <aside class="mrgn-tp-lg">
-                   <span> {% trans 'Subjects:' %}</span><br>
+                   <span><strong>{% trans 'Subjects:' %}</strong></span><br>
                     {% if LANGUAGE_CODE == 'fr' %}
                     {% for subject in results.docs.0.subjects_fr_s %}
-                        <span class="decal decal-subject">{{ subject }}</span><br>
+                        <span class="decal decal-subject mrgn-tp-md">{{ subject }}</span><br>
                     {% endfor %}
                     {% else %}
                     {% for subject in results.docs.0.subjects_en_s %}
