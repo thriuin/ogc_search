@@ -5,29 +5,32 @@
 {% load search_extras %}
 
 {% block custom_page_css %}
-    {# From the Aurora design guide #}
+    {# Colours are from the Aurora design guide #}
     <style>
-        .badge-info {
+
+        .decal {
             color: #fff;
-            background-color: #269abc;
+            background-color: #26374A;
+            border-color: #278400;
+            box-shadow: none;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            font-size: smaller;
+            font-weight: bold;
+            display: inline-block;
+            border-radius: 12px;
         }
 
-        .badge-info[href]:hover, .badge-info[href]:focus {
+        .decal-status {
+            background: #137991;
             color: #fff;
-            text-decoration: none;
-            background-color: #1d7792;
         }
 
-        .badge-light {
-            color: #212529;
-            background-color: #FFFFFF;
+        .decal-subject {
+            color: #000;
+            background: #B2DB99;
         }
 
-        .badge-pill {
-
-            padding: 8px 12px;
-            border-radius: 10rem;
-        }
     </style>
 {% endblock %}
 
@@ -72,7 +75,7 @@
 {% block main-content-title %}
 <h1 property="name">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.title_fr_txt }}{% else %}{{ results.docs.0.title_en_txt }}{% endif %}</h1>
 {% endblock %}
-    <div class="row">
+    <div class="row mrgn-tp-lg">
     {# Main details #}
     <div class="col-md-7 col-md-push-5">
         <div class="row">
@@ -81,7 +84,8 @@
         <div class="row">
             <div class="col-sm-12">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.desc_fr_txt | safe }}{% else %}{{ results.docs.0.desc_en_txt | safe }}{% endif %}</div>
         </div>
-        <div class="row">
+       {% if results.docs.0.status_updates_fr_s  or results.docs.0.status_updates_en_s %}
+        <div class="row mrgn-tp-xl">
             <div class="col-sm-12 panel panel-default">
                 <table class="table">
                   <caption class="wb-inv">{% trans 'Status Updates' %}</caption>
@@ -91,11 +95,12 @@
                     </tr></thead>
                     <tbody>
                     {% if LANGUAGE_CODE == 'fr' %}
-                       {% for status in results.docs.0.status_updates_fr_s %}
-                        <tr><td>{{ status }}</td></tr>
+                       {% for status in results.docs.0.status_updates_fr_s reversed %}
+                           <tr><td style="font-weight: bolder">{{ status.date }}</td><td colspan="2" style="">{{ status.reason }}</td></tr>
+                           <tr><td colspan="3" style="border-top-color: white; font-style: italic">{{ status.comment | markdown_filter | safe }}</td></tr>
                        {% endfor %}
                     {% else %}
-                       {% for status in results.docs.0.status_updates_en_s %}
+                       {% for status in results.docs.0.status_updates_en_s reversed %}
                            <tr><td style="font-weight: bolder">{{ status.date }}</td><td colspan="2" style="">{{ status.reason }}</td></tr>
                            <tr><td colspan="3" style="border-top-color: white; font-style: italic">{{ status.comment | markdown_filter | safe }}</td></tr>
                        {% endfor %}
@@ -104,14 +109,15 @@
                   </table>
             </div>
         </div>
+    {% endif %}
     </div>
     {# Left-hand Sidebar #}
     <div class="col-md-5 col-md-pull-7">
        <section>
             {% spaceless %}
                 <aside class="mrgn-tp-lg">
-                    <strong>{% trans 'Status:' %}</strong>&nbsp;<br>&nbsp;
-                    <span class="badge badge-info badge-pill mrgn-lft-sm"role="badge">
+                    <span> {% trans 'Status:' %}</span><br>
+                    <span class="decal decal-status">
                         {% if LANGUAGE_CODE == 'fr' %}
                             {{ results.docs.0.status_fr_s }}
                         {% else %}
@@ -119,26 +125,19 @@
                         {% endif %}
                     </span>
                     <br>
-                    <span class="mrgn-lft-md mrgn-tp-md">
-                    {% if LANGUAGE_CODE == 'fr' %}
-                        {{ results.docs.0.reason_fr_s }}
-                    {% else %}
-                        {{ results.docs.0.reason_en_s }}
-                    {% endif %}
-                    </span>
                 </aside>
                 <aside class="mrgn-tp-lg">
                     <div data-ajax-replace="{% if LANGUAGE_CODE == 'fr' %}{{ votes_base_fr }}{% else %}{{ votes_base_en }}{% endif %}{{ results.docs.0.suggestion_id }}"></div>
                 </aside>
                 <aside class="mrgn-tp-lg">
-                    <strong>{% trans 'Subjects:' %}</strong><br>
+                   <span> {% trans 'Subjects:' %}</span><br>
                     {% if LANGUAGE_CODE == 'fr' %}
                     {% for subject in results.docs.0.subjects_fr_s %}
-                        <span class="badge badge-light badge-pill">{{ subject }}</span>
+                        <span class="decal decal-subject">{{ subject }}</span><br>
                     {% endfor %}
                     {% else %}
                     {% for subject in results.docs.0.subjects_en_s %}
-                        <span class="badge badge-light badge-pill">{{ subject }}</span>
+                        <span class="decal decal-subject">{{ subject }}</span>
                     {% endfor %}
                     {% endif %}
                 </aside>

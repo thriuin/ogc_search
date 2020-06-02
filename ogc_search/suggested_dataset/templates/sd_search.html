@@ -21,45 +21,25 @@
 {% endblock custom_page_javascript %}
 
 {% block custom_page_css %}
-    {# From the Aurora design guide #}
+    {# Colours are from the Aurora design guide #}
     <style>
-        .badge-info {
+
+        .decal {
             color: #fff;
-            background-color: #269abc;
+            background-color: #26374A;
+            border-color: #278400;
+            box-shadow: none;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            font-size: smaller;
+            font-weight: bold;
+            display: inline-block;
+            border-radius: 12px;
         }
 
-        .badge-info[href]:hover, .badge-info[href]:focus {
+        .decal-status {
+            background: #137991;
             color: #fff;
-            text-decoration: none;
-            background-color: #1d7792;
-        }
-
-        .badge-light {
-            color: #212529;
-            background-color: #FFFFFF;
-        }
-
-        .badge-light[href]:hover, .badge-light[href]:focus {
-            color: #212529;
-            text-decoration: none;
-            background-color: #e6e6e6;
-        }
-
-        .badge-pill {
-
-            padding: 8px 12px;
-            border-radius: 10rem;
-        }
-
-        .badge-secondary {
-            color: #000;
-            background-color: #E3E4E5;
-        }
-
-        .badge-secondary[href]:hover, .badge-secondary[href]:focus {
-            color: #fff;
-            text-decoration: none;
-            background-color: #38434e;
         }
     </style>
 {% endblock custom_page_css %}
@@ -197,18 +177,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mrgn-bttm-sm">
+                                    <div class="row mrgn-bttm-md">
                                         <div class="col-sm-12">{{ doc.desc_fr_txt | safe }}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-6">
-                                            <span class="badge badge-info badge-pill"
-                                                  role="badge">{{ doc.status_fr_s }}</span><br>
+                                        <div class="col-sm-12 col-md-12 mrgn-bttm-md">
+                                            <span class="decal decal-status">{{ doc.status_fr_s }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
                                             <strong>{% trans 'Date Requested: ' %}</strong>{{ doc.date_create_fr_s }}
                                         </div>
-                                        <div class="col-sm-6 text-center">
+                                        <div class="col-sm-12 col-md-6">
                                             {% if not doc.date_released_fr_s == "-" %}
-                                                <br><strong>{% trans 'Date Released: ' %}</strong>
+                                                <strong>{% trans 'Date Released: ' %}</strong>
                                                 {{ doc.date_released_fr_s }}
                                             {% endif %}
                                         </div>
@@ -224,18 +207,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="row mrgn-bttm-sm">
+                                    <div class="row mrgn-bttm-md">
                                         <div class="col-sm-12">{{ doc.desc_en_txt | safe }}</div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-sm-12 col-md-12 mrgn-bttm-md">
+                                            <span class="decal decal-status">{{ doc.status_en_s }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-sm-12 col-md-6">
-                                            <span class="badge badge-info badge-pill"
-                                                  role="badge">{{ doc.status_en_s }}</span><br>
                                             <strong>{% trans 'Date Requested: ' %}</strong>{{ doc.date_create_en_s }}
                                         </div>
-                                        <div class="col-sm-12 col-md-6 text-center text-sm-left">
+                                        <div class="col-sm-12 col-md-6">
                                             {% if not doc.date_released_en_s == "-" %}
-                                                <br><strong>{% trans 'Date Released: ' %}</strong>
+                                                <strong>{% trans 'Date Released: ' %}</strong>
                                                 {{ doc.date_released_en_s }}
                                             {% endif %}
                                         </div>
