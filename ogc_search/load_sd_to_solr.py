@@ -1,13 +1,10 @@
 from babel.dates import format_date
-from babel.numbers import format_number
 import csv
 import json
 from datetime import datetime
 from django.conf import settings
-from math import ceil
 import os
 import pysolr
-from search_util import get_choices, get_choices_json
 import sys
 from yaml import load
 try:
@@ -21,7 +18,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 ds_schema = {}
 organizations = {}
 reasons = {}
-stati = {}
+sd_status = {}
 subjects = {}
 ckan_ds_records = {}
 
@@ -38,7 +35,7 @@ with open(settings.SUGGESTED_DS_YAML_FILE, mode='r', encoding='utf8', errors="ig
                 for rf in field['repeating_subfields']:
                     if rf['field_name'] == 'reason':
                         for choice in rf['choices']:
-                            stati[choice['value']] = {'en': choice['label']['en'], 'fr': choice['label']['fr']}
+                            sd_status[choice['value']] = {'en': choice['label']['en'], 'fr': choice['label']['fr']}
 
 # load CKAN subject information
 with open(settings.CKAN_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
@@ -68,7 +65,6 @@ with open(sys.argv[3], 'r', encoding='utf-8', errors="ignore") as ckan_file:
     for ds in ckan_records["results"]:
         if 'id' in ds and 'status' in ds:
             ckan_ds_records[ds['id']] = ds['status']
-
 
 # Set up Solr
 
@@ -118,9 +114,11 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                 od_obj['date_released_en_s'] = "-"
                 od_obj['date_released_fr_s'] = "-"
 
-            if sd['dataset_suggestion_status'] in stati:
-                od_obj['status_en_s'] = stati[sd['dataset_suggestion_status']]['en']
-                od_obj['status_fr_s'] = stati[sd['dataset_suggestion_status']]['fr']
+            # By default, use the status from the Drupal CSV file. However, this value
+            # will be overridden by the status from CKAN, if it is set.
+            if sd['dataset_suggestion_status'] in sd_status:
+                od_obj['status_en_s'] = sd_status[sd['dataset_suggestion_status']]['en']
+                od_obj['status_fr_s'] = sd_status[sd['dataset_suggestion_status']]['fr']
             else:
                 od_obj['status_en_s'] = "-"
                 od_obj['status_fr_s'] = "-"
@@ -151,6 +149,11 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                 od_obj['reason_en_s'] = "Not Provided"
                 od_obj['reason_fr_s'] = "Non fourni"
 
+            if sd['dataset_suggestion_status'] in sd_status:
+                od_obj['status_en_s'] = sd_status[sd['dataset_suggestion_status']]['en']
+                od_obj['status_fr_s'] = sd_status[sd['dataset_suggestion_status']]['fr']
+
+            last_status_date = datetime(2000, 1, 1)
             if sd['uuid'] in ckan_ds_records:
                 status_msg_en = []
                 status_msg_fr = []
@@ -158,23 +161,19 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                     status_dict_en = {}
                     status_dict_fr = {}
                     status_date = datetime.strptime(status_update['date'], '%Y-%m-%d')
-                    # fiscal_quarter = int(ceil(status_date.month / 3.)) - 1
-                    # fiscal_year = status_date.year
-                    # if fiscal_quarter == 0:
-                    #    fiscal_quarter = 4
-                    #    fiscal_year -= 1
-                    # status_msg_en.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
-                    #                                             stati[status_update['reason']]['en']))
-                    # status_msg_fr.append("{1} Q{0} - {2}".format(fiscal_quarter, fiscal_year,
-                    #                                             stati[status_update['reason']]['fr']))
+                    if status_date > last_status_date:
+                        last_status_date = status_date
+                        od_obj['status_en_s'] = sd_status[status_update['reason']]['en']
+                        od_obj['status_fr_s'] = sd_status[status_update['reason']]['fr']
+
                     status_dict_en['date'] = format_date(status_date, locale='en')
-                    status_dict_en['reason'] = stati[status_update['reason']]['en']
+                    status_dict_en['reason'] = sd_status[status_update['reason']]['en']
                     if "comments" in status_update and 'en' in status_update['comments']:
                         status_dict_en['comment'] = status_update['comments']['en']
                     status_msg_en.append(status_dict_en)
                     
                     status_dict_fr['date'] = format_date(status_date, locale='fr')
-                    status_dict_fr['reason'] = stati[status_update['reason']]['fr']
+                    status_dict_fr['reason'] = sd_status[status_update['reason']]['fr']
                     if "comments" in status_update and 'fr' in status_update['comments']:
                         status_dict_fr['comment'] = status_update['comments']['fr']
                     status_msg_fr.append(status_dict_fr)
@@ -199,4 +198,3 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
         solr.add(sd_list)
         solr.commit()
         print('{0} Suggested Datasets Processed'.format(total))
-
