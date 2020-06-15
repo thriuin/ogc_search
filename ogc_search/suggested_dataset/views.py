@@ -34,27 +34,27 @@ class SDSearchView(View):
         self.solr_fields_fr = ("id,title_fr_txt,owner_org_fr_s,owner_org_title_txt_fr,desc_fr_txt,"
                                "votes,keywords_txt_fr,date_received_dt,date_create_fr_s,status_fr_s,"
                                "subjects_fr_s,reason_fr_s,status_updates_fr_s,date_released_fr_s,"
-                               "suggestion_id")
+                               "suggestion_id, date_forwarded_fr_s")
         self.solr_query_fields_fr = ['id', 'owner_org_title_txt_fr', 'desc_fr_txt^3', 'keywords_txt_fr^4',
                                      'status_fr_s', 'subjects_fr_s', 'reason_fr_s', 'title_fr_txt']
         self.solr_facet_fields_fr = ['{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_status_fr_s}status_fr_s',
                                      '{!ex=tag_subjects_fr_s}subjects_fr_s']
         self.solr_hl_fields_fr = ['title_fr_txt', 'owner_org_title_txt_fr', 'desc_fr_txt',
-                                  'desc_fr_txt', 'keywords_txt_fr']
+                                  'desc_fr_txt', 'keywords_txt_fr', 'date_forwarded_fr_s']
         
         # E English earch fields
         self.solr_fields_en = ("id,title_en_txt,owner_org_en_s,owner_org_title_txt_en,desc_en_txt,"
                                "votes,keywords_txt_en,date_received_dt,date_create_en_s,status_en_s,"
                                "subjects_en_s,reason_en_s,status_updates_en_s,date_released_en_s,"
-                               "suggestion_id")
+                               "suggestion_id, date_forwarded_en_s")
         self.solr_query_fields_en = ['id', 'owner_org_title_txt_en', 'desc_en_txt^3', 'keywords_txt_en^4',
                                      'status_en_s', 'subjects_en_s', 'reason_en_s', 'title_en_txt']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_status_en_s}status_en_s',
                                      '{!ex=tag_subjects_en_s}subjects_en_s']
         self.solr_hl_fields_en = ['title_en_txt', 'owner_org_title_txt_en', 'desc_en_txt',
-                                  'desc_en_txt', 'keywords_txt_en']
+                                  'desc_en_txt', 'keywords_txt_en', 'date_forwarded_en_s']
 
         self.phrase_xtras_fr = {
             'hl': 'on',

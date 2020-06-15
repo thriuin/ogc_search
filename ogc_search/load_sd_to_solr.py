@@ -61,10 +61,12 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as org_file:
 # "ckanapi search datasets include_private=true q=type:prop"
 
 with open(sys.argv[3], 'r', encoding='utf-8', errors="ignore") as ckan_file:
-    ckan_records = json.load(ckan_file)
-    for ds in ckan_records["results"]:
-        if 'id' in ds and 'status' in ds:
-            ckan_ds_records[ds['id']] = ds['status']
+    records = ckan_file.readlines()
+    for record in  records:
+        ds = json.loads(record)
+        # Assumption made here that the mandatory 'id', 'status', and 'date_forwarded' fields are present
+        if 'id' in ds and 'status' in ds and 'date_forwarded' in ds:
+            ckan_ds_records[ds['id']] = {'status': ds['status'], 'date_forwarded': ds['date_forwarded']}
 
 # Set up Solr
 
@@ -79,120 +81,128 @@ total = 0
 with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
     sd_reader = csv.DictReader(sd_file, dialect='excel')
     for sd in sd_reader:
-        try:
-            od_obj = {
-                'id': sd['uuid'],
-                'title_en_s': sd['title_en'],
-                'title_fr_s': sd['title_fr'],
-                'owner_org_en_s': organizations[sd['organization']]['en'],
-                'owner_org_fr_s': organizations[sd['organization']]['fr'],
-                'desc_en_s': sd['description_en'],
-                'desc_fr_s': sd['description_fr'],
-                'linked_ds_s': sd['dataset_suggestion_status_link'],
-                'votes': sd['votes'],
-                'keywords_txt_en': str(sd['keywords_en']).split(","),
-                'keywords_en_s': sd['keywords_en'],
-                'keywords_txt_fr': str(sd['keywords_fr']).split(","),
-                'keywords_fr_s': sd['keywords_fr'],
-                'comments_en_s': sd['additional_comments_and_feedback_en'],
-                'comments_fr_s': sd['additional_comments_and_feedback_fr'],
-                'suggestion_id': sd['suggestion_id']
-            }
-            date_received = datetime.strptime(sd['date_created'], '%Y-%m-%d')
-            od_obj['date_received_dt'] = date_received
-            od_obj['date_create_en_s'] = format_date(date_received, locale='en')
-            od_obj['date_create_fr_s'] = format_date(date_received, locale='fr')
+        if sd['uuid'] in ckan_ds_records:
+            try:
+                od_obj = {
+                    'id': sd['uuid'],
+                    'title_en_s': sd['title_en'],
+                    'title_fr_s': sd['title_fr'],
+                    'owner_org_en_s': organizations[sd['organization']]['en'],
+                    'owner_org_fr_s': organizations[sd['organization']]['fr'],
+                    'desc_en_s': sd['description_en'],
+                    'desc_fr_s': sd['description_fr'],
+                    'linked_ds_s': sd['dataset_suggestion_status_link'],
+                    'votes': sd['votes'],
+                    'keywords_txt_en': str(sd['keywords_en']).split(","),
+                    'keywords_en_s': sd['keywords_en'],
+                    'keywords_txt_fr': str(sd['keywords_fr']).split(","),
+                    'keywords_fr_s': sd['keywords_fr'],
+                    'comments_en_s': sd['additional_comments_and_feedback_en'],
+                    'comments_fr_s': sd['additional_comments_and_feedback_fr'],
+                    'suggestion_id': sd['suggestion_id']
+                }
+                date_received = datetime.strptime(sd['date_created'], '%Y-%m-%d')
+                od_obj['date_received_dt'] = date_received
+                od_obj['date_create_en_s'] = format_date(date_received, locale='en')
+                od_obj['date_create_fr_s'] = format_date(date_received, locale='fr')
 
-            # Optional field
-            if sd['dataset_released_date']:
-                date_released = datetime.strptime(sd['dataset_released_date'], '%Y-%m-%d')
-                od_obj['date_released_dt'] = date_released
-                od_obj['date_released_en_s'] = format_date(date_released, locale='en')
-                od_obj['date_released_fr_s'] = format_date(date_released, locale='fr')
-            else:
-                od_obj['date_released_dt'] = ""
-                od_obj['date_released_en_s'] = "-"
-                od_obj['date_released_fr_s'] = "-"
+                date_received = datetime.strptime(ckan_ds_records[sd['uuid']]['date_forwarded'], '%Y-%m-%d')
+                od_obj['date_forwarded_dt'] = date_received
+                od_obj['date_forwarded_en_s'] = format_date(date_received, locale='en')
+                od_obj['date_forwarded_fr_s'] = format_date(date_received, locale='fr')
 
-            # By default, use the status from the Drupal CSV file. However, this value
-            # will be overridden by the status from CKAN, if it is set.
-            if sd['dataset_suggestion_status'] in sd_status:
-                od_obj['status_en_s'] = sd_status[sd['dataset_suggestion_status']]['en']
-                od_obj['status_fr_s'] = sd_status[sd['dataset_suggestion_status']]['fr']
-            else:
-                od_obj['status_en_s'] = "-"
-                od_obj['status_fr_s'] = "-"
+                # Optional field
+                if sd['dataset_released_date']:
+                    date_released = datetime.strptime(sd['dataset_released_date'], '%Y-%m-%d')
+                    od_obj['date_released_dt'] = date_released
+                    od_obj['date_released_en_s'] = format_date(date_released, locale='en')
+                    od_obj['date_released_fr_s'] = format_date(date_released, locale='fr')
+                else:
+                    od_obj['date_released_dt'] = ""
+                    od_obj['date_released_en_s'] = "-"
+                    od_obj['date_released_fr_s'] = "-"
 
-            sd_subjects_en = []
-            sd_subjects_fr = []
-            subject_en = ''
-            subject_fr = ''
+                # By default, use the status from the Drupal CSV file. However, this value
+                # will be overridden by the status from CKAN, if it is set.
+                if sd['dataset_suggestion_status'] in sd_status:
+                    od_obj['status_en_s'] = sd_status[sd['dataset_suggestion_status']]['en']
+                    od_obj['status_fr_s'] = sd_status[sd['dataset_suggestion_status']]['fr']
+                else:
+                    od_obj['status_en_s'] = "-"
+                    od_obj['status_fr_s'] = "-"
 
-            if sd['subject']:
-                for s in str(sd['subject']).split(','):
-                    if s in subjects:
-                        sd_subjects_en.append(subjects[s]['en'])
-                        sd_subjects_fr.append(subjects[s]['fr'])
-            subject_en = ','.join(sd_subjects_en)
-            subject_fr = ','.join(sd_subjects_fr)
+                sd_subjects_en = []
+                sd_subjects_fr = []
+                subject_en = ''
+                subject_fr = ''
 
-            od_obj['subjects_en_s'] = sd_subjects_en
-            od_obj['subjects_fr_s'] = sd_subjects_fr
-            od_obj['subject_list_en_s'] = subject_en
-            od_obj['subject_list_fr_s'] = subject_fr
+                if sd['subject']:
+                    for s in str(sd['subject']).split(','):
+                        if s in subjects:
+                            sd_subjects_en.append(subjects[s]['en'])
+                            sd_subjects_fr.append(subjects[s]['fr'])
+                subject_en = ','.join(sd_subjects_en)
+                subject_fr = ','.join(sd_subjects_fr)
 
-            if sd['reason']:
-                if sd['reason'] in reasons:
-                    od_obj['reason_en_s'] = reasons[sd['reason']]['en']
-                    od_obj['reason_fr_s'] = reasons[sd['reason']]['fr']
-            else:
-                od_obj['reason_en_s'] = "Not Provided"
-                od_obj['reason_fr_s'] = "Non fourni"
+                od_obj['subjects_en_s'] = sd_subjects_en
+                od_obj['subjects_fr_s'] = sd_subjects_fr
+                od_obj['subject_list_en_s'] = subject_en
+                od_obj['subject_list_fr_s'] = subject_fr
 
-            if sd['dataset_suggestion_status'] in sd_status:
-                od_obj['status_en_s'] = sd_status[sd['dataset_suggestion_status']]['en']
-                od_obj['status_fr_s'] = sd_status[sd['dataset_suggestion_status']]['fr']
+                if sd['reason']:
+                    if sd['reason'] in reasons:
+                        od_obj['reason_en_s'] = reasons[sd['reason']]['en']
+                        od_obj['reason_fr_s'] = reasons[sd['reason']]['fr']
+                else:
+                    od_obj['reason_en_s'] = "Not Provided"
+                    od_obj['reason_fr_s'] = "Non fourni"
 
-            last_status_date = datetime(2000, 1, 1)
-            if sd['uuid'] in ckan_ds_records:
-                status_msg_en = []
-                status_msg_fr = []
-                for status_update in ckan_ds_records[sd['uuid']]:
-                    status_dict_en = {}
-                    status_dict_fr = {}
-                    status_date = datetime.strptime(status_update['date'], '%Y-%m-%d')
-                    if status_date > last_status_date:
-                        last_status_date = status_date
-                        od_obj['status_en_s'] = sd_status[status_update['reason']]['en']
-                        od_obj['status_fr_s'] = sd_status[status_update['reason']]['fr']
+                if sd['dataset_suggestion_status'] in sd_status:
+                    od_obj['status_en_s'] = sd_status[sd['dataset_suggestion_status']]['en']
+                    od_obj['status_fr_s'] = sd_status[sd['dataset_suggestion_status']]['fr']
 
-                    status_dict_en['date'] = format_date(status_date, locale='en')
-                    status_dict_en['reason'] = sd_status[status_update['reason']]['en']
-                    if "comments" in status_update and 'en' in status_update['comments']:
-                        status_dict_en['comment'] = status_update['comments']['en']
-                    status_msg_en.append(status_dict_en)
-                    
-                    status_dict_fr['date'] = format_date(status_date, locale='fr')
-                    status_dict_fr['reason'] = sd_status[status_update['reason']]['fr']
-                    if "comments" in status_update and 'fr' in status_update['comments']:
-                        status_dict_fr['comment'] = status_update['comments']['fr']
-                    status_msg_fr.append(status_dict_fr)
-                    
-                od_obj['status_updates_en_s'] = status_msg_en
-                od_obj['status_updates_fr_s'] = status_msg_fr
-                od_obj['status_updates_export_en_s'] = "\n".join(str(status_msg_en))
-                od_obj['status_updates_export_fr_s'] = "\n".join(str(status_msg_fr))
-            sd_list.append(od_obj)
-            i += 1
-            if i == BULK_SIZE:
-                solr.add(sd_list)
-                solr.commit()
-                sd_list = []
-                print('{0} Records Processed'.format(i))
-                i = 0
+                last_status_date = datetime(2000, 1, 1)
+                if sd['uuid'] in ckan_ds_records:
+                    status_msg_en = []
+                    status_msg_fr = []
+                    for status_update in ckan_ds_records[sd['uuid']]['status']:
+                        status_dict_en = {}
+                        status_dict_fr = {}
+                        status_date = datetime.strptime(status_update['date'], '%Y-%m-%d')
+                        if status_date > last_status_date:
+                            last_status_date = status_date
+                            od_obj['status_en_s'] = sd_status[status_update['reason']]['en']
+                            od_obj['status_fr_s'] = sd_status[status_update['reason']]['fr']
 
-        except Exception as x:
-            print('Error on row {0}: {1}'.format(i, x))
+                        status_dict_en['date'] = format_date(status_date, locale='en')
+                        status_dict_en['reason'] = sd_status[status_update['reason']]['en']
+                        if "comments" in status_update and 'en' in status_update['comments']:
+                            status_dict_en['comment'] = status_update['comments']['en']
+                        status_msg_en.append(status_dict_en)
+
+                        status_dict_fr['date'] = format_date(status_date, locale='fr')
+                        status_dict_fr['reason'] = sd_status[status_update['reason']]['fr']
+                        if "comments" in status_update and 'fr' in status_update['comments']:
+                            status_dict_fr['comment'] = status_update['comments']['fr']
+                        status_msg_fr.append(status_dict_fr)
+
+                    od_obj['status_updates_en_s'] = status_msg_en
+                    od_obj['status_updates_fr_s'] = status_msg_fr
+                    od_obj['status_updates_export_en_s'] = "\n".join(str(status_msg_en))
+                    od_obj['status_updates_export_fr_s'] = "\n".join(str(status_msg_fr))
+                sd_list.append(od_obj)
+                i += 1
+                if i == BULK_SIZE:
+                    solr.add(sd_list)
+                    solr.commit()
+                    sd_list = []
+                    print('{0} Records Processed'.format(i))
+                    i = 0
+
+            except Exception as x:
+                print('Error on row {0}: {1}'.format(i, x))
+        else:
+            print('Missing Drupal Record: ' + sd['uuid'])
 
     if len(sd_list) > 0:
         solr.add(sd_list)

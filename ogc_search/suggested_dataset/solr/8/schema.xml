@@ -1019,6 +1019,14 @@
     <field name="date_create_fr_s" type="string" indexed="false" stored="true" multiValued="false"
            sortMissingLast="true" sortMissingFirst="false" docValues="true"/>
 
+    <!-- Date Forwarded -->
+    <field name="date_forwarded_dt" type="pdate" indexed="true" stored="true" multiValued="false"
+           sortMissingLast="true" sortMissingFirst="false" docValues="true"/>
+    <field name="date_forwarded_en_s" type="string" indexed="false" stored="true" multiValued="false"
+           sortMissingLast="true" sortMissingFirst="false" docValues="true"/>
+    <field name="date_forwarded_fr_s" type="string" indexed="false" stored="true" multiValued="false"
+           sortMissingLast="true" sortMissingFirst="false" docValues="true"/>
+
     <!-- Title (English) -->
     <field name="title_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="title_en_txt" type="text_en" indexed="true" stored="true"/>

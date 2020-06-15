@@ -84,8 +84,12 @@
         <div class="row">
             <div class="col-sm-12">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.desc_fr_txt | safe }}{% else %}{{ results.docs.0.desc_en_txt | safe }}{% endif %}</div>
         </div>
+        <div class="row mrgn-tp-md">
+            <div class="col-sm-8"><strong>{% trans 'Suggestion sent to organization:' %}</strong></div>
+            <div class="col-sm-4">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.date_forwarded_fr_s }}{% else %}{{ results.docs.0.date_forwarded_en_s }}{% endif %}</div>
+        </div>
        {% if results.docs.0.status_updates_fr_s  or results.docs.0.status_updates_en_s %}
-        <div class="row mrgn-tp-xl">
+        <div class="row mrgn-tp-lg">
             <div class="col-sm-12 panel panel-default">
                 <table class="table">
                   <caption class="wb-inv">{% trans 'Status Updates' %}</caption>
