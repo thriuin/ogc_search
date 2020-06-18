@@ -127,9 +127,11 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                 if sd['dataset_suggestion_status'] in sd_status:
                     od_obj['status_en_s'] = sd_status[sd['dataset_suggestion_status']]['en']
                     od_obj['status_fr_s'] = sd_status[sd['dataset_suggestion_status']]['fr']
+                    od_obj['status_s'] = sd['dataset_suggestion_status']
                 else:
                     od_obj['status_en_s'] = "-"
                     od_obj['status_fr_s'] = "-"
+                    od_obj['status_s'] = "-"
 
                 sd_subjects_en = []
                 sd_subjects_fr = []
@@ -173,6 +175,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                             last_status_date = status_date
                             od_obj['status_en_s'] = sd_status[status_update['reason']]['en']
                             od_obj['status_fr_s'] = sd_status[status_update['reason']]['fr']
+                            od_obj['status_s'] = status_update['reason']
 
                         status_dict_en['date'] = format_date(status_date, locale='en')
                         status_dict_en['reason'] = sd_status[status_update['reason']]['en']

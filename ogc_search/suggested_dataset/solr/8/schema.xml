@@ -1060,6 +1060,7 @@
     <copyField source="desc_fr_s" dest="desc_fr_txt"/>
 
     <!-- Status-->
+    <field name="status_s" type="string" indexed="true" stored="true" docValues="false"/>
     <field name="status_en_s" type="string" indexed="true" stored="true" sortMissingLast="true"
            sortMissingFirst="false" docValues="true"/>
     <field name="status_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true"
