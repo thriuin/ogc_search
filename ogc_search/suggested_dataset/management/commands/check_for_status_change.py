@@ -144,7 +144,6 @@ class Command(BaseCommand):
                                     status_email.add_alternative(EMAIL_HTML_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
                                                                                             settings.SD_RECORD_URL_FR + sd['uuid']),
                                                                  subtype="html")
-                                    status_email.set_type('text/html')
                                     with smtplib.SMTP("localhost") as mail:
                                         mail.send_message(status_email)
                         else:
