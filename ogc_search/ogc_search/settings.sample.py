@@ -517,6 +517,9 @@ SD_SUGGEST_A_DATASET_FR = "https://ouvert.canada.ca/fr/jeux-de-donnees-suggeres"
 SD_VOTES_BASE_EN = "http://127.0.0.1:8000/en/external-vote/suggest-dataset/"
 SD_VOTES_BASE_FR = "http://127.0.0.1:8000/fr/external-vote/suggest-dataset/"
 
+SD_RECORD_URL_EN = 'http://127.0.0.1:8000/en/sd/id/'
+SD_RECORD_URL_FR = 'http://127.0.0.1:8000/fr/sd/id/'
+SD_ALERT_EMAIL_FROM = ['My Name', 'my.email', 'my.domain.org']
 
 EXPORT_FILE_CACHE_DIR = "/tmp"
 EXPORT_FILE_CACHE_URL = ""

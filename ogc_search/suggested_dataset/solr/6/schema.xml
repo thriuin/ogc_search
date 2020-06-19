@@ -694,6 +694,6 @@
     <field name="status_updates_fr_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
     <!-- for searching -->
     <field name="status_updates_en_txt" type="text_en" indexed="true" stored="false" multiValued="true"/>
-    <field name="status_updates_fr_txt" typ3e="text_en" indexed="true" stored="false" multiValued="true"/>
+    <field name="status_updates_fr_txt" type="text_en" indexed="true" stored="false" multiValued="true"/>
 
 </schema>

@@ -137,14 +137,14 @@ class Command(BaseCommand):
 
                                     status_email = EmailMessage()
                                     status_email['Subject'] = "Status update to your suggested dataset / L’équipe du gouvernement ouvert"
-                                    # @todo Get the real from address
-                                    status_email['From'] = Address("Open/Ouvert", "open=ouvert", "tbs-sct.gc.ca")
+                                    status_email['From'] = Address(settings.SD_ALERT_EMAIL_FROM[0], settings.SD_ALERT_EMAIL_FROM[1], settings.SD_ALERT_EMAIL_FROM[2])
                                     status_email["To"] = Address(submitter_email, valid.local_part, valid.domain)
-                                    # @todo Get the real URL
-                                    status_email.set_content(EMAIL_TEXT_TEMPLATE.format('https://search.open.canada.ca/en/sd/id/' + sd['uuid'],
-                                                                                        'https://rechercher.ouvert.canada.ca/fr/sd/id/' + sd['uuid']))
-                                    status_email.add_alternative(EMAIL_HTML_TEMPLATE.format('https://search.open.canada.ca/en/sd/id/' + sd['uuid'],
-                                                                                            'https://rechercher.ouvert.canada.ca/fr/sd/' + sd['uuid']))
+                                    status_email.set_content(EMAIL_TEXT_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
+                                                                                        settings.SD_RECORD_URL_FR + sd['uuid']))
+                                    status_email.add_alternative(EMAIL_HTML_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
+                                                                                            settings.SD_RECORD_URL_FR + sd['uuid']),
+                                                                 subtype="html")
+                                    status_email.set_type('text/html')
                                     with smtplib.SMTP("localhost") as mail:
                                         mail.send_message(status_email)
                         else:
