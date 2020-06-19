@@ -132,9 +132,9 @@ class Command(BaseCommand):
                             # Compare against new status from CKAN
                             if sd['uuid'] in ckan_status:
                                 if ckan_status[sd['uuid']] != old_status and  ckan_status[sd['uuid']] != "":
-                                    print("Status CHANGE!!!!")
-                                    # Send an email
+                                    self.logger.info("Status change detected for " + sd['uuid'])
 
+                                    # Send an email
                                     status_email = EmailMessage()
                                     status_email['Subject'] = "Status update to your suggested dataset / L’équipe du gouvernement ouvert"
                                     status_email['From'] = Address(settings.SD_ALERT_EMAIL_FROM[0], settings.SD_ALERT_EMAIL_FROM[1], settings.SD_ALERT_EMAIL_FROM[2])
