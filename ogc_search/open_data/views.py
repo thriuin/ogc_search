@@ -398,7 +398,6 @@ class ODExportView(ODSearchView):
             os.mkdir(self.cache_dir)
         self.uuid_regex = _create_pattern('[1-5]')
 
-
     def get(self, request: HttpRequest):
 
         # Check to see if a recent cached results exists and return that instead if it exists
@@ -502,4 +501,31 @@ class ODExportView(ODSearchView):
                 return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
 
 
+class ODMltView(ODSearchView):
+    """
+    A View for return an  HTML fragment with a list of  ten items from a More Like This query to  an Open Data
+    record.
+    """
 
+    def __init__(self):
+        super().__init__()
+
+    def get(self, request, slug=''):
+
+        mlt_search_id = slug
+
+        context = {
+            'od_base_en': settings.OPEN_DATA_EN_URL_BASE,
+            'od_base_fr': settings.OPEN_DATA_FR_URL_BASE,
+        }
+        if request.LANGUAGE_CODE == 'fr':
+            search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_fr,
+                                                  self.solr_facet_fields_fr, self.mlt_fields_fr,
+                                                  start_row='0', pagesize='10')
+        else:
+            search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_en,
+                                                  self.solr_facet_fields_en, self.mlt_fields_en,
+                                                  start_row='0', pagesize='10')
+        search_results.docs = search_results.raw_response['moreLikeThis'][mlt_search_id]['docs']
+        context['results'] = search_results
+        return render(request, "mlt_list.html", context)

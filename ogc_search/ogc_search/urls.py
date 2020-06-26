@@ -27,7 +27,7 @@ from experimental_inventory.views import EISearchView, EIExperimentView, EIExpor
 from grants.views import GCSearchView, GCExportView, GCAmendmentView, GCRecordView
 from national_action_plan.views import NAPSearchView, NAPExportView, NAPRecordView
 from open_data import views
-from open_data.views import ODSearchView, ODExportView, handle_404_error
+from open_data.views import ODSearchView, ODExportView, handle_404_error, ODMltView
 from qp_notes.views import QPSearchView, QPExportView, QPCardView
 from service_inventory.views import SISearchView, SIExportView
 from suggested_dataset.views import SDSearchView, SDDatasetView, SDExportView
@@ -38,6 +38,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('od/', cache_page(300)(ODSearchView.as_view()), name='ODQuery'),
     path('od/export/', ODExportView.as_view(), name='ODExport'),
+    path('od/mlt/<slug:slug>', ODMltView.as_view(), name='ODMlt'),
     path('404/', handle_404_error),
 )
 
