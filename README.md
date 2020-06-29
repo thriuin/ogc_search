@@ -14,8 +14,8 @@ loaded into custom Solr cores that customized specifically to support Canada's t
    
 ## Setup
 
-OGC Search is a Django 2.2 application that runs on Python 3.6 or higher. It also requires Solr 6.6.2,
-which is compatible with the version of Solr currently in use with Open Canada.
+OGC Search is a Django 2.2 application that runs on Python 3.6 or higher. It works with Solr 6.6.x or
+8.5.x.
 
  #### ogc_search
  
@@ -36,22 +36,21 @@ which is compatible with the version of Solr currently in use with Open Canada.
    library](https://mlocati.github.io/articles/gettext-iconv-windows.html).
    
   
- 
  #### CKAN YAML and JSON Files
   OGC Search reads information that describes the CKAN datasets and proactive disclosure data
   types from the ckanext-scheming YAML files. The proactive disclosure files are available on [GitHub](https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables/)
   as are the [CKAN dataset files](https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/schemas).
   It also requires two JSON files for international [currency](https://github.com/open-data/ckanext-canada/blob/master/bin/download_currency.py) and 
   [country](https://github.com/open-data/ckanext-canada/blob/master/bin/download_country.py) codes. These files
-  are often copied to the /ckan folder, but the location can be configured
+  are often copied to the /ckan folder, but the location can be configured in the settings.py file.
   
- #### WET-BOEW Template Files 
-  Download and extract a copy of the [WET GCWEB theme files](http://wet-boew.github.io/wet-boew/docs/versions/dwnld-en.html) 
-  to a new local folder, for example /themes-dist-GCWeb located in the project root.
+ #### CDTS
+  OGC Search uses the [Centrally Deployed Templates Solution (CDTS)](https://github.com/cenw-wscoe/sgdc-cdts) to provide the Canada.ca theme. 
+  The locaiton of the fallback files for CDTS can be configured in the settings.py file.
 
  #### Setting up Solr
  
-  [Download and install Apache Solr 8.4.x](https://lucene.apache.org/solr/downloads.html) or alternatively
+  [Download and install Apache Solr 8.5.x](https://lucene.apache.org/solr/downloads.html) or alternatively
   download an older version 6.6.x from the [Apache repo](https://archive.apache.org). Follow the Solr [installation
   instructions](https://lucene.apache.org/solr/guide/8_4/taking-solr-to-production.html). 
   
@@ -68,7 +67,7 @@ which is compatible with the version of Solr currently in use with Open Canada.
 The unique index for each Solr core, matches as closely as possible the `datastore_primary_key` field from
 the corresponding CKAN YAML file.
 
-<a name="table1" >Table 1: Identifier Map</a>
+<a name="table1" >Table 1: Identifiers</a>
 
 Data Type | CKAN | Search
 --------- | ---- | ------
@@ -96,7 +95,7 @@ Open Data | name | name (Package UUID)
   file that is saved to the project folder /ogc_search/ogc_search/settings.py.
   An example settings files is provided: `/ogc_search/ogc_search/settings.sample.py`.
   
- ## Loading Data
+ ### Loading Data
  
  The open data Solr search core is populated by CKAN, however for all the
  proactive disclosure searches, 'contracts' for example, the Solr core is populated
@@ -107,10 +106,16 @@ Open Data | name | name (Package UUID)
  Controlled list values for the proactive disclosure data is read from the
  corresponding YAML table definition file.
  
- ## Exporting Data
+ ### Exporting Data
   
   OGC Search uses the binary data export feature of Solr to perform fast and
   efficient export or search results to a CSV file.
+
+### "More Like This" for CKAN
+
+OGS provides a link to Solr's similarity search for Open Data. To retrieve a simple HTML fragment with a list of ten 
+similar datasets, use the URL pattern &lt; OGS Site &gt;/en/od/mlt/&lt;UUID&gt; where UUID is the dataset ID of the original record.
+For example: http://127.0.0.1:8000/en/od/mlt/59570050-dc7f-408d-9e41-6d2c4d16a768.   
 
 ## License
 
