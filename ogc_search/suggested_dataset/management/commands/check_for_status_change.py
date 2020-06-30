@@ -79,7 +79,7 @@ class Command(BaseCommand):
 
     help = 'Check for a status update by comparing the Drupal CSV file with Solr'
 
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger('ogc_search')
 
     def add_arguments(self, parser):
         parser.add_argument('--drupal_csv', type=str, required=True)
@@ -99,6 +99,7 @@ class Command(BaseCommand):
 
         ckan_status = {}
         with open(options['ckan_jsonl'], 'r', encoding='utf-8', errors="ignore") as ckan_file:
+            self.logger.info("Processing " + options['ckan_jsonl'])
             records = ckan_file.readlines()
             for record in records:
                 ds = json.loads(record)
@@ -116,6 +117,7 @@ class Command(BaseCommand):
 
         with open(options['drupal_csv'], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
             sd_reader = csv.DictReader(sd_file, dialect='excel')
+            self.logger.info("Processcing " + options['drupal_csv'])
             for sd in sd_reader:
                 if sd['email']:
                     try:
@@ -131,27 +133,38 @@ class Command(BaseCommand):
 
                             # Compare against new status from CKAN
                             if sd['uuid'] in ckan_status:
+                                self.logger.info("CKAN ID: {0}, New Status: {1}, Old Status: {2}".format(sd['uuid'], ckan_status[sd['uuid']], old_status))
                                 if ckan_status[sd['uuid']] != old_status and  ckan_status[sd['uuid']] != "":
                                     self.logger.info("Status change detected for " + sd['uuid'])
 
                                     # Send an email
                                     status_email = EmailMessage()
                                     status_email['Subject'] = "Status update to your suggested dataset / L’équipe du gouvernement ouvert"
-                                    status_email['From'] = Address(settings.SD_ALERT_EMAIL_FROM[0], settings.SD_ALERT_EMAIL_FROM[1], settings.SD_ALERT_EMAIL_FROM[2])
-                                    status_email["To"] = Address(submitter_email, valid.local_part, valid.domain)
-                                    status_email.set_content(EMAIL_TEXT_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
-                                                                                        settings.SD_RECORD_URL_FR + sd['uuid']))
-                                    status_email.add_alternative(EMAIL_HTML_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
-                                                                                            settings.SD_RECORD_URL_FR + sd['uuid']),
-                                                                 subtype="html")
+
+                                    # By design, don't send HTML email to own corporate domain
+                                    if 'tbs-sct.gc.ca' == valid.domain:
+                                        status_email['From'] = settings.SD_ALERT_EMAIL_FROM[0]
+                                        status_email["To"] = submitter_email
+                                        status_email.set_content(EMAIL_TEXT_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
+                                                                                            settings.SD_RECORD_URL_FR + sd['uuid']))
+
+                                    else:
+                                        status_email['From'] = Address(settings.SD_ALERT_EMAIL_FROM[0], settings.SD_ALERT_EMAIL_FROM[1], settings.SD_ALERT_EMAIL_FROM[2])
+                                        status_email["To"] = Address(submitter_email, valid.local_part, valid.domain)
+                                        status_email.set_content(EMAIL_TEXT_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
+                                                                                            settings.SD_RECORD_URL_FR + sd['uuid']))
+                                        status_email.add_alternative(EMAIL_HTML_TEMPLATE.format(settings.SD_RECORD_URL_EN + sd['uuid'],
+                                                                                                settings.SD_RECORD_URL_FR + sd['uuid']),
+                                                                     subtype="html")
+                                    self.logger.info(status_email)
                                     with smtplib.SMTP("localhost") as mail:
                                         mail.send_message(status_email)
                         else:
                             # the record does not exist in Solr, so no further acton is possible
-                            self.logger.debug("No record found in Solr for " + sd['uuid'])
+                            self.logger.info("No record found in Solr for " + sd['uuid'])
                             pass
 
                     except EmailNotValidError as e:
                         # The recipient's email address is not valid so no further action is possible
-                        self.logger.debug(e)
+                        self.logger.info(e)
                         pass
