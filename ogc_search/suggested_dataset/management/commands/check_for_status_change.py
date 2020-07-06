@@ -15,6 +15,8 @@ EMAIL_HTML_TEMPLATE = """
 <html>
 <head></head>
 <body>
+<p>This is an automated message, and replies are not monitored. For help or more information, please contact <a href="mailto:open-ouvert@tbs-sct.gc.ca">open-ouvert@tbs-sct.gc.ca</a>.</p>
+<br>
 <p>Good day,</p>
 <p>Your ‘Suggest a Dataset’ submission on open.canada.ca has an update!</p> 
 <p>Access it here: {0}</p>
@@ -25,6 +27,8 @@ EMAIL_HTML_TEMPLATE = """
  
 <hr> 
  
+<p>Ceci est un message automatisé, et les réponses ne sont pas surveillées. Pour obtenir de l'aide ou de plus amples renseignements, veuillez communiquer avec <a href="mailto:open-ouvert@tbs-sct.gc.ca">open-ouvert@tbs-sct.gc.ca</a>.</p>
+<br>
 <p>Bonjour.</p>
 <p>Une mise à jour est disponible concernant la proposition d’un jeu de données que vous avez faite sur ouvert.canada.ca!</p> 
 <p>Pour y accéder, veuillez suivre le lien suivant : {1}</p>
@@ -37,6 +41,9 @@ EMAIL_HTML_TEMPLATE = """
 """
 
 EMAIL_TEXT_TEMPLATE = """
+This is an automated message, and replies are not monitored. For help or more information, please contact open-ouvert@tbs-sct.gc.ca.
+
+
 Good day,
 
 Your ‘Suggest a Dataset’ submission on open.canada.ca has an update! 
@@ -54,7 +61,11 @@ Thank you,
  
 The Open Government Team
  
- 
+---
+
+Ceci est un message automatisé, et les réponses ne sont pas surveillées. Pour obtenir de l'aide ou de plus amples renseignements, veuillez communiquer avec open-ouvert@tbs-sct.gc.ca.
+
+
 Bonjour.
 
 Une mise à jour est disponible concernant la proposition d’un jeu de données que vous avez faite sur ouvert.canada.ca! 
