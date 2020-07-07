@@ -95,7 +95,7 @@
                             <div class="col-sm-5 col-md-5">
                                 <div class="form-group pull-right">
                                     <label for="sort-by" class="control-label">{% trans 'Order By' %}</label>
-                                    <select class="form-control" name="sort-by" id="sort-by" value="{{ sortby }}"
+                                    <select class="form-control" name="sort-by" id="sort-by" a value="{{ sortby }}"
                                             onchange="submitForm();">
                                         <option value="score desc"
                                                 {% if sortby == "score desc" %}selected="selected"{% endif %}
@@ -111,7 +111,7 @@
 
                                 <div class="input-group hidden">
                                     <div>
-                                        <input type="text" name="page" class="form-control" id="page"
+                                        <input type="hidden" name="page" class="form-control" id="page"
                                                value="{{ currentpage }}">
                                     </div>
                                 </div>
@@ -218,7 +218,12 @@
                                     <span class="fa fa-minus"></span> {% trans 'Remove from Map List' %}</a>
                                 {% endif %}
                             {% endfor %}
-                             <a class="btn btn-secondary btn-sm pull-right"  href="/{{ LANGUAGE_CODE }}/od?mlt_id={{ doc.id }}">{% trans 'Show similar records' %}</a>
+                             <a class="btn btn-secondary btn-sm pull-right"  href="/{{ LANGUAGE_CODE }}/od?mlt_id={{ doc.id }}"
+                                aria-label="{% trans 'Show similar records for ' %} {% if LANGUAGE_CODE == 'en' %}
+                                  {% if "title_en_s" in doc %}{{ doc.title_en_s | safe }}{% elif 'title_xlt_en_s' in doc %}{{ doc.title_xlt_en_s | safe }}{% endif %}
+                                {% else %}
+                                  {% if "title_fr_s" in doc %}{{ doc.title_fr_s | safe }}{% elif 'title_xlt_fr_s' in doc %}{{ doc.title_xlt_fr_s | safe }}{% endif %}
+                                {% endif %}">{% trans 'Show similar records' %}</a>
                         </div>
                 </div>
             </div>
@@ -279,12 +284,12 @@
                 </div>
                 <div class="list-group">
                 {% if LANGUAGE_CODE == 'fr' %}
-                    <a href="{{ od_fr_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info text-center">{{ od_ds_title_fr }}</a>
+                    <a href="{{ od_fr_url }}/{{ od_ds_id }}" class="list-group-item aurora-list-group-item-info text-center">{{ od_ds_title_fr }}</a>
                 {% else %}
-                    <a href="{{ od_en_url }}/{{ od_ds_id }}" class="list-group-item list-group-item-info text-center">{{ od_ds_title_en }}</a>
+                    <a href="{{ od_en_url }}/{{ od_ds_id }}" class="list-group-item aurora-list-group-item-info text-center">{{ od_ds_title_en }}</a>
                 {% endif %}
                     <a href="{% trans 'https://open.canada.ca/en/suggested-datasets' %}"
-                       class="list-group-item list-group-item-success mrgn-tp-md text-center">
+                       class="list-group-item aurora-list-group-item-success mrgn-tp-md text-center">
                             {% trans 'Suggest a Dataset'%}</a>
                 </div>
             </aside>
