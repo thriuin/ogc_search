@@ -186,6 +186,7 @@
     border-color: #144500; }
   .aurora-list-group-item-success:visited, .aurora-list-group-item-success:link {
     color: #FFFFFF;
+    text-decoration: none;
   }
 
   .aurora-list-group-item-info {
@@ -200,4 +201,5 @@
     border-color: #145062; }
   .aurora-list-group-item-info:visited, .aurora-list-group-item-info:link {
     color: #FFFFFF;
+    text-decoration: none;
   }
