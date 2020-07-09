@@ -19,6 +19,10 @@
     <script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 
+{% block custom_page_css %}
+    <link rel="stylesheet" href="{% static 'wet/aurora-custom.css' %}">
+{% endblock custom_page_css %}
+
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
@@ -96,6 +100,7 @@
                                 </div>
                             </div>
                             <div class="input-group hidden">
+                                <label for="page" aria-hidden="true">Page: </label>
                                 <input type="text" name="page" class="form-control" id="page" value="{{ currentpage }}">
                             </div>
                         </div>
@@ -215,7 +220,7 @@
                     {# Link to Dataset #}
                     <div class="list-group">
                         <a href="{% if LANGUAGE_CODE == 'fr' %}{{ od_fr_url }}{% else %}{{ od_en_url }}{% endif %}{{ ds_id }}"
-                           class="list-group-item list-group-item-info text-center">
+                           class="list-group-item aurora-list-group-item-info text-center">
                             {% trans 'Download dataset of the Question Period Notes' %}
                         </a>
                     </div>

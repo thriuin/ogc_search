@@ -19,6 +19,10 @@
     <script src="{% static 'open_data/od_search.js' %}"></script>
 {% endblock custom_page_javascript %}
 
+{% block custom_page_css %}
+    <link rel="stylesheet" href="{% static 'wet/aurora-custom.css' %}">
+{% endblock custom_page_css %}
+
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
@@ -113,7 +117,9 @@
                             </div>
                         </div>
                         <div class="input-group hidden">
-                            <input type="text" name="page" class="form-control" id="page" value="{{currentpage}}">
+                            <label for="page" aria-hidden="true">Page: </label>
+                            <input type="text" name="page" class="form-control" id="page" aria-hidden="true"
+                                   value="{{currentpage}}">
                         </div>
                     </div>
                 </form>
@@ -247,9 +253,9 @@
                     {#  #}
                     <div class="list-group">
                     {% if LANGUAGE_CODE == 'fr' %}
-                        <a href="{{ od_fr_url }}{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_fr }}</a>
+                        <a href="{{ od_fr_url }}{{ ct_ds_id }}" class="list-group-item aurora-list-group-item-info text-center">{{ ct_ds_title_fr }}</a>
                     {% else %}
-                        <a href="{{ od_en_url }}{{ ct_ds_id }}" class="list-group-item list-group-item-info text-center">{{ ct_ds_title_en }}</a>
+                        <a href="{{ od_en_url }}{{ ct_ds_id }}" class="list-group-item aurora-list-group-item-info text-center">{{ ct_ds_title_en }}</a>
                     {% endif %}
                     </div>
                 </aside>
@@ -266,7 +272,7 @@
                             {% for k, v in year_facets.items %}
                             {% if v > 0 %}
                             <li class="list-group-item {% if k in year_selected_list %} active{% endif %}">
-                            <div class="row">
+                            <div class="row">i
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
                                     {% if k in country_selected_list %} checked="checked"{% endif %}
