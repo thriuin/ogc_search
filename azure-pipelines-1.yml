@@ -47,6 +47,10 @@ steps:
   displayName: 'Install prerequisites'
 
 - script: |
+    cp ogc_searcb/settings.sample.py ogc_searcb/settings.py
+  displayName: 'Copy test settings file'
+
+- script: |
     pushd '$(projectRoot)'
     python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
   displayName: 'Run tests'
