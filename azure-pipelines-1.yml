@@ -47,7 +47,7 @@ steps:
   displayName: 'Install prerequisites'
 
 - script: |
-    cp ogc_search/settings.sample.py ogc_search/settings.py
+    cp ogc_search/ogc_search/settings.sample.py ogc_search/ogc_search/settings.py
   displayName: 'Copy test settings file'
 
 - script: |
