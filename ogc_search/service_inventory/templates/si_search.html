@@ -93,14 +93,15 @@
                     <div class="row">
                         <div class="col-md-7 col-sm-12">
                             <div class="input-group">
-                                <label for="od-search-input" class="wb-inv">{% trans 'Search' %}</label>
-                                <input type="text" name="od-search-input" class="form-control" id="od-search-input"
+                                <label for="search_text" class="wb-inv">{% trans 'Search' %}</label>
+                                <input type="text" name="search_text" class="form-control" id="search_text"
                                        value="{{ search_text }}" placeholder="{% trans 'Search' %}"
+                                       aria-label="{% trans 'Search' %}"
                                        onkeypress="submitFormOnEnter(event)" size="60" />
 
                                 <span class="input-group-btn">
                                      <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                                     <button type="button" class="btn btn-primary btn-small form-submit" id="od-search-button"
+                                     <button type="submit" class="btn btn-primary btn-small form-submit" id="od-search-button"
                                             onclick="submitForm()">{% trans 'Search' %}
                                     </button>
                                 </span>

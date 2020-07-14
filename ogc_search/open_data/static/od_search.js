@@ -50,11 +50,11 @@ function gotoPage(page_no) {
     submitForm();
 }
 
-function submitForm() {
+function submitForm(e) {
 
     let sort_opt = $('#sort-by').val();
     let page_no = $('#page').val();
-    let search_text = $('#od-search-input').val();
+    let search_text = $('#search_text').val();
     // IE 11 incompatible: let search_terms = `sort=${sort_opt}&page=${page_no}`;
     let search_terms = "sort=" + sort_opt + "&page=" + page_no;
     if (typeof search_text !== 'undefined') {
