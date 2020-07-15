@@ -1,9 +1,20 @@
 $(function(){
     // reset seessionStorage based on the URL
+    let sort_opt = $('#sort-by').val();
+    let page_no = $('#page').val();
+    let search_text = $('#search_text').val();
+    // IE 11 incompatible: let search_terms = `sort=${sort_opt}&page=${page_no}`;
+    let search_terms = "sort=" + sort_opt + "&page=" + page_no + "&search_text=" + search_text;
+    for (let i=0; i<accumulators.length; i++) {
+        if (sessionStorage.getItem(accumulators[i])) {
+            let facet_str = sessionStorage.getItem(accumulators[i]);
+            search_terms = search_terms + "&" + accumulators[i] + "=" + facet_str;
+        }
+    }
     sessionStorage.clear();
     let facets = [];
     if (window.location.search.length > 1) {
-        facets = window.location.search.substring(1).split('&');
+        facets = search_terms.substring(1).split('&');
         for (let i=0; i<facets.length; i++) {
             let pair = facets[i].split('=');
             sessionStorage.setItem(pair[0], pair[1]);

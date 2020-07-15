@@ -76,13 +76,11 @@
                                     <label for="search_text" class="wb-inv">{% trans 'Search' %}</label>
                                     <input type="text" name="search_text" class="form-control" id="search_text"
                                            value="{{ search_text }}" placeholder="{% trans 'Search' %}"
-                                           aria-label="{% trans 'Search' %}"
-                                           onkeypress="submitFormOnEnter(event)" size="60"/>
+                                           aria-label="{% trans 'Search' %}" size="60"/>
 
                                     <span class="input-group-btn">
                                          <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
-                                         <button type="submit" class="btn btn-primary btn-small form-submit" id="od-search-button"
-                                                onclick="submitForm()">{% trans 'Search' %}
+                                         <button type="submit" class="btn btn-primary btn-small form-submit" id="od-search-button">{% trans 'Search' %}
                                         </button>
                                     </span>
                                 </div>

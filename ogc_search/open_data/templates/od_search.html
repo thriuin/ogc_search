@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form"
-                          class="form-inline" onsubmit="submitForm()">
+                          class="form-inline">
                         <div class="row">
                             <div class="col-sm-7 col-md-7 ">
                                 <div class="input-group">
@@ -81,7 +81,7 @@
                                     <input type="text" name="search_text" class="form-control"
                                            id="search_text" aria-label="{% trans 'Search' %}"
                                            value="{{ search_text }}" placeholder="{% trans 'Search' %}"
-                                           onkeypress="submitFormOnEnter(event)" size="60"/>
+                                           size="60"/>
 
                                     <span class="input-group-btn">
                                          <label for="od-search-button" class="wb-inv">{% trans 'Search' %}</label>
