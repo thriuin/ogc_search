@@ -65,7 +65,7 @@
         {% if not results.docs.0.agreement_end_date_s == "-" %}
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans 'Agreement Date:' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.agreement_end_date_s | friendly_date_fr }} - {{ results.docs.0.agreement_end_date_s | friendly_date_fr}}</div>
+            <div class="col-sm-8">{{ results.docs.0.agreement_start_date_s | friendly_date_fr }} - {{ results.docs.0.agreement_end_date_s | friendly_date_fr}}</div>
         </div>
         {% endif %}
         {% if not doc.description_txt_fr == "-" %}
@@ -199,7 +199,7 @@
         {% if not results.docs.0.agreement_end_date_s == "-" %}
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans 'Agreement Date:' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.agreement_end_date_s | friendly_date_en }} - {{ results.docs.0.agreement_end_date_s | friendly_date_en}}</div>
+            <div class="col-sm-8">{{ results.docs.0.agreement_start_date_s | friendly_date_en }} - {{ results.docs.0.agreement_end_date_s | friendly_date_en}}</div>
         </div>
         {% endif %}
         {% if not doc.description_txt_en == "-" %}
