@@ -20,7 +20,7 @@
 {% block top-settings %}
     "lngLinks": [{
         "lang": "{{ LANGUAGE_CODE | SwapLangCode }}",
-        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/gc/id/{{results.docs.0.id }}",
+        "href": "/{{ LANGUAGE_CODE | SwapLangCode }}/gc/id/{{results.docs.0.id | url_part_unescape }}",
         "text": "{{ LANGUAGE_CODE | SwapLangName }}"
     }],
     search: false,
