@@ -71,9 +71,23 @@ steps:
     replaceExistingArchive: true 
   displayName: 'Create OfflinePackage (tarball)'
 
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.SourcesDirectory)'
+    includeRootFolder: true
+    archiveType: 'tar'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tgz'
+    replaceExistingArchive: true
+  displayName: 'Create binaries tarball'
 
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'OfflinePackage'
     targetPath: '$(Build.ArtifactStagingDirectory)/OfflinePackage'
   displayName: 'Upload OfflinePackage to Artifacts'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/SourceOfflinePackage'
+      ArtifactName: 'SourceOfflinePackage'
+      publishLocation: 'Container'
