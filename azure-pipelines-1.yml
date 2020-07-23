@@ -65,14 +65,6 @@ steps:
     pip download -d $(Build.ArtifactStagingDirectory)/Staging/Dependencies -r requirements.txt
   displayName: 'Download Dependencies for Offline Install'
 
-
-- task: DownloadGitHubRelease@0
-  inputs:
-    connection: 'open-data'
-    userRepository: 'ogc_search'
-    defaultVersionType: 'latest'
-    downloadPath: '$(Build.ArtifactStagingDirectory)/Staging'
-
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/Staging' 
