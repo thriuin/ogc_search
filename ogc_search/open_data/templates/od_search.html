@@ -72,7 +72,7 @@
                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{ result_num }} record{{ result_s }}{% endblocktrans %}{{ mlt_message | safe }}</p>
                         </div>
                     </div>
-                    <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form"
+                    <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" onsubmit="submitForm()"
                           class="form-inline">
                         <div class="row">
                             <div class="col-sm-7 col-md-7 ">
