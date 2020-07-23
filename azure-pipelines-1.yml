@@ -68,7 +68,7 @@ steps:
 
 - task: DownloadGitHubRelease@0
   inputs:
-    connection: 'thriuin'
+    connection: 'open-data'
     userRepository: 'ogc_search'
     defaultVersionType: 'latest'
     downloadPath: '$(Build.ArtifactStagingDirectory)/Staging'
