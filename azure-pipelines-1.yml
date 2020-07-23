@@ -10,13 +10,11 @@ pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    Python35:
-      PYTHON_VERSION: '3.5'
     Python36:
       PYTHON_VERSION: '3.6'
     Python37:
       PYTHON_VERSION: '3.7'
-  maxParallel: 3
+  maxParallel: 2
 
 steps:
 - task: UsePythonVersion@0
@@ -52,7 +50,7 @@ steps:
 
 - script: |
     pushd '$(projectRoot)'
-    python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
+    python manage.py test open_data.tests --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
   displayName: 'Run tests'
 
 - task: PublishTestResults@2
@@ -65,14 +63,22 @@ steps:
     pip download -d $(Build.ArtifactStagingDirectory)/Staging/Dependencies -r requirements.txt
   displayName: 'Download Dependencies for Offline Install'
 
+
+- task: DownloadGitHubRelease@0
+  inputs:
+    connection: 'open-data'
+    userRepository: 'ogc_search'
+    defaultVersionType: 'latest'
+    downloadPath: '$(Build.ArtifactStagingDirectory)/Staging'
+
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/Staging'
-    includeRootFolder: false
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/Staging' 
+    includeRootFolder: true
     archiveType: 'tar'
     tarCompression: 'gz'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/OfflinePackage/OGC_Search_DeploymentPackage.tar.gz'
-    replaceExistingArchive: true
+    archiveFile: '$(Build.ArtifactStagingDirectory)/OfflinePackage/OGC_Search_DeploymentPackage.tar.gz' 
+    replaceExistingArchive: true 
   displayName: 'Create OfflinePackage (tarball)'
 
 
