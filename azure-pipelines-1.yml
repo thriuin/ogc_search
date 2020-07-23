@@ -76,7 +76,7 @@ steps:
     rootFolderOrFile: '$(Build.SourcesDirectory)'
     includeRootFolder: true
     archiveType: 'tar'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).tgz'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/SourceOfflinePackage/OGC_Search_SourcePackage.tgz'
     replaceExistingArchive: true
   displayName: 'Create binaries tarball'
 
