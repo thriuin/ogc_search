@@ -80,6 +80,12 @@ steps:
     replaceExistingArchive: true
   displayName: 'Create binaries tarball'
 
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'wget -O $(Build.ArtifactStagingDirectory)/OfflinePackage/punkt.zip https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip'
+  displayName: 'Download NLTK Punkt Data Files'
+
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'OfflinePackage'
@@ -91,5 +97,3 @@ steps:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/SourceOfflinePackage'
       ArtifactName: 'SourceOfflinePackage'
       publishLocation: 'Container'
-
-      
