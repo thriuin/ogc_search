@@ -86,7 +86,7 @@
                         <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
                     </div>
                 </div>
-                <form action="{% url 'GCQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline" onsubmit="clear_facets()">
+                <form action="{% url 'GCQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline" onsubmit="submitForm()">
                     <div class="row">
                         <div class="col-md-7 col-sm-12">
                             <div class="input-group">
