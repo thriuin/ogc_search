@@ -83,11 +83,11 @@ steps:
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'OfflinePackage'
-    targetPath: '$(Build.ArtifactStagingDirectory)/OfflinePackage'
+    targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/OfflinePackage'
   displayName: 'Upload OfflinePackage to Artifacts'
 
 - task: PublishBuildArtifacts@1
   inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/SourceOfflinePackage'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/SourceOfflinePackage'
       ArtifactName: 'SourceOfflinePackage'
       publishLocation: 'Container'
