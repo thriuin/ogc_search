@@ -12,8 +12,8 @@ strategy:
   matrix:
     Python36:
       PYTHON_VERSION: '3.6'
-    Python37:
-      PYTHON_VERSION: '3.7'
+#    Python37:
+#      PYTHON_VERSION: '3.7'
   maxParallel: 3
 
 steps:
@@ -62,6 +62,11 @@ steps:
 - script: |
     pip download -d $(Build.ArtifactStagingDirectory)/Staging/Dependencies -r requirements.txt
   displayName: 'Download Dependencies for Offline Install'
+
+- script: |
+    bash bin/get_ckan_yaml.sh $(Build.ArtifactStagingDirectory)/Staging
+  displayName: 'Download latest CKAN YAML files'
+  workingDirectory: $(projectRoot)
 
 - task: ArchiveFiles@2
   inputs:
