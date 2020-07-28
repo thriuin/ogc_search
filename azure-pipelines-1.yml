@@ -63,6 +63,11 @@ steps:
     pip download -d $(Build.ArtifactStagingDirectory)/Staging/Dependencies -r requirements.txt
   displayName: 'Download Dependencies for Offline Install'
 
+- script: |
+    bash bin/get_ckan_yaml.sh $(Build.ArtifactStagingDirectory)/Staging/ckan
+  displayName: 'Download latest CKAN YAML files'
+  workingDirectory: $(projectRoot)
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/Staging' 
