@@ -64,7 +64,7 @@ steps:
   displayName: 'Download Dependencies for Offline Install'
 
 - script: |
-    bash bin/get_ckan_yaml.sh $(Build.ArtifactStagingDirectory)/Staging/ckan
+    bash bin/get_ckan_yaml.sh $(Build.ArtifactStagingDirectory)/Staging
   displayName: 'Download latest CKAN YAML files'
   workingDirectory: $(projectRoot)
 
