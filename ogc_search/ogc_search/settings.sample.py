@@ -335,6 +335,7 @@ SOLR_CT = 'http://127.0.0.1:8983/solr/core_contract_search'
 CT_DATASET_TITLE_EN = 'Proactive Disclosure - Contracts Dataset'
 CT_DATASET_TITLE_FR = 'Divulgation des contrats jeu de données'
 CT_DATASET_ID = "d8f85d91-7dec-4fd1-8055-483b77225d8b"
+CT_SHOW_LATEST_FIELDS = False
 
 # Grants and Contributions App Settings
 

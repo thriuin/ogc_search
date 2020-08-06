@@ -5,7 +5,7 @@ from django.conf import settings
 import os
 import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
-    get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field
+    get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field, get_multivalue_choice
 import sys
 from urlsafe import url_part_escape
 from yaml import load
@@ -70,9 +70,6 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 'comments_fr_s': get_field( gc, 'comments_fr'),
                 'additional_comments_en_s': get_field(gc, 'additional_comments_en').strip(),
                 'additional_comments_fr_s': get_field(gc, 'additional_comments_fr').strip(),
-                'land_claims_en_s': get_choice_field(controlled_lists, gc, 'land_claims', 'en', 'Unspecified'),
-                'land_claims_fr_s': get_choice_field(controlled_lists, gc, 'land_claims', 'fr',
-                                                         'type non spécifié'),
                 'commodity_type_en_s': get_choice_field(controlled_lists, gc, 'commodity_type', 'en',
                                                              'Unspecified'),
                 'commodity_type_fr_s': get_choice_field(controlled_lists, gc, 'commodity_type', 'fr',
@@ -261,6 +258,13 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 contract_range = get_bilingual_dollar_range(gc['amendment_value'])
             od_obj['contract_value_range_en_s'] = contract_range['en']['range']
             od_obj['contract_value_range_fr_s'] = contract_range['fr']['range']
+
+            if 'land_claims' in gc and gc['land_claims'] != '':
+                od_obj['land_claims_en_s'] = get_multivalue_choice(controlled_lists['land_claims'], 'en', gc['land_claims']),
+                od_obj['land_claims_fr_s'] = get_multivalue_choice(controlled_lists['land_claims'], 'fr', gc['land_claims']),
+            else:
+                od_obj['land_claims_fr_s'] = 'type non spécifié'
+                od_obj['land_claims_en_s'] = 'Unspecified'
 
             gc_list.append(od_obj)
             i += 1

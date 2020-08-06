@@ -138,6 +138,7 @@ class CTSearchView(View):
                                      'solicitation_procedure_code_en_s',
                                      'limited_tendering_reason_code_en_s',
                                      'trade_agreement_exceptions_en_s',
+                                     "land_claims_en_s",
                                      'aboriginal_business_en_s',
                                      'intellectual_property_en_s',
                                      'former_public_servant_en_s',
@@ -164,6 +165,7 @@ class CTSearchView(View):
                                      'solicitation_procedure_code_fr_s',
                                      'limited_tendering_reason_code_fr_s',
                                      'trade_agreement_exceptions_fr_s',
+                                     "land_claims_fr_s",
                                      'aboriginal_business_fr_s',
                                      'intellectual_property_fr_s',
                                      'former_public_servant_fr_s',
@@ -180,6 +182,7 @@ class CTSearchView(View):
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
                                      '{!ex=tag_trade_agreement_en_s}trade_agreement_en_s',
+                                     '{!ex=tag_land_claims_en_s}land_claims_en_s',
                                      '{!ex=tag_intellectual_property_en_s}intellectual_property_en_s',
                                      '{!ex=tag_solicitation_procedure_en_s}solicitation_procedure_en_s',
                                      '{!ex=tag_instrument_type_en_s}instrument_type_en_s',
@@ -196,6 +199,7 @@ class CTSearchView(View):
                                      '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
                                      '{!ex=tag_trade_agreement_fr_s}trade_agreement_fr_s',
+                                     '{!ex=tag_land_claims_fr_s}land_claims_fr_s',
                                      '{!ex=tag_intellectual_property_fr_s}intellectual_property_fr_s',
                                      '{!ex=tag_solicitation_procedure_fr_s}solicitation_procedure_fr_s',
                                      '{!ex=tag_instrument_type_fr_s}instrument_type_fr_s',
@@ -252,6 +256,7 @@ class CTSearchView(View):
         context["ct_ds_id"] = settings.CT_DATASET_ID
         context["ct_ds_title_en"] = settings.CT_DATASET_TITLE_EN
         context["ct_ds_title_fr"] = settings.CT_DATASET_TITLE_FR
+        context["ct_show_new_fields"] = settings.CT_SHOW_LATEST_FIELDS
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
         items_per_page = int(settings.GC_ITEMS_PER_PAGE)
@@ -278,6 +283,7 @@ class CTSearchView(View):
         solr_search_orgs: str = request.GET.get('ct-search-orgs', '')  # owner_org_en_s
         solr_search_range: str = request.GET.get('ct-search-dollar-range', '')  # contract_value_range_en_s
         solr_search_agreements: str = request.GET.get('ct-search-agreement', '')  # trade_agreement_en_s
+        solr_land_claims: str = request.GET.get('ct-land-claims', '') # land_claims_en_s
         solr_search_ip: str = request.GET.get('ct-search-ip', '')  # intellectual_property_en_s
         solr_search_solicitation: str = request.GET.get('ct-solicitation', '')  # solicitation_procedure_en_s
         solr_search_doc_type: str = request.GET.get('ct-search-doc', '')  # instrument_type_en_s
@@ -297,6 +303,8 @@ class CTSearchView(View):
         context["range_selected_list"] = solr_search_range.split('|')
         context["agreement_selected"] = solr_search_agreements
         context["agreement_selected_list"] = solr_search_agreements.split('|')
+        context["land_claims_selected"] = solr_land_claims
+        context["land_claims_selected_list"] = solr_land_claims.split('|')
         context['ip_selected'] = solr_search_ip
         context['ip_selected_list'] = solr_search_ip.split('|')
         context["solicitation_selected"] = solr_search_solicitation
@@ -323,6 +331,7 @@ class CTSearchView(View):
                                owner_org_fr_s=solr_search_orgs,
                                contract_value_range_fr_s=solr_search_range,
                                trade_agreement_fr_s=solr_search_agreements,
+                               land_claims_fr_s=solr_land_claims,
                                intellectual_property_fr_s=solr_search_ip,
                                solicitation_procedure_fr_s=solr_search_solicitation,
                                instrument_type_fr_s=solr_search_doc_type,
@@ -339,6 +348,7 @@ class CTSearchView(View):
                                owner_org_en_s=solr_search_orgs,
                                contract_value_range_en_s=solr_search_range,
                                trade_agreement_en_s=solr_search_agreements,
+                               land_claims_en_s=solr_land_claims,
                                intellectual_property_en_s=solr_search_ip,
                                solicitation_procedure_en_s=solr_search_solicitation,
                                instrument_type_en_s=solr_search_doc_type,
@@ -353,7 +363,7 @@ class CTSearchView(View):
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')
-        if solr_search_sort not in ['score desc', 'contract_delivery_s desc', 'contract_value_f desc']:
+        if solr_search_sort not in ['score desc', 'contract_start_s desc', 'original_value_f desc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 
@@ -409,6 +419,8 @@ class CTSearchView(View):
                 search_results.facets['facet_fields']['contract_value_range_fr_s'])
             context['agreement_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['trade_agreement_fr_s'])
+            context['land_claims_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['land_claims_fr_s'])
             context['ip_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['intellectual_property_fr_s'])
             context['solicitation_facets_fr'] = search_util.convert_facet_list_to_dict(
@@ -436,6 +448,8 @@ class CTSearchView(View):
                 search_results.facets['facet_fields']['contract_value_range_en_s'])
             context['agreement_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['trade_agreement_en_s'])
+            context['land_claims_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['land_claims_en_s'])
             context['ip_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['intellectual_property_en_s'])
             context['solicitation_facets_en'] = search_util.convert_facet_list_to_dict(
@@ -646,6 +660,7 @@ class CTExportView(View):
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
                                      '{!ex=tag_trade_agreement_en_s}trade_agreement_en_s',
+                                     '{!ex=tag_land_claims_en_s}land_claims_en_s',
                                      '{!ex=tag_intellectual_property_en_s}intellectual_property_en_s',
                                      '{!ex=tag_solicitation_procedure_en_s}solicitation_procedure_en_s',
                                      '{!ex=tag_instrument_type_en_s}instrument_type_en_s',
@@ -662,6 +677,7 @@ class CTExportView(View):
                                      '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
                                      '{!ex=tag_trade_agreement_fr_s}trade_agreement_fr_s',
+                                     '{!ex=tag_land_claims_fr_s}land_claims_fr_s',
                                      '{!ex=tag_intellectual_property_fr_s}intellectual_property_fr_s',
                                      '{!ex=tag_solicitation_procedure_fr_s}solicitation_procedure_fr_s',
                                      '{!ex=tag_instrument_type_fr_s}instrument_type_fr_s',
@@ -700,6 +716,7 @@ class CTExportView(View):
         solr_search_orgs: str = request.GET.get('ct-search-orgs', '')  # owner_org_en_s
         solr_search_range: str = request.GET.get('ct-search-dollar-range', '')  # contract_value_range_en_s
         solr_search_agreements: str = request.GET.get('ct-search-agreement', '')  # trade_agreement_en_s
+        solr_land_claims: str = request.GET.get('ct-land-claims', '')
         solr_search_ip: str = request.GET.get('ct-search-ip', '')  # intellectual_property_en_s
         solr_search_solicitation: str = request.GET.get('ct-solicitation', '')  # solicitation_procedure_en_s
         solr_search_doc_type: str = request.GET.get('ct-search-doc', '')  # instrument_type_en_s
@@ -716,6 +733,7 @@ class CTExportView(View):
                                owner_org_fr_s=solr_search_orgs,
                                contract_value_range_fr_s=solr_search_range,
                                trade_agreement_fr_s=solr_search_agreements,
+                               land_clains_fr_s=solr_land_claims,
                                intellectual_property_fr_s=solr_search_ip,
                                solicitation_procedure_fr_s=solr_search_solicitation,
                                instrument_type_fr_s=solr_search_doc_type,
@@ -735,6 +753,7 @@ class CTExportView(View):
                                owner_org_en_s=solr_search_orgs,
                                contract_value_range_en_s=solr_search_range,
                                trade_agreement_en_s=solr_search_agreements,
+                               land_claims_en_s=solr_land_claims,
                                intellectual_property_en_s=solr_search_ip,
                                solicitation_procedure_en_s=solr_search_solicitation,
                                instrument_type_en_s=solr_search_doc_type,
