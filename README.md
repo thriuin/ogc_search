@@ -5,10 +5,11 @@ This project uses a Django framework web application as a thin frontend to Solr 
 proactive disclosure data for the Open Government Portal. Instead of using default CKAN Solr 6 cores, data is 
 loaded into custom Solr cores that customized specifically to support Canada's two official languages and fast data exprting.
 
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/alerts/)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/context:javascript)
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/thriuin/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thriuin/ogc_search/context:javascript)
-[![Known Vulnerabilities](https://snyk.io/test/github/thriuin/ogc_search/badge.svg?targetFile=requirements.txt)](https://snyk.io/test/github/thriuin/ogc_search?targetFile=requirements.txt)
+[![Build Status](https://dev.azure.com/tbs-sct/Open%20Canada/_apis/build/status/open-data.ogc_search?branchName=master)](https://dev.azure.com/tbs-sct/Open%20Canada/_build/latest?definitionId=324&branchName=master)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/open-data/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/open-data/ogc_search/alerts/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/open-data/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/open-data/ogc_search/context:javascript)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/open-data/ogc_search.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/open-data/ogc_search/context:python)
+[![Known Vulnerabilities](https://snyk.io/test/github/thriuin/ogc_search/badge.svg)](https://snyk.io/test/github/thriuin/ogc_search)
 ![GitHub](https://img.shields.io/github/license/thriuin/ogc_search.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/thriuin/ogc_search.svg)
    
