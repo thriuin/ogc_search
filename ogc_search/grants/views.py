@@ -324,7 +324,7 @@ class GCRecordView(GCSearchView):
         self.phrase_xtras_en = {}
         self.phrase_xtras_fr = {}
 
-    def get(self, request, slug=''):
+    def get(self, request, slug=''):     # lgtm [py/similar-function]
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL

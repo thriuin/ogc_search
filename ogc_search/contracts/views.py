@@ -481,7 +481,7 @@ class CTContractView(CTSearchView):
         self.phrase_xtras_en = {}
         self.phrase_xtras_fr = {}
 
-    def get(self, request, slug=''):
+    def get(self, request, slug=''):        # lgtm [py/similar-function]
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
@@ -621,7 +621,7 @@ class CTExportView(View):
                                      'intellectual_property_en_s',
                                      'former_public_servant_en_s',
                                      'contracting_entity_en_s', 'standing_offer_number_s',
-                                     'instrument_type_en_s,'
+                                     'instrument_type_en_s',
                                      'ministers_office_en_s',
                                      'reporting_period_s',
                                      'owner_org_en_s',
@@ -647,7 +647,7 @@ class CTExportView(View):
                                      'intellectual_property_fr_s',
                                      'former_public_servant_fr_s',
                                      'contracting_entity_fr_s', 'standing_offer_number_s',
-                                     'instrument_type_fr_s,'
+                                     'instrument_type_fr_s',
                                      'ministers_office_fr_s',
                                      'reporting_period_s',
                                      'owner_org_fr_s',

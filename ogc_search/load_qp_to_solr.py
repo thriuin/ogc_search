@@ -4,8 +4,7 @@ from datetime import datetime
 from django.conf import settings
 import os
 import pysolr
-from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
-    get_choice_field, get_bilingual_dollar_range
+from search_util import get_choices_json, get_field, get_choice_field
 import sys
 from urlsafe import url_part_escape
 from yaml import load
