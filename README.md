@@ -1,6 +1,8 @@
 # ogc_search
 Django based search for the Canadian Open Government Portal 
 
+Version 0.9
+
 This project uses a Django framework web application as a thin frontend to Solr to do searching of datasets and 
 proactive disclosure data for the Open Government Portal. Instead of using default CKAN Solr 6 cores, data is 
 loaded into custom Solr cores that customized specifically to support Canada's two official languages and fast data exprting.
