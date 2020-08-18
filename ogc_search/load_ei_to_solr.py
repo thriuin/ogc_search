@@ -1,5 +1,4 @@
 from babel.dates import format_date
-from babel.numbers import parse_decimal, format_currency
 import csv
 from datetime import date, datetime
 from django.conf import settings

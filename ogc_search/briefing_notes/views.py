@@ -6,7 +6,7 @@ import hashlib
 import logging
 import os
 import search_util
-from urlsafe import url_part_escape, url_part_unescape
+from urlsafe import url_part_escape
 import time
 
 logger = logging.getLogger('ogc_search')
@@ -207,7 +207,7 @@ class BNoteView(BNSearchView):
         self.phrase_xtras_en = {}
         self.phrase_xtras_fr = {}
 
-    def get(self, request, slug=''):
+    def get(self, request, slug=''):     # lgtm [py/similar-function] 
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
