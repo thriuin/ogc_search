@@ -3,7 +3,7 @@ from datetime import datetime
 from django.conf import settings
 import os
 import pysolr
-from search_util import get_choices
+from search_util import get_choices, SynonymFinder
 import sys
 from urlsafe import url_part_escape
 from yaml import load
@@ -12,6 +12,8 @@ try:
     from yaml import CLoader as Loader
 except ImportError:
     from yaml import Loader
+
+fields_with_synonyms = ['title_en_s', 'title_fr_s', 'additional_information_en_s', 'additional_information_fr_s']
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
@@ -26,6 +28,8 @@ controlled_lists = {'addressee': get_choices('addressee', bn_schema),
 solr = pysolr.Solr(settings.SOLR_BN)
 solr.delete(q='*:*')
 solr.commit()
+
+sf = SynonymFinder()
 
 bn_list = []
 bulk_size = 500
@@ -59,6 +63,16 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
             bi_org_title = str(bn['owner_org_title']).split('|')
             od_obj['owner_org_en_s'] = bi_org_title[0].strip()
             od_obj['owner_org_fr_s'] = bi_org_title[1].strip()
+
+            for field_name in fields_with_synonyms:
+                if field_name.endswith('en') or field_name.endswith('en_s'):
+                    sf.search_text(od_obj[field_name], 'en')
+                elif field_name.endswith('fr') or field_name.endswith('fr_s'):
+                    sf.search_text(od_obj[field_name], 'fr')
+            od_obj['english_synonyms'] = sf.get_synonyms('en')
+            od_obj['french_synonyms'] = sf.get_synonyms('fr')
+            sf.reset()
+
             bn_list.append(od_obj)
             i += 1
             total += 1

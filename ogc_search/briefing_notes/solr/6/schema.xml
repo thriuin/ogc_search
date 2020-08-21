@@ -607,6 +607,10 @@
     <field name="additional_information_txt_fr" type="text_en" indexed="true" stored="true"/>
     <field name="additional_information_txt_en" type="text_fr" indexed="true" stored="true"/>
 
+    <!-- Synonyms for search boosting -->
+    <field name="english_synonyms" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <field name="french_synonyms" type="text_fr" indexed="true" stored="true" multiValued="true"/>
+
     <!-- facets -->
     <field name="owner_org_en_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>

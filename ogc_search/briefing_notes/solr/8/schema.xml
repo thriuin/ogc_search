@@ -1066,4 +1066,8 @@
     <field name="additional_information_fr_s" type="string" indexed="true" stored="true" sortMissingLast="true" sortMissingFirst="false"
            docValues="true"/>
 
+        <!-- Synonyms for search boosting -->
+    <field name="english_synonyms" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <field name="french_synonyms" type="text_fr" indexed="true" stored="true" multiValued="true"/>
+
 </schema>

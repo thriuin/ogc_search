@@ -4,6 +4,7 @@ from django.http import HttpRequest
 import json
 import logging
 from math import ceil
+import nltk
 from nltk.tokenize.regexp import RegexpTokenizer
 import os
 import pysolr
@@ -537,3 +538,71 @@ def get_bilingual_dollar_range(dollars: str):
         except NumberFormatError:
             pass
     return dollar_range
+
+
+def _load_synonym_file(file_name, syn_list, syn_keys):
+    with open(file_name, 'r', encoding='utf-8') as s:
+        lines = [line.rstrip() for line in s]
+        i = 0
+        for line in lines:
+            if len(line) <= 4:
+                continue
+            # strip => from line
+            gte_idx =  line.find(" => ")
+            if gte_idx > -1:
+                line = line[gte_idx + 4:]
+            words = line.split(',')
+            syn_list.append(words)
+            for word in words:
+                syn_keys[word.lower().strip()] = i
+            i += 1
+
+
+class SynonymFinder(object):
+
+    def __init__(self):
+        self.sent_tokenizer_en = nltk.data.load('tokenizers/punkt/english.pickle')
+        self.sent_tokenizer_fr = nltk.data.load('tokenizers/punkt/french.pickle')
+        # Read in list of potential synonyms
+        self.synonym_list_en = []
+        self.synonym_list_fr = []
+        self.synonym_keys_en = {}
+        self.synonym_keys_fr = {}
+        self.accumulated_synonym_keys_fr = {}
+        self.accumulated_synonym_keys_en = {}
+        _load_synonym_file('./open_data/solr/lang/synonyms_en.txt', self.synonym_list_en, self.synonym_keys_en)
+        _load_synonym_file('./open_data/solr/lang/synonyms_fr.txt', self.synonym_list_fr, self.synonym_keys_fr)
+
+    def reset(self):
+        self.accumulated_synonym_keys_fr = {}
+        self.accumulated_synonym_keys_en = {}
+
+    def search_text(self, text_to_parse: str, lang: str):
+        if lang == 'fr':
+            sentences = self.sent_tokenizer_fr.tokenize(text_to_parse)
+        else:
+            sentences = self.sent_tokenizer_en.tokenize(text_to_parse)
+        for sentance in sentences:
+            words = nltk.tokenize.word_tokenize(sentance)
+            for word in words:
+                low_word = word.lower().strip()
+                if lang == 'en':
+                    if low_word in self.synonym_keys_en:
+                        self.accumulated_synonym_keys_en[self.synonym_keys_en[low_word]] = low_word
+                else:
+                    if word.lower() in self.synonym_keys_fr:
+                        self.accumulated_synonym_keys_fr[self.synonym_keys_fr[low_word]] = low_word
+
+    def get_synonyms(self, lang: str):
+        synonyms = []
+        if lang == 'fr':
+            for key in self.accumulated_synonym_keys_fr.keys():
+                for synonym in self.synonym_list_fr[key]:
+                    synonyms.append(synonym.strip())
+        else:
+            for key in self.accumulated_synonym_keys_en.keys():
+                for synonym in self.synonym_list_en[key]:
+                    synonyms.append(synonym.strip())
+        if len(synonyms) > 0:
+            print(synonyms)
+        return synonyms

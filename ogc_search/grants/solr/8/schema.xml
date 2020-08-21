@@ -1081,6 +1081,10 @@
     <copyField source="additional_information_txt_fr" dest="additional_information_fr_s"/>
     <copyField source="agreement_number_s" dest="agreement_number_ws"/>
 
+    <!-- Synonyms for search boosting -->
+    <field name="english_synonyms" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <field name="french_synonyms" type="text_fr" indexed="true" stored="true" multiValued="true"/>
+
     <!-- id field is populated with org-code + reference_num + amendment_number-->
     <field name="ref_number_s" type="string" indexed="true" stored="true" docValues="true"/>
     <!-- facets -->

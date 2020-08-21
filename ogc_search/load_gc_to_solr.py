@@ -5,7 +5,7 @@ from dateutil import parser
 from django.conf import settings
 import os
 import pysolr
-from search_util import get_choices, get_choices_json
+from search_util import get_choices, get_choices_json, SynonymFinder
 from urlsafe import url_part_escape
 import sys
 from yaml import load
@@ -14,6 +14,13 @@ try:
     from yaml import CLoader as Loader
 except ImportError:
     from yaml import Loader
+
+
+fields_with_synonyms = ['recipient_legal_name_txt_en', 'recipient_legal_name_txt_fr', 'recipient_operating_name_txt_en',
+                        'recipient_operating_name_txt_fr', 'research_organization_name_txt_en',
+                        'research_organization_name_txt_fr', 'program_name_txt_en', 'program_name_txt_fr',
+                        'program_purpose_txt_en', 'program_purpose_txt_fr', 'agreement_title_txt_en',
+                        'agreement_title_txt_fr']
 
 
 def get_field(grants, field_key, default_value='-'):
@@ -55,6 +62,8 @@ def get_bilingual_field(grants, field_key: str, lang: str, default_value="-"):
 
 BULK_SIZE = 1000
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
+
+sf = SynonymFinder()
 
 gc_schema = {}
 with open(settings.GRANTS_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
@@ -176,6 +185,15 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                     od_obj['agreement_value_range_fr_s'] = '(g) plus de cinq millions $'
             except NumberFormatError:
                 pass
+
+            for field_name in fields_with_synonyms:
+                if field_name.endswith('en') or field_name.endswith('en_s'):
+                    sf.search_text(od_obj[field_name], 'en')
+                elif field_name.endswith('fr') or field_name.endswith('fr_s'):
+                    sf.search_text(od_obj[field_name], 'fr')
+            od_obj['english_synonyms'] = sf.get_synonyms('en')
+            od_obj['french_synonyms'] = sf.get_synonyms('fr')
+            sf.reset()
 
             gc_list.append(od_obj)
             i += 1
