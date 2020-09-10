@@ -37,6 +37,15 @@ with open(settings.SUGGESTED_DS_YAML_FILE, mode='r', encoding='utf8', errors="ig
                         for choice in rf['choices']:
                             sd_status[choice['value']] = {'en': choice['label']['en'], 'fr': choice['label']['fr']}
 
+# Add a default status value for records with a blank status - use this implied status value now removed from CKAN
+        # -    - label:
+        # -        en: Request sent to data owner – awaiting response
+        # -        fr: Demande envoyée au propriétaire des données, en attente de réponse
+        # -      value: department_contacted
+
+sd_status['department_contacted'] = {'en': 'Request sent to data owner – awaiting response',
+                                     'fr': 'Demande envoyée au propriétaire des données, en attente de réponse'}
+
 # load CKAN subject information
 with open(settings.CKAN_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
     ckan_schema = load(ckan_schema_file, Loader=Loader)
@@ -62,11 +71,17 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as org_file:
 
 with open(sys.argv[3], 'r', encoding='utf-8', errors="ignore") as ckan_file:
     records = ckan_file.readlines()
-    for record in  records:
+    for record in records:
         ds = json.loads(record)
-        # Assumption made here that the mandatory 'id', 'status', and 'date_forwarded' fields are present
+
+        # Assumption made here that the mandatory 'id',and 'date_forwarded' fields are present. If not status,
+        # then use a plain date_forwarded status by default
         if 'id' in ds and 'status' in ds and 'date_forwarded' in ds:
             ckan_ds_records[ds['id']] = {'status': ds['status'], 'date_forwarded': ds['date_forwarded']}
+        elif 'id' in ds and 'date_forwarded' in ds:
+            ckan_ds_records[ds['id']] = {'status': [{'date': ds['date_forwarded'],
+                                                     'reason': 'department_contacted'}],
+                                         'date_forwarded': ds['date_forwarded']}
 
 # Set up Solr
 
@@ -205,7 +220,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
             except Exception as x:
                 print('Error on row {0}: {1}'.format(i, x))
         else:
-            print('Missing Drupal Record: ' + sd['uuid'])
+            print('Missing CKAN Record: ' + sd['uuid'])
 
     if len(sd_list) > 0:
         solr.add(sd_list)
