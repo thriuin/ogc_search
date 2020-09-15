@@ -2,6 +2,7 @@ from django.conf import settings
 from django.http import HttpRequest, HttpResponseRedirect, FileResponse
 from django.shortcuts import render
 from django.views.generic import View
+from datetime import datetime
 import hashlib
 import logging
 import os
@@ -41,7 +42,7 @@ class CTSearchView(View):
                                "vendor_name_s,vendor_name_txt,"
                                "vendor_postal_code_s,"
                                "buyer_name_s,buyer_name_txt_en,"
-                               "contract_date_dt,contract_year_s,contract_month_s,"
+                               "contract_date_dt,contract_date_s,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_en_s,description_txt_en,"
                                "contract_start_dt,contract_start_s,"
@@ -82,7 +83,7 @@ class CTSearchView(View):
                                "vendor_name_s,vendor_name_txt,"
                                "vendor_postal_code_s,"
                                "buyer_name_s,buyer_name_txt_fr,"
-                               "contract_date_dt,contract_year_s,contract_month_s,"
+                               "contract_date_dt,contract_date_scontract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_fr_s,description_txt_fr,"
                                "contract_start_dt,contract_start_s,"
@@ -128,7 +129,7 @@ class CTSearchView(View):
                                      'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_en^3',
-                                     'contract_start_s^4', 'contract_delivery_s^4',
+                                     'contract_start_s^4', 'contract_date_s^4', 'contract_delivery_s^4',
                                      'contract_value_en_s^5', 'original_value_en_s^4', 'amendment_value_en_s^4',
                                      'comments_txt_en', 'additional_comments_txt_en',
                                      'trade_agreement_exception_en_s',
@@ -155,7 +156,7 @@ class CTSearchView(View):
                                      'contract_year_s', 'contract_month_s',
                                      'economic_object_code_s^4',
                                      'description_txt_fr^3',
-                                     'contract_start_s^4', 'contract_delivery_s^4',
+                                     'contract_start_s^4', 'contract_date_s^4', 'contract_delivery_s^4',
                                      'contract_value_fr_s^5', 'original_value_fr_s^4', 'amendment_value_fr_s^4',
                                      'comments_txt_fr', 'additional_comments_txt_fr',
                                      'trade_agreement_exception_fr_s',
@@ -471,6 +472,7 @@ class CTSearchView(View):
             context['report_type_en_s'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['report_type_en_s'])
 
+        context['year_right_now'] = datetime.now().year
         return render(request, "contracts_search.html", context)
 
 
@@ -505,6 +507,7 @@ class CTContractView(CTSearchView):
         context['results'] = search_results
         if len(search_results.docs) > 0:
             context['ref_number_s'] = slug
+            context['year_right_now'] = datetime.now().year
             return render(request, "contract.html", context)
         else:
             return render(request, 'no_record_found.html', context, status=404)
