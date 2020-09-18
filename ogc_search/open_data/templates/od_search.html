@@ -632,7 +632,7 @@ $( document ).ready(function() {
     type = action[0]
     id = action[1]
 
-    location.href='https://open.canada.ca/data/en/fgpv_vpgf/'+id
+    location.href='{% if LANGUAGE_CODE == 'fr' %}{{ od_fr_fgp_root }}{% else %}{{ od_en_fgp_root }}{% endif %}'+id
     return false
   });
 
