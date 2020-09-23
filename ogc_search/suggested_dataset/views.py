@@ -275,7 +275,7 @@ class SDExportView(SDSearchView):
                 if settings.EXPORT_FILE_CACHE_URL == "":
                     return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
                 else:
-                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}_{}.csv".format(hashed_query, request.LANGUAGE_CODE))
 
         # Retrieve any selected search facets
         params = get_user_facet_parameters(request)
