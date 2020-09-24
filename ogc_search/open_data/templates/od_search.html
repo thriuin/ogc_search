@@ -135,7 +135,8 @@
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                 {% if LANGUAGE_CODE == 'en' %}
                                 <a href="{{od_en_url}}{{doc.id_name_s}}">
-                                    {% if "title_en_s" in doc %}{{ doc.title_en_s | safe }}{% elif 'title_xlt_en_s' in doc %}{{ doc.title_xlt_en_s | safe }}{% endif %}
+                                    {% if "title_en_s" in doc %}{{ doc.title_en_s | safe }}{% elif 'title_xlt_en_s' in doc %}{{ doc.title_xlt_en_s | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
+                                                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>{% endif %}
                                 {% else %}
                                 <a href="{{od_fr_url}}{{doc.id_name_s}}">
                                     {% if "title_fr_s" in doc %}
