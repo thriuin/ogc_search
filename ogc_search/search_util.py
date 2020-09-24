@@ -301,8 +301,7 @@ def solr_query_for_export_mlt(unique_id, solr_url, solr_fields, solr_mlt_fields,
     return sr
 
 
-
-def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fields: str):
+def cache_search_results_file(cached_filename: str, sr: pysolr.Results, rows = 100000):
 
     if len(sr.docs) == 0:
         return False
@@ -312,11 +311,18 @@ def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fie
             headers = list(sr.docs[0])
             headers[0] = u'\N{BOM}' + headers[0]
             cache_writer.writerow(headers)
-            for i in sr.docs:
-                try:
-                    cache_writer.writerow(i.values())
-                except UnicodeEncodeError:
-                    pass
+            if len(sr.docs) > rows:
+                c = 0
+                for i in sr.docs:
+                    if c > 100000:
+                        break
+                    try:
+                        cache_writer.writerow(i.values())
+                        c += 1
+                    except UnicodeEncodeError:
+                        pass
+            else:
+                cache_writer.writerows(sr.docs)
     return True
 
 
@@ -603,6 +609,4 @@ class SynonymFinder(object):
             for key in self.accumulated_synonym_keys_en.keys():
                 for synonym in self.synonym_list_en[key]:
                     synonyms.append(synonym.strip())
-        if len(synonyms) > 0:
-            print(synonyms)
         return synonyms

@@ -703,15 +703,15 @@ class CTExportView(View):
 
         # Check to see if a recent cached results exists and return that instead if it exists
         hashed_query = hashlib.sha1(request.GET.urlencode().encode('utf8')).hexdigest()
-        cached_filename = os.path.join(self.cache_dir, "{}.csv".format(hashed_query))
+        cached_filename = os.path.join(self.cache_dir, "{}_{}.csv".format(hashed_query, request.LANGUAGE_CODE))
         if os.path.exists(cached_filename):
-            if time.time() - os.path.getmtime(cached_filename) > 600:
+            if (time.time() - os.path.getmtime(cached_filename)) > 21600:  # more than 6 hours old
                 os.remove(cached_filename)
             else:
                 if settings.EXPORT_FILE_CACHE_URL == "":
                     return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
                 else:
-                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}_{}.csv".format(hashed_query, request.LANGUAGE_CODE))
 
         # Retrieve any selected search facets
         solr_search_terms = search_util.get_search_terms(request)
@@ -781,9 +781,9 @@ class CTExportView(View):
                                                            facets_dict,
                                                            self.phrase_xtras)
 
-        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
-                                                 solr_fields=solr_fields):
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results):
             if settings.EXPORT_FILE_CACHE_URL == "":
                 return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
             else:
-                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}_{}.csv".format(hashed_query,
+                                                                                                request.LANGUAGE_CODE))

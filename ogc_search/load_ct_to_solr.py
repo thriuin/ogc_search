@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader
 
-BULK_SIZE = 1000
+BULK_SIZE = 5000
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
 gc_schema = {}

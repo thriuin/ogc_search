@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-17 15:31-0400\n"
+"POT-Creation-Date: 2020-09-24 10:15-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -987,6 +987,10 @@ msgstr "Organisation :"
 msgid "Download Search Results"
 msgstr "Télécharger les résultats de recherche"
 
+#: .\contracts\templates\contracts_search.html:289
+msgid "(100,000 row limit)"
+msgstr "(100 000 lignes au maximum)"
+
 #: .\contracts\templates\contracts_search.html:309
 msgid "Contract Year"
 msgstr "Année du contrat"
@@ -1529,7 +1533,9 @@ msgstr "Recherche des dossiers similaires"
 #, fuzzy
 #| msgid "https://open.canada.ca/en/suggested-datasets"
 msgid "https://open.canada.ca/en/forms/suggest-dataset"
-msgstr "https://ouvert.canada.ca/fr/formulaire/proposez-un-formulaire-densemble-de-donnees"
+msgstr ""
+"https://ouvert.canada.ca/fr/formulaire/proposez-un-formulaire-densemble-de-"
+"donnees"
 
 #: .\open_data\templates\od_search.html:294
 #: .\suggested_dataset\templates\sd_search.html:299
