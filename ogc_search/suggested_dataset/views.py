@@ -86,6 +86,10 @@ class SDSearchView(View):
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
+        if request.LANGUAGE_CODE == 'fr':
+            context['about_msg'] = settings.SD_ABOUT_FR
+        else:
+            context['about_msg'] = settings.SD_ABOUT_EN
 
         items_per_page = int(settings.OPEN_DATA_ITEMS_PER_PAGE)
 
