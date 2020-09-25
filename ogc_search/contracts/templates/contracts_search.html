@@ -286,7 +286,7 @@
                         <div>
                             <a onclick="" href="{{ export_url }}"
                                class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 or results.hits > 100000 %} disabled{% endif %}"><span
-                                    class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}<br>{% trans '(100,000 row limit)' %}</a>
+                                    class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}{% if results.hits > 100000 %}<br>{% trans '(100,000 row limit)' %}{% endif %}</a>
                         </div>
                     {% endif %}
                     </div>
