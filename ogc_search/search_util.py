@@ -301,7 +301,7 @@ def solr_query_for_export_mlt(unique_id, solr_url, solr_fields, solr_mlt_fields,
     return sr
 
 
-def cache_search_results_file(cached_filename: str, sr: pysolr.Results, rows = 100000):
+def cache_search_results_file(cached_filename: str, sr: pysolr.Results, rows=100000):
 
     if len(sr.docs) == 0:
         return False
@@ -311,18 +311,16 @@ def cache_search_results_file(cached_filename: str, sr: pysolr.Results, rows = 1
             headers = list(sr.docs[0])
             headers[0] = u'\N{BOM}' + headers[0]
             cache_writer.writerow(headers)
-            if len(sr.docs) > rows:
-                c = 0
-                for i in sr.docs:
-                    if c > 100000:
-                        break
-                    try:
-                        cache_writer.writerow(i.values())
-                        c += 1
-                    except UnicodeEncodeError:
-                        pass
-            else:
-                cache_writer.writerows(sr.docs)
+            c = 0
+            for i in sr.docs:
+                if c > 100000:
+                    break
+                try:
+                    cache_writer.writerow(i.values())
+                    c += 1
+                except UnicodeEncodeError:
+                    pass
+
     return True
 
 
