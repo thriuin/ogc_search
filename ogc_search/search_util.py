@@ -1,5 +1,6 @@
 from babel.numbers import parse_decimal, format_currency, NumberFormatError
 import csv
+from django.conf import settings
 from django.http import HttpRequest
 import json
 import logging
@@ -574,8 +575,9 @@ class SynonymFinder(object):
         self.synonym_keys_fr = {}
         self.accumulated_synonym_keys_fr = {}
         self.accumulated_synonym_keys_en = {}
-        _load_synonym_file('./open_data/solr/lang/synonyms_en.txt', self.synonym_list_en, self.synonym_keys_en)
-        _load_synonym_file('./open_data/solr/lang/synonyms_fr.txt', self.synonym_list_fr, self.synonym_keys_fr)
+
+        _load_synonym_file(settings.SYNONYMS_EN, self.synonym_list_en, self.synonym_keys_en)
+        _load_synonym_file(settings.SYNONYMS_FR, self.synonym_list_fr, self.synonym_keys_fr)
 
     def reset(self):
         self.accumulated_synonym_keys_fr = {}

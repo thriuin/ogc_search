@@ -222,6 +222,11 @@ QP_ENABLED = False
 SI_ENABLED = False
 SD_ENABLED = False
 
+# synonym files - used the the MLP modules when loading data into Solr search
+
+SYNONYMS_EN = './open_data/solr/lang/synonyms_en.txt'
+SYNONYMS_FR = './open_data/solr/lang/synonyms_fr.txt'
+
 # CKAN YAML files from https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables
 
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
