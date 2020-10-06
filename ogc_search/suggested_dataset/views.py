@@ -235,6 +235,7 @@ class SDDatasetView(SDSearchView):
             supdates = []
             for supdate in search_results.docs[0]['status_updates_en_s']:
                 supdate = str(supdate).replace("\'", '"')
+                supdate = supdate.replace('"s', "'s")
                 supdates.append(json.loads(supdate))
                 search_results.docs[0]["status_updates_en_s"] = supdates
         elif "status_updates_fr_s" in search_results.docs[0]:
