@@ -51,6 +51,16 @@
             Logged in as {{ request.user.username }}
         {% endif %}
         </p>
+        {% if about_msg|length > 0 %}
+        <div class="row">
+            <div class="col-md-12">
+            <details>
+                <summary>{% trans 'About this information' %}</summary>
+                {{ about_msg | markdown_filter | safe }}
+            </details>
+            </div>
+        </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-8 col-md-push-4">
                 {% block main-content-content %}

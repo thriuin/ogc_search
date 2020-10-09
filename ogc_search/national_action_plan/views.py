@@ -110,7 +110,12 @@ class NAPSearchView(View):
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)
         context['search_text'] = str(request.GET.get('search_text', ''))
-
+        if request.LANGUAGE_CODE == 'fr':
+            context['info_msg'] = settings.NAP_INFO_FR
+            context['about_msg'] = settings.NAP_ABOUT_FR
+        else:
+            context['info_msg'] = settings.NAP_INFO_EN
+            context['about_msg'] = settings.NAP_ABOUT_EN
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 
         # Retrieve search results and transform facets results to python dict
