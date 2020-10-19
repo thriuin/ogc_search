@@ -88,7 +88,7 @@
                         </div>
                     </div>
 
-                    <form action="{% url 'CTQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
+                    <form action="{% url 'CTQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline" onsubmit="event.preventDefault(); submitForm()">
                     <div class="row">
                         <div class="col-md-7 col-sm-12">
                             <div class="input-group">
