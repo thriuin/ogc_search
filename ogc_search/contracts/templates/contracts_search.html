@@ -140,7 +140,8 @@
                                     <div class="col-sm-3 text-right"> <h3>{{ doc.original_value_fr_s }}</h3></div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-sm-12 text-right small">{{ doc.contract_start_s | friendly_date_fr }}</div>
+                                    <div class="col-sm-4"><strong>{% trans 'Contract Date: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.contract_date_s | friendly_date_fr }}</div>
                                 </div><div class="row">
                                     <div class="col-sm-4" id="org_value_lbl"><strong>{% trans 'Work Description:' %}</strong></div>
                                     <div class="col-sm-8" aria-labelledby="org_value_lbl">
@@ -183,7 +184,8 @@
                                     <div class="col-sm-3 text-right"> <h3>{{ doc.original_value_en_s }}</h3></div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-sm-12 text-right small">{{ doc.contract_date_s | friendly_date_en }}</div>
+                                    <div class="col-sm-4"><strong>{% trans 'Contract Date:' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.contract_date_s | friendly_date_en }}</div>
                                 </div><div class="row">
                                     <div class="col-sm-4" id="org_value_lbl"><strong>{% trans 'Work Description:' %}</strong></div>
                                     <div class="col-sm-8" aria-labelledby="org_value_lbl">

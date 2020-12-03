@@ -83,7 +83,7 @@ class CTSearchView(View):
                                "vendor_name_s,vendor_name_txt,"
                                "vendor_postal_code_s,"
                                "buyer_name_s,buyer_name_txt_fr,"
-                               "contract_date_dt,contract_date_scontract_year_s,contract_month_s,"
+                               "contract_date_dt,contract_date_s,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_fr_s,description_txt_fr,"
                                "contract_start_dt,contract_start_s,"
