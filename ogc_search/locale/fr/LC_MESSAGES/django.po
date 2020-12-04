@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-03 16:19-0500\n"
+"POT-Creation-Date: 2020-12-04 11:56-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -825,6 +825,7 @@ msgid "Reporting Period: "
 msgstr "Période de déclaration :"
 
 #: .\contracts\templates\contract.html:131
+#: .\contracts\templates\contracts_search.html:143
 msgid "Contract Date: "
 msgstr "Date du contrat :"
 
@@ -889,9 +890,9 @@ msgid "Procurement Strategy for Aboriginal Business: "
 msgstr "Stratégie d’approvisionnement auprès des entreprises autochtones :"
 
 #: .\contracts\templates\contract.html:229
-msgid "Incidental Indicator: "
-msgstr ""
-"Stratégie d’approvisionnement auprès des entreprises autochtones indicateur :"
+#| msgid "Procurement Strategy for Aboriginal Business: "
+msgid "Procurement Strategy for Aboriginal Business Incidental Indicator: "
+msgstr "Indicateur d'incidence de la Stratégie d’approvisionnement auprès des entreprises autochtones :"
 
 #: .\contracts\templates\contract.html:234
 msgid "Intellectual Property: "
@@ -943,13 +944,6 @@ msgstr ""
 msgid "Value"
 msgstr "Valeur"
 
-#: .\contracts\templates\contracts_search.html:143
-#: .\contracts\templates\contracts_search.html:187
-#, fuzzy
-#| msgid "Contract Date: "
-msgid "Contract Date:"
-msgstr "Date du contrat :"
-
 #: .\contracts\templates\contracts_search.html:146
 #: .\contracts\templates\contracts_search.html:190
 msgid "Work Description:"
@@ -983,6 +977,12 @@ msgstr "Commentaires additionnels :"
 #: .\grants\templates\gc_record.html:212 .\grants\templates\gc_search.html:162
 msgid "Organization:"
 msgstr "Organisation :"
+
+#: .\contracts\templates\contracts_search.html:187
+#, fuzzy
+#| msgid "Contract Date: "
+msgid "Contract Date:"
+msgstr "Date du contrat :"
 
 #: .\contracts\templates\contracts_search.html:293
 #: .\experimental_inventory\templates\ei_search.html:223
@@ -2001,6 +2001,11 @@ msgstr ""
 #: .\wet\templatetags\search_extras.py:45
 msgid "There are no filters for this search"
 msgstr "Aucun filtre sélectionné pour cette recherche"
+
+#~ msgid "Incidental Indicator: "
+#~ msgstr ""
+#~ "Stratégie d’approvisionnement auprès des entreprises autochtones "
+#~ "indicateur :"
 
 #~ msgid "Standing Offer: "
 #~ msgstr "Offre à commandes :"
