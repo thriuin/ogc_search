@@ -412,7 +412,7 @@ class CTSearchView(View):
         context['currentpage'] = page
 
         context['year_facets'] = search_util.convert_facet_list_to_dict(
-            search_results.facets['facet_fields']['contract_year_s'])
+            search_results.facets['facet_fields']['contract_year_s'], reverse=True)
         if request.LANGUAGE_CODE == 'fr':
             context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_fr_s'])
