@@ -369,7 +369,7 @@ class CTSearchView(View):
         context['sortby'] = solr_search_sort
 
         # Get current page
-        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1))
+        start_row, page = search_util.calc_starting_row(request.GET.get('page', 1), items_per_page)
 
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
