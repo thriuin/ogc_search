@@ -222,6 +222,11 @@ QP_ENABLED = False
 SI_ENABLED = False
 SD_ENABLED = False
 
+# synonym files - used the the MLP modules when loading data into Solr search
+
+SYNONYMS_EN = './open_data/solr/lang/synonyms_en.txt'
+SYNONYMS_FR = './open_data/solr/lang/synonyms_fr.txt'
+
 # CKAN YAML files from https://github.com/open-data/ckanext-canada/tree/master/ckanext/canada/tables
 
 CKAN_YAML_FILE = os.path.join(BASE_DIR, "ckan", "presets.yaml")
@@ -451,6 +456,10 @@ NAP_DATASET_TITLE_EN = 'National Action Plan Dataset'
 NAP_DATASET_TITLE_FR = 'Plan d’action national jeu de données'
 NAP_DATASET_ID = 'd2d72709-e4bf-412d-a1bd-8c726d19393e'
 SOLR_NAP = 'http://127.0.0.1:8983/solr/core_ap_search'
+NAP_INFO_FR = ""
+NAP_ABOUT_FR = ""
+NAP_INFO_EN = ""
+NAP_ABOUT_EN = ""
 
 # Service Inventory App Settings
 

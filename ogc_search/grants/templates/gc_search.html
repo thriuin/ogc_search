@@ -86,7 +86,7 @@
                         <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{result_num}} record{{result_s}}{% endblocktrans %}</p>
                     </div>
                 </div>
-                <form action="{% url 'GCQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline" onsubmit="submitForm()">
+                <form action="{% url 'GCQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline" onsubmit="event.preventDefault(); submitForm()">
                     <div class="row">
                         <div class="col-md-7 col-sm-12">
                             <div class="input-group">
@@ -284,8 +284,8 @@
                     <div>
                         <a onclick="" href="{{ export_url }}"
 
-                           class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
-                                class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}</a>
+                           class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 or results.hits > 100000 %} disabled{% endif %}"><span
+                                class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}{% if results.hits > 100000 %}<br>{% trans '(100,000 row limit)' %}{% endif %}</a>
                     </div>
                     {% endif %}
                 </div>

@@ -58,6 +58,8 @@
                 <div class="small">{{ info_msg | markdown_filter | safe }}</div>
             </section>
         </div>
+        {% endif %}
+        {% if about_msg|length > 0 %}
         <div class="row">
             <div class="col-md-12">
             <details>
@@ -66,7 +68,7 @@
             </details>
             </div>
         </div>
-    {% endif %}
+        {% endif %}
         <div class="row">
             <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
@@ -86,7 +88,7 @@
                         </div>
                     </div>
 
-                    <form action="{% url 'CTQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
+                    <form action="{% url 'CTQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline" onsubmit="event.preventDefault(); submitForm()">
                     <div class="row">
                         <div class="col-md-7 col-sm-12">
                             <div class="input-group">
@@ -108,7 +110,7 @@
                                 <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
-                                <option value="contract_start_s desc" {% if sortby == "contract_start_s desc" %}selected="selected"{% endif %}
+                                <option value="contract_date_s desc" {% if sortby == "contract_date_s desc" %}selected="selected"{% endif %}
                                     >{% trans 'Newest' %}</option>
                                 <option value="original_value_f desc" {% if sortby == "original_value_f desc" %}selected="selected"{% endif %}
                                     >{% trans 'Value' %}</option>
@@ -132,14 +134,24 @@
                         {% if not doc.nil_report_b %} {# Regular Contract Items #}
                             {% if LANGUAGE_CODE == 'fr' %}
                                 <div class="row">
-                                     <div class="col-sm-9 text-capitalize">
+                                     <div class="col-sm-8 text-capitalize">
                                          <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id | url_part_unescape | safe}}"><h3>{{ doc.vendor_name_txt.0 | safe }}</h3></a>
                                     </div>
-                                    <div class="col-sm-3 text-right"> <h3>{{ doc.original_value_fr_s }}</h3></div>
+                                    <div class="col-sm-4 text-right"><h3>{% trans 'Total:' %} {{ doc.contract_value_fr_s }}</h3></div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-sm-12 text-right small">{{ doc.contract_start_s | friendly_date_fr }}</div>
-                                </div><div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Contract Date: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.contract_date_s | friendly_date_fr }}</div>
+                                </div>
+                                <div class="row">
+                                <div class="col-sm-4"><strong>{% trans 'Original Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.original_value_fr_s }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Amendment Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.amendment_value_fr_s }}</div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-4" id="org_value_lbl"><strong>{% trans 'Work Description:' %}</strong></div>
                                     <div class="col-sm-8" aria-labelledby="org_value_lbl">
                                          {{ doc.description_txt_fr | safe }}
@@ -175,14 +187,24 @@
                                 </div>                        
                             {% else %}
                                 <div class="row">
-                                     <div class="col-sm-9 text-capitalize">
+                                     <div class="col-sm-8 text-capitalize">
                                          <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id | url_part_unescape | safe}}"><h3>{{ doc.vendor_name_txt.0 | safe }}</h3></a>
                                     </div>
-                                    <div class="col-sm-3 text-right"> <h3>{{ doc.original_value_en_s }}</h3></div>
+                                    <div class="col-sm-4 text-right"><h3>Total: {{ doc.contract_value_en_s }}</h3></div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-sm-12 text-right small">{{ doc.contract_date_s | friendly_date_en }}</div>
-                                </div><div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Contract Date:' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.contract_date_s | friendly_date_en }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Original Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.original_value_en_s }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Amendment Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.amendment_value_en_s }}</div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-4" id="org_value_lbl"><strong>{% trans 'Work Description:' %}</strong></div>
                                     <div class="col-sm-8" aria-labelledby="org_value_lbl">
                                          {{ doc.description_txt_en | safe }}
@@ -285,8 +307,8 @@
                         {% if export_terms != "" %}
                         <div>
                             <a onclick="" href="{{ export_url }}"
-                               class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
-                                    class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}</a>
+                               class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 or results.hits > 100000 %} disabled{% endif %}"><span
+                                    class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}{% if results.hits > 100000 %}<br>{% trans '(100,000 row limit)' %}{% endif %}</a>
                         </div>
                     {% endif %}
                     </div>

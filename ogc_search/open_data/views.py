@@ -9,6 +9,7 @@ import os
 import re
 import search_util
 import time
+from urllib import parse
 
 logger = logging.getLogger('ogc_search')
 
@@ -493,8 +494,7 @@ class ODExportView(ODSearchView):
                                                                        self.solr_query_fields_en, 'title_en_s asc',
                                                                        10)
 
-        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
-                                                 solr_fields=self.solr_fields):
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results):
             if settings.EXPORT_FILE_CACHE_URL == "":
                 return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
             else:

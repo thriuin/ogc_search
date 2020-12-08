@@ -7,6 +7,7 @@ import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
     get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field, get_multivalue_choice
 import sys
+import time
 from urlsafe import url_part_escape
 from yaml import load
 try:
@@ -14,7 +15,7 @@ try:
 except ImportError:
     from yaml import Loader
 
-BULK_SIZE = 1000
+BULK_SIZE = 5000
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
 gc_schema = {}
@@ -287,19 +288,35 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             gc_list.append(od_obj)
             i += 1
             if i == BULK_SIZE:
-                solr.add(gc_list)
-                solr.commit()
-                gc_list = []
-                print('{0} Records Processed'.format(total))
-                i = 0
+                for a in reversed(range(10)):
+                    try:
+                        solr.add(gc_list)
+                        solr.commit()
+                        gc_list = []
+                        print('{0} Records Processed'.format(total))
+                        i = 0
+                        break
+                    except pysolr.SolrError as sx:
+                        if not a:
+                            raise
+                        print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                        time.sleep((10 - a) * 5)
 
         except Exception as x:
             print('Error on row {0}: {1}. Row data: {2}'.format(total, x, gc))
 
     if len(gc_list) > 0:
-        solr.add(gc_list)
-        solr.commit()
-        print('{0} Records Processed'.format(total))
+        for a in reversed(range(10)):
+            try:
+                solr.add(gc_list)
+                solr.commit()
+                print('{0} Records Processed'.format(total))
+                break
+            except pysolr.SolrError as sx:
+                if not a:
+                    raise
+                print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                time.sleep((10 - a) * 5)
 
 # Load the Nothing to Report CSV
 
@@ -325,15 +342,32 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
             i += 1
             total += 1
             if i == BULK_SIZE:
-                solr.add(gc_list)
-                solr.commit()
-                gc_list = []
-                print('{0} Nil Records Processed'.format(total))
-                i = 0
+                for a in reversed(range(10)):
+                    try:
+                        solr.add(gc_list)
+                        solr.commit()
+                        gc_list = []
+                        print('{0} Nil Records Processed'.format(total))
+                        i = 0
+                        break
+                    except pysolr.SolrError as sx:
+                        if not a:
+                            raise
+                        print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                        time.sleep((10 - a) * 5)
+
         except Exception as x:
             print('Error on row {0}: {1}'.format(total, x))
 
     if len(gc_list) > 0:
-        solr.add(gc_list)
-        solr.commit()
-        print('{0} Nil Records Processed'.format(total))
+        for a in reversed(range(10)):
+            try:
+                solr.add(gc_list)
+                solr.commit()
+                print('{0} Nil Records Processed'.format(total))
+                break
+            except pysolr.SolrError as sx:
+                if not a:
+                    raise
+                print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                time.sleep((10 - a) * 5)

@@ -479,8 +479,7 @@ class SIExportView(View):
                                                            facets_dict,
                                                            self.phrase_xtras)
 
-        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
-                                              solr_fields=self.solr_fields):
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results):
             if settings.EXPORT_FILE_CACHE_URL == "":
                 return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
             else:

@@ -8,6 +8,7 @@ import pysolr
 from search_util import get_choices, get_choices_json, SynonymFinder
 from urlsafe import url_part_escape
 import sys
+import time
 from yaml import load
 
 try:
@@ -199,18 +200,35 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             i += 1
             total += 1
             if i == BULK_SIZE:
-                solr.add(gc_list)
-                solr.commit()
-                gc_list = []
-                print('{0} Records Processed'.format(total))
-                i = 0
+                for a in reversed(range(10)):
+                    try:
+                        solr.add(gc_list)
+                        solr.commit()
+                        gc_list = []
+                        print('{0} Records Processed'.format(total))
+                        i = 0
+                        break
+                    except pysolr.SolrError as sx:
+                        if not a:
+                            raise
+                        print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                        time.sleep((10 - a) * 5)
+
         except Exception as x:
             print('Error on row {0}: {1}'.format(total, x))
 
     if len(gc_list) > 0:
-        solr.add(gc_list)
-        solr.commit()
-        print('{0} Records Processed'.format(total))
+        for a in reversed(range(10)):
+            try:
+                solr.add(gc_list)
+                solr.commit()
+                print('{0} Records Processed'.format(total))
+                break
+            except pysolr.SolrError as sx:
+                if not a:
+                    raise
+                print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                time.sleep((10 - a) * 5)
 
 # Load Nil values
 
@@ -250,15 +268,32 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
             i += 1
             total += 1
             if i == BULK_SIZE:
-                solr.add(gc_list)
-                solr.commit()
-                gc_list = []
-                print('{0} Nil Records Processed'.format(total))
-                i = 0
+                for a in reversed(range(10)):
+                    try:
+                        solr.add(gc_list)
+                        solr.commit()
+                        gc_list = []
+                        print('{0} Nil Records Processed'.format(total))
+                        i = 0
+                        break
+                    except pysolr.SolrError as sx:
+                        if not a:
+                            raise
+                        print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                        time.sleep((10 - a) * 5)
+
         except Exception as x:
             print('Error on row {0}: {1}'.format(total, x))
 
     if len(gc_list) > 0:
-        solr.add(gc_list)
-        solr.commit()
-        print('{0} Nil Records Processed'.format(total))
+        for a in reversed(range(10)):
+            try:
+                solr.add(gc_list)
+                solr.commit()
+                print('{0} Nil Records Processed'.format(total))
+                break
+            except pysolr.SolrError as sx:
+                if not a:
+                    raise
+                print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                time.sleep((10 - a) * 5)

@@ -12,6 +12,20 @@ try:
 except ImportError:
     from yaml import Loader
 
+
+def _format_status_msg(messages):
+    """
+    The status messages are actually a list of dictionary objects that are not suitable for direct Solr export.
+    This function simplifies the JSON format into a simple text string.
+    :param messages: a list of dictionary objects
+    :return: a simple string
+    """
+    message_str = ""
+    for message in messages:
+        message_str = "{0}{1} {2}  ".format(message_str, message['date'], message['reason'])
+    return message_str.rstrip()
+
+
 BULK_SIZE = 10
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
@@ -195,19 +209,19 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                         status_dict_en['date'] = format_date(status_date, locale='en')
                         status_dict_en['reason'] = sd_status[status_update['reason']]['en']
                         if "comments" in status_update and 'en' in status_update['comments']:
-                            status_dict_en['comment'] = status_update['comments']['en']
+                            status_dict_en['comment'] = status_update['comments']['en'].replace('"', "*")
                         status_msg_en.append(status_dict_en)
 
                         status_dict_fr['date'] = format_date(status_date, locale='fr')
                         status_dict_fr['reason'] = sd_status[status_update['reason']]['fr']
                         if "comments" in status_update and 'fr' in status_update['comments']:
-                            status_dict_fr['comment'] = status_update['comments']['fr']
+                            status_dict_fr['comment'] = status_update['comments']['fr'].replace('"', "*")
                         status_msg_fr.append(status_dict_fr)
 
                     od_obj['status_updates_en_s'] = status_msg_en
                     od_obj['status_updates_fr_s'] = status_msg_fr
-                    od_obj['status_updates_export_en_s'] = "\n".join(str(status_msg_en))
-                    od_obj['status_updates_export_fr_s'] = "\n".join(str(status_msg_fr))
+                    od_obj['status_updates_export_en_s'] = _format_status_msg(status_msg_en)
+                    od_obj['status_updates_export_fr_s'] = _format_status_msg(status_msg_fr)
                 sd_list.append(od_obj)
                 i += 1
                 if i == BULK_SIZE:

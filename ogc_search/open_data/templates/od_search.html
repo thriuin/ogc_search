@@ -72,7 +72,7 @@
                             <p>{% blocktrans with result_num=results.hits|apnumber result_s=results.hits|pluralize %}Found {{ result_num }} record{{ result_s }}{% endblocktrans %}{{ mlt_message | safe }}</p>
                         </div>
                     </div>
-                    <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" onsubmit="submitForm()"
+                    <form action="{% url 'ODQuery' %}" id="search_form" method="get" role="form" onsubmit="event.preventDefault(); submitForm()"
                           class="form-inline">
                         <div class="row">
                             <div class="col-sm-7 col-md-7 ">
@@ -135,14 +135,17 @@
                             <h4 class="mrgn-tp-0 mrgn-bttm-sm">
                                 {% if LANGUAGE_CODE == 'en' %}
                                 <a href="{{od_en_url}}{{doc.id_name_s}}">
-                                    {% if "title_en_s" in doc %}{{ doc.title_en_s | safe }}{% elif 'title_xlt_en_s' in doc %}{{ doc.title_xlt_en_s | safe }}{% endif %}
+                                    {% if 'title_xlt_en_s' in doc %}{{ doc.title_xlt_en_s | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
+                                                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                    {% elif "title_en_s" in doc %}{{ doc.title_en_s | safe }}
+                                    {% endif %}
                                 {% else %}
                                 <a href="{{od_fr_url}}{{doc.id_name_s}}">
-                                    {% if "title_fr_s" in doc %}
-                                        {{ doc.title_fr_s | safe }}
-                                    {% elif 'title_xlt_fr_s' in doc %}
+                                    {% if 'title_xlt_fr_s' in doc %}
                                         {{ doc.title_xlt_fr_s | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                                                           title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                    {% elif "title_fr_s" in doc %}
+                                        {{ doc.title_fr_s | safe }}
                                     {% endif %}
                                 {% endif %}
                                 </a></h4>
@@ -157,14 +160,14 @@
                         </div>
                         <div class="col-sm-12 mrgn-bttm mrgn-lft-sm mrgn-rght-sm mrgn-tp-sm">
                             {% if LANGUAGE_CODE == 'en' %}
-                                    {% if 'description_txt_en' in doc %}{{ doc.desc_summary_txt_en | markdown_filter | safe }}
-                                    {% elif 'description_xlt_txt_en' in doc %}{{ doc.description_xlt_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
+                                    {% if 'description_xlt_txt_en' in doc %}{{ doc.description_xlt_txt_en | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                    {% elif 'description_txt_en' in doc %}{{ doc.desc_summary_txt_en | markdown_filter | safe }}
                                     {% endif %}
                                 {% else %}
-                                    {% if 'description_txt_fr' in doc %}{{ doc.desc_summary_txt_fr | markdown_filter | safe }}
-                                    {% elif 'description_xlt_txt_fr' in doc %}{{ doc.description_xlt_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
+                                    {% if 'description_xlt_txt_fr' in doc %}{{ doc.description_xlt_txt_fr | safe }} <span class="fa fa-language text-muted mrgn-lft-sm"
                                          title="{% trans 'This third party metadata element has been translated using an automated translation tool.  To report any discrepancies please contact open-ouvert@tbs-sct.gc.ca' %}"></span>
+                                    {% elif 'description_txt_fr' in doc %}{{ doc.desc_summary_txt_fr | markdown_filter | safe }}
                                     {% endif %}
                                 {% endif %}
                         </div>

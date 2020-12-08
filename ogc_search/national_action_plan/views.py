@@ -110,7 +110,12 @@ class NAPSearchView(View):
         # Get any search terms
         solr_search_terms = search_util.get_search_terms(request)
         context['search_text'] = str(request.GET.get('search_text', ''))
-
+        if request.LANGUAGE_CODE == 'fr':
+            context['info_msg'] = settings.NAP_INFO_FR
+            context['about_msg'] = settings.NAP_ABOUT_FR
+        else:
+            context['info_msg'] = settings.NAP_INFO_EN
+            context['about_msg'] = settings.NAP_ABOUT_EN
         items_per_page = int(settings.SI_ITEMS_PER_PAGE)
 
         # Retrieve search results and transform facets results to python dict
@@ -362,8 +367,7 @@ class NAPExportView(View):
                                                            facets_dict,
                                                            self.phrase_xtras)
 
-        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
-                                              solr_fields=self.solr_fields):
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results):
             if settings.EXPORT_FILE_CACHE_URL == "":
                 return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
             else:

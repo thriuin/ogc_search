@@ -322,7 +322,7 @@
                                                                 <label><input type="checkbox"
                                                                         {% if k in organizations_selected_list %}
                                                                               checked="checked"{% endif %}
-                                                                              onclick='select_facet("{{ k | escapejs }}", "sd-search-orgs)'
+                                                                              onclick='select_facet("{{ k | escapejs }}", "sd-search-orgs")'
                                                                               value="{{ k }}"
                                                                               style="vertical-align:middle;position:relative;top:-1px;"> {{ k }}
                                                                 </label></div>
