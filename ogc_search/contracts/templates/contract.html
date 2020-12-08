@@ -213,9 +213,9 @@
             <div class="col-sm-4"><strong>{% trans 'Comprehensive Land Claims Agreement: ' %}</strong></div>
             <div class="col-sm-8">
                 {% if LANGUAGE_CODE == 'fr' %}
-                    {% for lc in results.docs.0.land_claims_fr_s %}{{ lc }} {% endfor %}
+                    {{ results.docs.0.land_claims_fr_s }}
                 {% else %}
-                    {% for lc in results.docs.0.land_claims_en_s %}{{ lc }} {% endfor %}
+                    {{ results.docs.0.land_claims_en_s }}
                 {% endif %}</div>
         </div>
         {% endif %}

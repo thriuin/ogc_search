@@ -364,7 +364,7 @@ class CTSearchView(View):
 
         # Retrieve search sort order
         solr_search_sort = request.GET.get('sort', 'score desc')
-        if solr_search_sort not in ['score desc', 'contract_date_s desc', 'original_value_f desc']:
+        if solr_search_sort not in ['score desc', 'contract_date_s desc', 'contract_value_f desc']:
             solr_search_sort = 'score desc'
         context['sortby'] = solr_search_sort
 

@@ -1091,14 +1091,12 @@
     <field name="trade_agreement_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
     <copyField source="trade_agreement_fr_s" dest="trade_agreement_txt_fr"/>
 
-    <field name="land_claims_en_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="land_claims_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
-    <field name="land_claims_txt_en" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <field name="land_claims_en_s" type="string" indexed="true" stored="true"  docValues="true"/>
+    <field name="land_claims_txt_en" type="text_en" indexed="true" stored="true"/>
     <copyField source="land_claims_en_s" dest="land_claims_txt_en"/>
 
-    <field name="land_claims_fr_s" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="land_claims_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>
-    <field name="land_claims_txt_fr" type="text_en" indexed="true" stored="true" multiValued="true"/>
+    <field name="land_claims_fr_s" type="string" indexed="true" stored="true"  docValues="true"/>
+    <field name="land_claims_txt_fr" type="text_en" indexed="true" stored="true"/>
     <copyField source="land_claims_fr_s" dest="land_claims_txt_fr"/>
     
     <field name="commodity_type_en_s" type="string" indexed="true" stored="true" docValues="true"/>

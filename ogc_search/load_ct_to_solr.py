@@ -279,8 +279,9 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             od_obj['contract_value_range_fr_s'] = contract_range['fr']['range']
 
             if 'land_claims' in gc and gc['land_claims'] != '':
-                od_obj['land_claims_en_s'] = get_multivalue_choice(controlled_lists['land_claims'], 'en', gc['land_claims']),
-                od_obj['land_claims_fr_s'] = get_multivalue_choice(controlled_lists['land_claims'], 'fr', gc['land_claims']),
+                od_obj['land_claims_en_s'] = get_choice_field(controlled_lists, gc, 'land_claims', 'en', 'Unspecified'),
+                od_obj['land_claims_fr_s'] = get_choice_field(controlled_lists, gc, 'land_claims', 'fr',
+                                                         'type non spécifié'),
             else:
                 od_obj['land_claims_fr_s'] = 'type non spécifié'
                 od_obj['land_claims_en_s'] = 'Unspecified'
