@@ -58,6 +58,8 @@
                 <div class="small">{{ info_msg | markdown_filter | safe }}</div>
             </section>
         </div>
+        {% endif %}
+        {% if about_msg|length > 0 %}
         <div class="row">
             <div class="col-md-12">
             <details>
@@ -66,7 +68,7 @@
             </details>
             </div>
         </div>
-    {% endif %}
+        {% endif %}
         <div class="row">
             <div class="col-md-8 col-md-push-4">
             {% block main-content-content %}
@@ -86,7 +88,7 @@
                         </div>
                     </div>
 
-                    <form action="{% url 'CTQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline">
+                    <form action="{% url 'CTQuery' %}" id="search_form" method="get" role="form" class="mrgn-bttm-md form-inline" onsubmit="event.preventDefault(); submitForm()">
                     <div class="row">
                         <div class="col-md-7 col-sm-12">
                             <div class="input-group">
@@ -108,7 +110,7 @@
                                 <select class="form-control" name="sort-by" id="sort-by" value="{{sortby}}" onchange="submitForm();">
                                 <option value="score desc" {% if sortby == "score desc" %}selected="selected"{% endif %}
                                     >{% trans 'Best match' %}</option>
-                                <option value="contract_start_s desc" {% if sortby == "contract_start_s desc" %}selected="selected"{% endif %}
+                                <option value="contract_date_s desc" {% if sortby == "contract_date_s desc" %}selected="selected"{% endif %}
                                     >{% trans 'Newest' %}</option>
                                 <option value="original_value_f desc" {% if sortby == "original_value_f desc" %}selected="selected"{% endif %}
                                     >{% trans 'Value' %}</option>
@@ -132,14 +134,24 @@
                         {% if not doc.nil_report_b %} {# Regular Contract Items #}
                             {% if LANGUAGE_CODE == 'fr' %}
                                 <div class="row">
-                                     <div class="col-sm-9 text-capitalize">
+                                     <div class="col-sm-8 text-capitalize">
                                          <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id | url_part_unescape | safe}}"><h3>{{ doc.vendor_name_txt.0 | safe }}</h3></a>
                                     </div>
-                                    <div class="col-sm-3 text-right"> <h3>{{ doc.original_value_fr_s }}</h3></div>
+                                    <div class="col-sm-4 text-right"><h3>{% trans 'Total:' %} {{ doc.contract_value_fr_s }}</h3></div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-sm-12 text-right small">{{ doc.contract_start_s | friendly_date_fr }}</div>
-                                </div><div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Contract Date: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.contract_date_s | friendly_date_fr }}</div>
+                                </div>
+                                <div class="row">
+                                <div class="col-sm-4"><strong>{% trans 'Original Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.original_value_fr_s }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Amendment Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.amendment_value_fr_s }}</div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-4" id="org_value_lbl"><strong>{% trans 'Work Description:' %}</strong></div>
                                     <div class="col-sm-8" aria-labelledby="org_value_lbl">
                                          {{ doc.description_txt_fr | safe }}
@@ -175,14 +187,24 @@
                                 </div>                        
                             {% else %}
                                 <div class="row">
-                                     <div class="col-sm-9 text-capitalize">
+                                     <div class="col-sm-8 text-capitalize">
                                          <a href="/{{ LANGUAGE_CODE }}/ct/id/{{ doc.id | url_part_unescape | safe}}"><h3>{{ doc.vendor_name_txt.0 | safe }}</h3></a>
                                     </div>
-                                    <div class="col-sm-3 text-right"> <h3>{{ doc.original_value_en_s }}</h3></div>
+                                    <div class="col-sm-4 text-right"><h3>Total: {{ doc.contract_value_en_s }}</h3></div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-sm-12 text-right small">{{ doc.contract_start_s | friendly_date_en }}</div>
-                                </div><div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Contract Date:' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.contract_date_s | friendly_date_en }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Original Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.original_value_en_s }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4"><strong>{% trans 'Amendment Value: ' %}</strong></div>
+                                    <div class="col-sm-8">{{ doc.amendment_value_en_s }}</div>
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-4" id="org_value_lbl"><strong>{% trans 'Work Description:' %}</strong></div>
                                     <div class="col-sm-8" aria-labelledby="org_value_lbl">
                                          {{ doc.description_txt_en | safe }}
@@ -285,8 +307,8 @@
                         {% if export_terms != "" %}
                         <div>
                             <a onclick="" href="{{ export_url }}"
-                               class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 %} disabled{% endif %}"><span
-                                    class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}</a>
+                               class="btn btn-default mrgn-bttm-md btn-block{% if results.hits < 1 or results.hits > 100000 %} disabled{% endif %}"><span
+                                    class="glyphicon glyphicon-download-alt"></span> {% trans 'Download Search Results' %}{% if results.hits > 100000 %}<br>{% trans '(100,000 row limit)' %}{% endif %}</a>
                         </div>
                     {% endif %}
                     </div>
@@ -306,7 +328,7 @@
 
                      <details class="panel panel-default mrgn-bttm-0" {% if year_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Contract Start Year' %}</h5>
+                            <h5 class="panel-title">{% trans 'Contract Year' %}</h5>
                         </summary>
                         <ul class="list-group" id="year-list">
                             {% for k, v in year_facets.items %}
@@ -315,7 +337,7 @@
                             <div class="row">
                                 <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
                                     <label><input type="checkbox"
-                                    {% if k in YEAR_selected_list %} checked="checked"{% endif %}
+                                    {% if k in year_selected_list %} checked="checked"{% endif %}
                                           onclick='select_facet("{{ k | escapejs }}", "ct-search-year")' value="{{ k }}"
                                     style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
                                 <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
@@ -373,7 +395,7 @@
 
                     <details class="panel panel-default mrgn-bttm-0" {% if range_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Original Value' %}</h5>
+                            <h5 class="panel-title">{% trans 'Total Contract Value' %}</h5>
                         </summary>
                         <ul class="list-group" id="value-list">
                         {% if LANGUAGE_CODE == 'fr' %}
@@ -785,8 +807,9 @@
                         </ul>
                     </details>
 
-                    {# 12. Standing Offer #}
+                    {# 12. Standing Offer - at request of OCG, this filter will not be displayed for the time being #}
 
+                    {% if year_right_now > 2021 %}
                     <details class="panel panel-default mrgn-bttm-0" {% if so_selected|length > 0 %}open{% endif %}>
                         <summary class="panel-heading">
                             <h5 class="panel-title">{% trans 'Standing Offer' %}</h5>
@@ -826,7 +849,7 @@
                         {% endif %}
                         </ul>
                     </details>
-
+                    {% endif %}
                     {# 13. Ministers Office #}
 
                     <details class="panel panel-default mrgn-bttm-0" {% if mo_selected|length > 0 %}open{% endif %}>
@@ -869,49 +892,6 @@
                         </ul>
                     </details>
 
-                    {# 14. Report Type Facet #}
-
-                    <details class="panel panel-default mrgn-bttm-0" {% if type_selected|length > 0 %}open{% endif %}>
-                        <summary class="panel-heading">
-                            <h5 class="panel-title">{% trans 'Report Type' %}</h5>
-                        </summary>
-                        <ul class="list-group">
-                        {% if LANGUAGE_CODE == 'fr' %}
-                            {% for k, v in report_type_fr_s.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
-                            <div class="row">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
-                                    <label><input type="checkbox"
-                                             {% if k in type_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k | escapejs }}", "ct-search-report-type")'
-                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
-                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
-                            </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            {% for k, v in report_type_en_s.items %}
-                            {% if v > 0 %}
-                            <li class="list-group-item{% if k in type_selected_list %} active{% endif %}">
-                            <div class="row">
-                                <div class="checkbox mrgn-tp-0 mrgn-bttm-0 col-sm-9 h6">
-                                    <label><input type="checkbox"
-                                             {% if k in type_selected_list %} checked="checked"{% endif %}
-                                             onclick='select_facet("{{ k | escapejs }}", "ct-search-report-type")'
-                                             style="vertical-align:middle;position:relative;top:-1px;" value="{{ k }}"
-                                    style="vertical-align:middle;position:relative;top:-1px;"> {{ k }} </label></div>
-                                <div class="text-right col-sm-3"><span class="badge">{{ v }}</span></div>
-                            </div>
-                            </li>
-                            {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                            {% if LANGUAGE_CODE == 'fr' %}{{ report_type_fr_s | EmptyFacetMessage }}{% else %}{{ report_type_en_s | EmptyFacetMessage }}{% endif %}
-                        </ul>
-                    </details>
                     {# End Facets #}
                     </div>
                 </aside>

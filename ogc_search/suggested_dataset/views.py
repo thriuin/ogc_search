@@ -86,6 +86,10 @@ class SDSearchView(View):
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
+        if request.LANGUAGE_CODE == 'fr':
+            context['about_msg'] = settings.SD_ABOUT_FR
+        else:
+            context['about_msg'] = settings.SD_ABOUT_EN
 
         items_per_page = int(settings.OPEN_DATA_ITEMS_PER_PAGE)
 
@@ -231,6 +235,7 @@ class SDDatasetView(SDSearchView):
             supdates = []
             for supdate in search_results.docs[0]['status_updates_en_s']:
                 supdate = str(supdate).replace("\'", '"')
+                supdate = supdate.replace('"s', "'s")
                 supdates.append(json.loads(supdate))
                 search_results.docs[0]["status_updates_en_s"] = supdates
         elif "status_updates_fr_s" in search_results.docs[0]:
@@ -275,7 +280,7 @@ class SDExportView(SDSearchView):
                 if settings.EXPORT_FILE_CACHE_URL == "":
                     return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
                 else:
-                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+                    return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}_{}.csv".format(hashed_query, request.LANGUAGE_CODE))
 
         # Retrieve any selected search facets
         params = get_user_facet_parameters(request)
@@ -306,9 +311,8 @@ class SDExportView(SDSearchView):
                                                            facets_dict,
                                                            self.phrase_xtras)
 
-        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results,
-                                                 solr_fields=solr_fields):
+        if search_util.cache_search_results_file(cached_filename=cached_filename, sr=search_results):
             if settings.EXPORT_FILE_CACHE_URL == "":
                 return FileResponse(open(cached_filename, 'rb'), as_attachment=True)
             else:
-                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}.csv".format(hashed_query))
+                return HttpResponseRedirect(settings.EXPORT_FILE_CACHE_URL + "{}_{}.csv".format(hashed_query, request.LANGUAGE_CODE))

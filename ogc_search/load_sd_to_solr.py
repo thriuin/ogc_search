@@ -12,6 +12,20 @@ try:
 except ImportError:
     from yaml import Loader
 
+
+def _format_status_msg(messages):
+    """
+    The status messages are actually a list of dictionary objects that are not suitable for direct Solr export.
+    This function simplifies the JSON format into a simple text string.
+    :param messages: a list of dictionary objects
+    :return: a simple string
+    """
+    message_str = ""
+    for message in messages:
+        message_str = "{0}{1} {2}  ".format(message_str, message['date'], message['reason'])
+    return message_str.rstrip()
+
+
 BULK_SIZE = 10
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
@@ -36,6 +50,15 @@ with open(settings.SUGGESTED_DS_YAML_FILE, mode='r', encoding='utf8', errors="ig
                     if rf['field_name'] == 'reason':
                         for choice in rf['choices']:
                             sd_status[choice['value']] = {'en': choice['label']['en'], 'fr': choice['label']['fr']}
+
+# Add a default status value for records with a blank status - use this implied status value now removed from CKAN
+        # -    - label:
+        # -        en: Request sent to data owner – awaiting response
+        # -        fr: Demande envoyée au propriétaire des données, en attente de réponse
+        # -      value: department_contacted
+
+sd_status['department_contacted'] = {'en': 'Request sent to data owner – awaiting response',
+                                     'fr': 'Demande envoyée au propriétaire des données, en attente de réponse'}
 
 # load CKAN subject information
 with open(settings.CKAN_YAML_FILE, mode='r', encoding='utf8', errors="ignore") as ckan_schema_file:
@@ -62,11 +85,17 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as org_file:
 
 with open(sys.argv[3], 'r', encoding='utf-8', errors="ignore") as ckan_file:
     records = ckan_file.readlines()
-    for record in  records:
+    for record in records:
         ds = json.loads(record)
-        # Assumption made here that the mandatory 'id', 'status', and 'date_forwarded' fields are present
+
+        # Assumption made here that the mandatory 'id',and 'date_forwarded' fields are present. If not status,
+        # then use a plain date_forwarded status by default
         if 'id' in ds and 'status' in ds and 'date_forwarded' in ds:
             ckan_ds_records[ds['id']] = {'status': ds['status'], 'date_forwarded': ds['date_forwarded']}
+        elif 'id' in ds and 'date_forwarded' in ds:
+            ckan_ds_records[ds['id']] = {'status': [{'date': ds['date_forwarded'],
+                                                     'reason': 'department_contacted'}],
+                                         'date_forwarded': ds['date_forwarded']}
 
 # Set up Solr
 
@@ -180,19 +209,19 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                         status_dict_en['date'] = format_date(status_date, locale='en')
                         status_dict_en['reason'] = sd_status[status_update['reason']]['en']
                         if "comments" in status_update and 'en' in status_update['comments']:
-                            status_dict_en['comment'] = status_update['comments']['en']
+                            status_dict_en['comment'] = status_update['comments']['en'].replace('"', "*")
                         status_msg_en.append(status_dict_en)
 
                         status_dict_fr['date'] = format_date(status_date, locale='fr')
                         status_dict_fr['reason'] = sd_status[status_update['reason']]['fr']
                         if "comments" in status_update and 'fr' in status_update['comments']:
-                            status_dict_fr['comment'] = status_update['comments']['fr']
+                            status_dict_fr['comment'] = status_update['comments']['fr'].replace('"', "*")
                         status_msg_fr.append(status_dict_fr)
 
                     od_obj['status_updates_en_s'] = status_msg_en
                     od_obj['status_updates_fr_s'] = status_msg_fr
-                    od_obj['status_updates_export_en_s'] = "\n".join(str(status_msg_en))
-                    od_obj['status_updates_export_fr_s'] = "\n".join(str(status_msg_fr))
+                    od_obj['status_updates_export_en_s'] = _format_status_msg(status_msg_en)
+                    od_obj['status_updates_export_fr_s'] = _format_status_msg(status_msg_fr)
                 sd_list.append(od_obj)
                 i += 1
                 if i == BULK_SIZE:
@@ -205,7 +234,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
             except Exception as x:
                 print('Error on row {0}: {1}'.format(i, x))
         else:
-            print('Missing Drupal Record: ' + sd['uuid'])
+            print('Missing CKAN Record: ' + sd['uuid'])
 
     if len(sd_list) > 0:
         solr.add(sd_list)

@@ -126,10 +126,10 @@
             <div class="col-sm-8">{{ results.docs.0.reporting_period_s }}</div>
         </div>
         {% endif %}
-        {% if results.docs.0.contract_year_s|length > 0 %}
+        {% if results.docs.0.contract_date_s|length > 0 %}
         <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Contract Date: ' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.contract_year_s }}</div>
+            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.contract_date_s | friendly_date_fr }}{% else %}{{ results.docs.0.contract_date_s | friendly_date_en }}{% endif %}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.contract_start_s == '-' %}
@@ -194,7 +194,7 @@
         </div>
         {% if not results.docs.0.contracting_entity_en_s == '-' and not results.docs.0.contracting_entity_fr_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Standing Offer: ' %}</strong></div>
+            <div class="col-sm-4"><strong>{% trans 'Contracting Entity: ' %}</strong></div>
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.contracting_entity_fr_s }}{% else %}{{ results.docs.0.contracting_entity_en_s }}{% endif %}</div>
         </div>
         {% endif %}
@@ -219,12 +219,14 @@
                 {% endif %}</div>
         </div>
         {% endif %}
+        {% if year_right_now > 2021 %}
         <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Procurement Strategy for Aboriginal Business: ' %}</strong></div>
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.aboriginal_business_fr_s }}{% else %}{{ results.docs.0.aboriginal_business_en_s }}{% endif %}</div>
         </div>
+        {% endif %}
          <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Incidental Indicator: ' %}</strong></div>
+            <div class="col-sm-4"><strong>{% trans 'Procurement Strategy for Aboriginal Business Incidental Indicator: ' %}</strong></div>
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.aboriginal_business_incidental_fr_s }}{% else %}{{ results.docs.0.aboriginal_business_incidental_en_s }}{% endif %}</div>
         </div>
         {% if not results.docs.0.intellectual_property_code_en_s == '-' and not results.docs.0.intellectual_property_code_fr_s == '-' %}
@@ -263,6 +265,7 @@
             <div class="col-sm-8">{{ results.docs.0.number_of_bids_s }}</div>
         </div>
         {% endif %}
+        {% if year_right_now > 2021 %}
          <div class="row">
              <div class="col-sm-4"><strong>{% trans 'Article 6 Government Contract Exceptions: ' %}</strong></div>
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.article_6_exceptions_fr_s }}{% else %}{{ results.docs.0.article_6_exceptions_en_s }}{% endif %}</div>
@@ -275,6 +278,7 @@
              <div class="col-sm-4"><strong>{% trans 'Socio-Economic Indicator: ' %}</strong></div>
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.socioeconomic_indicator_fr_s }}{% else %}{{ results.docs.0.socioeconomic_indicator_en_s }}{% endif %}</div>
         </div>
+        {% endif %}
     </div>
 </div>
 

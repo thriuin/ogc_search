@@ -3,11 +3,12 @@ bleach==3.1.4
 certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
-Django==2.2.13
+Django==2.2.16
 django-analytical==2.5.0
 django-debug-toolbar==1.11
 django-markdown-filter==0.0.1
 django-redis-cache==2.1.1
+email-validator==1.1.1
 idna==2.8
 Markdown==3.2
 markdown2==2.3.9

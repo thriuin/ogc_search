@@ -1,5 +1,6 @@
 from babel.numbers import parse_decimal, format_currency, NumberFormatError
 import csv
+from django.conf import settings
 from django.http import HttpRequest
 import json
 import logging
@@ -301,8 +302,7 @@ def solr_query_for_export_mlt(unique_id, solr_url, solr_fields, solr_mlt_fields,
     return sr
 
 
-
-def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fields: str):
+def cache_search_results_file(cached_filename: str, sr: pysolr.Results, rows=100000):
 
     if len(sr.docs) == 0:
         return False
@@ -312,11 +312,16 @@ def cache_search_results_file(cached_filename: str, sr: pysolr.Results, solr_fie
             headers = list(sr.docs[0])
             headers[0] = u'\N{BOM}' + headers[0]
             cache_writer.writerow(headers)
+            c = 0
             for i in sr.docs:
+                if c > 100000:
+                    break
                 try:
                     cache_writer.writerow(i.values())
+                    c += 1
                 except UnicodeEncodeError:
                     pass
+
     return True
 
 
@@ -570,8 +575,9 @@ class SynonymFinder(object):
         self.synonym_keys_fr = {}
         self.accumulated_synonym_keys_fr = {}
         self.accumulated_synonym_keys_en = {}
-        _load_synonym_file('./open_data/solr/lang/synonyms_en.txt', self.synonym_list_en, self.synonym_keys_en)
-        _load_synonym_file('./open_data/solr/lang/synonyms_fr.txt', self.synonym_list_fr, self.synonym_keys_fr)
+
+        _load_synonym_file(settings.SYNONYMS_EN, self.synonym_list_en, self.synonym_keys_en)
+        _load_synonym_file(settings.SYNONYMS_FR, self.synonym_list_fr, self.synonym_keys_fr)
 
     def reset(self):
         self.accumulated_synonym_keys_fr = {}
@@ -603,6 +609,4 @@ class SynonymFinder(object):
             for key in self.accumulated_synonym_keys_en.keys():
                 for synonym in self.synonym_list_en[key]:
                     synonyms.append(synonym.strip())
-        if len(synonyms) > 0:
-            print(synonyms)
         return synonyms

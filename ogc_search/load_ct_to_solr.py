@@ -7,6 +7,7 @@ import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
     get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field, get_multivalue_choice
 import sys
+import time
 from urlsafe import url_part_escape
 from yaml import load
 try:
@@ -14,7 +15,7 @@ try:
 except ImportError:
     from yaml import Loader
 
-BULK_SIZE = 1000
+BULK_SIZE = 5000
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ogc_search.settings')
 
 gc_schema = {}
@@ -43,6 +44,18 @@ controlled_lists = {'agreement_type_code': get_choices('agreement_type_code', gc
                     'socioeconomic_indicator': get_choices('socioeconomic_indicator', gc_schema),
                     'document_type_code': get_choices('document_type_code', gc_schema),
                     }
+
+# For now, OGC hs requested that the LCSA and ABSA not be included in the trade agreement facet due to
+# uneven implementation of these codes at the present time. Better data should be available in 2022
+# 2020-09-11
+
+if datetime.now().year < 2022:
+    controlled_lists['agreement_type_code']['en']['A'] = controlled_lists['agreement_type_code']['en']['0']
+    controlled_lists['agreement_type_code']['fr']['A'] = controlled_lists['agreement_type_code']['fr']['0']
+    controlled_lists['agreement_type_code']['en']['R'] = controlled_lists['agreement_type_code']['en']['0']
+    controlled_lists['agreement_type_code']['fr']['R'] = controlled_lists['agreement_type_code']['fr']['0']
+    controlled_lists['agreement_type_code']['en']['BA'] = controlled_lists['agreement_type_code']['en']['0']
+    controlled_lists['agreement_type_code']['fr']['BA'] = controlled_lists['agreement_type_code']['fr']['0']
 
 solr = pysolr.Solr(settings.SOLR_CT)
 solr.delete(q='*:*')
@@ -154,17 +167,17 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 contract_dt: datetime = datetime.strptime(gc['contract_date'], '%Y-%m-%d')
                 od_obj['contract_date_dt'] = contract_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_date_s'] = gc['contract_date']
+                od_obj['contract_year_s'] = str(contract_dt.year)
+                od_obj['contract_month_s'] = str(contract_dt.month)
+            else:
+                od_obj['contract_start_s'] = "-"
+                od_obj['contract_year_s'] = ""
+                od_obj['contract_month_s'] = ""
 
             if not gc['contract_period_start'] == "":
                 contract_start_dt: datetime = datetime.strptime(gc['contract_period_start'], '%Y-%m-%d')
                 od_obj['contract_start_dt'] = contract_start_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_start_s'] = gc['contract_period_start']
-                od_obj['contract_year_s'] = str(contract_start_dt.year)
-                od_obj['contract_month_s'] = str(contract_start_dt.month)
-            else:
-                od_obj['contract_start_s'] = "-"
-                od_obj['contract_year_s'] = ""
-                od_obj['contract_month_s'] = ""
 
             if not gc['delivery_date'] == "":
                 delivery_dt: datetime = datetime.strptime(gc['delivery_date'], '%Y-%m-%d')
@@ -227,6 +240,12 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['agreement_type_code_fr_s'] = 'type non spécifié'
                 od_obj['agreement_type_code_export_fr_s'] = 'type non spécifié'
 
+            # Combine all crown owned exemptions into one
+            if od_obj['intellectual_property_en_s'].startswith('Crown owned – ex'):
+                od_obj['intellectual_property_en_s'] = 'Crown owned – exception'
+            if od_obj['intellectual_property_fr_s'].startswith("Droits appartenant à l'État ex"):
+                od_obj['intellectual_property_fr_s'] = "Droits appartenant à l'État exception"
+
             # This insanity is because there are two trade agreement fields in the contracts schema that need to be
             # merged into one field for faceting.
 
@@ -252,8 +271,8 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['trade_agreement_fr_s'] = trade_agreement_fr
             od_obj['agreement_type_code_export_fr_s'] = ",".join([str(code) for code in od_obj['trade_agreement_fr_s']])
 
-            if gc['original_value']:
-                contract_range = get_bilingual_dollar_range(gc['original_value'])
+            if gc['contract_value']:
+                contract_range = get_bilingual_dollar_range(gc['contract_value'])
             else:
                 contract_range = get_bilingual_dollar_range(gc['amendment_value'])
             od_obj['contract_value_range_en_s'] = contract_range['en']['range']
@@ -269,19 +288,35 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             gc_list.append(od_obj)
             i += 1
             if i == BULK_SIZE:
-                solr.add(gc_list)
-                solr.commit()
-                gc_list = []
-                print('{0} Records Processed'.format(total))
-                i = 0
+                for a in reversed(range(10)):
+                    try:
+                        solr.add(gc_list)
+                        solr.commit()
+                        gc_list = []
+                        print('{0} Records Processed'.format(total))
+                        i = 0
+                        break
+                    except pysolr.SolrError as sx:
+                        if not a:
+                            raise
+                        print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                        time.sleep((10 - a) * 5)
 
         except Exception as x:
             print('Error on row {0}: {1}. Row data: {2}'.format(total, x, gc))
 
     if len(gc_list) > 0:
-        solr.add(gc_list)
-        solr.commit()
-        print('{0} Records Processed'.format(total))
+        for a in reversed(range(10)):
+            try:
+                solr.add(gc_list)
+                solr.commit()
+                print('{0} Records Processed'.format(total))
+                break
+            except pysolr.SolrError as sx:
+                if not a:
+                    raise
+                print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                time.sleep((10 - a) * 5)
 
 # Load the Nothing to Report CSV
 
@@ -307,15 +342,32 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
             i += 1
             total += 1
             if i == BULK_SIZE:
-                solr.add(gc_list)
-                solr.commit()
-                gc_list = []
-                print('{0} Nil Records Processed'.format(total))
-                i = 0
+                for a in reversed(range(10)):
+                    try:
+                        solr.add(gc_list)
+                        solr.commit()
+                        gc_list = []
+                        print('{0} Nil Records Processed'.format(total))
+                        i = 0
+                        break
+                    except pysolr.SolrError as sx:
+                        if not a:
+                            raise
+                        print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                        time.sleep((10 - a) * 5)
+
         except Exception as x:
             print('Error on row {0}: {1}'.format(total, x))
 
     if len(gc_list) > 0:
-        solr.add(gc_list)
-        solr.commit()
-        print('{0} Nil Records Processed'.format(total))
+        for a in reversed(range(10)):
+            try:
+                solr.add(gc_list)
+                solr.commit()
+                print('{0} Nil Records Processed'.format(total))
+                break
+            except pysolr.SolrError as sx:
+                if not a:
+                    raise
+                print("Solr error: {0}. Waiting to try again ... {1}".format(sx, a))
+                time.sleep((10 - a) * 5)
