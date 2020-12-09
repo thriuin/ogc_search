@@ -288,13 +288,13 @@ class GCAmendmentView(GCSearchView):
         self.phrase_xtras_en = {}
         self.phrase_xtras_fr = {}
 
-    def get(self, request, slug=''):
+    def get(self, request, org_name='', slug=''):
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
         context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
         context["slug"] = slug
-        solr_search_terms = 'ref_number_s:"{0}"'.format(slug)
+        solr_search_terms = 'ref_number_s:"{0}" AND owner_org_{1}_s:"{2}"'.format(slug, request.LANGUAGE_CODE.lower(), org_name)
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_query(solr_search_terms,
                                                     settings.SOLR_GC,

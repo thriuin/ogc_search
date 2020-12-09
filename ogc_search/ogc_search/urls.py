@@ -73,7 +73,7 @@ if settings.GC_ENABLED:
     urlpatterns += i18n_patterns(
         path('gc/', GCSearchView.as_view(), name='GCQuery'),
         path('gc/export/', GCExportView.as_view(), name='GCExport'),
-        path('gc/amend/<slug:slug>', GCAmendmentView.as_view(), name='GCAmendment'),
+        path('gc/amend/<str:org_name>/<slug:slug>', GCAmendmentView.as_view(), name='GCAmendment'),
         path('gc/id/<path:slug>', GCRecordView.as_view(), name='GCRecord')
     )
 
