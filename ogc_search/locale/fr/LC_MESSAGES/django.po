@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-04 11:56-0500\n"
+"POT-Creation-Date: 2020-12-10 09:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -296,7 +296,6 @@ msgstr "Pertinence"
 
 #: .\ATI\templates\ati_search.html:119
 #: .\briefing_notes\templates\bn_search.html:105
-#: .\contracts\templates\contracts_search.html:114
 #: .\grants\templates\gc_search.html:112
 #: .\open_data\templates\od_search.html:108
 #: .\qp_notes\templates\qp_notes_search.html:95
@@ -321,7 +320,7 @@ msgid "Order By"
 msgstr "Trier par"
 
 #: .\ATI\templates\ati_search.html:184
-#: .\contracts\templates\contracts_search.html:235
+#: .\contracts\templates\contracts_search.html:253
 #: .\grants\templates\gc_search.html:229
 msgid "Nothing to report"
 msgstr "Rien à signaler"
@@ -329,8 +328,8 @@ msgstr "Rien à signaler"
 #: .\ATI\templates\ati_search.html:198 .\ATI\templates\ati_search.html:201
 #: .\briefing_notes\templates\bn_search.html:176
 #: .\briefing_notes\templates\bn_search.html:179
-#: .\contracts\templates\contracts_search.html:248
-#: .\contracts\templates\contracts_search.html:251
+#: .\contracts\templates\contracts_search.html:266
+#: .\contracts\templates\contracts_search.html:269
 #: .\experimental_inventory\templates\ei_search.html:175
 #: .\experimental_inventory\templates\ei_search.html:178
 #: .\grants\templates\gc_search.html:243 .\grants\templates\gc_search.html:246
@@ -350,8 +349,8 @@ msgstr "Précédent"
 #: .\ATI\templates\ati_search.html:204 .\ATI\templates\ati_search.html:208
 #: .\briefing_notes\templates\bn_search.html:182
 #: .\briefing_notes\templates\bn_search.html:186
-#: .\contracts\templates\contracts_search.html:254
-#: .\contracts\templates\contracts_search.html:258
+#: .\contracts\templates\contracts_search.html:272
+#: .\contracts\templates\contracts_search.html:276
 #: .\experimental_inventory\templates\ei_search.html:181
 #: .\experimental_inventory\templates\ei_search.html:185
 #: .\grants\templates\gc_search.html:249 .\grants\templates\gc_search.html:253
@@ -371,8 +370,8 @@ msgstr "Aller à la page"
 #: .\ATI\templates\ati_search.html:210 .\ATI\templates\ati_search.html:213
 #: .\briefing_notes\templates\bn_search.html:188
 #: .\briefing_notes\templates\bn_search.html:191
-#: .\contracts\templates\contracts_search.html:260
-#: .\contracts\templates\contracts_search.html:263
+#: .\contracts\templates\contracts_search.html:278
+#: .\contracts\templates\contracts_search.html:281
 #: .\experimental_inventory\templates\ei_search.html:187
 #: .\experimental_inventory\templates\ei_search.html:190
 #: .\grants\templates\gc_search.html:255 .\grants\templates\gc_search.html:258
@@ -391,7 +390,7 @@ msgstr "Suivant"
 
 #: .\ATI\templates\ati_search.html:236
 #: .\briefing_notes\templates\bn_search.html:214
-#: .\contracts\templates\contracts_search.html:287
+#: .\contracts\templates\contracts_search.html:305
 #: .\experimental_inventory\templates\ei_search.html:217
 #: .\grants\templates\gc_search.html:281
 #: .\national_action_plan\templates\nap_search.html:256
@@ -416,7 +415,7 @@ msgstr "Genre de rapport"
 #: .\briefing_notes\templates\bn_search.html:150
 #: .\briefing_notes\templates\bn_search.html:237
 #: .\briefing_notes\templates\note.html:68
-#: .\contracts\templates\contracts_search.html:336
+#: .\contracts\templates\contracts_search.html:354
 #: .\experimental_inventory\templates\ei_search.html:368
 #: .\grants\templates\gc_amendment.html:93
 #: .\grants\templates\gc_search.html:194 .\grants\templates\gc_search.html:348
@@ -443,7 +442,7 @@ msgstr "Mois"
 #: .\ATI\templates\ati_search.html:396
 #: .\briefing_notes\templates\bn_search.html:435
 #: .\contracts\templates\contract.html:295
-#: .\contracts\templates\contracts_search.html:894
+#: .\contracts\templates\contracts_search.html:912
 #: .\experimental_inventory\templates\ei_search.html:426
 #: .\experimental_inventory\templates\experiment.html:126
 #: .\grants\templates\gc_search.html:517
@@ -461,7 +460,7 @@ msgstr ""
 #: .\ATI\templates\ati_search.html:397
 #: .\briefing_notes\templates\bn_search.html:436
 #: .\contracts\templates\contract.html:296
-#: .\contracts\templates\contracts_search.html:895
+#: .\contracts\templates\contracts_search.html:913
 #: .\experimental_inventory\templates\ei_search.html:427
 #: .\experimental_inventory\templates\experiment.html:127
 #: .\grants\templates\gc_search.html:518
@@ -478,7 +477,7 @@ msgstr "Contactez-nous du gouvernement ouvert"
 #: .\ATI\templates\ati_search.html:399
 #: .\briefing_notes\templates\bn_search.html:438
 #: .\contracts\templates\contract.html:298
-#: .\contracts\templates\contracts_search.html:897
+#: .\contracts\templates\contracts_search.html:915
 #: .\experimental_inventory\templates\ei_search.html:429
 #: .\experimental_inventory\templates\experiment.html:129
 #: .\grants\templates\gc_search.html:520
@@ -495,7 +494,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/min.html"
 #: .\ATI\templates\ati_search.html:400
 #: .\briefing_notes\templates\bn_search.html:439
 #: .\contracts\templates\contract.html:299
-#: .\contracts\templates\contracts_search.html:898
+#: .\contracts\templates\contracts_search.html:916
 #: .\experimental_inventory\templates\ei_search.html:430
 #: .\experimental_inventory\templates\experiment.html:130
 #: .\grants\templates\gc_search.html:521
@@ -512,7 +511,7 @@ msgstr "Ministères et organismes"
 #: .\ATI\templates\ati_search.html:402
 #: .\briefing_notes\templates\bn_search.html:441
 #: .\contracts\templates\contract.html:301
-#: .\contracts\templates\contracts_search.html:900
+#: .\contracts\templates\contracts_search.html:918
 #: .\experimental_inventory\templates\ei_search.html:432
 #: .\experimental_inventory\templates\experiment.html:132
 #: .\grants\templates\gc_search.html:523
@@ -529,7 +528,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/fonctionpublique.html"
 #: .\ATI\templates\ati_search.html:403
 #: .\briefing_notes\templates\bn_search.html:442
 #: .\contracts\templates\contract.html:302
-#: .\contracts\templates\contracts_search.html:901
+#: .\contracts\templates\contracts_search.html:919
 #: .\experimental_inventory\templates\ei_search.html:433
 #: .\experimental_inventory\templates\experiment.html:133
 #: .\grants\templates\gc_search.html:524
@@ -546,7 +545,7 @@ msgstr "Fonction publique et force militaire"
 #: .\ATI\templates\ati_search.html:405
 #: .\briefing_notes\templates\bn_search.html:444
 #: .\contracts\templates\contract.html:304
-#: .\contracts\templates\contracts_search.html:903
+#: .\contracts\templates\contracts_search.html:921
 #: .\experimental_inventory\templates\ei_search.html:435
 #: .\experimental_inventory\templates\experiment.html:135
 #: .\grants\templates\gc_search.html:526
@@ -563,7 +562,7 @@ msgstr "http://nouvelles.gc.ca"
 #: .\ATI\templates\ati_search.html:406
 #: .\briefing_notes\templates\bn_search.html:445
 #: .\contracts\templates\contract.html:305
-#: .\contracts\templates\contracts_search.html:904
+#: .\contracts\templates\contracts_search.html:922
 #: .\experimental_inventory\templates\ei_search.html:436
 #: .\experimental_inventory\templates\experiment.html:136
 #: .\grants\templates\gc_search.html:527
@@ -580,7 +579,7 @@ msgstr "Nouvelles"
 #: .\ATI\templates\ati_search.html:408
 #: .\briefing_notes\templates\bn_search.html:447
 #: .\contracts\templates\contract.html:307
-#: .\contracts\templates\contracts_search.html:906
+#: .\contracts\templates\contracts_search.html:924
 #: .\experimental_inventory\templates\ei_search.html:438
 #: .\experimental_inventory\templates\experiment.html:138
 #: .\grants\templates\gc_search.html:529
@@ -597,7 +596,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme/lois.html"
 #: .\ATI\templates\ati_search.html:409
 #: .\briefing_notes\templates\bn_search.html:448
 #: .\contracts\templates\contract.html:308
-#: .\contracts\templates\contracts_search.html:907
+#: .\contracts\templates\contracts_search.html:925
 #: .\experimental_inventory\templates\ei_search.html:439
 #: .\experimental_inventory\templates\experiment.html:139
 #: .\grants\templates\gc_search.html:530
@@ -614,7 +613,7 @@ msgstr "Traités, lois et règlements"
 #: .\ATI\templates\ati_search.html:411
 #: .\briefing_notes\templates\bn_search.html:450
 #: .\contracts\templates\contract.html:310
-#: .\contracts\templates\contracts_search.html:909
+#: .\contracts\templates\contracts_search.html:927
 #: .\experimental_inventory\templates\ei_search.html:441
 #: .\experimental_inventory\templates\experiment.html:141
 #: .\grants\templates\gc_search.html:532
@@ -631,7 +630,7 @@ msgstr "https://www.canada.ca/fr/transparence/rapports.html"
 #: .\ATI\templates\ati_search.html:412
 #: .\briefing_notes\templates\bn_search.html:451
 #: .\contracts\templates\contract.html:311
-#: .\contracts\templates\contracts_search.html:910
+#: .\contracts\templates\contracts_search.html:928
 #: .\experimental_inventory\templates\ei_search.html:442
 #: .\experimental_inventory\templates\experiment.html:142
 #: .\grants\templates\gc_search.html:533
@@ -648,7 +647,7 @@ msgstr "Rapports à l'échelle du gouvernement"
 #: .\ATI\templates\ati_search.html:414
 #: .\briefing_notes\templates\bn_search.html:453
 #: .\contracts\templates\contract.html:313
-#: .\contracts\templates\contracts_search.html:912
+#: .\contracts\templates\contracts_search.html:930
 #: .\experimental_inventory\templates\ei_search.html:444
 #: .\experimental_inventory\templates\experiment.html:144
 #: .\grants\templates\gc_search.html:535
@@ -665,7 +664,7 @@ msgstr "https://www.canada.ca/fr/gouvernement/systeme.html"
 #: .\ATI\templates\ati_search.html:415
 #: .\briefing_notes\templates\bn_search.html:454
 #: .\contracts\templates\contract.html:314
-#: .\contracts\templates\contracts_search.html:913
+#: .\contracts\templates\contracts_search.html:931
 #: .\experimental_inventory\templates\ei_search.html:445
 #: .\experimental_inventory\templates\experiment.html:145
 #: .\grants\templates\gc_search.html:536
@@ -846,6 +845,8 @@ msgid "Original Contract Value: "
 msgstr "Valeur d'origine dumarché : "
 
 #: .\contracts\templates\contract.html:155
+#: .\contracts\templates\contracts_search.html:151
+#: .\contracts\templates\contracts_search.html:204
 msgid "Amendment Value: "
 msgstr "Valeur de modification :"
 
@@ -890,9 +891,10 @@ msgid "Procurement Strategy for Aboriginal Business: "
 msgstr "Stratégie d’approvisionnement auprès des entreprises autochtones :"
 
 #: .\contracts\templates\contract.html:229
-#| msgid "Procurement Strategy for Aboriginal Business: "
 msgid "Procurement Strategy for Aboriginal Business Incidental Indicator: "
-msgstr "Indicateur d'incidence de la Stratégie d’approvisionnement auprès des entreprises autochtones :"
+msgstr ""
+"Indicateur d'incidence de la Stratégie d’approvisionnement auprès des "
+"entreprises autochtones :"
 
 #: .\contracts\templates\contract.html:234
 msgid "Intellectual Property: "
@@ -939,38 +941,52 @@ msgstr ""
 "Rechercher des contrats gouvernementaux dont la valeur est supérieure à 10 "
 "000 $"
 
+#: .\contracts\templates\contracts_search.html:114
+#| msgid "Contract Date: "
+msgid "Contract Date"
+msgstr "Date du contrat"
+
 #: .\contracts\templates\contracts_search.html:116
 #: .\grants\templates\gc_search.html:114
 msgid "Value"
 msgstr "Valeur"
 
-#: .\contracts\templates\contracts_search.html:146
-#: .\contracts\templates\contracts_search.html:190
+#: .\contracts\templates\contracts_search.html:140
+msgid "Total Value: "
+msgstr "Valeur totale : "
+
+#: .\contracts\templates\contracts_search.html:147
+#: .\contracts\templates\contracts_search.html:200
+msgid "Original Value: "
+msgstr "Valeur d'origine :"
+
+#: .\contracts\templates\contracts_search.html:155
+#: .\contracts\templates\contracts_search.html:208
 msgid "Work Description:"
 msgstr "Description du travail :"
 
-#: .\contracts\templates\contracts_search.html:153
-#: .\contracts\templates\contracts_search.html:197
+#: .\contracts\templates\contracts_search.html:162
+#: .\contracts\templates\contracts_search.html:215
 msgid "Instrument Type:"
 msgstr "Type d’instrument :"
 
-#: .\contracts\templates\contracts_search.html:159
-#: .\contracts\templates\contracts_search.html:203
+#: .\contracts\templates\contracts_search.html:168
+#: .\contracts\templates\contracts_search.html:221
 msgid "Commodity Type:"
 msgstr "Type de produit :"
 
-#: .\contracts\templates\contracts_search.html:165
-#: .\contracts\templates\contracts_search.html:209
+#: .\contracts\templates\contracts_search.html:174
+#: .\contracts\templates\contracts_search.html:227
 msgid "Comments:"
 msgstr "Commentaires :"
 
-#: .\contracts\templates\contracts_search.html:171
-#: .\contracts\templates\contracts_search.html:215
+#: .\contracts\templates\contracts_search.html:180
+#: .\contracts\templates\contracts_search.html:233
 msgid "Additional Comments:"
 msgstr "Commentaires additionnels :"
 
-#: .\contracts\templates\contracts_search.html:176
-#: .\contracts\templates\contracts_search.html:220
+#: .\contracts\templates\contracts_search.html:185
+#: .\contracts\templates\contracts_search.html:238
 #: .\experimental_inventory\templates\ei_search.html:144
 #: .\experimental_inventory\templates\ei_search.html:158
 #: .\grants\templates\gc_amendment.html:69 .\grants\templates\gc_record.html:78
@@ -978,13 +994,12 @@ msgstr "Commentaires additionnels :"
 msgid "Organization:"
 msgstr "Organisation :"
 
-#: .\contracts\templates\contracts_search.html:187
-#, fuzzy
+#: .\contracts\templates\contracts_search.html:196
 #| msgid "Contract Date: "
 msgid "Contract Date:"
 msgstr "Date du contrat :"
 
-#: .\contracts\templates\contracts_search.html:293
+#: .\contracts\templates\contracts_search.html:311
 #: .\experimental_inventory\templates\ei_search.html:223
 #: .\grants\templates\gc_search.html:288
 #: .\open_data\templates\od_search.html:285
@@ -992,60 +1007,60 @@ msgstr "Date du contrat :"
 msgid "Download Search Results"
 msgstr "Télécharger les résultats de recherche"
 
-#: .\contracts\templates\contracts_search.html:293
+#: .\contracts\templates\contracts_search.html:311
 #: .\grants\templates\gc_search.html:288
 msgid "(100,000 row limit)"
 msgstr "(100 000 lignes au maximum)"
 
-#: .\contracts\templates\contracts_search.html:313
+#: .\contracts\templates\contracts_search.html:331
 msgid "Contract Year"
 msgstr "Année du contrat"
 
-#: .\contracts\templates\contracts_search.html:380
+#: .\contracts\templates\contracts_search.html:398
 msgid "Total Contract Value"
 msgstr "Valeur totale du contrat"
 
-#: .\contracts\templates\contracts_search.html:422
+#: .\contracts\templates\contracts_search.html:440
 msgid "Trade Agreements"
 msgstr "Accord commercial"
 
-#: .\contracts\templates\contracts_search.html:463
+#: .\contracts\templates\contracts_search.html:481
 msgid "Comprehensive Land Claims Agreements"
 msgstr "Entente sur les revendications territoriales globales"
 
-#: .\contracts\templates\contracts_search.html:505
+#: .\contracts\templates\contracts_search.html:523
 msgid "Intellectual Property"
 msgstr "Propriété intellectuelle"
 
-#: .\contracts\templates\contracts_search.html:546
+#: .\contracts\templates\contracts_search.html:564
 msgid "Solicitation Procedure"
 msgstr "Méthode d’invitation à soumissionner"
 
-#: .\contracts\templates\contracts_search.html:587
+#: .\contracts\templates\contracts_search.html:605
 msgid "Instrument Type"
 msgstr "Type d’instrument"
 
-#: .\contracts\templates\contracts_search.html:628
+#: .\contracts\templates\contracts_search.html:646
 msgid "Commodity"
 msgstr "Produit"
 
-#: .\contracts\templates\contracts_search.html:670
+#: .\contracts\templates\contracts_search.html:688
 msgid "Limited Tendering Reason"
 msgstr "Raisons justifiant le recours à l’appel d’offres limité"
 
-#: .\contracts\templates\contracts_search.html:712
+#: .\contracts\templates\contracts_search.html:730
 msgid "Trade Agreement Exemptions"
 msgstr "Exemptions des accords commerciaux"
 
-#: .\contracts\templates\contracts_search.html:754
+#: .\contracts\templates\contracts_search.html:772
 msgid "Former Public Servant"
 msgstr "Ancien fonctionnaire"
 
-#: .\contracts\templates\contracts_search.html:797
+#: .\contracts\templates\contracts_search.html:815
 msgid "Standing Offer"
 msgstr "Offre à commandes"
 
-#: .\contracts\templates\contracts_search.html:839
+#: .\contracts\templates\contracts_search.html:857
 msgid "Ministers' Office Contracts"
 msgstr "Marchés du cabinet du ministre"
 
@@ -1527,7 +1542,6 @@ msgid "Remove from Map List"
 msgstr "Supprimer de la liste de cartes"
 
 #: .\open_data\templates\od_search.html:226
-#, fuzzy
 #| msgid "Show similar records"
 msgid "Show similar records for "
 msgstr "Recherche des dossiers similaires à "
@@ -1537,7 +1551,6 @@ msgid "Show similar records"
 msgstr "Recherche des dossiers similaires"
 
 #: .\open_data\templates\od_search.html:295
-#, fuzzy
 #| msgid "https://open.canada.ca/en/suggested-datasets"
 msgid "https://open.canada.ca/en/forms/suggest-dataset"
 msgstr ""
@@ -2021,9 +2034,6 @@ msgstr "Aucun filtre sélectionné pour cette recherche"
 
 #~ msgid "Delivery Date: "
 #~ msgstr "Date de livraison :"
-
-#~ msgid "Original Value: "
-#~ msgstr "Valeur d'origine du contrat :"
 
 #~ msgid "Reason for Limited Tendering: "
 #~ msgstr "Raisons justifiant le recours à l’appel d’offres limité :"
