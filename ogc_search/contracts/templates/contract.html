@@ -55,25 +55,29 @@
     </header>
     <div class="panel-body">
         <div class="row">
+            <div class="col-sm-4"><strong>{% trans 'Vendor Name:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.vendor_name_txt.0 }}</div>
+        </div>
+        <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Description: ' %}</strong></div>
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.description_txt_fr }}{% else %}{{ results.docs.0.description_txt_en }}{% endif %}</div>
         </div>
-        <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Commodity Type: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.commodity_type_fr_s }}{% else %}{{ results.docs.0.commodity_type_en_s }}{% endif %}</div>
-        </div>
-        {% if not results.docs.0.document_type_code_en_s == '-' %}
-        <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Instrument Type: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.instrument_type_fr_s }}{% else %}{{ results.docs.0.instrument_type_en_s }}{% endif %}</div>
-        </div>
-        {% endif %}
         {% if not results.docs.0.economic_object_code_s == '-' %}
         <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Economic Object Code: ' %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.economic_object_code_s }}</div>
         </div>
         {% endif %}
+        {% if not results.docs.0.document_type_code_en_s == '-' %}
+        <div class="row">
+            <div class="col-sm-4"><strong>{% trans 'Instrument Type: ' %}</strong></div>
+            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.instrument_type_fr_s }}{% else %}{{ results.docs.0.instrument_type_en_s }}{% endif %}</div>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-4"><strong>{% trans 'Commodity Type: ' %}</strong></div>
+            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.commodity_type_fr_s }}{% else %}{{ results.docs.0.commodity_type_en_s }}{% endif %}</div>
+        </div>
         {% if results.docs.0.commodity_code_s|length > 1 %}
         <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Commodity Code: ' %}</strong></div>
@@ -83,10 +87,6 @@
         <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Organization: ' %}</strong></div>
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.owner_org_fr_s }}{% else %}{{ results.docs.0.owner_org_en_s }}{% endif %}</div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Vendor Name:' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.vendor_name_txt.0 }}</div>
         </div>
         {% if not results.docs.0.vendor_postal_code_s == '-' %}
         <div class="row">
