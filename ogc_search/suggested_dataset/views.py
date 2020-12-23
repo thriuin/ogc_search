@@ -241,7 +241,8 @@ class SDDatasetView(SDSearchView):
         elif "status_updates_fr_s" in search_results.docs[0]:
             supdates = []
             for supdate in search_results.docs[0]['status_updates_fr_s']:
-                supdate = str(supdate).replace("\'", '"')
+                # Solr is storing a mix of single and double quotes that won't parse when loaded as JSON
+                supdate = str(supdate).replace("\'date\': ", '"date": "').replace("\', \'reason\': \'", '", "reason": "').replace("\', \'comment\': \'", '", "comment": "').replace("\', \'comment\':", '", "comment":').replace("\'}",'"}')
                 supdates.append(json.loads(supdate))
                 search_results.docs[0]["status_updates_fr_s"] = supdates
         if len(search_results.docs) >= 0:
