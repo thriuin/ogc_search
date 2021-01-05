@@ -182,6 +182,8 @@ class CTSearchView(View):
         self.solr_facet_fields_en = ['{!ex=tag_contract_year_s}contract_year_s',
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
+                                     '{!ex=tag_original_value_range_en_s}original_value_range_en_s',
+                                     '{!ex=tag_amendment_value_range_en_s}amendment_value_range_en_s',
                                      '{!ex=tag_trade_agreement_en_s}trade_agreement_en_s',
                                      '{!ex=tag_land_claims_en_s}land_claims_en_s',
                                      '{!ex=tag_intellectual_property_en_s}intellectual_property_en_s',
@@ -199,6 +201,8 @@ class CTSearchView(View):
         self.solr_facet_fields_fr = ['{!ex=tag_contract_year_s}contract_year_s',
                                      '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
+                                     '{!ex=tag_original_value_range_fr_s}original_value_range_fr_s',
+                                     '{!ex=tag_amendment_value_range_fr_s}amendment_value_range_fr_s',
                                      '{!ex=tag_trade_agreement_fr_s}trade_agreement_fr_s',
                                      '{!ex=tag_land_claims_fr_s}land_claims_fr_s',
                                      '{!ex=tag_intellectual_property_fr_s}intellectual_property_fr_s',
@@ -283,6 +287,8 @@ class CTSearchView(View):
         solr_search_year: str = request.GET.get('ct-search-year', '')  # contract_year_s
         solr_search_orgs: str = request.GET.get('ct-search-orgs', '')  # owner_org_en_s
         solr_search_range: str = request.GET.get('ct-search-dollar-range', '')  # contract_value_range_en_s
+        solr_search_original_range: str = request.GET.get('ct-search-original-range', '')
+        solr_search_amend_range: str = request.GET.get('ct-search-amend-range', '')
         solr_search_agreements: str = request.GET.get('ct-search-agreement', '')  # trade_agreement_en_s
         solr_land_claims: str = request.GET.get('ct-land-claims', '') # land_claims_en_s
         solr_search_ip: str = request.GET.get('ct-search-ip', '')  # intellectual_property_en_s
@@ -302,6 +308,10 @@ class CTSearchView(View):
         context["organizations_selected_list"] = solr_search_orgs.split('|')
         context["range_selected"] = solr_search_range
         context["range_selected_list"] = solr_search_range.split('|')
+        context["original_range_selected"] = solr_search_original_range
+        context["original_range_selected_list"] = solr_search_original_range.split('|')
+        context["amend_range_selected"] = solr_search_amend_range
+        context["amend_range_selected_list"] = solr_search_amend_range.split('|')
         context["agreement_selected"] = solr_search_agreements
         context["agreement_selected_list"] = solr_search_agreements.split('|')
         context["land_claims_selected"] = solr_land_claims
@@ -331,6 +341,8 @@ class CTSearchView(View):
             facets_dict = dict(contract_year_s=solr_search_year,
                                owner_org_fr_s=solr_search_orgs,
                                contract_value_range_fr_s=solr_search_range,
+                               original_value_range_fr_s=solr_search_original_range,
+                               amendment_value_range_fr_s= solr_search_amend_range,
                                trade_agreement_fr_s=solr_search_agreements,
                                land_claims_fr_s=solr_land_claims,
                                intellectual_property_fr_s=solr_search_ip,
@@ -348,6 +360,8 @@ class CTSearchView(View):
             facets_dict = dict(contract_year_s=solr_search_year,
                                owner_org_en_s=solr_search_orgs,
                                contract_value_range_en_s=solr_search_range,
+                               original_value_range_en_s=solr_search_original_range,
+                               amendment_value_range_en_s=solr_search_amend_range,
                                trade_agreement_en_s=solr_search_agreements,
                                land_claims_en_s=solr_land_claims,
                                intellectual_property_en_s=solr_search_ip,
@@ -418,6 +432,10 @@ class CTSearchView(View):
                 search_results.facets['facet_fields']['owner_org_fr_s'])
             context['value_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['contract_value_range_fr_s'])
+            context['original_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['original_value_range_fr_s'])
+            context['amendment_facets_fr'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['amendment_value_range_fr_s'])
             context['agreement_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['trade_agreement_fr_s'])
             context['land_claims_facets_fr'] = search_util.convert_facet_list_to_dict(
@@ -447,6 +465,10 @@ class CTSearchView(View):
                 search_results.facets['facet_fields']['owner_org_en_s'])
             context['value_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['contract_value_range_en_s'])
+            context['original_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['original_value_range_en_s'])
+            context['amendment_facets_en'] = search_util.convert_facet_list_to_dict(
+                search_results.facets['facet_fields']['amendment_value_range_en_s'])
             context['agreement_facets_en'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['trade_agreement_en_s'])
             context['land_claims_facets_en'] = search_util.convert_facet_list_to_dict(

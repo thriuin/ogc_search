@@ -278,6 +278,16 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             od_obj['contract_value_range_en_s'] = contract_range['en']['range']
             od_obj['contract_value_range_fr_s'] = contract_range['fr']['range']
 
+            if gc['original_value']:
+                original_range = get_bilingual_dollar_range(gc['contract_value'])
+                od_obj['original_value_range_en_s'] = original_range['en']['range']
+                od_obj['original_value_range_fr_s'] = original_range['fr']['range']
+
+            if gc['amendment_value']:
+                original_range = get_bilingual_dollar_range(gc['amendment_value'])
+                od_obj['amendment_value_range_en_s'] = original_range['en']['range']
+                od_obj['amendment_value_range_fr_s'] = original_range['fr']['range']
+
             if 'land_claims' in gc and gc['land_claims'] != '':
                 od_obj['land_claims_en_s'] = get_choice_field(controlled_lists, gc, 'land_claims', 'en', 'Unspecified'),
                 od_obj['land_claims_fr_s'] = get_choice_field(controlled_lists, gc, 'land_claims', 'fr',

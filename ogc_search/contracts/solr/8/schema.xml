@@ -1049,6 +1049,12 @@
     <field name="contract_value_range_en_s" type="string" indexed="true" stored="true"/>
     <field name="contract_value_range_fr_s" type="string" indexed="true" stored="true"/>
 
+    <field name="original_value_range_en_s" type="string" indexed="true" stored="true"/>
+    <field name="original_value_range_fr_s" type="string" indexed="true" stored="true"/>
+
+    <field name="amendment_value_range_en_s" type="string" indexed="true" stored="true"/>
+    <field name="amendment_value_range_fr_s" type="string" indexed="true" stored="true"/>
+
     <field name="original_value_f" type="pfloat" indexed="true" stored="true" docValues="true"/>
     <field name="original_value_en_s" type="string" indexed="true" stored="true"/>       
     <field name="original_value_fr_s" type="string" indexed="true" stored="true"/>      

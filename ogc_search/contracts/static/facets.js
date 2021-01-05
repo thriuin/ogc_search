@@ -1,6 +1,8 @@
 let accumulators = ['ct-search-year',
     'ct-search-orgs',
     'ct-search-dollar-range',
+    'ct-search-original-range',
+    'ct-search-amend-range',
     'ct-search-agreement',
     'ct-land-claims',
     'ct-search-ip',
