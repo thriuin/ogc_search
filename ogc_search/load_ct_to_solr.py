@@ -168,7 +168,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['contract_date_dt'] = contract_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_date_s'] = gc['contract_date']
                 od_obj['contract_year_s'] = str(contract_dt.year)
-                od_obj['contract_month_s'] = str(contract_dt.month)
+                od_obj['contract_month_s'] = str("%02d" % contract_dt.month)
             else:
                 od_obj['contract_start_s'] = "-"
                 od_obj['contract_year_s'] = ""

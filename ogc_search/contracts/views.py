@@ -180,6 +180,7 @@ class CTSearchView(View):
 
         # These fields are search facets
         self.solr_facet_fields_en = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_contract_month_s}contract_month_s',
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
                                      '{!ex=tag_original_value_range_en_s}original_value_range_en_s',
@@ -199,6 +200,7 @@ class CTSearchView(View):
                                      ]
 
         self.solr_facet_fields_fr = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_contract_month_s}contract_month_s',
                                      '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
                                      '{!ex=tag_original_value_range_fr_s}original_value_range_fr_s',
@@ -285,6 +287,7 @@ class CTSearchView(View):
 
         # Retrieve any selected search facets
         solr_search_year: str = request.GET.get('ct-search-year', '')  # contract_year_s
+        solr_search_month: str = request.GET.get('ct-search-month', '')  # contract_month_s
         solr_search_orgs: str = request.GET.get('ct-search-orgs', '')  # owner_org_en_s
         solr_search_range: str = request.GET.get('ct-search-dollar-range', '')  # contract_value_range_en_s
         solr_search_original_range: str = request.GET.get('ct-search-original-range', '')
@@ -304,6 +307,8 @@ class CTSearchView(View):
 
         context["year_selected"] = solr_search_year
         context["year_selected_list"] = solr_search_year.split('|')
+        context["month_selected"] = solr_search_month
+        context["month_selected_list"] = solr_search_month.split('|')
         context["organizations_selected"] = solr_search_orgs
         context["organizations_selected_list"] = solr_search_orgs.split('|')
         context["range_selected"] = solr_search_range
@@ -339,6 +344,7 @@ class CTSearchView(View):
 
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(contract_year_s=solr_search_year,
+                               contract_month_s=solr_search_month,
                                owner_org_fr_s=solr_search_orgs,
                                contract_value_range_fr_s=solr_search_range,
                                original_value_range_fr_s=solr_search_original_range,
@@ -358,6 +364,7 @@ class CTSearchView(View):
                                )
         else:
             facets_dict = dict(contract_year_s=solr_search_year,
+                               contract_month_s=solr_search_month,
                                owner_org_en_s=solr_search_orgs,
                                contract_value_range_en_s=solr_search_range,
                                original_value_range_en_s=solr_search_original_range,
@@ -427,6 +434,8 @@ class CTSearchView(View):
 
         context['year_facets'] = search_util.convert_facet_list_to_dict(
             search_results.facets['facet_fields']['contract_year_s'], reverse=True)
+        context['month_facets'] = search_util.convert_facet_list_to_dict(
+            search_results.facets['facet_fields']['contract_month_s'])
         if request.LANGUAGE_CODE == 'fr':
             context['org_facets_fr'] = search_util.convert_facet_list_to_dict(
                 search_results.facets['facet_fields']['owner_org_fr_s'])
