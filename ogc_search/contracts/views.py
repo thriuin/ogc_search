@@ -555,7 +555,7 @@ class CTExportView(View):
                                "vendor_name_s,"
                                "vendor_postal_code_s,"
                                "buyer_name_s,"
-                               "contract_date_dt,"
+                               "contract_date_dt,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_en_s,"
                                "contract_start_s,"
@@ -596,7 +596,7 @@ class CTExportView(View):
                                "vendor_name_s,"
                                "vendor_postal_code_s,"
                                "buyer_name_s,"
-                               "contract_date_dt,"
+                               "contract_date_dt,contract_year_s,contract_month_s,"
                                "economic_object_code_s,"
                                "description_fr_s,"
                                "contract_start_s,"
@@ -691,6 +691,7 @@ class CTExportView(View):
 
         # These fields are search facets
         self.solr_facet_fields_en = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_contract_month_s}contract_month_s',
                                      '{!ex=tag_owner_org_en_s}owner_org_en_s',
                                      '{!ex=tag_contract_value_range_en_s}contract_value_range_en_s',
                                      '{!ex=tag_trade_agreement_en_s}trade_agreement_en_s',
@@ -708,6 +709,7 @@ class CTExportView(View):
                                      ]
 
         self.solr_facet_fields_fr = ['{!ex=tag_contract_year_s}contract_year_s',
+                                     '{!ex=tag_contract_month_s}contract_month_s',
                                      '{!ex=tag_owner_org_fr_s}owner_org_fr_s',
                                      '{!ex=tag_contract_value_range_fr_s}contract_value_range_fr_s',
                                      '{!ex=tag_trade_agreement_fr_s}trade_agreement_fr_s',
@@ -747,6 +749,7 @@ class CTExportView(View):
         # Retrieve any selected search facets
         solr_search_terms = search_util.get_search_terms(request)
         solr_search_year: str = request.GET.get('ct-search-year', '')  # contract_year_s
+        solr_search_month: str = request.GET.get('ct-search-month', '')
         solr_search_orgs: str = request.GET.get('ct-search-orgs', '')  # owner_org_en_s
         solr_search_range: str = request.GET.get('ct-search-dollar-range', '')  # contract_value_range_en_s
         solr_search_agreements: str = request.GET.get('ct-search-agreement', '')  # trade_agreement_en_s
@@ -764,6 +767,7 @@ class CTExportView(View):
 
         if request.LANGUAGE_CODE == 'fr':
             facets_dict = dict(contract_year_s=solr_search_year,
+                               contract_month_s=solr_search_month,
                                owner_org_fr_s=solr_search_orgs,
                                contract_value_range_fr_s=solr_search_range,
                                trade_agreement_fr_s=solr_search_agreements,
@@ -784,6 +788,7 @@ class CTExportView(View):
             solr_query_fields = self.solr_query_fields_fr
         else:
             facets_dict = dict(contract_year_s=solr_search_year,
+                               contract_month_s=solr_search_month,
                                owner_org_en_s=solr_search_orgs,
                                contract_value_range_en_s=solr_search_range,
                                trade_agreement_en_s=solr_search_agreements,
