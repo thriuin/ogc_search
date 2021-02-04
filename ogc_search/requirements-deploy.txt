@@ -11,7 +11,7 @@ django-redis-cache==2.1.1
 email-validator==1.1.1
 idna==2.8
 Markdown==3.2
-markdown2==2.3.9
+markdown2==2.4.0
 nltk==3.4.5
 pysolr==3.8.1
 python-dateutil==2.8.0
