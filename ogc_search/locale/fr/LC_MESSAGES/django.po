@@ -708,6 +708,9 @@ msgstr "Détails"
 msgid "Ref #"
 msgstr "Ref no :"
 
+msgid "Ref Number:"
+msgstr  "Ref no. :"
+
 #: .\briefing_notes\templates\bn_search.html:151
 #: .\briefing_notes\templates\note.html:71
 msgid "Sector"
