@@ -135,7 +135,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                                                             'Unspecified'),
                 'contracting_entity_fr_s': get_choice_field(controlled_lists, gc, 'contracting_entity', 'fr',
                                                             'type non spécifié'),
-                'standing_offer_number_s': gc['standing_offer_number'],
+                'standing_offer_number_s': get_field(gc, 'standing_offer_number'),
                 'instrument_type_en_s': get_choice_field(controlled_lists, gc, 'instrument_type', 'en',
                                                          'Unspecified'),
                 'instrument_type_fr_s': get_choice_field(controlled_lists, gc, 'instrument_type', 'fr',

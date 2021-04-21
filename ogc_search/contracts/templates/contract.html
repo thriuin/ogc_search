@@ -198,7 +198,7 @@
             <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.contracting_entity_fr_s }}{% else %}{{ results.docs.0.contracting_entity_en_s }}{% endif %}</div>
         </div>
         {% endif %}
-        {% if results.docs.0.standing_offer_number_s|length > 0  %}
+        {% if not results.docs.0.standing_offer_number_s == '-'  %}
         <div class="row">
             <div class="col-sm-4"><strong>{% trans 'Standing Offer Number: ' %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.standing_offer_number_s }}</div>
