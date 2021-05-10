@@ -1342,6 +1342,15 @@ msgstr "Type d'entente :"
 msgid "Recipient Business Number:"
 msgstr "Numéro d'entreprise du bénéficiaire :"
 
+msgid "Recipient Type:"
+msgstr "Type de bénéficiaire :"
+
+msgid "Recipient's Legal Name:"
+msgstr "Nom légal du bénéficiaire :"
+
+msgid "Report Type:"
+msgstr "Type de rapport :"
+
 #: .\grants\templates\gc_record.html:115 .\grants\templates\gc_record.html:249
 msgid "Amendment Number:"
 msgstr "Numero de modification :"

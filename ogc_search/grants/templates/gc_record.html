@@ -62,6 +62,12 @@
             <div class="col-sm-8">{{ results.docs.0.agreement_number_s }}</div>
         </div>
         {% endif %}
+        {% if not results.docs.0.agreement_value_fr_s == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Agreement Value:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.agreement_value_fr_s }}</div>
+        </div>
+        {% endif %}
         {% if not results.docs.0.agreement_end_date_s == "-" %}
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans 'Agreement Date:' %}</strong></div>
@@ -98,10 +104,22 @@
             <div class="col-sm-4"><strong>{% trans 'Agreement Type:' %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.agreement_type_fr_s | safe  }}</div>
         </div>
+        {% if not results.docs.0.report_type_fr_s == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans "Report Type:" %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.report_type_fr_s | safe }}</div>
+        </div>
+        {% endif %}
         {% if not results.docs.0.recipient_business_number_s == "-" %}
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans 'Recipient Business Number:' %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.recipient_business_number_s | safe}}</div>
+        </div>
+        {% endif %}
+                {% if not results.docs.0.recipient_type_fr_s == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Recipient Type:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.recipient_type_fr_s | safe}}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.additional_information_txt_fr == "-" %}
@@ -126,6 +144,12 @@
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans "Recipient's Operating Name:" %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.recipient_operating_name_txt_fr | safe }}</div>
+        </div>
+        {% endif %}
+        {% if not results.docs.0.recipient_legal_name_txt_fr == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans "Recipient's Legal Name:" %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.recipient_legal_name_txt_fr | safe }}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.research_organization_name_txt_fr == "-" %}
@@ -196,6 +220,12 @@
             <div class="col-sm-8">{{ results.docs.0.agreement_number_s }}</div>
         </div>
         {% endif %}
+        {% if not results.docs.0.agreement_value_en_s == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Agreement Value:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.agreement_value_en_s }}</div>
+        </div>
+        {% endif %}
         {% if not results.docs.0.agreement_end_date_s == "-" %}
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans 'Agreement Date:' %}</strong></div>
@@ -232,10 +262,22 @@
             <div class="col-sm-4"><strong>{% trans 'Agreement Type:' %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.agreement_type_en_s | safe  }}</div>
         </div>
+        {% if not results.docs.0.report_type_en_s == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans "Report Type:" %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.report_type_en_s | safe }}</div>
+        </div>
+        {% endif %}
         {% if not results.docs.0.recipient_business_number_s == "-" %}
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans 'Recipient Business Number:' %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.recipient_business_number_s | safe}}</div>
+        </div>
+        {% endif %}
+        {% if not results.docs.0.recipient_type_en_s == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans 'Recipient Type:' %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.recipient_type_en_s | safe}}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.additional_information_txt_en == "-" %}
@@ -260,6 +302,12 @@
         <div class="row mrgn-bttm-sm">
             <div class="col-sm-4"><strong>{% trans "Recipient's Operating Name:" %}</strong></div>
             <div class="col-sm-8">{{ results.docs.0.recipient_operating_name_txt_en | safe }}</div>
+        </div>
+        {% endif %}
+        {% if not results.docs.0.recipient_legal_name_txt_en == "-" %}
+        <div class="row mrgn-bttm-sm">
+            <div class="col-sm-4"><strong>{% trans "Recipient's Legal Name:" %}</strong></div>
+            <div class="col-sm-8">{{ results.docs.0.recipient_legal_name_txt_en | safe }}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.research_organization_name_txt_en == "-" %}
