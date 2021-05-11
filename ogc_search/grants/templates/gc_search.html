@@ -177,7 +177,7 @@
                             {% if not doc.recipient_city_en_s == "-" or not doc.recipient_country_en_s == "-" or not doc.recipient_postal_code_txt == "-"%}
                                 <strong>{% trans 'Location:' %}</strong> {% if not doc.recipient_city_en_s == "-" %}{{ doc.recipient_city_en_s }}, {% endif %}{% if not doc.recipient_province_en_s == "-" %}{{ doc.recipient_province_en_s }}, {% endif %}{% if not doc.recipient_country_en_s == "-" %}{{ doc.recipient_country_en_s }} {% endif %}{% if not doc.recipient_postal_code_txt == "-" %} {{ doc.recipient_postal_code_txt | safe }}{% endif %}<br>{% endif %}
                             {% if doc.amendment_date_s %}{% if not doc.amendment_date_s == "-" %}
-                                <br><a href="/{{ LANGUAGE_CODE }}/gc/amend/{{ doc.owner_org_fr_s | striptags | safe }}/{{ doc.ref_number_txt_ws | striptags | safe }}"><strong>{% trans 'Amendments' %}</strong></a>
+                                <br><a href="/{{ LANGUAGE_CODE }}/gc/amend/{{ doc.owner_org_en_s | striptags | safe }}/{{ doc.ref_number_txt_ws | striptags | safe }}"><strong>{% trans 'Amendments' %}</strong></a>
                             {% endif %}{% endif %}
                             {% endspaceless %}
                         {% endif %}
