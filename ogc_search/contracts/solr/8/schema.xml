@@ -1104,7 +1104,14 @@
     <field name="land_claims_fr_s" type="string" indexed="true" stored="true"  docValues="true"/>
     <field name="land_claims_txt_fr" type="text_en" indexed="true" stored="true"/>
     <copyField source="land_claims_fr_s" dest="land_claims_txt_fr"/>
-    
+
+    <!-- OPEN 690: Show pre-2022 set asides -->
+    <field name="absa_psar_ind_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="absa_psar_ind_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+
+    <field name="lcsa_clca_ind_en_s" type="string" indexed="true" stored="true" docValues="true"/>
+    <field name="lcsa_clca_ind_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
+
     <field name="commodity_type_en_s" type="string" indexed="true" stored="true" docValues="true"/>
     <field name="commodity_type_fr_s" type="string" indexed="true" stored="true" docValues="true"/>
 

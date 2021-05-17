@@ -5,7 +5,7 @@ from django.conf import settings
 import os
 import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
-    get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field, get_multivalue_choice
+    get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field
 import sys
 import time
 from urlsafe import url_part_escape
@@ -163,12 +163,14 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             od_obj['report_type_en_s'] = od_obj['instrument_type_en_s']
             od_obj['report_type_fr_s'] = od_obj['instrument_type_fr_s']
 
+            working_year = 9999
             if not gc['contract_date'] == "":
                 contract_dt: datetime = datetime.strptime(gc['contract_date'], '%Y-%m-%d')
                 od_obj['contract_date_dt'] = contract_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_date_s'] = gc['contract_date']
                 od_obj['contract_year_s'] = str(contract_dt.year)
                 od_obj['contract_month_s'] = str("%02d" % contract_dt.month)
+                working_year = contract_dt.year
             else:
                 od_obj['contract_start_s'] = "-"
                 od_obj['contract_year_s'] = ""
@@ -270,6 +272,29 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             else:
                 od_obj['trade_agreement_fr_s'] = trade_agreement_fr
             od_obj['agreement_type_code_export_fr_s'] = ",".join([str(code) for code in od_obj['trade_agreement_fr_s']])
+
+            # OPEN-690 For pre-2022 contracts : If the agreement type is A, B, or BA, then set these two indicators
+            # for display on the details page, otherwise set to the empty value "-"
+            if working_year < 2022 and gc['agreement_type_code'] == "A":
+                od_obj['absa_psar_ind_en_s'] = 'Yes'
+                od_obj['absa_psar_ind_fr_s'] = 'Oui'
+                od_obj['lcsa_clca_ind_en_s'] = '-'
+                od_obj['lcsa_clca_ind_fr_s'] = '-'
+            elif working_year < 2022 and gc['agreement_type_code'] == "B":
+                od_obj['absa_psar_ind_en_s'] = '-'
+                od_obj['absa_psar_ind_fr_s'] = '-'
+                od_obj['lcsa_clca_ind_en_s'] = 'Yes'
+                od_obj['lcsa_clca_ind_fr_s'] = 'Oui'
+            elif working_year < 2022 and gc['agreement_type_code'] == "BA":
+                od_obj['absa_psar_ind_en_s'] = 'Yes'
+                od_obj['absa_psar_ind_fr_s'] = 'Oui'
+                od_obj['lcsa_clca_ind_en_s'] = 'Yes'
+                od_obj['lcsa_clca_ind_fr_s'] = 'Oui'
+            else:
+                od_obj['absa_psar_ind_en_s'] = '-'
+                od_obj['absa_psar_ind_fr_s'] = '-'
+                od_obj['lcsa_clca_ind_en_s'] = '-'
+                od_obj['lcsa_clca_ind_fr_s'] = '-'
 
             if gc['contract_value']:
                 contract_range = get_bilingual_dollar_range(gc['contract_value'])
