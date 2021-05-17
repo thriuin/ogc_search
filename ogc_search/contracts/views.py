@@ -61,6 +61,7 @@ class CTSearchView(View):
                                "solicitation_procedure_en_s,"
                                "limited_tendering_reason_en_s,limited_tendering_reason_txt_en,"
                                "trade_agreement_exceptions_en_s,trade_agreement_exceptions_txt_en,"
+                               "absa_psar_ind_en_s,lcsa_clca_ind_en_s,"
                                "aboriginal_business_en_s,"
                                "aboriginal_business_incidental_en_s,"
                                "intellectual_property_en_s,"
@@ -102,6 +103,7 @@ class CTSearchView(View):
                                "solicitation_procedure_fr_s,"
                                "limited_tendering_reason_fr_s,limited_tendering_reason_txt_fr,"
                                "trade_agreement_exceptions_fr_s,trade_agreement_exceptions_txt_fr,"
+                               "absa_psar_ind_fr_s,lcsa_clca_ind_fr_s,"
                                "aboriginal_business_fr_s,"
                                "aboriginal_business_incidental_fr_s,"
                                "intellectual_property_fr_s,"
@@ -539,6 +541,10 @@ class CTContractView(CTSearchView):
         if len(search_results.docs) > 0:
             context['ref_number_s'] = slug
             context['year_right_now'] = datetime.now().year
+            try:
+                context['contract_year'] = int(search_results.docs[0]['contract_year_s'])
+            except ValueError:
+                context['contract_year'] = 9999
             return render(request, "contract.html", context)
         else:
             return render(request, 'no_record_found.html', context, status=404)

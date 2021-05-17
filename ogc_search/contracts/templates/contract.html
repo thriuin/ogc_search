@@ -181,102 +181,115 @@
     </header>
     <div class="panel-body">
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Procurement Identification Number: ' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.procurement_id_s }}</div>
+            <div class="col-sm-5"><strong>{% trans 'Procurement Identification Number: ' %}</strong></div>
+            <div class="col-sm-7">{{ results.docs.0.procurement_id_s }}</div>
         </div>
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Solicitation Procedure: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.solicitation_procedure_fr_s }}{% else %}{{ results.docs.0.solicitation_procedure_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Solicitation Procedure: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.solicitation_procedure_fr_s }}{% else %}{{ results.docs.0.solicitation_procedure_en_s }}{% endif %}</div>
         </div>
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Limited Tendering Reason: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.limited_tendering_reason_txt_fr.0 }}{% else %}{{ results.docs.0.limited_tendering_reason_txt_en.0 }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Limited Tendering Reason: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.limited_tendering_reason_txt_fr.0 }}{% else %}{{ results.docs.0.limited_tendering_reason_txt_en.0 }}{% endif %}</div>
         </div>
         {% if not results.docs.0.contracting_entity_en_s == '-' and not results.docs.0.contracting_entity_fr_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Contracting Entity: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.contracting_entity_fr_s }}{% else %}{{ results.docs.0.contracting_entity_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Contracting Entity: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.contracting_entity_fr_s }}{% else %}{{ results.docs.0.contracting_entity_en_s }}{% endif %}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.standing_offer_number_s == '-'  %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Standing Offer Number: ' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.standing_offer_number_s }}</div>
+            <div class="col-sm-5"><strong>{% trans 'Standing Offer Number: ' %}</strong></div>
+            <div class="col-sm-7">{{ results.docs.0.standing_offer_number_s }}</div>
         </div>
         {% endif %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Trade Agreement Exceptions and Exclusions: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.trade_agreement_exceptions_txt_fr.0 }}{% else %}{{ results.docs.0.trade_agreement_exceptions_txt_en.0 }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Trade Agreement Exceptions and Exclusions: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.trade_agreement_exceptions_txt_fr.0 }}{% else %}{{ results.docs.0.trade_agreement_exceptions_txt_en.0 }}{% endif %}</div>
         </div>
-        {% if not results.docs.0.land_claims_en_s.0 == 'Unspecified' and not results.docs.0.land_claims_fr_s.0 == 'type non spécifié' %}
-        <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Comprehensive Land Claims Agreement: ' %}</strong></div>
-            <div class="col-sm-8">
-                {% if LANGUAGE_CODE == 'fr' %}
-                    {{ results.docs.0.land_claims_fr_s }}
-                {% else %}
-                    {{ results.docs.0.land_claims_en_s }}
-                {% endif %}</div>
-        </div>
-        {% endif %}
-        {% if year_right_now > 2021 %}
-        <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Procurement Strategy for Aboriginal Business: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.aboriginal_business_fr_s }}{% else %}{{ results.docs.0.aboriginal_business_en_s }}{% endif %}</div>
-        </div>
+        {% if contract_year > 2021 %}
+            {% if not results.docs.0.land_claims_en_s.0 == 'Unspecified' and not results.docs.0.land_claims_fr_s.0 == 'type non spécifié' %}
+            <div class="row">
+                <div class="col-sm-5"><strong>{% trans 'Comprehensive Land Claims Agreement: ' %}</strong></div>
+                <div class="col-sm-7">
+                    {% if LANGUAGE_CODE == 'fr' %}
+                        {{ results.docs.0.land_claims_fr_s }}
+                    {% else %}
+                        {{ results.docs.0.land_claims_en_s }}
+                    {% endif %}</div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-5"><strong>{% trans 'Procurement Strategy for Aboriginal Business: ' %}</strong></div>
+                <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.aboriginal_business_fr_s }}{% else %}{{ results.docs.0.aboriginal_business_en_s }}{% endif %}</div>
+            </div>
+        {% else %}
+            {% if not results.docs.0.absa_psar_ind_en_s == '-' and not results.docs.0.absa_psar_ind_fr_s == '-' %}
+            <div class="row">
+                <div class="col-sm-5"><strong>{% trans 'Procurement Strategy for Aboriginal Business: ' %}</strong></div>
+                <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.absa_psar_ind_fr_s }}{% else %}{{ results.docs.0.absa_psar_ind_en_s }}{% endif %}</div>
+            </div>
+            {% endif %}
+            {% if not results.docs.0.lcsa_clca_ind_en_s == '-' and not results.docs.0.lcsa_clca_ind_fr_s == '-' %}
+            <div class="row">
+                <div class="col-sm-5"><strong>{% trans 'Comprehensive Land Claims Agreement: ' %}</strong></div>
+                <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.absa_psar_ind_fr_s }}{% else %}{{ results.docs.0.absa_psar_ind_en_s }}{% endif %}</div>
+            </div>
+            {% endif %}
         {% endif %}
          <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Procurement Strategy for Aboriginal Business Incidental Indicator: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.aboriginal_business_incidental_fr_s }}{% else %}{{ results.docs.0.aboriginal_business_incidental_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Procurement Strategy for Aboriginal Business Incidental Indicator: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.aboriginal_business_incidental_fr_s }}{% else %}{{ results.docs.0.aboriginal_business_incidental_en_s }}{% endif %}</div>
         </div>
         {% if not results.docs.0.intellectual_property_code_en_s == '-' and not results.docs.0.intellectual_property_code_fr_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Intellectual Property: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.intellectual_property_fr_s }}{% else %}{{ results.docs.0.intellectual_property_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Intellectual Property: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.intellectual_property_fr_s }}{% else %}{{ results.docs.0.intellectual_property_en_s }}{% endif %}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.potential_commercial_exploitation_en_s == '-' and not results.docs.0.potential_commercial_exploitation_fr_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Potential Commercial Exploitation: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.potential_commercial_exploitation_fr_s }}{% else %}{{ results.docs.0.potential_commercial_exploitation_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Potential Commercial Exploitation: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.potential_commercial_exploitation_fr_s }}{% else %}{{ results.docs.0.potential_commercial_exploitation_en_s }}{% endif %}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.former_public_servant_en_s == '-' and not results.docs.0.former_public_servant_fr_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Former Public Servant: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.former_public_servant_fr_s }}{% else %}{{ results.docs.0.former_public_servant_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Former Public Servant: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.former_public_servant_fr_s }}{% else %}{{ results.docs.0.former_public_servant_en_s }}{% endif %}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.ministers_office_en_s == '-' and not results.docs.0.ministers_office_fr_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Ministers Office Contracts: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.ministers_office_fr_s }}{% else %}{{ results.docs.0.ministers_office_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Ministers Office Contracts: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.ministers_office_fr_s }}{% else %}{{ results.docs.0.ministers_office_en_s }}{% endif %}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.country_of_origin_fr_s == '-' and not results.docs.0.country_of_origin_en_s == '-' %}
         <div class="row">
-            <div class="col-sm-4"><strong>{% trans 'Country of Vendor: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.country_of_origin_fr_s }}{% else %}{{ results.docs.0.country_of_origin_en_s }}{% endif %}</div>
+            <div class="col-sm-5"><strong>{% trans 'Country of Vendor: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.country_of_origin_fr_s }}{% else %}{{ results.docs.0.country_of_origin_en_s }}{% endif %}</div>
         </div>
         {% endif %}
         {% if not results.docs.0.number_of_bids_s %}
          <div class="row">
-             <div class="col-sm-4"><strong>{% trans 'Number of Bids: ' %}</strong></div>
-            <div class="col-sm-8">{{ results.docs.0.number_of_bids_s }}</div>
+             <div class="col-sm-5"><strong>{% trans 'Number of Bids: ' %}</strong></div>
+            <div class="col-sm-7">{{ results.docs.0.number_of_bids_s }}</div>
         </div>
         {% endif %}
         {% if year_right_now > 2021 %}
          <div class="row">
-             <div class="col-sm-4"><strong>{% trans 'Article 6 Government Contract Exceptions: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.article_6_exceptions_fr_s }}{% else %}{{ results.docs.0.article_6_exceptions_en_s }}{% endif %}</div>
+             <div class="col-sm-5"><strong>{% trans 'Article 6 Government Contract Exceptions: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.article_6_exceptions_fr_s }}{% else %}{{ results.docs.0.article_6_exceptions_en_s }}{% endif %}</div>
         </div>
          <div class="row">
-             <div class="col-sm-4"><strong>{% trans 'Award Criteria: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.award_criteria_fr_s }}{% else %}{{ results.docs.0.award_criteria_en_s }}{% endif %}</div>
+             <div class="col-sm-5"><strong>{% trans 'Award Criteria: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.award_criteria_fr_s }}{% else %}{{ results.docs.0.award_criteria_en_s }}{% endif %}</div>
         </div>
          <div class="row">
-             <div class="col-sm-4"><strong>{% trans 'Socio-Economic Indicator: ' %}</strong></div>
-            <div class="col-sm-8">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.socioeconomic_indicator_fr_s }}{% else %}{{ results.docs.0.socioeconomic_indicator_en_s }}{% endif %}</div>
+             <div class="col-sm-5"><strong>{% trans 'Socio-Economic Indicator: ' %}</strong></div>
+            <div class="col-sm-7">{% if LANGUAGE_CODE == 'fr' %}{{ results.docs.0.socioeconomic_indicator_fr_s }}{% else %}{{ results.docs.0.socioeconomic_indicator_en_s }}{% endif %}</div>
         </div>
         {% endif %}
     </div>
