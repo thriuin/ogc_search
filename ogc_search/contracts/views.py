@@ -538,16 +538,16 @@ class CTContractView(CTSearchView):
                                                     self.solr_facet_fields_en,
                                                     self.phrase_xtras_en)
         context['results'] = search_results
-        if len(search_results.docs) > 0:
-            context['ref_number_s'] = slug
-            context['year_right_now'] = datetime.now().year
-            try:
-                context['contract_year'] = int(search_results.docs[0]['contract_year_s'])
-            except ValueError:
-                context['contract_year'] = 9999
-            return render(request, "contract.html", context)
-        else:
+        if len(search_results.docs) <= 0:
             return render(request, 'no_record_found.html', context, status=404)
+
+        context['ref_number_s'] = slug
+        context['year_right_now'] = datetime.now().year
+        try:
+            context['contract_year'] = int(search_results.docs[0]['contract_year_s'])
+        except ValueError:
+            context['contract_year'] = 9999
+        return render(request, "contract.html", context)
 
 
 class CTExportView(View):
