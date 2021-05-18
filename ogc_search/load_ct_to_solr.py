@@ -5,7 +5,7 @@ from django.conf import settings
 import os
 import pysolr
 from search_util import get_bilingual_field, get_choices, get_choices_json, get_field, get_lookup_field, \
-    get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field, get_multivalue_choice
+    get_choice_field, get_bilingual_dollar_range, get_choice_lookup_field
 import sys
 import time
 from urlsafe import url_part_escape
@@ -163,30 +163,32 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             od_obj['report_type_en_s'] = od_obj['instrument_type_en_s']
             od_obj['report_type_fr_s'] = od_obj['instrument_type_fr_s']
 
-            if not gc['contract_date'] == "":
+            working_year = 9999
+            if gc['contract_date'] != "":
                 contract_dt: datetime = datetime.strptime(gc['contract_date'], '%Y-%m-%d')
                 od_obj['contract_date_dt'] = contract_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_date_s'] = gc['contract_date']
                 od_obj['contract_year_s'] = str(contract_dt.year)
                 od_obj['contract_month_s'] = str("%02d" % contract_dt.month)
+                working_year = contract_dt.year
             else:
                 od_obj['contract_start_s'] = "-"
                 od_obj['contract_year_s'] = ""
                 od_obj['contract_month_s'] = ""
 
-            if not gc['contract_period_start'] == "":
+            if gc['contract_period_start'] != "":
                 contract_start_dt: datetime = datetime.strptime(gc['contract_period_start'], '%Y-%m-%d')
                 od_obj['contract_start_dt'] = contract_start_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_start_s'] = gc['contract_period_start']
 
-            if not gc['delivery_date'] == "":
+            if gc['delivery_date'] != "":
                 delivery_dt: datetime = datetime.strptime(gc['delivery_date'], '%Y-%m-%d')
                 od_obj['contract_delivery_dt'] = delivery_dt.strftime('%Y-%m-%dT00:00:00Z')
                 od_obj['contract_delivery_s'] = gc['delivery_date']
             else:
                 od_obj['contract_delivery_s'] = "-"
 
-            if not gc['contract_value'] == "":
+            if gc['contract_value'] != "":
                 contract_value = parse_decimal(gc['contract_value'].replace('$', '').replace(',', ''), locale='en')
                 od_obj['contract_value_f'] = contract_value
                 od_obj['contract_value_en_s'] = format_currency(contract_value, 'CAD', locale='en_CA')
@@ -195,7 +197,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['contract_value_en_s'] = "-"
                 od_obj['contract_value_fr_s'] = "-"
 
-            if not gc['original_value'] == "":
+            if gc['original_value'] != "":
                 original_value = parse_decimal(gc['original_value'].replace('$', '').replace(',', ''), locale='en')
                 od_obj['original_value_f'] = original_value
                 od_obj['original_value_en_s'] = format_currency(original_value, 'CAD', locale='en_CA')
@@ -204,7 +206,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 od_obj['original_value_en_s'] = 'Unspecified'
                 od_obj['original_value_fr_s'] = 'type non spécifié'
 
-            if not gc['amendment_value'] == "":
+            if gc['amendment_value'] != "":
                 amendment_value = parse_decimal(gc['amendment_value'].replace('$', '').replace(',', ''), locale='en')
                 od_obj['amendment_value_f'] = amendment_value
                 od_obj['amendment_value_en_s'] = format_currency(amendment_value, 'CAD', locale='en_CA')
@@ -212,12 +214,12 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
             else:
                 od_obj['amendment_value_en_s'] = "-"
                 od_obj['amendment_value_fr_s'] = "-"
-            
+
             bi_org_title = str(gc['owner_org_title']).split('|')
             od_obj['owner_org_en_s'] = get_bilingual_field(gc,'owner_org_title', 'en')
             od_obj['owner_org_fr_s'] = get_bilingual_field(gc,'owner_org_title', 'fr')
 
-            if not gc['agreement_type_code'] == "":
+            if gc['agreement_type_code'] != "":
                 # Do some data cleanup on the Agreement Type Code
                 if gc['agreement_type_code'] == 'O':
                     gc['agreement_type_code'] = '0'
@@ -254,22 +256,54 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                                                          'type non spécifié'),
 
             # if trade_agreements was not specified, then use the agreement type code
-            if len(trade_agreement_en) > 0 and trade_agreement_en[0] == 'Unspecified':
+            if trade_agreement_en and trade_agreement_en[0] == 'Unspecified':
                 od_obj['trade_agreement_en_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
                                                                          'trade_agreement', 'en', 'trade_agreement',
                                                                          trade_agreement_en)
             else:
                 od_obj['trade_agreement_en_s'] = trade_agreement_en
             # export multi-value field should be quoted
-            od_obj['agreement_type_code_export_en_s'] = ",".join([str(code) for code in od_obj['trade_agreement_en_s']])
+            od_obj['agreement_type_code_export_en_s'] = ",".join(
+                str(code) for code in od_obj['trade_agreement_en_s']
+            )
 
-            if len(trade_agreement_fr) > 0 and trade_agreement_fr[0] == 'type non spécifié':
+
+            if (
+                trade_agreement_fr
+                and trade_agreement_fr[0] == 'type non spécifié'
+            ):
                 od_obj['trade_agreement_fr_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
                                                                          'trade_agreement', 'fr', 'trade_agreement',
                                                                          trade_agreement_fr)
             else:
                 od_obj['trade_agreement_fr_s'] = trade_agreement_fr
-            od_obj['agreement_type_code_export_fr_s'] = ",".join([str(code) for code in od_obj['trade_agreement_fr_s']])
+            od_obj['agreement_type_code_export_fr_s'] = ",".join(
+                str(code) for code in od_obj['trade_agreement_fr_s']
+            )
+
+
+            # OPEN-690 For pre-2022 contracts : If the agreement type is A, B, or BA, then set these two indicators
+            # for display on the details page, otherwise set to the empty value "-"
+            if working_year < 2022 and gc['agreement_type_code'] == "A":
+                od_obj['absa_psar_ind_en_s'] = 'Yes'
+                od_obj['absa_psar_ind_fr_s'] = 'Oui'
+                od_obj['lcsa_clca_ind_en_s'] = '-'
+                od_obj['lcsa_clca_ind_fr_s'] = '-'
+            elif working_year < 2022 and gc['agreement_type_code'] == "B":
+                od_obj['absa_psar_ind_en_s'] = '-'
+                od_obj['absa_psar_ind_fr_s'] = '-'
+                od_obj['lcsa_clca_ind_en_s'] = 'Yes'
+                od_obj['lcsa_clca_ind_fr_s'] = 'Oui'
+            elif working_year < 2022 and gc['agreement_type_code'] == "BA":
+                od_obj['absa_psar_ind_en_s'] = 'Yes'
+                od_obj['absa_psar_ind_fr_s'] = 'Oui'
+                od_obj['lcsa_clca_ind_en_s'] = 'Yes'
+                od_obj['lcsa_clca_ind_fr_s'] = 'Oui'
+            else:
+                od_obj['absa_psar_ind_en_s'] = '-'
+                od_obj['absa_psar_ind_fr_s'] = '-'
+                od_obj['lcsa_clca_ind_en_s'] = '-'
+                od_obj['lcsa_clca_ind_fr_s'] = '-'
 
             if gc['contract_value']:
                 contract_range = get_bilingual_dollar_range(gc['contract_value'])
@@ -316,7 +350,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
         except Exception as x:
             print('Error on row {0}: {1}. Row data: {2}'.format(total, x, gc))
 
-    if len(gc_list) > 0:
+    if gc_list:
         for a in reversed(range(10)):
             try:
                 solr.add(gc_list)
@@ -370,7 +404,7 @@ with open(sys.argv[2], 'r', encoding='utf-8-sig', errors="ignore") as gc_nil_fil
         except Exception as x:
             print('Error on row {0}: {1}'.format(total, x))
 
-    if len(gc_list) > 0:
+    if gc_list:
         for a in reversed(range(10)):
             try:
                 solr.add(gc_list)
