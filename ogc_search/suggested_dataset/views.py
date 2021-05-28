@@ -85,7 +85,6 @@ class SDSearchView(View):
         context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE, )
         context["cdts_version"] = settings.CDTS_VERSION
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
-        context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
         if request.LANGUAGE_CODE == 'fr':
             context['about_msg'] = settings.SD_ABOUT_FR
         else:
@@ -208,7 +207,6 @@ class SDDatasetView(SDSearchView):
         context["comments_base_fr"] = settings.SD_COMMENTS_BASE_FR
         context["votes_base_en"] = settings.SD_VOTES_BASE_EN
         context["votes_base_fr"] = settings.SD_VOTES_BASE_FR
-        context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
 
         # Allow for, but do not require, a custom alert message
         if hasattr(settings, 'OPEN_DATA_PORTAL_ALERT_BASE'):

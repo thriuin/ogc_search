@@ -68,13 +68,6 @@
         </style>
         {% analytical_head_bottom %}
 
-    {# Foresee survey #}
-    {% block feedback_survey %}
-        {% if survey_url %}
-            <script src="{{ survey_url }}" defer="" async=""></script>
-        {% endif %}
-    {% endblock %}
-
 </head>
 <body class="home" vocab="http://schema.org/" typeof="WebPage">
     {% analytical_body_top %}
