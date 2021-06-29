@@ -36,7 +36,6 @@ def handle_404_error(request, exception=None):
     context = dict(LANGUAGE_CODE=request.LANGUAGE_CODE,)
     context["cdts_version"] = settings.CDTS_VERSION
     context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
-    context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
     return render(request, '404.html', context, status=404)
 
 
@@ -375,9 +374,6 @@ class ODSearchView(View):
 
             # Adobe Analytics URL
         context["adobe_analytics_url"] = settings.ADOBE_ANALYTICS_URL
-
-        # Foresee survey URL
-        context["survey_url"] = settings.SURVEY_URL if settings.SURVEY_ENABLED else None
 
         return render(request, "od_search.html", context)
 

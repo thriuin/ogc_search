@@ -526,7 +526,3 @@ EXPORT_FILE_CACHE_URL = ""
 CDTS_VERSION = 'v4_0_31'
 
 ADOBE_ANALYTICS_URL = 'changeme'
-
-# Foresee survey
-SURVEY_ENABLED = False
-SURVEY_URL = "/path/to/survey/javascript"
