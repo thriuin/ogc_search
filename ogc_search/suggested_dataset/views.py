@@ -234,15 +234,24 @@ class SDDatasetView(SDSearchView):
             for supdate in search_results.docs[0]['status_updates_en_s']:
                 supdate = str(supdate).replace('\'s', '"s')
                 supdate = str(supdate).replace("\'", '"')
-                supdates.append(json.loads(supdate))
-                search_results.docs[0]["status_updates_en_s"] = supdates
+                try:
+                    supdates.append(json.loads(supdate))
+                    search_results.docs[0]["status_updates_en_s"] = supdates
+                except json.decoder.JSONDecodeError as jdx:
+                    search_results.docs[0]["status_updates_en_s"] = [{"date": "", "reason": "",
+                                                                     "comment": "Sorry, status updates not available at this time"}]
+
         elif "status_updates_fr_s" in search_results.docs[0]:
             supdates = []
             for supdate in search_results.docs[0]['status_updates_fr_s']:
                 # Solr is storing a mix of single and double quotes that won't parse when loaded as JSON
                 supdate = str(supdate).replace("\'date\': ", '"date": "').replace("\', \'reason\': \'", '", "reason": "').replace("\', \'comment\': \'", '", "comment": "').replace("\', \'comment\':", '", "comment":').replace("\'}",'"}')
-                supdates.append(json.loads(supdate))
-                search_results.docs[0]["status_updates_fr_s"] = supdates
+                try:
+                    supdates.append(json.loads(supdate))
+                    search_results.docs[0]["status_updates_fr_s"] = supdates
+                except json.decoder.JSONDecodeError as jdx:
+                    search_results.docs[0]["status_updates_fr_s"] = [
+                        {"date": "", "reason": "", "comment": "Désolé, les mises à jour de statut ne sont pas disponibles pour le moment."}]
         if len(search_results.docs) >= 0:
             context['id'] = slug
             return render(request, "sd_dataset.html", context)
