@@ -33,7 +33,9 @@ class SDSearchView(View):
         # French search fields
         self.solr_fields_fr = ("id,title_fr_txt,owner_org_fr_s,owner_org_title_txt_fr,desc_fr_txt,"
                                "votes,keywords_txt_fr,date_received_dt,date_create_fr_s,status_fr_s,"
-                               "subjects_fr_s,reason_fr_s,status_updates_fr_s,date_released_fr_s,"
+                               "subjects_fr_s,reason_fr_s,"
+                               "status_updates_date_fr_s,status_updates_reason_fr_s,status_updates_comment_fr_s,"
+                               "date_released_fr_s,"
                                "suggestion_id, date_forwarded_fr_s")
         self.solr_query_fields_fr = ['id', 'owner_org_title_txt_fr', 'desc_fr_txt^3', 'keywords_txt_fr^4',
                                      'status_fr_s', 'subjects_fr_s', 'reason_fr_s', 'title_fr_txt']
@@ -46,8 +48,9 @@ class SDSearchView(View):
         # E English earch fields
         self.solr_fields_en = ("id,title_en_txt,owner_org_en_s,owner_org_title_txt_en,desc_en_txt,"
                                "votes,keywords_txt_en,date_received_dt,date_create_en_s,status_en_s,"
-                               "subjects_en_s,reason_en_s,status_updates_en_s,date_released_en_s,"
-                               "suggestion_id, date_forwarded_en_s")
+                               "subjects_en_s,reason_en_s,"
+                               "status_updates_date_en_s,status_updates_reason_en_s,status_updates_comment_en_s,"
+                               "date_released_en_s,suggestion_id,date_forwarded_en_s")
         self.solr_query_fields_en = ['id', 'owner_org_title_txt_en', 'desc_en_txt^3', 'keywords_txt_en^4',
                                      'status_en_s', 'subjects_en_s', 'reason_en_s', 'title_en_txt']
         self.solr_facet_fields_en = ['{!ex=tag_owner_org_en_s}owner_org_en_s',
@@ -229,29 +232,24 @@ class SDDatasetView(SDSearchView):
                                                     self.solr_facet_fields_en,
                                                     self.phrase_xtras_en)
         context['results'] = search_results
-        if "status_updates_en_s" in search_results.docs[0]:
+        if "status_updates_date_en_s" in search_results.docs[0]:
             supdates = []
-            for supdate in search_results.docs[0]['status_updates_en_s']:
-                supdate = str(supdate).replace('\'s', '"s')
-                supdate = str(supdate).replace("\'", '"')
-                try:
-                    supdates.append(json.loads(supdate))
-                    search_results.docs[0]["status_updates_en_s"] = supdates
-                except json.decoder.JSONDecodeError as jdx:
-                    search_results.docs[0]["status_updates_en_s"] = [{"date": "", "reason": "",
-                                                                     "comment": "Sorry, status updates not available at this time"}]
+            for i, update_date in enumerate(search_results.docs[0]['status_updates_date_en_s']):
+                update_reason = search_results.docs[0]['status_updates_reason_en_s'][i]
+                update_comment = search_results.docs[0]['status_updates_comment_en_s'][i]
+                supdates.append({'date': update_date, "reason": update_reason, "comment": update_comment})
+            search_results.docs[0]["status_updates_en_s"] = supdates
 
-        elif "status_updates_fr_s" in search_results.docs[0]:
+
+        elif "status_updates_date_fr_s" in search_results.docs[0]:
             supdates = []
-            for supdate in search_results.docs[0]['status_updates_fr_s']:
-                # Solr is storing a mix of single and double quotes that won't parse when loaded as JSON
-                supdate = str(supdate).replace("\'date\': ", '"date": "').replace("\', \'reason\': \'", '", "reason": "').replace("\', \'comment\': \'", '", "comment": "').replace("\', \'comment\':", '", "comment":').replace("\'}",'"}')
-                try:
-                    supdates.append(json.loads(supdate))
-                    search_results.docs[0]["status_updates_fr_s"] = supdates
-                except json.decoder.JSONDecodeError as jdx:
-                    search_results.docs[0]["status_updates_fr_s"] = [
-                        {"date": "", "reason": "", "comment": "Désolé, les mises à jour de statut ne sont pas disponibles pour le moment."}]
+            for i, update_date in enumerate(search_results.docs[0]['status_updates_date_fr_s']):
+                update_reason = search_results.docs[0]['status_updates_reason_fr_s'][i]
+                update_comment = search_results.docs[0]['status_updates_comment_fr_s'][i]
+                supdates.append({'date': update_date, "reason": update_reason, "comment": update_comment})
+            search_results.docs[0]["status_updates_fr_s"] = supdates
+
+
         if len(search_results.docs) >= 0:
             context['id'] = slug
             return render(request, "sd_dataset.html", context)

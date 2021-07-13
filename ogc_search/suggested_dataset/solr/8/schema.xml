@@ -1121,8 +1121,12 @@
 
     <!-- Registry Status Updates -->
     <!-- formatted for display  -->
-    <field name="status_updates_en_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
-    <field name="status_updates_fr_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <field name="status_updates_date_en_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <field name="status_updates_date_fr_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <field name="status_updates_reason_en_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <field name="status_updates_reason_fr_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <field name="status_updates_comment_en_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
+    <field name="status_updates_comment_fr_s" type="string" indexed="false" stored="true" docValues="true" multiValued="true"/>
     <!-- for export - non-multivalue -->
     <field name="status_updates_export_en_s" type="string" indexed="false" stored="true" docValues="true"/>
     <field name="status_updates_export_fr_s" type="string" indexed="false" stored="true" docValues="true"/>

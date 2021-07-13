@@ -13,7 +13,7 @@ except ImportError:
     from yaml import Loader
 
 
-def _format_status_msg(messages):
+def _format_status_msg(messages, lang):
     """
     The status messages are actually a list of dictionary objects that are not suitable for direct Solr export.
     This function simplifies the JSON format into a simple text string.
@@ -131,23 +131,22 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                     'suggestion_id': sd['suggestion_id']
                 }
                 date_received = datetime.strptime(sd['date_created'], '%Y-%m-%d')
-                od_obj['date_received_dt'] = date_received
+                od_obj['date_received_dt'] = date_received.isoformat() + "Z"
                 od_obj['date_create_en_s'] = format_date(date_received, locale='en')
                 od_obj['date_create_fr_s'] = format_date(date_received, locale='fr')
 
                 date_received = datetime.strptime(ckan_ds_records[sd['uuid']]['date_forwarded'], '%Y-%m-%d')
-                od_obj['date_forwarded_dt'] = date_received
+                od_obj['date_forwarded_dt'] = date_received.isoformat() + "Z"
                 od_obj['date_forwarded_en_s'] = format_date(date_received, locale='en')
                 od_obj['date_forwarded_fr_s'] = format_date(date_received, locale='fr')
 
                 # Optional field
                 if sd['dataset_released_date']:
                     date_released = datetime.strptime(sd['dataset_released_date'], '%Y-%m-%d')
-                    od_obj['date_released_dt'] = date_released
+                    od_obj['date_released_dt'] = date_released.isoformat() + "Z"
                     od_obj['date_released_en_s'] = format_date(date_released, locale='en')
                     od_obj['date_released_fr_s'] = format_date(date_released, locale='fr')
                 else:
-                    od_obj['date_released_dt'] = ""
                     od_obj['date_released_en_s'] = "-"
                     od_obj['date_released_fr_s'] = "-"
 
@@ -194,11 +193,14 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
 
                 last_status_date = datetime(2000, 1, 1)
                 if sd['uuid'] in ckan_ds_records:
-                    status_msg_en = []
-                    status_msg_fr = []
+                    status_msg_date_en = []
+                    status_msg_date_fr = []
+                    status_msg_reason_en = []
+                    status_msg_reason_fr = []
+                    status_msg_comment_en = []
+                    status_msg_comment_fr = []
                     for status_update in ckan_ds_records[sd['uuid']]['status']:
-                        status_dict_en = {}
-                        status_dict_fr = {}
+
                         status_date = datetime.strptime(status_update['date'], '%Y-%m-%d')
                         if status_date > last_status_date:
                             last_status_date = status_date
@@ -206,25 +208,31 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
                             od_obj['status_fr_s'] = sd_status[status_update['reason']]['fr']
                             od_obj['status_s'] = status_update['reason']
 
-                        status_dict_en['date'] = format_date(status_date, locale='en')
-                        status_dict_en['reason'] = sd_status[status_update['reason']]['en']
+                        status_msg_date_en.append(format_date(status_date, locale='en'))
+                        status_msg_reason_en.append(sd_status[status_update['reason']]['en'])
                         if "comments" in status_update and 'en' in status_update['comments']:
-                            status_dict_en['comment'] = status_update['comments']['en'].replace('"', "*")
-                        status_msg_en.append(status_dict_en)
+                            status_msg_comment_en.append(status_update['comments']['en'])
+                        else:
+                            status_msg_comment_en.append('')
 
-                        status_dict_fr['date'] = format_date(status_date, locale='fr')
-                        status_dict_fr['reason'] = sd_status[status_update['reason']]['fr']
+                        status_msg_date_fr.append(format_date(status_date, locale='fr'))
+                        status_msg_reason_fr.append(sd_status[status_update['reason']]['fr'])
                         if "comments" in status_update and 'fr' in status_update['comments']:
-                            status_dict_fr['comment'] = status_update['comments']['fr'].replace('"', "*")
-                        status_msg_fr.append(status_dict_fr)
+                            status_msg_comment_fr.append(status_update['comments']['fr'])
+                        else:
+                            status_msg_comment_fr.append('')
 
-                    od_obj['status_updates_en_s'] = status_msg_en
-                    od_obj['status_updates_fr_s'] = status_msg_fr
-                    od_obj['status_updates_export_en_s'] = _format_status_msg(status_msg_en)
-                    od_obj['status_updates_export_fr_s'] = _format_status_msg(status_msg_fr)
+                    od_obj['status_updates_date_en_s'] = status_msg_date_en
+                    od_obj['status_updates_date_fr_s'] = status_msg_date_fr
+                    od_obj['status_updates_reason_en_s'] = status_msg_reason_en
+                    od_obj['status_updates_reason_fr_s'] = status_msg_reason_fr
+                    od_obj['status_updates_comment_en_s'] = status_msg_comment_en
+                    od_obj['status_updates_comment_fr_s'] = status_msg_comment_fr
+                    od_obj['status_updates_export_en_s'] = _format_status_msg(ckan_ds_records[sd['uuid']]['status'], 'en')
+                    od_obj['status_updates_export_fr_s'] = _format_status_msg(ckan_ds_records[sd['uuid']]['status'], 'fr')
                 sd_list.append(od_obj)
                 i += 1
-                if i == BULK_SIZE:
+                if i >= BULK_SIZE:
                     solr.add(sd_list)
                     solr.commit()
                     sd_list = []
@@ -233,10 +241,17 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as sd_file:
 
             except Exception as x:
                 print('Error on row {0}: {1}'.format(i, x))
+                print('Data: {0}'.format(sd_list))
+                i = 0
+                sd_list = []
         else:
             print('Missing CKAN Record: ' + sd['uuid'])
 
     if len(sd_list) > 0:
-        solr.add(sd_list)
-        solr.commit()
-        print('{0} Suggested Datasets Processed'.format(total))
+        try:
+            solr.add(sd_list)
+            solr.commit()
+            print('{0} Suggested Datasets Processed'.format(total))
+        except Exception as x:
+            print('Error on row {0}: {1}'.format(i, x))
+            print('Data: {0}'.format(sd_list))
