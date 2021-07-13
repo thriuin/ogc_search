@@ -44,20 +44,20 @@ steps:
     pip install unittest-xml-reporting
   displayName: 'Install prerequisites'
 
-- script: |
-    cp ogc_search/ogc_search/settings.sample.py ogc_search/ogc_search/settings.py
-  displayName: 'Copy test settings file'
+# - script: |
+#    cp ogc_search/ogc_search/settings.sample.py ogc_search/ogc_search/settings.py
+#  displayName: 'Copy test settings file'
 
-- script: |
-    pushd '$(projectRoot)'
-    python manage.py test open_data.tests --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
-  displayName: 'Run tests'
+# -  script: |
+#     pushd '$(projectRoot)'
+#     python manage.py test open_data.tests --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
+#    displayName: 'Run tests'
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: "**/TEST-*.xml"
-    testRunTitle: 'Python $(PYTHON_VERSION)'
-  condition: succeededOrFailed()
+# -  task: PublishTestResults@2
+  #  inputs:
+  #  testResultsFiles: "**/TEST-*.xml"
+  #  testRunTitle: 'Python $(PYTHON_VERSION)'
+  # condition: succeededOrFailed()
 
 # Do not package the temp settings file
 - script: |
