@@ -60,9 +60,9 @@ steps:
   # condition: succeededOrFailed()
 
 # Do not package the temp settings file
-- script: |
-    rm ogc_search/ogc_search/settings.py
-  displayName: 'Copy test settings file'
+# - script: |
+#     rm ogc_search/ogc_search/settings.py
+#   displayName: 'Copy test settings file'
 
 - script: |
     pip download -d $(Build.ArtifactStagingDirectory)/Staging/Dependencies -r requirements.txt
