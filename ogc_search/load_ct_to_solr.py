@@ -257,9 +257,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
 
             # if trade_agreements was not specified, then use the agreement type code
             if trade_agreement_en and trade_agreement_en[0] == 'Unspecified':
-                od_obj['trade_agreement_en_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
-                                                                         'trade_agreement', 'en', 'trade_agreement',
-                                                                         trade_agreement_en)
+                od_obj['trade_agreement_en_s'] = agreement_types_en
             else:
                 od_obj['trade_agreement_en_s'] = trade_agreement_en
             # export multi-value field should be quoted
@@ -267,20 +265,13 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as gc_file:
                 str(code) for code in od_obj['trade_agreement_en_s']
             )
 
-
-            if (
-                trade_agreement_fr
-                and trade_agreement_fr[0] == 'type non spécifié'
-            ):
-                od_obj['trade_agreement_fr_s'] = get_choice_lookup_field(controlled_lists, gc, 'agreement_type_code',
-                                                                         'trade_agreement', 'fr', 'trade_agreement',
-                                                                         trade_agreement_fr)
+            if (trade_agreement_fr and trade_agreement_fr[0] == 'type non spécifié' ):
+                od_obj['trade_agreement_fr_s'] = agreement_types_fr
             else:
                 od_obj['trade_agreement_fr_s'] = trade_agreement_fr
             od_obj['agreement_type_code_export_fr_s'] = ",".join(
                 str(code) for code in od_obj['trade_agreement_fr_s']
             )
-
 
             # OPEN-690 For pre-2022 contracts : If the agreement type is A, B, or BA, then set these two indicators
             # for display on the details page, otherwise set to the empty value "-"
