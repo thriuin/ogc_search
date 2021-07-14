@@ -56,7 +56,7 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as bn_file:
                     bn['additional_information_fr'] if 'additional_information_fr' in bn else '',
             }
             date_received = datetime.strptime(bn['date_received'], '%Y-%m-%d')
-            od_obj['date_received_tdt'] = date_received
+            od_obj['date_received_tdt'] = date_received.isoformat() + "Z"
             od_obj['date_received_fmt_s'] = bn['date_received']
             od_obj['month_i'] = date_received.month
             od_obj['year_i'] = date_received.year

@@ -132,9 +132,10 @@ with open(sys.argv[1], 'r', encoding='utf-8-sig', errors="ignore") as file:
             }
 
             if csvRow['date_received']:
-                solrDoc['date_received_dt'] = datetime.strptime(csvRow['date_received'], '%Y-%m-%d')
-                solrDoc['month_i'] = solrDoc['date_received_dt'].month
-                solrDoc['year_i'] = solrDoc['date_received_dt'].year
+                date_received = datetime.strptime(csvRow['date_received'], '%Y-%m-%d')
+                solrDoc['date_received_dt'] = date_received.isoformat() + "Z"
+                solrDoc['month_i'] = date_received.month
+                solrDoc['year_i'] = date_received.year
 
             org_title = str(csvRow['owner_org_title']).split('|')
             solrDoc['owner_org_en_s'] = org_title[0].strip()
