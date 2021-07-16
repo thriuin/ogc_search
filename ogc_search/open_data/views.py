@@ -517,11 +517,11 @@ class ODMltView(ODSearchView):
         if request.LANGUAGE_CODE == 'fr':
             search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_fr,
                                                   self.solr_facet_fields_fr, self.mlt_fields_fr,
-                                                  start_row='0', pagesize='10')
+                                                  start_row='0', pagesize='5')
         else:
             search_results = search_util.solr_mlt(mlt_search_id, settings.SOLR_URL, self.solr_fields_en,
                                                   self.solr_facet_fields_en, self.mlt_fields_en,
-                                                  start_row='0', pagesize='10')
+                                                  start_row='0', pagesize='5')
         search_results.docs = search_results.raw_response['moreLikeThis'][mlt_search_id]['docs']
         context['results'] = search_results
         return render(request, "mlt_list.html", context)
